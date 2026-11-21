@@ -29,7 +29,7 @@ assert set(blk["scenarios"]) >= {"S0_window_annualised_asLogged", "S2_balanced_o
 s2 = blk["scenarios"]["S2_balanced_owner_expected"]
 assert set(s2["E_exp"]) <= set(B.HEADLINE) and s2["E_real"]["annual_km"][1] < s2["E_real"]["annual_km"][0] < s2["E_real"]["annual_km"][2]
 assert s2["E_exp"]["annual_km"][2] - s2["E_exp"]["annual_km"][1] < s2["E_real"]["annual_km"][2] - s2["E_real"]["annual_km"][1], "E-exp narrower than E-real"
-assert blk["basisNDrives"] == blk["nDrives"] == 665 and "five" not in json.dumps(blk).lower()
+assert blk["basisNDrives"] == blk["nDrives"] == 717 and "five" not in json.dumps(blk).lower()
 assert all(k in blk["sources"] for k in ("scenario_gates.json", "state_params.json", "odometer_check.json"))
 
 # every string of the block passes the language gate (estimated / model-derived wording, no forbidden phrases)

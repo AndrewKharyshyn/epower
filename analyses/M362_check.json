@@ -1,29 +1,29 @@
 {
  "milestone": "M362",
  "mode": "--splice",
- "nDrives": 662,
+ "nDrives": 714,
  "control": {
   "knownAnswerMismatches": [],
   "pooledVsM343": {
    "urban": {
-    "pooledRecomputed": 97.041,
-    "M343": 97.01097,
-    "nHere": 569,
-    "nM343": 567,
+    "pooledRecomputed": 97.333,
+    "M343": 97.30543,
+    "nHere": 618,
+    "nM343": 616,
     "ok": true
    },
    "mixed": {
-    "pooledRecomputed": 72.412,
-    "M343": 72.41186,
-    "nHere": 33,
-    "nM343": 33,
+    "pooledRecomputed": 72.838,
+    "M343": 72.83763,
+    "nHere": 34,
+    "nM343": 34,
     "ok": true
    },
    "mixed_highway": {
-    "pooledRecomputed": 75.811,
-    "M343": 75.81078,
-    "nHere": 37,
-    "nM343": 37,
+    "pooledRecomputed": 76.253,
+    "M343": 76.25346,
+    "nHere": 39,
+    "nM343": 39,
     "ok": true
    },
    "highway": {
@@ -38,39 +38,39 @@
  "summary": {
   "all": {
    "urban": {
-    "n": 569,
-    "nDays": 119,
+    "n": 618,
+    "nDays": 130,
     "p10": 41.7,
     "p25": 58.8,
     "median": 90.9,
-    "p75": 127.3,
-    "p90": 166.7,
-    "nShort": 165,
+    "p75": 129.2,
+    "p90": 170.4,
+    "nShort": 181,
     "shortKm": 2.0,
     "maxDrive": "2026-09-27_17-49-23.csv",
     "maxKm": 1.2
    },
    "mixed": {
-    "n": 33,
-    "nDays": 27,
-    "p10": 41.9,
-    "p25": 57.8,
-    "median": 69.8,
-    "p75": 83.3,
-    "p90": 102.1,
+    "n": 34,
+    "nDays": 28,
+    "p10": 42.4,
+    "p25": 57.9,
+    "median": 70.6,
+    "p75": 85.3,
+    "p90": 101.9,
     "nShort": 0,
     "shortKm": 2.0,
     "maxDrive": "2026-10-08_08-34-36.csv",
     "maxKm": 22.6
    },
    "mixed_highway": {
-    "n": 37,
-    "nDays": 27,
-    "p10": 50.6,
-    "p25": 58.0,
+    "n": 39,
+    "nDays": 28,
+    "p10": 50.7,
+    "p25": 58.3,
     "median": 67.3,
-    "p75": 93.8,
-    "p90": 115.1,
+    "p75": 94.3,
+    "p90": 114.0,
     "nShort": 0,
     "shortKm": 2.0,
     "maxDrive": "20260806_155444.csv",
@@ -146,14 +146,14 @@
   },
   "shoulder": {
    "urban": {
-    "n": 171,
-    "nDays": 52,
-    "p10": 0.0,
+    "n": 200,
+    "nDays": 60,
+    "p10": 25.7,
     "p25": 52.6,
-    "median": 80.0,
-    "p75": 118.3,
+    "median": 83.3,
+    "p75": 120.2,
     "p90": 166.7,
-    "nShort": 60,
+    "nShort": 71,
     "shortKm": 2.0,
     "maxDrive": "20260906_122920.csv",
     "maxKm": 0.44
@@ -172,17 +172,17 @@
     "maxKm": 22.6
    },
    "mixed_highway": {
-    "n": 5,
-    "nDays": 3,
-    "p10": 50.4,
-    "p25": 50.8,
-    "median": 58.0,
-    "p75": 61.2,
-    "p90": 85.5,
+    "n": 6,
+    "nDays": 4,
+    "p10": 50.5,
+    "p25": 52.6,
+    "median": 59.6,
+    "p75": 91.5,
+    "p90": 103.5,
     "nShort": 0,
     "shortKm": 2.0,
-    "maxDrive": "2026-10-10_19-49-29.csv",
-    "maxKm": 118.1
+    "maxDrive": "2026-11-15_13-19-44.csv",
+    "maxKm": 84.5
    },
    "highway": {
     "n": 2,
@@ -201,31 +201,31 @@
  },
  "sensitivityExcludingShort": {
   "urban": {
-   "nShort": 165,
-   "shortShare": 0.29,
+   "nShort": 181,
+   "shortShare": 0.293,
    "median": 90.9,
-   "pooled": 97.04,
-   "medianExcludingShort": 90.9,
-   "pooledExcludingShort": 96.91,
-   "nExcludingShort": 404
+   "pooled": 97.33,
+   "medianExcludingShort": 91.6,
+   "pooledExcludingShort": 97.34,
+   "nExcludingShort": 437
   },
   "mixed": {
    "nShort": 0,
    "shortShare": 0.0,
-   "median": 69.8,
-   "pooled": 72.41,
-   "medianExcludingShort": 69.8,
-   "pooledExcludingShort": 72.41,
-   "nExcludingShort": 33
+   "median": 70.6,
+   "pooled": 72.84,
+   "medianExcludingShort": 70.6,
+   "pooledExcludingShort": 72.84,
+   "nExcludingShort": 34
   },
   "mixed_highway": {
    "nShort": 0,
    "shortShare": 0.0,
    "median": 67.3,
-   "pooled": 75.81,
+   "pooled": 76.25,
    "medianExcludingShort": 67.3,
-   "pooledExcludingShort": 75.81,
-   "nExcludingShort": 37
+   "pooledExcludingShort": 76.25,
+   "nExcludingShort": 39
   },
   "highway": {
    "nShort": 0,

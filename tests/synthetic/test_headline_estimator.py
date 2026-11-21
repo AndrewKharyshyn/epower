@@ -112,9 +112,17 @@ def main():
     t = stats.t.ppf(0.975, G - 1)
     o = P["clusterRobustOLS"]
     assert abs(o["slope"] - b) < 6e-4 and abs(o["se"] - se) < 6e-4 and abs(o["ci95"][0] - (b - t * se)) < 6e-4 and abs(o["ci95"][1] - (b + t * se)) < 6e-4, (o["slope"], b)
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        fit = smf.mixedlm("y ~ months + T + I", m, groups=m["day"]).fit(method="lbfgs", reml=True, disp=False)
+    # M721: the independent refit uses the payload's solver order (lbfgs, bfgs, nm; each alone from the default start): on the Linux runner the first solver can raise a singular matrix at 717 drives, the payload records the agreeing solvers
+    fit, last_err = None, None
+    for _meth in ("lbfgs", "bfgs", "nm"):
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                fit = smf.mixedlm("y ~ months + T + I", m, groups=m["day"]).fit(method=_meth, reml=True, disp=False)
+            break
+        except np.linalg.LinAlgError as _e:
+            last_err = _e
+    assert fit is not None, last_err
     gv, rv = float(np.asarray(fit.cov_re)[0, 0]), float(fit.scale)
     me = P["mixedEffects"]
     assert abs(me["groupVar"] - gv) < 2e-3 * gv and abs(me["residVar"] - rv) < 2e-3 * rv, (me["groupVar"], gv, me["residVar"], rv)

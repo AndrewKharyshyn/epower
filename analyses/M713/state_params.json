@@ -1,80 +1,80 @@
 {
  "milestone": "M713b",
  "spec": "analyses/M712_spec.md",
- "specSha256": "ece7df8ee27d7f0932ade6fd877e0f07905c2e219d12b4b4a6ddcc82a5cb9f4b",
+ "specSha256": "009fcb9548b8bdf700bfc6f4dd3ae41ee1478f4faa7089ddb794f25b00e94240",
  "frame": {
-  "exposure_drives.csv": "e5a6c3cf2fac6e281cc69ec406133c12ce94a9340613524918aa57f983330cc2",
-  "exposure_slices.npz": "610cfb8712416bdaec759d2144fb8abcd7ae658c31a554c4270b97952b9fe880"
+  "exposure_drives.csv": "4eb02c0dda744f268a09d3baa4ac908580461e2f0c8fc799f1cd9c08be4f773f",
+  "exposure_slices.npz": "8cf140ee69e56d408e59d380451b3e99047746f7074237699c9d0c0332e0f74d"
  },
  "scriptSha256": "9d55f6c9c0ac5db8b5ddd94cfeb50558c624160ce67e068192fe88fc8c2b3c39",
- "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
  "R_T": {
-  "EaR_kJmol": 17.582,
+  "EaR_kJmol": 17.207,
   "EaR_ci": [
-   16.418,
-   18.665
+   16.032,
+   18.35
   ],
-  "n": 385,
-  "nDays": 120,
-  "R25_mohm": 111.97,
-  "ratio_R_0C_vs_25C": 1.914,
-  "ratio_R_minus10C_vs_25C": 2.569,
+  "n": 418,
+  "nDays": 131,
+  "R25_mohm": 111.0,
+  "ratio_R_0C_vs_25C": 1.888,
+  "ratio_R_minus10C_vs_25C": 2.517,
   "label": "own pulse-resistance proxy (dV/dI slope, |dI| >= 20 A), reconstructed, not a DCIR measurement; extrapolation below the observed range assumes one activation energy"
  },
  "drive": {
   "alpha_C_per_A2h": [
-   0.013093,
-   0.011856,
-   0.014602
+   0.013252,
+   0.011996,
+   0.014623
   ],
   "tau_d_h": [
-   0.986873,
-   0.922984,
-   1.069464
+   1.022887,
+   0.956331,
+   1.107811
   ],
   "c0_C": [
-   23.87691,
-   22.003821,
-   25.310057
+   23.172976,
+   21.224021,
+   24.643122
   ],
   "c1": [
-   0.220106,
-   0.168945,
-   0.276902
+   0.234563,
+   0.188451,
+   0.304586
   ],
-  "n": 644,
-  "nDays": 126,
+  "n": 696,
+  "nDays": 137,
   "bootDraws": 1000,
-  "mae_Tend_C": 0.73,
-  "bias_Tend_C": -0.052,
-  "mae_persistence_C": 3.213,
+  "mae_Tend_C": 0.74,
+  "bias_Tend_C": -0.037,
+  "mae_persistence_C": 3.181,
   "label": "in-drive pack thermal model per slice: I^2 heating x fR(T) plus relaxation to Tc = c0 + c1 x ambient (cabin-air side not logged: effective parameters)"
  },
  "limitMap": {
   "b0_kW_at_0C_soc60": [
-   33.9221,
-   32.7216,
-   35.4667
+   34.0366,
+   33.2156,
+   35.0099
   ],
   "bT_kW_perC": [
-   1.5529,
-   1.4496,
-   1.6292
+   1.5584,
+   1.4875,
+   1.6182
   ],
   "bS_kW_perSocPt": [
-   -1.0097,
-   -1.0478,
-   -0.9622
+   -1.0307,
+   -1.0635,
+   -0.9924
   ],
-  "n_s": 89334,
-  "nDays": 60,
+  "n_s": 116870,
+  "nDays": 71,
   "zeroCrossing_C_soc60": -21.84,
   "label": "BMS-reported charge-limit register (not delivered power) below 20 C; the logged range ends near the observed minimum, below that the map is a linear EXTRAPOLATION"
  },
  "diurnalAmbient": {
   "autumn": {
-   "amp": 5.8,
-   "hpk": 15.543
+   "amp": 5.476,
+   "hpk": 15.448
   },
   "summer": {
    "amp": 6.656,
@@ -102,21 +102,21 @@
   "nDays": 125
  },
  "params_for_scenarios": {
-  "EaR": 17.582,
+  "EaR": 17.207,
   "park": {
    "tau": 9.105,
    "off": 0.469
   },
   "drive": {
-   "alpha": 0.013092911030918433,
-   "tau_d": 0.9868730236682578,
-   "c0": 23.876909742694508,
-   "c1": 0.22010558949535547
+   "alpha": 0.013251894889951554,
+   "tau_d": 1.0228870796889433,
+   "c0": 23.17297644572314,
+   "c1": 0.2345626359471153
   },
   "diurnal": {
    "autumn": [
-    5.8,
-    15.543
+    5.476,
+    15.448
    ],
    "summer": [
     6.656,
@@ -124,47 +124,47 @@
    ]
   },
   "pin": {
-   "b0": 33.922099127759914,
-   "bT": 1.5529405996000778,
-   "bS": -1.0096520783208087
+   "b0": 34.03658989893145,
+   "bT": 1.5583782199625136,
+   "bS": -1.0306846342644111
   }
  },
  "prototypeComparison": {
   "note": "comparison-only against the untracked prototype thermal_params.json (park constants there are SUPERSEDED by M709)",
   "EaR": [
    17.58,
-   17.582
+   17.207
   ],
   "drive": {
    "alpha": [
     0.013092616533440916,
-    0.013092911030918433
+    0.013251894889951554
    ],
    "tau_d": [
     0.9868421268108802,
-    0.9868730236682578
+    1.0228870796889433
    ],
    "c0": [
     23.87718030153828,
-    23.876909742694508
+    23.17297644572314
    ],
    "c1": [
     0.22009957278334358,
-    0.22010558949535547
+    0.2345626359471153
    ]
   },
   "pin": {
    "b0": [
     33.92209912775893,
-    33.922099127759914
+    34.03658989893145
    ],
    "bT": [
     1.5529405996001375,
-    1.5529405996000778
+    1.5583782199625136
    ],
    "bS": [
     -1.0096520783208103,
-    -1.0096520783208087
+    -1.0306846342644111
    ]
   },
   "diurnal": {
@@ -184,8 +184,8 @@
      15.53
     ],
     [
-     5.8,
-     15.543
+     5.476,
+     15.448
     ]
    ]
   }

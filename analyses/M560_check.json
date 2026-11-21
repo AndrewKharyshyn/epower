@@ -2,16 +2,16 @@
  "milestone": "M560",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 665,
+  "cacheHits": 717,
   "extracted": 0,
   "noRaw": 0,
   "notCovered": 13
  },
  "knownAnswer": {
-  "nDrivesCovered": 652,
-  "nWindows": 865,
-  "storedNDrivesCovered": 652,
-  "storedNRestWindows": 865,
+  "nDrivesCovered": 704,
+  "nWindows": 906,
+  "storedNDrivesCovered": 704,
+  "storedNRestWindows": 906,
   "medianMagnitude": 1.0,
   "storedMedian": 1.0,
   "reproducesStored": true,
@@ -20,222 +20,222 @@
  "extractorSourceHash": "e64fb75769ae096b",
  "strata": {
   "fast": {
-   "nDrives": 112,
-   "nDays": 44,
-   "nWindows": 229,
+   "nDrives": 132,
+   "nDays": 51,
+   "nWindows": 270,
    "V0": {
-    "n": 229,
-    "nDays": 44,
-    "median": 0.75,
+    "n": 270,
+    "nDays": 51,
+    "median": 1.0,
     "p25": -0.75,
     "p75": 3.0,
     "ci95": [
      0.5,
-     1.5
+     1.25
     ],
-    "shareAbove1mV": 0.4803,
-    "shareOnHalfMvLattice": 0.7336
+    "shareAbove1mV": 0.4815,
+    "shareOnHalfMvLattice": 0.7519
    },
    "V0_halfCategoriesStrict": null,
    "familyA_fixedWindows": {
     "V3": {
-     "n": 229,
-     "nDays": 44,
-     "median": 1.25,
+     "n": 270,
+     "nDays": 51,
+     "median": 1.38,
      "p25": 0.0,
      "p75": 3.0,
      "ci95": [
-      0.88,
+      1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5066,
-     "shareOnHalfMvLattice": 0.7817,
+     "shareAbove1mV": 0.5111,
+     "shareOnHalfMvLattice": 0.8,
      "notRemeasurable": 0,
-     "differenceOfMediansMv": 0.5,
-     "insideV0Interval": true
+     "differenceOfMediansMv": 0.38,
+     "insideV0Interval": false
     },
     "V4": {
-     "n": 229,
-     "nDays": 44,
-     "median": 1.25,
+     "n": 270,
+     "nDays": 51,
+     "median": 1.38,
      "p25": 0.0,
      "p75": 3.0,
      "ci95": [
-      0.88,
+      1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5066,
-     "shareOnHalfMvLattice": 0.7817,
+     "shareAbove1mV": 0.5111,
+     "shareOnHalfMvLattice": 0.8,
      "notRemeasurable": 0,
-     "differenceOfMediansMv": 0.5,
-     "insideV0Interval": true
+     "differenceOfMediansMv": 0.38,
+     "insideV0Interval": false
     },
     "V8": {
-     "n": 229,
-     "nDays": 44,
+     "n": 270,
+     "nDays": 51,
      "median": 1.5,
-     "p25": -0.5,
+     "p25": 0.0,
      "p75": 3.5,
      "ci95": [
       1.0,
       2.0
      ],
-     "shareAbove1mV": 0.5328,
+     "shareAbove1mV": 0.5259,
      "shareOnHalfMvLattice": 1.0,
      "notRemeasurable": 0,
-     "differenceOfMediansMv": 0.75,
-     "insideV0Interval": true,
-     "straddlingPairsExcluded": 25,
-     "differenceVsV0MaxAbsMedianMv": 0.75
+     "differenceOfMediansMv": 0.5,
+     "insideV0Interval": false,
+     "straddlingPairsExcluded": 27,
+     "differenceVsV0MaxAbsMedianMv": 0.5
     }
    },
    "trailingFill": {
-    "windowsWithTrailingFill": 2,
-    "shareOfV0": 0.0087,
+    "windowsWithTrailingFill": 3,
+    "shareOfV0": 0.0111,
     "V0WithoutThem": {
-     "n": 227,
-     "nDays": 44,
-     "median": 0.75,
+     "n": 267,
+     "nDays": 51,
+     "median": 1.0,
      "p25": -0.75,
      "p75": 3.0,
      "ci95": [
       0.5,
-      1.5
+      1.37
      ],
-     "shareAbove1mV": 0.4802,
-     "shareOnHalfMvLattice": 0.7357
+     "shareAbove1mV": 0.4831,
+     "shareOnHalfMvLattice": 0.7528
     },
     "note": "an onset or asymptote second lies after a channel's last real sample and is forward-filled (up to 3 s) past the end of that channel's data; a published-construction artefact of the 1 s grid"
    },
    "familyB_windowSet": {
     "V1_fillMM0": {
-     "n": 224,
-     "nDays": 44,
-     "median": 0.75,
+     "n": 267,
+     "nDays": 51,
+     "median": 1.0,
      "p25": -0.75,
      "p75": 3.0,
      "ci95": [
       0.5,
-      1.5
+      1.25
      ],
-     "shareAbove1mV": 0.4643,
-     "shareOnHalfMvLattice": 0.7188,
-     "added": 5,
-     "dropped": 10,
-     "keptShareOfV0": 0.9563,
+     "shareAbove1mV": 0.4607,
+     "shareOnHalfMvLattice": 0.7378,
+     "added": 8,
+     "dropped": 11,
+     "keptShareOfV0": 0.9593,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V2_fillMM1": {
-     "n": 228,
-     "nDays": 44,
-     "median": 0.75,
+     "n": 269,
+     "nDays": 51,
+     "median": 1.0,
      "p25": -0.75,
      "p75": 3.0,
      "ci95": [
       0.5,
-      1.38
+      1.25
      ],
-     "shareAbove1mV": 0.4605,
-     "shareOnHalfMvLattice": 0.7325,
+     "shareAbove1mV": 0.4647,
+     "shareOnHalfMvLattice": 0.7509,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9956,
+     "keptShareOfV0": 0.9963,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V9a_fillI0": {
-     "n": 222,
-     "nDays": 44,
-     "median": 0.88,
+     "n": 265,
+     "nDays": 51,
+     "median": 1.0,
      "p25": -0.5,
      "p75": 3.0,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.473,
-     "shareOnHalfMvLattice": 0.7252,
-     "added": 1,
+     "shareAbove1mV": 0.4792,
+     "shareOnHalfMvLattice": 0.7472,
+     "added": 3,
      "dropped": 8,
-     "keptShareOfV0": 0.9651,
-     "differenceOfMediansMv": 0.13,
+     "keptShareOfV0": 0.9704,
+     "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V9b_fillI1": {
-     "n": 228,
-     "nDays": 44,
-     "median": 0.75,
+     "n": 269,
+     "nDays": 51,
+     "median": 1.0,
      "p25": -0.75,
      "p75": 3.0,
      "ci95": [
       0.5,
-      1.38
+      1.25
      ],
-     "shareAbove1mV": 0.4605,
-     "shareOnHalfMvLattice": 0.7325,
+     "shareAbove1mV": 0.4647,
+     "shareOnHalfMvLattice": 0.7509,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9956,
+     "keptShareOfV0": 0.9963,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V6_freshOnly": {
-     "n": 179,
-     "nDays": 40,
-     "median": 0.5,
-     "p25": -0.75,
-     "p75": 3.0,
+     "n": 205,
+     "nDays": 44,
+     "median": 0.75,
+     "p25": -0.5,
+     "p75": 2.75,
      "ci95": [
       0.5,
       1.0
      ],
-     "shareAbove1mV": 0.4525,
-     "shareOnHalfMvLattice": 0.7374,
+     "shareAbove1mV": 0.4585,
+     "shareOnHalfMvLattice": 0.7512,
      "added": 0,
-     "dropped": 50,
-     "keptShareOfV0": 0.7817,
+     "dropped": 65,
+     "keptShareOfV0": 0.7593,
      "differenceOfMediansMv": -0.25,
      "insideV0Interval": true
     },
     "V7_strictContiguity": {
-     "n": 227,
-     "nDays": 44,
-     "median": 0.75,
+     "n": 268,
+     "nDays": 51,
+     "median": 1.0,
      "p25": -0.75,
      "p75": 3.0,
      "ci95": [
       0.5,
-      1.5
+      1.25
      ],
-     "shareAbove1mV": 0.4802,
-     "shareOnHalfMvLattice": 0.7357,
+     "shareAbove1mV": 0.4813,
+     "shareOnHalfMvLattice": 0.7537,
      "added": 0,
      "dropped": 2,
-     "keptShareOfV0": 0.9913,
+     "keptShareOfV0": 0.9926,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true,
      "halfTimeCategoryCountsSeconds": {
-      "1": 48,
-      "0": 38,
-      "2": 16,
-      "none": 118,
+      "1": 56,
+      "0": 46,
+      "2": 20,
+      "none": 139,
       "3plus": 7
      }
     }
    },
    "placebo": {
-    "n": 100,
-    "nDays": 37,
+    "n": 122,
+    "nDays": 43,
     "median": 0.0,
     "p25": -0.5,
-    "p75": 1.0,
+    "p75": 1.19,
     "ci95": [
-     -0.12,
+     0.0,
      0.5
     ],
-    "shareAbove1mV": 0.24,
-    "shareOnHalfMvLattice": 0.85,
+    "shareAbove1mV": 0.2541,
+    "shareOnHalfMvLattice": 0.8525,
     "v0InsidePlaceboIQR": true,
     "placeboMedianAtLeastV0": false
    },
@@ -473,8 +473,8 @@
   }
  },
  "pooledV0": {
-  "n": 865,
-  "nDays": 117,
+  "n": 906,
+  "nDays": 124,
   "median": 1.0,
   "p25": -0.5,
   "p75": 3.0,
@@ -482,12 +482,12 @@
    1.0,
    1.5
   ],
-  "shareAbove1mV": 0.5225,
-  "shareOnHalfMvLattice": 0.9295,
+  "shareAbove1mV": 0.521,
+  "shareOnHalfMvLattice": 0.926,
   "storedInterval": [
    1.0,
    1.5
   ]
  },
- "rawListSha256": "dff58d228bd4f52caba8258cd8953f2734e8583c395a2933621d67d1ae2e9fc4"
+ "rawListSha256": "448876ef16f226e3ba8ce50a7bf9d2ef82c543daaf75f2e616209ba6bbb99118"
 }

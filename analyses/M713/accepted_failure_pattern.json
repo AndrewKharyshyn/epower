@@ -1,0 +1,8 @@
+{
+ "ruling": "Director M713 option A; M721 Director ruling on the gate exit code (recorded tooling deviation, not a relaxation)",
+ "gates": ["G-S2", "G-S2b"],
+ "baseline": {"G-S2": {"startsBelow15C_relError": 0.2812, "ahShare_ge35_relError": -0.128}, "G-S2b": {"startsBelow15C_relError": 0.3226, "ahShare_ge35_relError": -0.2512, "cleanHoldout": false}},
+ "maxMovement": 0.05,
+ "arrCycleAF_tolerance": 0.05,
+ "note": "exit 0 only if the false gates are exactly these, G-S0/G-S1/G-S3 are true, G-S4 is null, each gate fails only through starts below 15 C (sim > obs) and the hot share (sim < obs), arrCycleAF_Ea50 is within tolerance, no relError moved more than maxMovement from the baseline and cleanHoldout is unchanged; else exit 1 and escalate to the Director. pass fields are never altered."
+}

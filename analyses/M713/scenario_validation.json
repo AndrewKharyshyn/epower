@@ -1,50 +1,50 @@
 {
  "G-S2": {
-  "nDays": 132,
+  "nDays": 143,
   "ahShare_ge35": {
-   "sim": 0.3943,
-   "obs": 0.4522,
-   "diffPoints": -5.79,
-   "relError": -0.128
+   "sim": 0.3805,
+   "obs": 0.441,
+   "diffPoints": -6.05,
+   "relError": -0.1372
   },
   "ahShare_lt15": {
-   "sim": 0.0266,
-   "obs": 0.0252
+   "sim": 0.041,
+   "obs": 0.0388
   },
   "arrCycleAF_Ea50": {
-   "sim": 1.7739,
-   "obs": 1.7658,
-   "relError": 0.0046
+   "sim": 1.7437,
+   "obs": 1.7333,
+   "relError": 0.006
   },
   "startsBelow15C": {
-   "sim": 82.0,
-   "obs": 64,
-   "relError": 0.2812
+   "sim": 126.0,
+   "obs": 101,
+   "relError": 0.2475
   },
   "ahByTbin": {
    "sim": [
     0.0,
-    1.76,
-    16.75,
-    123.06,
-    335.9,
-    602.59,
-    863.83,
-    1274.24,
-    1136.87,
-    858.75,
-    99.4
+    5.8,
+    43.47,
+    177.65,
+    391.75,
+    615.89,
+    893.7,
+    1301.33,
+    1107.61,
+    875.36,
+    123.69
    ],
    "obs": [
     0.0,
-    2.53,
-    21.8,
-    109.69,
-    313.02,
-    533.98,
-    726.53,
-    1202.91,
-    1700.13,
+    4.39,
+    49.4,
+    161.2,
+    349.54,
+    553.16,
+    744.82,
+    1231.99,
+    1739.22,
     695.64,
     6.91
    ]
@@ -55,61 +55,61 @@
   }
  },
  "G-S2b": {
-  "nDays": 55,
+  "nDays": 66,
   "ahShare_ge35": {
-   "sim": 0.0985,
-   "obs": 0.1316,
-   "diffPoints": -3.31,
-   "relError": -0.2512
+   "sim": 0.1097,
+   "obs": 0.1368,
+   "diffPoints": -2.71,
+   "relError": -0.198
   },
   "ahShare_lt15": {
-   "sim": 0.0698,
-   "obs": 0.0795
+   "sim": 0.0942,
+   "obs": 0.1132
   },
   "arrCycleAF_Ea50": {
-   "sim": 1.1923,
-   "obs": 1.2137,
-   "relError": -0.0176
+   "sim": 1.1747,
+   "obs": 1.1834,
+   "relError": -0.0074
   },
   "startsBelow15C": {
-   "sim": 82.0,
-   "obs": 62,
-   "relError": 0.3226
+   "sim": 114.0,
+   "obs": 99,
+   "relError": 0.1515
   },
   "ahByTbin": {
    "sim": [
     0.0,
-    1.21,
-    14.13,
-    99.93,
-    252.55,
-    330.17,
-    388.5,
-    401.62,
-    154.46,
+    4.47,
+    35.07,
+    136.96,
+    295.85,
+    356.7,
+    407.77,
+    431.51,
+    197.35,
     8.22,
     0.0
    ],
    "obs": [
     0.0,
-    2.53,
-    21.8,
-    106.85,
-    243.63,
-    318.27,
-    304.74,
-    435.74,
-    217.24,
+    4.39,
+    49.4,
+    158.35,
+    280.14,
+    337.44,
+    323.03,
+    464.81,
+    256.33,
     0.0,
     0.0
    ]
   },
   "fit": {
    "driveParams_MayAug": {
-    "alpha": 0.011792,
-    "tau_d": 0.8402,
-    "c0": 27.624,
-    "c1": 0.1364,
+    "alpha": 0.011735,
+    "tau_d": 0.8362,
+    "c0": 27.657,
+    "c1": 0.1357,
     "nDrives": 285
    },
    "park_MayAug": {
@@ -119,32 +119,32 @@
    }
   },
   "hotShareBracket": {
-   "holdoutBiasPoints": -3.31,
+   "holdoutBiasPoints": -2.71,
    "note": "the hot-share bias bound is taken from this hold-out (spec Rev 1.1 R5), not from the in-sample 6 points"
   },
   "parameterCheck": {
    "fullSample": {
-    "startsBelow15C_sim": 81.0,
-    "ahShare_ge35_sim": 0.0686
+    "startsBelow15C_sim": 125.0,
+    "ahShare_ge35_sim": 0.0687
    },
    "driveParamsMayAugOnly": {
-    "startsBelow15C_sim": 72.0,
-    "ahShare_ge35_sim": 0.099
+    "startsBelow15C_sim": 101.0,
+    "ahShare_ge35_sim": 0.1109
    },
    "parkMayAugOnly": {
-    "startsBelow15C_sim": 94.0,
-    "ahShare_ge35_sim": 0.0666
+    "startsBelow15C_sim": 138.0,
+    "ahShare_ge35_sim": 0.0683
    },
    "allMayAug": {
-    "startsBelow15C_sim": 82.0,
-    "ahShare_ge35_sim": 0.0985
+    "startsBelow15C_sim": 114.0,
+    "ahShare_ge35_sim": 0.1097
    }
   },
   "gate": {
    "name": "G-S2b month-blocked hold-out",
    "pass": false,
    "tolerance": "|hot share diff| <= 8 points and |starts below 15 C relative error| <= 15 %",
-   "relativeHotShareError": -0.2512,
+   "relativeHotShareError": -0.198,
    "cleanHoldout": false
   }
  }

@@ -324,6 +324,18 @@ def cond_list_shortened_nonempty(prev, cur, path, bound, rule):
         return False
 
 
+def cond_ancestor_list_shortened_nonempty(prev, cur, path, bound, rule):
+    """M721. A leaf under an element of a list may vanish only because the current list (the ancestor listDepth levels up, as a path prefix) is shorter, the element's index is past its end,
+    and the list is still non-empty (a segment or comparison list that changed length with the added drives); an emptied or deleted list fails."""
+    try:
+        d = rule["listDepth"]
+        lst = get(cur, path[:d])
+        idx = path[d]
+        return isinstance(lst, list) and isinstance(idx, int) and len(lst) >= 1 and idx >= len(lst) and isinstance(get(prev, path[:d]), list)
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
 def cond_two_part_switch(prev, cur, path, bound, rule):
     """M463 (diagnosis of the CrawlStopGo cold losses). The phase-energy estimator reports a two-part block when zeroShare >= threshold (0.25) and a plain day-bootstrap median otherwise
     (compute_summary_arrays.py, pre-registered). A leaf under `twoPart` may vanish only when the zeroShare fell below the threshold and the current block has `bootMedian`;
@@ -376,14 +388,14 @@ def cond_lost_leaf_ack(prev, cur, path, bound, rule):
 CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
               "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list,
               "refit_recompute_transition": cond_refit_recompute_transition, "f03_list_cleared_by_refit": cond_f03_list_cleared_by_refit, "fit_attempts_shortened_converged": cond_fit_attempts_shortened_converged,
-              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set, "lodo_matches_k10": cond_lodo_matches_k10,
+              "list_shortened_nonempty": cond_list_shortened_nonempty, "ancestor_list_shortened_nonempty": cond_ancestor_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set, "lodo_matches_k10": cond_lodo_matches_k10,
               "lost_leaf_ack": cond_lost_leaf_ack}
 
 
 REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
                    "moved_to_complement_list": ("listField", "complementField"), "trendslope_flip_ack": ("listField", "complementField", "ackFile"), "stamp_computed_at_set": ("keys",),
                    "refit_recompute_transition": ("prevMode", "curMode", "prevCorpus", "curCorpus"), "f03_list_cleared_by_refit": ("prevMode", "curMode", "prevCorpus", "curCorpus"),
-                   "two_part_switch": ("threshold",), "lost_leaf_ack": ("ackFile",)}
+                   "two_part_switch": ("threshold",), "ancestor_list_shortened_nonempty": ("listDepth",), "lost_leaf_ack": ("ackFile",)}
 
 
 def check_rules(rules):

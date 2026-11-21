@@ -18,8 +18,9 @@ assert MS["faithfulness"]["passed"] and MS["descriptive"] is True and MS["displa
 P = MS["pooled"]
 assert P["intervalShown"] and P["nDaysWithMotored"] >= 10 and P["zeroNumeratorDrawShare"] < 0.025 and P["ci95Pct"][0] < P["pct"] < P["ci95Pct"][1]
 assert "gridOnlyFfillSensitivity_postHoc_auditorFound" in MS and "NOT the pipeline convention" in MS["gridOnlyFfillSensitivity_postHoc_auditorFound"]["note"]
-assert MS["allMasterDaysResampling"]["nDays"] == 130      # M608: 126 at 632 drives; M578: 124 days at 621 drives, 121 at 606 and "escalates to the Director" in MS["escalationRule"]
-assert MS["cohorts"]["cold"]["intervalShown"] is False and MS["cohorts"]["cold"]["ci95Pct"] is None and MS["cohorts"]["warm"]["intervalShown"] and MS["cohorts"]["shoulder"]["intervalShown"]
+assert MS["allMasterDaysResampling"]["nDays"] == 141      # M721: 130 at 665 drives; M608: 126 at 632 drives; M578: 124 days at 621 drives, 121 at 606 and "escalates to the Director" in MS["escalationRule"]
+# M721: the cold interval is shown from the pre-registered 5-day floor (M608 owner decision), exploratory
+assert MS["cohorts"]["cold"]["intervalShown"] == (MS["cohorts"]["cold"]["nDays"] >= 5) and (MS["cohorts"]["cold"]["ci95Pct"] is None) == (not MS["cohorts"]["cold"]["intervalShown"]) and MS["cohorts"]["warm"]["intervalShown"] and MS["cohorts"]["shoulder"]["intervalShown"]
 # pooled display: the pooled hours of the real payload and the pooled block
 txt = run(RD, MS, "all")
 g = MS["gridOnlyFfillSensitivity_postHoc_auditorFound"]
@@ -31,7 +32,11 @@ assert "descriptive, no interval" not in txt and "of boost-classified engine-on 
 W = MS["cohorts"]["warm"]
 assert ("95 %% CI %.1f–%.1f" % (W["ci95Pct"][0], W["ci95Pct"][1])) in run(RD, MS, "warm")
 cold = run(RD, MS, "cold")
-assert "exploratory, no interval (%d of %d days with motored seconds)" % (MS["cohorts"]["cold"]["nDaysWithMotored"], MS["cohorts"]["cold"]["nDays"]) in cold and "95 % CI" not in cold
+_C = MS["cohorts"]["cold"]
+if _C["intervalShown"]:        # M721: the cold block reached the support rule (exploratory cohort); the text follows the block
+    assert ("95 %% CI %.1f–%.1f" % (_C["ci95Pct"][0], _C["ci95Pct"][1])) in cold and "exploratory, no interval" not in cold
+else:
+    assert "exploratory, no interval (%d of %d days with motored seconds)" % (_C["nDaysWithMotored"], _C["nDays"]) in cold and "95 % CI" not in cold
 # negative controls: a patched interval changes the text; a failed support rule shows no interval; a missing block says n/a (never a literal)
 MS2 = json.loads(json.dumps(MS)); MS2["pooled"]["ci95Pct"][1] += 1.0
 assert run(RD, MS2, "all") != txt

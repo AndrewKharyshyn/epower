@@ -2497,6 +2497,17 @@ def _powerfade_seed_clause_m532(emu, ss):
                ', computed on the previous basis (%d clean drives)' % ss['basisNClean'] if ss.get('stale') else ''))
 
 
+def _powerfade_sig_clause(lo, hi, cs_block):
+    """M721 (Director ruling, Andrii sign-off): the significance clause of powerFade.note. When the published-specification interval does not span zero it says where the interval lies, that this depends on the bootstrap seed at that
+    scale and on the cadence and temperature handling (counts script-written from the specification leaves), and that a fade trend is not established; no fade rate is claimed. Never 'excludes zero' as a standalone statement."""
+    if lo <= 0.0 <= hi:
+        return 'The 95 % day-cluster interval spans zero: a trend is not resolved in this window.'
+    side = 'above' if lo > 0.0 else 'below'
+    cnt = (' (%d of %d cadence specifications span zero)' % (cs_block['nSpecsSpanZero'], cs_block['nSpecs'])) if cs_block.get('status') == 'ok' else ''
+    return ('Under the published specification the 95 %% day-cluster interval lies %s zero (lower endpoint %s mΩ/month, upper endpoint %s mΩ/month); this depends on the bootstrap seed at that scale and on the cadence and temperature handling%s; '
+            'a fade trend is not established in this window and no fade rate is claimed.' % (side, lo, hi, cnt))
+
+
 def _powerfade_cadence_block(cs, emu):
     """M395: payload block `powerFade.cadenceSensitivity` + the statement shown on the dashboard, generated from the leaves (no typed numbers)."""
     if not cs or cs.get('status') != 'ok':
@@ -2506,6 +2517,8 @@ def _powerfade_cadence_block(cs, emu):
             '(the published specification is %s); no fade rate is claimed.' % (cs['nSpecs'], cs['slopeMin'], cs['slopeMax'],
                                                                                 'every' if cs['allIntervalsSpanZero'] else 'not every', cs['publishedIsSpec']))
     out = dict(cs)
+    out['nSpecsSpanZero'] = int(sum(1 for sp in cs['specs'] if sp['ci95'][0] <= 0.0 <= sp['ci95'][1]))        # M721: script-written count bound by the powerFade note
+    out['nSpecsExcludeZero'] = int(cs['nSpecs'] - out['nSpecsSpanZero'])
     if emu and emu.get('status') == 'ok':
         diffs = [abs(v['meanMohm']) for v in emu['pairedDiffEmulatedMinusOriginal'].values()]
         spec += (' In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by %.1f-%.1f mΩ on the %d fast-regime drives that keep a proxy and removes it from %d of %d fast-regime drives'
@@ -2577,14 +2590,11 @@ def _power_fade(dm, raw_loader=None):
     # the shipped CI. It is also stated whether cadence was controlled.
     spans_zero = bool(lo <= 0.0 <= hi)
     cadence_controlled = bool(t.get('cadence_controlled', False))
-    sig_clause = (
-        'The 95 % day-cluster interval spans zero: a trend is not '
-        'resolved in this window.' if spans_zero else
-        'The 95 % day-cluster interval excludes zero on this build; read it '
-        'with the cadence caveat below and the short window before treating '
-        'it as fade.')
     # M395: the density covariates adjust for HV-current logging density but do not remove the cadence effect (M393); the sensitivity block is generated from the leaves
     cs_block = _powerfade_cadence_block(_v6._powerfade_cadence_specs(d, raw_loader), _powerfade_emulation_snapshot(t['n_clean']))
+    # M721 (Director ruling, Andrii sign-off): when the published-specification interval does not span zero, the note says where the interval lies, that this depends on the bootstrap seed at that scale and on the cadence and temperature
+    # handling (counts script-written from the specification leaves), and that a fade trend is not established; no fade rate is claimed. Never 'excludes zero' as a standalone statement.
+    sig_clause = _powerfade_sig_clause(lo, hi, cs_block)
     cad_clause = (
         ' HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two '
         'covariates (M170); the adjustment is partial. ' + cs_block['statement'] if cadence_controlled else

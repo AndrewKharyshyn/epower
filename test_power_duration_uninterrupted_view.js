@@ -40,7 +40,10 @@ const pc=x=>x==null?'—':`${(100*x).toFixed(0)} %`;
     ok('slow W=120: low-support marker with the number of drives, charge p95 suppressed (n<40)',!!r120&&/low support/.test(r120.textContent)&&r120.textContent.includes('(n='+B.strata.slow.byW['120'].charge.displayRule.nEligible+')')&&!B.strata.slow.byW['120'].charge.displayRule.showP95);
     click(d.querySelector('[data-uninterrupted-stratum="fast"]'));await sleep(250);
     const f120=[...d.querySelectorAll('[data-uninterrupted-row]')].find(x=>x.getAttribute('data-uninterrupted-row')==='120');
-    ok('fast W=120 charge: cell hidden by the display rule (fewer than 20 drives)',!!f120&&!B.strata.fast.byW['120'].charge.displayRule.showCell&&f120.textContent.includes('(n='+B.strata.fast.byW['120'].charge.displayRule.nEligible+')'));
+    // M721: the cell follows the pre-registered display rule; at 717 drives the fast W=120 charge cell reached the threshold (19 -> 31 eligible drives) and is shown with a low-support marker, p95 suppressed
+    const dr120=B.strata.fast.byW['120'].charge.displayRule;
+    ok(dr120.showCell?'fast W=120 charge: cell shown by the display rule with the low-support marker and the number of drives, p95 suppressed':'fast W=120 charge: cell hidden by the display rule (fewer than 20 drives)',
+       !!f120&&f120.textContent.includes('(n='+dr120.nEligible+')')&&(dr120.showCell?(dr120.lowSupport?/low support/.test(f120.textContent):true)&&!dr120.showP95&&!dr120.showP99AndMax:true));
     const re=d.querySelector('[data-runend-note]');
     ok('run-end note: assumed linear-to-zero path, extent not value, not compared with net, base shrinks, smallest window under 50 %',!!re&&/assumed linear-to-zero path/.test(re.textContent)&&/not a bound on the power value/.test(re.textContent)&&/not compared with the net values/.test(re.textContent)&&/base shrinks with the window length/.test(re.textContent)&&/Smallest window with a share under 50 %/.test(re.textContent),re&&re.textContent.slice(0,120));
     const rr=[...d.querySelectorAll('[data-runend-row]')];

@@ -2,8 +2,8 @@
  "milestone": "M606",
  "specRev": 1,
  "stats": {
-  "cacheHits": 632,
-  "extracted": 33,
+  "cacheHits": 665,
+  "extracted": 52,
   "noRaw": 0,
   "notOk": 0
  },
@@ -70,9 +70,9 @@
   "binS": 10.0
  },
  "population": {
-  "drives": 665,
-  "readable": 665,
-  "days": 130
+  "drives": 717,
+  "readable": 717,
+  "days": 141
  },
  "channels": {
   "intake": {
@@ -80,14 +80,14 @@
     "firstValidDate": "2026-05-11",
     "lastValidDate": "2026-08-24",
     "nValid": 270,
-    "nAfterLastValid": 387
+    "nAfterLastValid": 439
    },
    "byStratum": {
     "fast": {
-     "nDrives": 228,
-     "nDays": 45,
+     "nDrives": 280,
+     "nDays": 56,
      "flags": {
-      "absent": 46,
+      "absent": 98,
       "ok": 41,
       "empty": 141
      },
@@ -124,7 +124,7 @@
    "sensitivities": {
     "cov25": {
      "fast": {
-      "absent": 46,
+      "absent": 98,
       "ok": 41,
       "empty": 141
      },
@@ -142,7 +142,7 @@
     },
     "cov75": {
      "fast": {
-      "absent": 46,
+      "absent": 98,
       "ok": 41,
       "empty": 141
      },
@@ -161,7 +161,7 @@
     },
     "gap30": {
      "fast": {
-      "absent": 46,
+      "absent": 98,
       "ok": 41,
       "empty": 141
      },
@@ -180,7 +180,7 @@
     },
     "gap120": {
      "fast": {
-      "absent": 46,
+      "absent": 98,
       "ok": 41,
       "empty": 141
      },
@@ -198,7 +198,7 @@
     },
     "windowV6": {
      "fast": {
-      "absent": 46,
+      "absent": 98,
       "ok": 41,
       "empty": 141
      },
@@ -216,7 +216,7 @@
     },
     "windowRev0": {
      "fast": {
-      "absent": 46,
+      "absent": 98,
       "ok": 41,
       "empty": 141
      },
@@ -237,19 +237,19 @@
   "engineCoolant": {
    "epoch": {
     "firstValidDate": "2026-05-11",
-    "lastValidDate": "2026-11-09",
-    "nValid": 658,
+    "lastValidDate": "2026-11-20",
+    "nValid": 710,
     "nAfterLastValid": 0
    },
    "byStratum": {
     "fast": {
-     "nDrives": 228,
-     "nDays": 45,
+     "nDrives": 280,
+     "nDays": 56,
      "flags": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
-     "medianOfDriveMedianIntervalS": 4.199000000000012,
+     "medianOfDriveMedianIntervalS": 4.339500000000022,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
@@ -281,7 +281,7 @@
     "cov25": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "gappy": 20,
@@ -296,7 +296,7 @@
     "cov75": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "gappy": 18,
@@ -311,7 +311,7 @@
     "gap30": {
      "fast": {
       "partial": 2,
-      "ok": 225,
+      "ok": 277,
       "gappy": 1
      },
      "slow": {
@@ -327,7 +327,7 @@
     "gap120": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "gappy": 9,
@@ -342,7 +342,7 @@
     "windowV6": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "gappy": 20,
@@ -357,7 +357,7 @@
     "windowRev0": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "gappy": 20,
@@ -374,20 +374,20 @@
   "hvCoolant": {
    "epoch": {
     "firstValidDate": "2026-05-11",
-    "lastValidDate": "2026-11-09",
-    "nValid": 659,
+    "lastValidDate": "2026-11-20",
+    "nValid": 711,
     "nAfterLastValid": 0
    },
    "byStratum": {
     "fast": {
-     "nDrives": 228,
-     "nDays": 45,
+     "nDrives": 280,
+     "nDays": 56,
      "flags": {
       "gappy": 1,
-      "ok": 223,
+      "ok": 275,
       "partial": 4
      },
-     "medianOfDriveMedianIntervalS": 0.8394999999999655,
+     "medianOfDriveMedianIntervalS": 0.8637500000000085,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
@@ -419,7 +419,7 @@
     "cov25": {
      "fast": {
       "gappy": 1,
-      "ok": 223,
+      "ok": 275,
       "partial": 4
      },
      "slow": {
@@ -435,7 +435,7 @@
     "cov75": {
      "fast": {
       "gappy": 1,
-      "ok": 223,
+      "ok": 275,
       "partial": 4
      },
      "slow": {
@@ -452,7 +452,7 @@
     "gap30": {
      "fast": {
       "gappy": 1,
-      "ok": 223,
+      "ok": 275,
       "partial": 4
      },
      "slow": {
@@ -468,7 +468,7 @@
     },
     "gap120": {
      "fast": {
-      "ok": 224,
+      "ok": 276,
       "partial": 4
      },
      "slow": {
@@ -484,7 +484,7 @@
     "windowV6": {
      "fast": {
       "gappy": 1,
-      "ok": 223,
+      "ok": 275,
       "partial": 4
      },
      "slow": {
@@ -500,7 +500,7 @@
     "windowRev0": {
      "fast": {
       "gappy": 1,
-      "ok": 223,
+      "ok": 275,
       "partial": 4
      },
      "slow": {
@@ -518,19 +518,19 @@
   "engineIntake": {
    "epoch": {
     "firstValidDate": "2026-05-11",
-    "lastValidDate": "2026-11-09",
-    "nValid": 439,
+    "lastValidDate": "2026-11-20",
+    "nValid": 491,
     "nAfterLastValid": 0
    },
    "byStratum": {
     "fast": {
-     "nDrives": 228,
-     "nDays": 45,
+     "nDrives": 280,
+     "nDays": 56,
      "flags": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
-     "medianOfDriveMedianIntervalS": 0.8372500000000027,
+     "medianOfDriveMedianIntervalS": 0.8640000000000185,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
@@ -563,7 +563,7 @@
     "cov25": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "partial": 3,
@@ -579,7 +579,7 @@
     "cov75": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "partial": 3,
@@ -595,7 +595,7 @@
     "gap30": {
      "fast": {
       "partial": 2,
-      "ok": 225,
+      "ok": 277,
       "gappy": 1
      },
      "slow": {
@@ -612,7 +612,7 @@
     "gap120": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "partial": 3,
@@ -628,7 +628,7 @@
     "windowV6": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "partial": 3,
@@ -644,7 +644,7 @@
     "windowRev0": {
      "fast": {
       "partial": 2,
-      "ok": 226
+      "ok": 278
      },
      "slow": {
       "partial": 3,
@@ -1000,30 +1000,31 @@
    }
   },
   "2026-11|fast": {
-   "nDrives": 49,
-   "nDays": 8,
+   "nDrives": 101,
+   "nDays": 19,
    "flags": {
     "intake": {
      "empty": 4,
-     "absent": 45
+     "absent": 97
     },
     "engineCoolant": {
-     "ok": 49
+     "ok": 101
     },
     "hvCoolant": {
      "partial": 4,
-     "ok": 45
+     "ok": 97
     },
     "engineIntake": {
-     "ok": 49
+     "ok": 101
     }
    },
    "ledgerKinds": {
-    "pair": 49
+    "pair": 99,
+    "trapezoid": 2
    },
    "outcome": {
-    "rightCensored": 42,
-    "reached": 7
+    "rightCensored": 90,
+    "reached": 11
    }
   },
   "2026-11|slow": {
@@ -1055,37 +1056,37 @@
   }
  },
  "matrixTotals": {
-  "drives": 665,
-  "readable": 665
+  "drives": 717,
+  "readable": 717
  },
  "manualLedger": {
   "kinds": {
-   "trapezoidal": 26,
-   "endpointPair": 570,
+   "trapezoidal": 28,
+   "endpointPair": 620,
    "singleValue": 69
   },
   "sourceClass": {
-   "vehicle_uncalibrated": 665
+   "vehicle_uncalibrated": 717
   },
   "readingTimes": "inferred (not logged)",
   "freshness": "not observable from the committed ledger"
  },
  "ambientPid": {
-  "drivesWithColumn": 141,
-  "drivesWithValid": 141,
+  "drivesWithColumn": 187,
+  "drivesWithValid": 187,
   "role": "coverage only"
  },
  "reconciliation": {
   "outcomeVsThermalSupportLedger": {
    "mine": {
     "notEligible:distanceNotPositive": 3,
-    "rightCensored": 300,
+    "rightCensored": 348,
     "notEligible:noValidCoolant": 6,
-    "reached": 356
+    "reached": 360
    },
    "ledger": {
-    "reached": 356,
-    "rightCensored": 300,
+    "reached": 360,
+    "rightCensored": 348,
     "notEligible:distanceNotPositive": 3,
     "notEligible:noValidCoolant": 6
    },
@@ -1103,13 +1104,13 @@
     "equal": true
    },
    "nDrivesAfterLastValid": {
-    "raw": 387,
-    "meta": 387,
+    "raw": 439,
+    "meta": 439,
     "equal": true
    },
    "nDrivesNoValue": {
-    "raw": 395,
-    "meta": 395,
+    "raw": 447,
+    "meta": 447,
     "equal": true
    }
   },
@@ -1118,6 +1119,6 @@
   "ok": true
  },
  "outcomeRule": "M418 hvcEngine80C (tools/thermal_support_ledger.raw_record): reached = coolant >= WARM_ENGINE_C (80 C); no cold-start gate; excluded by rule = notEligible:<reason>",
- "sidecarRows": 665,
- "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
+ "sidecarRows": 717,
+ "rawListSha256": "2ef43c7fd16c480aad20caa12e8753f8ca0eb7f9b8a11db50b39888ca0f9f704"
 }

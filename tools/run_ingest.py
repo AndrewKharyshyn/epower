@@ -4,7 +4,7 @@
   runs/<UTC-ts>/<stage>.log  (full output)
   runs/<UTC-ts>/failure.json (stage, returncode, last 50 log lines) on failure
 Usage: python tools/run_ingest.py [--dry-run] [--from ID] [--only ID] [--skip ID ...]
-Exit codes: 0 ok, 1 gate failed, 3 stage not implemented, 4 rollback/recovery failed, 5 an unfinished release journal blocks the start (run --recover). No automatic retries, no parameter changes.
+Exit codes: 0 ok, 1 gate failed, 3 stage not implemented, 4 rollback/recovery failed, 5 an unfinished release journal blocks the start (run --recover), 6 collect pass done, 7 collect pass done with recorded gate failures (M722). No automatic retries, no parameter changes.
 M416 (audit F20): the run is a journaled release (tools/release_journal.py): the working tree outside raw/ is snapshotted before the first stage; a failed stage, an exception or SIGINT/SIGTERM rolls every file back
 and verifies the tree hash, a green run commits and records its write set. --keep-on-failure leaves the state for inspection (journal stays open until --recover); --no-journal disables it (development only);
 --recover rolls an interrupted or kept release back."""
@@ -12,6 +12,9 @@ import argparse, datetime as dt, hashlib, json, os, signal, subprocess, sys, tim
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+
+COLLECT_HARD_STOPS = ("static_preflight", "preflight", "ingest_core", "leaf_guard_early", "leaf_guard", "ci_anchor", "release_check")      # M722: integrity gates still end a discovery pass (everything after them would run on an invalid state)
 
 
 def sha(path):
@@ -76,6 +79,7 @@ def main():
     ap.add_argument("--fresh", action="store_true", help="M609: ignore stored checkpoints and run every stage (resume is the default for a full journaled run: after a gate stop the next plain run restores the stages that already passed; the chain keys still guarantee the same data state and stage code)")
     ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/.checkpoints/)")
     ap.add_argument("--collect-stops", action="store_true", help="M610b: discovery pass: stages whose gate needs a ruling (acknowledgeable escalations) record a stop (runs/<ts>/stops/) and are treated as acknowledged with their splice withheld, so every escalation of the batch is found in one pass; any other failure still stops it. Never commits: the tree is always rolled back; exit code 6 = collect_done (tools/stop_protocol.py)")
+    ap.add_argument("--continue-on-gate-failure", action="store_true", help="M722: with --collect-stops: a plain gate failure of a stage outside COLLECT_HARD_STOPS is recorded (runs/<ts>/gate_failures.json) and the pass goes on to the next stage (default unchanged: the first plain failure ends the pass); result collect_done_with_gate_failures, exit code 7; still never commits")
     ap.add_argument("--record-normalised", action="store_true", help="M610b pilot: record in status.json, per stage, the normalised hash of every declared output (tools/state_hash.py normalised_sha: pre-registered run-time stamp leaves dropped) so tools/collect_pass_compare.py can compare a collect pass with the real run; slower, never needed for an ordinary run")
     ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
@@ -94,6 +98,9 @@ def main():
                 SP_.close_token(os.path.join(ROOT, "runs", r_["run"]))
         print(json.dumps({"recovered": rep_}))
         return 0 if all(r["state"] == "rolled_back" for r in rep_) else 4
+    if a.continue_on_gate_failure and not a.collect_stops:
+        print("run_ingest: --continue-on-gate-failure needs --collect-stops", file=sys.stderr)
+        return 2
     if a.collect_stops and (a.only or a.frm or a.skip or a.skip_unchanged or a.no_journal or a.keep_on_failure or a.dry_run):
         print("run_ingest: --collect-stops needs a full journaled run (no --only/--from/--skip/--skip-unchanged/--no-journal/--keep-on-failure/--dry-run): the pass must roll back and must not commit", file=sys.stderr)
         return 2
@@ -153,6 +160,7 @@ def main():
     status = {"run": ts, "stages": [], "result": "ok", "runStartedAt": run_started_at}
     rc_final = 0
     cp, k_restored = None, 0
+    gate_failures = []                                            # M722: plain gate failures recorded by a collect pass
     try:
         if journal is not None and full_run and not skip_ids and not a.skip_unchanged and not a.no_checkpoints:
             import ingest_checkpoint as ICP
@@ -195,6 +203,8 @@ def main():
                 senv = dict(env)
                 senv["XT_RUN_STAGES_OK"] = ",".join(r_["id"] for r_ in status["stages"] if r_.get("status") in ("ok", "restored_from_checkpoint"))     # M513: the run record the stamp pass reads
                 senv["XT_RUN_STARTED_AT"] = run_started_at
+                if k_restored > 0:
+                    senv["XT_RESUME_RESTORED"] = ",".join(x["id"] for x in stages[:k_restored])      # M722: which stages this run restored from the chain (read by the static preflight anchor check)
                 if collect_token:
                     senv[SP.TOKEN_ENV], senv[SP.DIR_ENV] = collect_token, rd
                 for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
@@ -216,9 +226,14 @@ def main():
             status["stages"].append(rec)
             if rec["status"] == "ok" and cp is not None and idx >= k_restored and not a.collect_stops:      # M610b: a collect pass saves no checkpoints (its state is provisional)
                 cp.save(s)
+            if rec["status"] == "gate_failed" and collect_token and a.continue_on_gate_failure and s["id"] not in COLLECT_HARD_STOPS:      # M722: a discovery pass records a plain gate failure and goes on, so every stop of the batch is found in one pass (later stages may fail only as a consequence: flagged)
+                tail_ = open(log, errors="replace", encoding="utf-8").read().splitlines()[-12:]
+                gate_failures.append({"stage": s["id"], "returncode": r.returncode, "log": os.path.relpath(log, ROOT), "afterEarlierFailure": bool(gate_failures), "lastLines": [x[:300] for x in tail_]})
+                rec["status"] = "gate_failed_collected"
+                continue
             if rec["status"] != "ok":
                 status["result"] = rec["status"]
-                tail = open(log, errors="replace").read().splitlines()[-50:]
+                tail = open(log, errors="replace", encoding="utf-8").read().splitlines()[-50:]
                 json.dump({"stage": s["id"], "title": s["title"], "returncode": r.returncode, "status": rec["status"],
                            "log": os.path.relpath(log, ROOT), "last_lines": tail}, open(os.path.join(rd, "failure.json"), "w"), indent=1)
                 rc_final = 3 if rec["status"] == "not_implemented" else 1
@@ -233,9 +248,13 @@ def main():
     if collect_token:                                             # M610b: end of the discovery pass: export provisional artifacts and briefs, close the token, never commit
         collect_summary = SP.finish_pass(rd, ROOT)
         status["collect"] = collect_summary
+        if gate_failures:
+            status["collect"]["gateFailures"] = gate_failures
+            json.dump({"note": "plain gate failures of a collect pass (not acknowledgeable escalations); a failure after the first may be a consequence of it", "gateFailures": gate_failures},
+                      open(os.path.join(rd, "gate_failures.json"), "w", encoding="utf-8"), indent=1)
         if status["result"] == "ok":
-            status["result"] = "collect_done"
-            rc_final = 6                                          # 4 already means a failed rollback
+            status["result"] = "collect_done" if not gate_failures else "collect_done_with_gate_failures"
+            rc_final = 6 if not gate_failures else 7              # 4 already means a failed rollback; 7 = the pass completed but at least one stage failed its gate (fix it, then run a plain run: stages before it are restored)
     if cp is not None:
         if cp.notes:
             status.setdefault("checkpoint", {})["notes"] = cp.notes[:5]

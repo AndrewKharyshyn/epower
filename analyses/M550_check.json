@@ -2,18 +2,18 @@
  "milestone": "M550",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 665,
+  "cacheHits": 717,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 14
  },
  "knownAnswer": {
   "n": {
-   "peakKw": 651,
-   "peakI": 651,
-   "t1PeakI": 467,
-   "t1PeakIFallbackSkipped": 162,
-   "peakDis": 651
+   "peakKw": 703,
+   "peakI": 703,
+   "t1PeakI": 497,
+   "t1PeakIFallbackSkipped": 180,
+   "peakDis": 703
   },
   "misses": {
    "peakKw": 0,
@@ -31,61 +31,61 @@
  "extractorSourceHash": "c20db1cb44d3b344",
  "summary": {
   "population": {
-   "akPlotted": 629,
-   "withExtraction": 629,
+   "akPlotted": 677,
+   "withExtraction": 677,
    "canonicalClean": null
   },
   "classKw": {
-   "cotimed": 307,
-   "nearby": 157,
-   "late": 165,
+   "cotimed": 313,
+   "nearby": 180,
+   "late": 184,
    "none": 0
   },
   "classI": {
-   "cotimed": 308,
-   "nearby": 159,
+   "cotimed": 316,
+   "nearby": 181,
    "late": 0,
-   "none": 162
+   "none": 180
   },
-  "nViewA": 629,
-  "nViewKw": 629,
-  "nViewKwWithin3s": 464,
+  "nViewA": 677,
+  "nViewKw": 677,
+  "nViewKwWithin3s": 493,
   "ageAbsKwS": {
-   "p50": 1.073,
-   "p90": 5.253,
-   "p99": 7.146
+   "p50": 1.259,
+   "p90": 5.167,
+   "p99": 7.137
   },
   "ageAbsIS": {
-   "p50": 1.055,
-   "p90": 5.156,
-   "p99": 7.146
+   "p50": 1.217,
+   "p90": 5.085,
+   "p99": 7.137
   },
   "vAgeKwS": {
    "p50": -0.121,
    "p90": -0.06,
-   "p99": -0.047
+   "p99": -0.048
   },
   "gapS": {
    "p50": 0.0,
-   "p90": 0.992,
-   "p99": 788.64
+   "p90": 0.889,
+   "p99": 714.669
   },
-  "nGapOver3s": 49,
+  "nGapOver3s": 51,
   "noneShareByCadence": {
    "fast": {
-    "n": 216,
+    "n": 264,
     "noneShareKw": 0.0,
     "tiersKw": {
-     "cotimed": 64,
-     "nearby": 107,
-     "late": 45,
+     "cotimed": 70,
+     "nearby": 130,
+     "late": 64,
      "none": 0
     },
     "tiersI": {
-     "cotimed": 63,
-     "nearby": 108,
+     "cotimed": 71,
+     "nearby": 130,
      "late": 0,
-     "none": 45
+     "none": 63
     }
    },
    "slow": {
@@ -112,8 +112,8 @@
     0.0,
     0.0
    ],
-   "nDrives": 455,
-   "nDays": 122
+   "nDrives": 484,
+   "nDays": 132
   },
   "absDt1": {
    "p50": 0.0,
@@ -122,40 +122,40 @@
   },
   "sensitivityTolerance": {
    "lateTier": {
-    "n": 165,
+    "n": 184,
     "bounds": "3 s < |age| <= 10 s",
     "absDt1VsPeakI": {
      "p50": 0.0,
      "p90": 1.0,
-     "p99": 1.89
+     "p99": 1.88
     },
-    "nWithBothValues": 12,
+    "nWithBothValues": 13,
     "absAgeS": {
-     "p50": 4.753,
-     "p90": 6.706
+     "p50": 4.569,
+     "p90": 6.69
     }
    },
    "beyond10s": 0
   },
   "nTies": 0,
   "nChannel": {
-   "reg": 122,
-   "egc": 493,
-   "dual": 14
+   "reg": 132,
+   "egc": 530,
+   "dual": 15
   },
   "globalMinIdDiagnosticDiffers": 2,
   "dischargePeak": {
    "tiersDis": {
-    "cotimed": 305,
-    "nearby": 187,
-    "late": 137,
+    "cotimed": 316,
+    "nearby": 209,
+    "late": 152,
     "none": 0
    },
    "tiersDisByCadence": {
     "fast": {
-     "cotimed": 63,
-     "nearby": 126,
-     "late": 27,
+     "cotimed": 74,
+     "nearby": 148,
+     "late": 42,
      "none": 0
     },
     "slow": {
@@ -167,18 +167,18 @@
    }
   },
   "tiersAC": {
-   "cotimed": 308,
-   "nearby": 159,
-   "late": 162,
+   "cotimed": 316,
+   "nearby": 181,
+   "late": 180,
    "none": 0
   },
   "tiersACByCadence": {
    "fast": {
-    "n": 216,
+    "n": 264,
     "tiersAC": {
-     "cotimed": 63,
-     "nearby": 108,
-     "late": 45,
+     "cotimed": 71,
+     "nearby": 130,
+     "late": 63,
      "none": 0
     },
     "noneShareAC": 0.0
@@ -198,17 +198,17 @@
   "noneShareAC": 0.0,
   "acVsLegacy": {
    "movedFallbackDrives": {
-    "n": 162,
-    "nDays": 55,
+    "n": 180,
+    "nDays": 66,
     "signedMedian": -1.0,
     "absMedian": 1.0,
     "absP90": 4.0,
-    "nMoved": 134,
+    "nMoved": 151,
     "maxSigned": 0.0
    },
    "movedNonFallbackDrives": {
-    "n": 467,
-    "nDays": 123,
+    "n": 497,
+    "nDays": 134,
     "signedMedian": 0.0,
     "absMedian": 0.0,
     "absP90": 0.0,
@@ -218,18 +218,18 @@
    "coldZoneAndPeak": {
     "coldBelowC": 20,
     "legacy": {
-     "nPoints": 629,
-     "nCold": 120,
+     "nPoints": 677,
+     "nCold": 155,
      "minT": 3.0
     },
     "within3s": {
-     "nPoints": 467,
-     "nCold": 79,
+     "nPoints": 497,
+     "nCold": 101,
      "minT": 3.0
     },
     "late": {
-     "nPoints": 162,
-     "nCold": 50
+     "nPoints": 180,
+     "nCold": 66
     },
     "highestCratePeak": {
      "cRate": 42.6,
@@ -239,15 +239,15 @@
      "ageS": 0.169
     },
     "likeForLike": {
-     "n": 629,
-     "legacyNCold": 120,
-     "tierRuleNCold": 129,
+     "n": 677,
+     "legacyNCold": 155,
+     "tierRuleNCold": 167,
      "byCadence": {
       "fast": {
-       "n": 216,
-       "legacyNCold": 60,
-       "within3sNCold": 47,
-       "lateNCold": 17
+       "n": 264,
+       "legacyNCold": 95,
+       "within3sNCold": 69,
+       "lateNCold": 33
       },
       "slow": {
        "n": 413,
@@ -263,8 +263,8 @@
    "note": "signed move = new x minus legacy x (T1_at_peak_Crate, the drive-maximum T1 for fallback drives)"
   }
  },
- "nKwViewX": 629,
- "nAcViewX": 629,
+ "nKwViewX": 677,
+ "nAcViewX": 677,
  "acConsistencyMisses": [],
- "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
+ "rawListSha256": "2ef43c7fd16c480aad20caa12e8753f8ca0eb7f9b8a11db50b39888ca0f9f704"
 }

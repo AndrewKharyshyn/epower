@@ -1,0 +1,14 @@
+{
+ "milestone": "M721",
+ "date": "2026-11-20",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "accept (scoped structural closure ack, conditional)",
+ "text": "The gtr_closure_refresh stop 'key-set difference @ /fGenMixStandardised' is a tooling stop: the freshly built gtrClosure block lacks the sibling key fGenMixStandardised, owned by the later stage fgen_mix_standardised (M639). All CI-checked leaves stay inside their previous CI, no bool flip, no escalation. No method change; no blind audit.",
+ "conditions": [
+  "Ack names exactly the one stop, bound to master MD5, per-drive sha256 and stopsSha256; no cover for any other stop.",
+  "Fresh key set equals published key set minus exactly fGenMixStandardised (keyDiffs checked).",
+  "After fgen_mix_standardised: the key exists, its E0 reproduces the published headline, estimate inside its previous CI; else STOP and re-brief; release_check green on it.",
+  "M721 GTR flip ruling (analyses/M721_gtr_director_ruling.json) incl. condition (c) still applies; no PR before all pass.",
+  "CHANGELOG M721 records a structural (tooling) stop, not a scientific change, with old/new fGen, CI and n; diff fix is a later milestone."
+ ]
+}

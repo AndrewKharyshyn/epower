@@ -2,13 +2,13 @@
  "milestone": "M561",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 665,
+  "cacheHits": 717,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 14
  },
  "knownAnswer": {
-  "nDrives": 651,
+  "nDrives": 703,
   "misses": {
    "kb5LeqNet": 0,
    "kb5Monotone": 0,
@@ -22,144 +22,144 @@
  },
  "extractorSourceHash": "2115b231efcdfb32",
  "populations": {
-  "withPairs": 651,
+  "withPairs": 703,
   "excludedNullOrAnomaly": 0,
-  "eligibleCanonicalClean": 649,
+  "eligibleCanonicalClean": 701,
   "notOk": 14
  },
  "strata": {
   "fast": {
-   "nDrives": 227,
-   "nDays": 44,
+   "nDrives": 279,
+   "nDays": 55,
    "byW": {
     "5": {
-     "nDrivesWithSegment": 227,
-     "nDaysWithSegment": 44,
+     "nDrivesWithSegment": 279,
+     "nDaysWithSegment": 55,
      "discharge": {
       "eligibleRunShare": 1.0,
-      "nDrivesWithRun": 227,
-      "nDaysWithRun": 44,
+      "nDrivesWithRun": 279,
+      "nDaysWithRun": 55,
       "uninterrupted": {
        "p50": {
-        "value": 23.843,
+        "value": 23.236,
         "ci95": [
-         22.507,
-         25.809
+         21.948,
+         24.725
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 32.249,
+        "value": 32.2,
         "ci95": [
-         31.486,
-         33.798
+         31.39,
+         32.787
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 34.564,
+        "value": 33.941,
         "ci95": [
-         32.742,
-         36.651
+         32.333,
+         36.132
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 40.78,
+        "value": 39.5,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 55.983
       },
       "uninterruptedZeroIncluded": {
        "p50": {
-        "value": 23.843,
+        "value": 23.236,
         "ci95": [
-         22.507,
-         25.809
+         21.948,
+         24.725
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 32.249,
+        "value": 32.2,
         "ci95": [
-         31.486,
-         33.798
+         31.39,
+         32.787
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 34.564,
+        "value": 33.941,
         "ci95": [
-         32.742,
-         36.651
+         32.333,
+         36.132
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 40.78,
+        "value": 39.5,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 55.983
       },
       "net552OnSameDrives": {
-       "p50": 23.843,
-       "p90": 32.249,
-       "p95": 34.564
+       "p50": 23.236,
+       "p90": 32.2,
+       "p95": 33.941
       },
       "net552MinusUninterrupted": {
        "p50": 0.0,
        "p95": 0.0
       },
-      "shareUninterruptedEqualsNet": 0.9956,
+      "shareUninterruptedEqualsNet": 0.9964,
       "gridLowerBracket": {
-       "p50": 23.67,
-       "p95": 34.564
+       "p50": 23.19,
+       "p95": 33.914
       },
       "shifted0p5": {
-       "p50": 23.807,
-       "p95": 34.216
+       "p50": 23.155,
+       "p95": 33.896
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 23.374,
-       "p95": 33.539
+       "p50": 22.945,
+       "p95": 32.791
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.0694,
-        "n": 227
+        "p95": 0.0479,
+        "n": 279
        },
        "deadband": {
         "p50": 0.0,
         "p95": 0.0,
-        "n": 227
+        "n": 279
        },
        "offPlus": {
-        "p50": 0.1345,
-        "p95": 0.1401,
-        "n": 227
+        "p50": 0.1344,
+        "p95": 0.1406,
+        "n": 279
        },
        "offMinus": {
-        "p50": 0.1345,
-        "p95": 0.1401,
-        "n": 227
+        "p50": 0.1344,
+        "p95": 0.1406,
+        "n": 279
        }
       },
       "eligibleShareByBracket": {
@@ -174,147 +174,147 @@
        "showP95": true,
        "showP99AndMax": true,
        "lowSupport": false,
-       "nEligible": 227,
-       "nDaysEligible": 44
+       "nEligible": 279,
+       "nDaysEligible": 55
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 34.564,
-       "noInterpP95ShiftKw": 0.0694
+       "noInterpP95": 33.941,
+       "noInterpP95ShiftKw": 0.0479
       }
      },
      "charge": {
-      "eligibleRunShare": 0.9956,
-      "nDrivesWithRun": 226,
-      "nDaysWithRun": 44,
+      "eligibleRunShare": 0.9964,
+      "nDrivesWithRun": 278,
+      "nDaysWithRun": 55,
       "uninterrupted": {
        "p50": {
-        "value": 31.395,
+        "value": 30.639,
         "ci95": [
-         30.168,
-         32.806
+         29.525,
+         31.665
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 41.445,
+        "value": 39.978,
         "ci95": [
-         37.816,
-         44.147
+         37.606,
+         43.558
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 44.97,
+        "value": 44.544,
         "ci95": [
-         40.839,
-         51.537
+         39.975,
+         50.251
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 67.342,
+        "value": 63.404,
         "ci95": null,
-        "nDrives": 226,
-        "nDays": 44
+        "nDrives": 278,
+        "nDays": 55
        },
        "max": 74.553
       },
       "uninterruptedZeroIncluded": {
        "p50": {
-        "value": 31.329,
+        "value": 30.608,
         "ci95": [
-         30.1,
-         32.806
+         29.525,
+         31.579
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 41.438,
+        "value": 39.976,
         "ci95": [
-         37.79,
-         44.114
+         37.606,
+         43.558
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 44.934,
+        "value": 44.509,
         "ci95": [
-         40.839,
-         51.454
+         39.973,
+         50.125
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 67.266,
+        "value": 63.329,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 74.553
       },
       "net552OnSameDrives": {
-       "p50": 31.395,
-       "p90": 41.445,
-       "p95": 44.97
+       "p50": 30.639,
+       "p90": 39.978,
+       "p95": 44.544
       },
       "net552MinusUninterrupted": {
        "p50": 0.0,
        "p95": 0.0
       },
-      "shareUninterruptedEqualsNet": 0.9912,
+      "shareUninterruptedEqualsNet": 0.9928,
       "gridLowerBracket": {
-       "p50": 31.278,
-       "p95": 44.784
+       "p50": 30.467,
+       "p95": 44.421
       },
       "shifted0p5": {
-       "p50": 31.258,
-       "p95": 45.01
+       "p50": 30.624,
+       "p95": 44.471
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 31.284,
-       "p95": 43.404
+       "p50": 30.555,
+       "p95": 42.665
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.3652,
-        "n": 224
+        "p95": 0.4001,
+        "n": 275
        },
        "deadband": {
         "p50": 0.0,
         "p95": 0.0,
-        "n": 226
+        "n": 278
        },
        "offPlus": {
         "p50": 0.1443,
         "p95": 0.1499,
-        "n": 225
+        "n": 277
        },
        "offMinus": {
         "p50": 0.1443,
-        "p95": 0.1499,
-        "n": 226
+        "p95": 0.1498,
+        "n": 278
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.9956,
-       "noInterp": 0.9868,
-       "deadband": 0.9956
+       "primary": 0.9964,
+       "noInterp": 0.9857,
+       "deadband": 0.9964
       },
       "displayRule": {
        "showCell": true,
@@ -323,150 +323,150 @@
        "showP95": true,
        "showP99AndMax": true,
        "lowSupport": false,
-       "nEligible": 226,
-       "nDaysEligible": 44
+       "nEligible": 278,
+       "nDaysEligible": 55
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 44.379,
-       "noInterpP95ShiftKw": 0.3652
+       "noInterpP95": 44.163,
+       "noInterpP95ShiftKw": 0.4001
       }
      }
     },
     "10": {
-     "nDrivesWithSegment": 227,
-     "nDaysWithSegment": 44,
+     "nDrivesWithSegment": 279,
+     "nDaysWithSegment": 55,
      "discharge": {
       "eligibleRunShare": 1.0,
-      "nDrivesWithRun": 227,
-      "nDaysWithRun": 44,
+      "nDrivesWithRun": 279,
+      "nDaysWithRun": 55,
       "uninterrupted": {
        "p50": {
-        "value": 18.62,
+        "value": 18.075,
         "ci95": [
-         16.688,
-         20.332
+         16.63,
+         19.655
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 26.59,
+        "value": 26.272,
         "ci95": [
-         25.397,
-         27.673
+         25.002,
+         27.605
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 28.074,
+        "value": 28.001,
         "ci95": [
-         26.887,
-         29.898
+         26.733,
+         29.237
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 37.679,
+        "value": 36.166,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 50.351
       },
       "uninterruptedZeroIncluded": {
        "p50": {
-        "value": 18.62,
+        "value": 18.075,
         "ci95": [
-         16.688,
-         20.332
+         16.63,
+         19.655
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 26.59,
+        "value": 26.272,
         "ci95": [
-         25.397,
-         27.673
+         25.002,
+         27.605
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 28.074,
+        "value": 28.001,
         "ci95": [
-         26.887,
-         29.898
+         26.733,
+         29.237
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 37.679,
+        "value": 36.166,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 50.351
       },
       "net552OnSameDrives": {
-       "p50": 18.62,
-       "p90": 26.59,
-       "p95": 28.074
+       "p50": 18.075,
+       "p90": 26.272,
+       "p95": 28.001
       },
       "net552MinusUninterrupted": {
        "p50": 0.0,
        "p95": 0.0
       },
-      "shareUninterruptedEqualsNet": 0.9604,
+      "shareUninterruptedEqualsNet": 0.9606,
       "gridLowerBracket": {
-       "p50": 18.522,
-       "p95": 28.066
+       "p50": 17.937,
+       "p95": 28.0
       },
       "shifted0p5": {
-       "p50": 18.584,
-       "p95": 27.95
+       "p50": 18.019,
+       "p95": 27.9
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 18.128,
-       "p95": 27.641
+       "p50": 17.662,
+       "p95": 27.473
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.4059,
-        "n": 226
+        "p95": 0.4191,
+        "n": 278
        },
        "deadband": {
         "p50": 0.0,
         "p95": 0.0,
-        "n": 227
+        "n": 279
        },
        "offPlus": {
         "p50": 0.1352,
-        "p95": 0.1405,
-        "n": 227
+        "p95": 0.1408,
+        "n": 279
        },
        "offMinus": {
-        "p50": 0.1353,
-        "p95": 0.1412,
-        "n": 227
+        "p50": 0.1352,
+        "p95": 0.1415,
+        "n": 279
        }
       },
       "eligibleShareByBracket": {
        "primary": 1.0,
-       "noInterp": 0.9956,
+       "noInterp": 0.9964,
        "deadband": 1.0
       },
       "displayRule": {
@@ -476,147 +476,147 @@
        "showP95": true,
        "showP99AndMax": true,
        "lowSupport": false,
-       "nEligible": 227,
-       "nDaysEligible": 44
+       "nEligible": 279,
+       "nDaysEligible": 55
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 28.08,
-       "noInterpP95ShiftKw": 0.4059
+       "noInterpP95": 28.007,
+       "noInterpP95ShiftKw": 0.4191
       }
      },
      "charge": {
-      "eligibleRunShare": 0.9427,
-      "nDrivesWithRun": 214,
-      "nDaysWithRun": 44,
+      "eligibleRunShare": 0.9355,
+      "nDrivesWithRun": 261,
+      "nDaysWithRun": 55,
       "uninterrupted": {
        "p50": {
-        "value": 26.635,
+        "value": 26.182,
         "ci95": [
-         25.86,
-         27.374
+         25.449,
+         27.049
         ],
-        "nDrives": 214,
-        "nDays": 44,
+        "nDrives": 261,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 35.0,
+        "value": 34.327,
         "ci95": [
-         31.912,
-         36.864
+         31.73,
+         36.445
         ],
-        "nDrives": 214,
-        "nDays": 44,
+        "nDrives": 261,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 37.863,
+        "value": 37.521,
         "ci95": [
-         35.088,
-         40.945
+         34.917,
+         40.193
         ],
-        "nDrives": 214,
-        "nDays": 44,
+        "nDrives": 261,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 56.881,
+        "value": 49.488,
         "ci95": null,
-        "nDrives": 214,
-        "nDays": 44
+        "nDrives": 261,
+        "nDays": 55
        },
        "max": 66.334
       },
       "uninterruptedZeroIncluded": {
        "p50": {
-        "value": 26.225,
+        "value": 25.731,
         "ci95": [
-         25.549,
-         27.216
+         24.909,
+         26.62
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 34.536,
+        "value": 34.04,
         "ci95": [
-         31.759,
-         36.739
+         31.577,
+         36.003
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 37.547,
+        "value": 37.495,
         "ci95": [
-         34.85,
-         40.45
+         34.457,
+         40.141
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 54.836,
+        "value": 46.657,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 66.334
       },
       "net552OnSameDrives": {
-       "p50": 26.635,
-       "p90": 35.0,
-       "p95": 37.863
+       "p50": 26.182,
+       "p90": 34.327,
+       "p95": 37.521
       },
       "net552MinusUninterrupted": {
        "p50": 0.0,
        "p95": 0.0
       },
-      "shareUninterruptedEqualsNet": 0.9626,
+      "shareUninterruptedEqualsNet": 0.9693,
       "gridLowerBracket": {
-       "p50": 26.447,
-       "p95": 37.762
+       "p50": 26.115,
+       "p95": 37.359
       },
       "shifted0p5": {
-       "p50": 26.69,
-       "p95": 37.93
+       "p50": 26.139,
+       "p95": 37.433
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 26.45,
-       "p95": 37.103
+       "p50": 25.94,
+       "p95": 36.878
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.2182,
-        "n": 212
+        "p95": 0.2312,
+        "n": 259
        },
        "deadband": {
         "p50": 0.0,
         "p95": 0.0,
-        "n": 214
+        "n": 261
        },
        "offPlus": {
-        "p50": 0.1438,
-        "p95": 0.1499,
-        "n": 213
+        "p50": 0.1439,
+        "p95": 0.1497,
+        "n": 260
        },
        "offMinus": {
-        "p50": 0.1437,
-        "p95": 0.1494,
-        "n": 214
+        "p50": 0.1439,
+        "p95": 0.1495,
+        "n": 261
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.9427,
-       "noInterp": 0.9339,
-       "deadband": 0.9427
+       "primary": 0.9355,
+       "noInterp": 0.9283,
+       "deadband": 0.9355
       },
       "displayRule": {
        "showCell": true,
@@ -625,151 +625,151 @@
        "showP95": true,
        "showP99AndMax": true,
        "lowSupport": false,
-       "nEligible": 214,
-       "nDaysEligible": 44
+       "nEligible": 261,
+       "nDaysEligible": 55
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 37.415,
-       "noInterpP95ShiftKw": 0.2182
+       "noInterpP95": 37.345,
+       "noInterpP95ShiftKw": 0.2312
       }
      }
     },
     "30": {
-     "nDrivesWithSegment": 227,
-     "nDaysWithSegment": 44,
+     "nDrivesWithSegment": 279,
+     "nDaysWithSegment": 55,
      "discharge": {
-      "eligibleRunShare": 0.978,
-      "nDrivesWithRun": 222,
-      "nDaysWithRun": 44,
+      "eligibleRunShare": 0.9821,
+      "nDrivesWithRun": 274,
+      "nDaysWithRun": 55,
       "uninterrupted": {
        "p50": {
-        "value": 7.099,
+        "value": 7.012,
         "ci95": [
          6.188,
-         8.948
+         8.082
         ],
-        "nDrives": 222,
-        "nDays": 44,
+        "nDrives": 274,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 16.472,
+        "value": 15.903,
         "ci95": [
-         13.644,
-         17.094
+         13.38,
+         16.9
         ],
-        "nDrives": 222,
-        "nDays": 44,
+        "nDrives": 274,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 17.247,
+        "value": 17.087,
         "ci95": [
-         16.491,
-         19.292
+         16.244,
+         19.212
         ],
-        "nDrives": 222,
-        "nDays": 44,
+        "nDrives": 274,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 21.227,
+        "value": 20.975,
         "ci95": null,
-        "nDrives": 222,
-        "nDays": 44
+        "nDrives": 274,
+        "nDays": 55
        },
        "max": 27.941
       },
       "uninterruptedZeroIncluded": {
        "p50": {
-        "value": 7.044,
+        "value": 6.899,
         "ci95": [
          6.181,
-         8.797
+         7.79
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 16.427,
+        "value": 15.866,
         "ci95": [
-         13.474,
-         17.048
+         13.377,
+         16.864
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 17.21,
+        "value": 17.084,
         "ci95": [
-         16.481,
-         19.247
+         16.147,
+         19.189
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 21.203,
+        "value": 20.951,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 27.941
       },
       "net552OnSameDrives": {
-       "p50": 9.836,
-       "p90": 16.924,
-       "p95": 19.023
+       "p50": 9.617,
+       "p90": 16.566,
+       "p95": 17.869
       },
       "net552MinusUninterrupted": {
-       "p50": 1.1337,
-       "p95": 7.8605
+       "p50": 1.3016,
+       "p95": 7.6424
       },
-      "shareUninterruptedEqualsNet": 0.3874,
+      "shareUninterruptedEqualsNet": 0.354,
       "gridLowerBracket": {
-       "p50": 7.094,
-       "p95": 17.243
+       "p50": 6.982,
+       "p95": 17.044
       },
       "shifted0p5": {
-       "p50": 7.032,
-       "p95": 17.22
+       "p50": 6.896,
+       "p95": 17.058
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 7.084,
-       "p95": 17.106
+       "p50": 6.942,
+       "p95": 17.022
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.1947,
-        "n": 222
+        "p95": 0.223,
+        "n": 273
        },
        "deadband": {
         "p50": 0.0,
         "p95": 0.0,
-        "n": 222
+        "n": 274
        },
        "offPlus": {
         "p50": 0.1371,
-        "p95": 0.1422,
-        "n": 222
+        "p95": 0.1429,
+        "n": 274
        },
        "offMinus": {
         "p50": 0.1373,
-        "p95": 0.7628,
-        "n": 222
+        "p95": 0.6279,
+        "n": 274
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.978,
-       "noInterp": 0.978,
-       "deadband": 0.978
+       "primary": 0.9821,
+       "noInterp": 0.9785,
+       "deadband": 0.9821
       },
       "displayRule": {
        "showCell": true,
@@ -778,209 +778,209 @@
        "showP95": true,
        "showP99AndMax": true,
        "lowSupport": false,
-       "nEligible": 222,
-       "nDaysEligible": 44
+       "nEligible": 274,
+       "nDaysEligible": 55
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 17.247,
-       "noInterpP95ShiftKw": 0.1947
+       "noInterpP95": 17.077,
+       "noInterpP95ShiftKw": 0.223
       }
      },
      "charge": {
-      "eligibleRunShare": 0.815,
-      "nDrivesWithRun": 185,
-      "nDaysWithRun": 44,
+      "eligibleRunShare": 0.8208,
+      "nDrivesWithRun": 229,
+      "nDaysWithRun": 55,
       "uninterrupted": {
        "p50": {
-        "value": 17.693,
+        "value": 17.658,
         "ci95": [
-         17.207,
-         18.184
+         17.18,
+         18.109
         ],
-        "nDrives": 185,
-        "nDays": 44,
+        "nDrives": 229,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 21.471,
+        "value": 21.185,
         "ci95": [
-         20.571,
-         22.58
+         20.544,
+         22.291
         ],
-        "nDrives": 185,
-        "nDays": 44,
+        "nDrives": 229,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 22.746,
+        "value": 22.554,
         "ci95": [
-         21.552,
-         23.283
+         21.453,
+         23.163
         ],
-        "nDrives": 185,
-        "nDays": 44,
+        "nDrives": 229,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 25.747,
+        "value": 23.955,
         "ci95": null,
-        "nDrives": 185,
-        "nDays": 44
+        "nDrives": 229,
+        "nDays": 55
        },
        "max": 37.232
       },
       "uninterruptedZeroIncluded": {
        "p50": {
-        "value": 17.046,
+        "value": 16.959,
         "ci95": [
-         16.335,
-         17.514
+         16.301,
+         17.413
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 21.042,
+        "value": 20.808,
         "ci95": [
-         20.296,
-         21.946
+         20.139,
+         21.581
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 22.505,
+        "value": 22.237,
         "ci95": [
-         21.356,
-         22.88
+         21.203,
+         22.808
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 23.87,
+        "value": 23.893,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 37.232
       },
       "net552OnSameDrives": {
        "p50": 18.172,
-       "p90": 22.372,
-       "p95": 23.487
+       "p90": 21.63,
+       "p95": 23.307
       },
       "net552MinusUninterrupted": {
        "p50": 0.0,
-       "p95": 5.2026
+       "p95": 5.6588
       },
-      "shareUninterruptedEqualsNet": 0.773,
+      "shareUninterruptedEqualsNet": 0.7817,
       "gridLowerBracket": {
-       "p50": 17.667,
-       "p95": 22.732
+       "p50": 17.584,
+       "p95": 22.548
       },
       "shifted0p5": {
-       "p50": 17.685,
-       "p95": 22.676
+       "p50": 17.639,
+       "p95": 22.546
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 17.693,
-       "p95": 22.746
+       "p50": 17.658,
+       "p95": 22.554
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.0609,
-        "n": 180
+        "p95": 0.06,
+        "n": 224
        },
        "deadband": {
         "p50": 0.0,
         "p95": 0.0,
-        "n": 185
+        "n": 229
        },
        "offPlus": {
-        "p50": 0.1423,
+        "p50": 0.1424,
         "p95": 0.1475,
-        "n": 185
+        "n": 229
        },
        "offMinus": {
-        "p50": 0.1423,
+        "p50": 0.1424,
         "p95": 0.1474,
-        "n": 185
+        "n": 229
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.815,
-       "noInterp": 0.793,
-       "deadband": 0.815
+       "primary": 0.8208,
+       "noInterp": 0.8029,
+       "deadband": 0.8208
       },
       "displayRule": {
        "showCell": true,
        "showP50": true,
        "showP90": true,
        "showP95": true,
-       "showP99AndMax": false,
+       "showP99AndMax": true,
        "lowSupport": false,
-       "nEligible": 185,
-       "nDaysEligible": 44
+       "nEligible": 229,
+       "nDaysEligible": 55
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 22.752,
-       "noInterpP95ShiftKw": 0.0609
+       "noInterpP95": 22.57,
+       "noInterpP95ShiftKw": 0.06
       }
      }
     },
     "60": {
-     "nDrivesWithSegment": 227,
-     "nDaysWithSegment": 44,
+     "nDrivesWithSegment": 279,
+     "nDaysWithSegment": 55,
      "discharge": {
-      "eligibleRunShare": 0.7137,
-      "nDrivesWithRun": 162,
-      "nDaysWithRun": 44,
+      "eligibleRunShare": 0.7204,
+      "nDrivesWithRun": 201,
+      "nDaysWithRun": 55,
       "uninterrupted": {
        "p50": {
-        "value": 3.363,
+        "value": 3.375,
         "ci95": [
-         2.834,
-         3.88
+         2.9,
+         3.854
         ],
-        "nDrives": 162,
-        "nDays": 44,
+        "nDrives": 201,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 8.29,
+        "value": 7.936,
         "ci95": [
-         6.729,
-         9.562
+         5.92,
+         9.139
         ],
-        "nDrives": 162,
-        "nDays": 44,
+        "nDrives": 201,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 10.061,
+        "value": 9.422,
         "ci95": [
-         8.308,
-         11.546
+         8.124,
+         10.728
         ],
-        "nDrives": 162,
-        "nDays": 44,
+        "nDrives": 201,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 12.747,
+        "value": 12.57,
         "ci95": null,
-        "nDrives": 162,
-        "nDays": 44
+        "nDrives": 201,
+        "nDays": 55
        },
        "max": 15.801
       },
@@ -989,147 +989,147 @@
         "value": 2.291,
         "ci95": [
          1.993,
-         2.824
+         2.788
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 7.327,
+        "value": 6.783,
         "ci95": [
-         4.679,
-         8.76
+         4.656,
+         8.127
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 9.204,
+        "value": 8.64,
         "ci95": [
-         7.82,
-         10.524
+         7.2,
+         10.165
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 12.521,
+        "value": 12.424,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 15.801
       },
       "net552OnSameDrives": {
-       "p50": 7.404,
-       "p90": 11.65,
-       "p95": 12.999
+       "p50": 7.164,
+       "p90": 11.267,
+       "p95": 12.787
       },
       "net552MinusUninterrupted": {
-       "p50": 3.2985,
-       "p95": 7.9487
+       "p50": 3.1463,
+       "p95": 7.9609
       },
-      "shareUninterruptedEqualsNet": 0.0864,
+      "shareUninterruptedEqualsNet": 0.0796,
       "gridLowerBracket": {
-       "p50": 3.363,
-       "p95": 10.06
+       "p50": 3.375,
+       "p95": 9.387
       },
       "shifted0p5": {
-       "p50": 3.329,
-       "p95": 10.058
+       "p50": 3.341,
+       "p95": 9.415
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 3.363,
-       "p95": 10.061
+       "p50": 3.375,
+       "p95": 9.422
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.0709,
-        "n": 162
+        "p95": 0.0597,
+        "n": 201
        },
        "deadband": {
         "p50": 0.0,
-        "p95": 0.0101,
-        "n": 162
+        "p95": 0.0052,
+        "n": 201
        },
        "offPlus": {
         "p50": 0.138,
         "p95": 0.1441,
-        "n": 162
+        "n": 201
        },
        "offMinus": {
         "p50": 0.138,
-        "p95": 0.1452,
-        "n": 159
+        "p95": 0.1444,
+        "n": 197
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.7137,
-       "noInterp": 0.7137,
-       "deadband": 0.7181
+       "primary": 0.7204,
+       "noInterp": 0.7204,
+       "deadband": 0.724
       },
       "displayRule": {
        "showCell": true,
        "showP50": true,
        "showP90": true,
        "showP95": true,
-       "showP99AndMax": false,
+       "showP99AndMax": true,
        "lowSupport": false,
-       "nEligible": 162,
-       "nDaysEligible": 44
+       "nEligible": 201,
+       "nDaysEligible": 55
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 10.061,
-       "noInterpP95ShiftKw": 0.0709
+       "noInterpP95": 9.422,
+       "noInterpP95ShiftKw": 0.0597
       }
      },
      "charge": {
-      "eligibleRunShare": 0.4449,
-      "nDrivesWithRun": 101,
-      "nDaysWithRun": 41,
+      "eligibleRunShare": 0.4731,
+      "nDrivesWithRun": 132,
+      "nDaysWithRun": 52,
       "uninterrupted": {
        "p50": {
-        "value": 13.641,
+        "value": 13.814,
         "ci95": [
-         12.758,
-         14.775
+         13.131,
+         14.852
         ],
-        "nDrives": 101,
-        "nDays": 41,
+        "nDrives": 132,
+        "nDays": 52,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 17.758,
+        "value": 18.016,
         "ci95": [
-         16.716,
-         18.206
+         17.227,
+         18.444
         ],
-        "nDrives": 101,
-        "nDays": 41,
+        "nDrives": 132,
+        "nDays": 52,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 18.176,
+        "value": 18.37,
         "ci95": [
-         17.587,
-         19.811
+         18.019,
+         19.741
         ],
-        "nDrives": 101,
-        "nDays": 41,
+        "nDrives": 132,
+        "nDays": 52,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 20.209,
+        "value": 20.064,
         "ci95": null,
-        "nDrives": 101,
-        "nDays": 41
+        "nDrives": 132,
+        "nDays": 52
        },
        "max": 20.437
       },
@@ -1138,89 +1138,89 @@
         "value": 0.0,
         "ci95": [
          0.0,
-         5.943
+         6.657
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 16.34,
+        "value": 16.722,
         "ci95": [
-         15.389,
-         17.078
+         16.076,
+         17.503
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 17.527,
+        "value": 17.992,
         "ci95": [
-         16.658,
-         18.148
+         17.078,
+         18.276
         ],
-        "nDrives": 227,
-        "nDays": 44,
+        "nDrives": 279,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 19.547,
+        "value": 19.555,
         "ci95": null,
-        "nDrives": 227,
-        "nDays": 44
+        "nDrives": 279,
+        "nDays": 55
        },
        "max": 20.437
       },
       "net552OnSameDrives": {
-       "p50": 14.955,
-       "p90": 18.033,
-       "p95": 18.293
+       "p50": 15.075,
+       "p90": 18.054,
+       "p95": 18.593
       },
       "net552MinusUninterrupted": {
        "p50": 0.0,
-       "p95": 7.8583
+       "p95": 7.8346
       },
-      "shareUninterruptedEqualsNet": 0.5743,
+      "shareUninterruptedEqualsNet": 0.6136,
       "gridLowerBracket": {
-       "p50": 13.595,
-       "p95": 18.171
+       "p50": 13.813,
+       "p95": 18.364
       },
       "shifted0p5": {
-       "p50": 13.622,
-       "p95": 18.172
+       "p50": 13.758,
+       "p95": 18.377
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 13.641,
-       "p95": 18.176
+       "p50": 13.814,
+       "p95": 18.37
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.0363,
-        "n": 98
+        "p95": 0.041,
+        "n": 129
        },
        "deadband": {
         "p50": 0.0,
         "p95": 0.0,
-        "n": 101
+        "n": 132
        },
        "offPlus": {
-        "p50": 0.1424,
-        "p95": 0.1476,
-        "n": 97
+        "p50": 0.1426,
+        "p95": 0.1475,
+        "n": 128
        },
        "offMinus": {
-        "p50": 0.142,
-        "p95": 0.1468,
-        "n": 101
+        "p50": 0.1424,
+        "p95": 0.1465,
+        "n": 132
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.4449,
-       "noInterp": 0.4317,
-       "deadband": 0.4449
+       "primary": 0.4731,
+       "noInterp": 0.4624,
+       "deadband": 0.4731
       },
       "displayRule": {
        "showCell": true,
@@ -1229,56 +1229,56 @@
        "showP95": true,
        "showP99AndMax": false,
        "lowSupport": true,
-       "nEligible": 101,
-       "nDaysEligible": 41
+       "nEligible": 132,
+       "nDaysEligible": 52
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 18.191,
-       "noInterpP95ShiftKw": 0.0363
+       "noInterpP95": 18.402,
+       "noInterpP95ShiftKw": 0.041
       }
      }
     },
     "120": {
-     "nDrivesWithSegment": 226,
-     "nDaysWithSegment": 44,
+     "nDrivesWithSegment": 278,
+     "nDaysWithSegment": 55,
      "discharge": {
-      "eligibleRunShare": 0.2566,
-      "nDrivesWithRun": 58,
-      "nDaysWithRun": 31,
+      "eligibleRunShare": 0.2734,
+      "nDrivesWithRun": 76,
+      "nDaysWithRun": 40,
       "uninterrupted": {
        "p50": {
-        "value": 1.689,
+        "value": 1.731,
         "ci95": [
-         1.444,
-         2.094
+         1.486,
+         2.12
         ],
-        "nDrives": 58,
-        "nDays": 31,
+        "nDrives": 76,
+        "nDays": 40,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 3.05,
+        "value": 3.159,
         "ci95": [
-         2.625,
-         4.726
+         2.986,
+         4.023
         ],
-        "nDrives": 58,
-        "nDays": 31,
+        "nDrives": 76,
+        "nDays": 40,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 4.206,
+        "value": 3.782,
         "ci95": null,
-        "nDrives": 58,
-        "nDays": 31
+        "nDrives": 76,
+        "nDays": 40
        },
        "p99": {
-        "value": 4.95,
+        "value": 4.885,
         "ci95": null,
-        "nDrives": 58,
-        "nDays": 31
+        "nDrives": 76,
+        "nDays": 40
        },
        "max": 5.156
       },
@@ -1289,87 +1289,87 @@
          0.0,
          0.0
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 1.997,
+        "value": 2.175,
         "ci95": [
-         1.501,
-         2.393
+         1.679,
+         2.689
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 2.679,
+        "value": 2.985,
         "ci95": [
-         2.109,
-         3.009
+         2.453,
+         3.124
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 4.591,
+        "value": 4.257,
         "ci95": null,
-        "nDrives": 226,
-        "nDays": 44
+        "nDrives": 278,
+        "nDays": 55
        },
        "max": 5.156
       },
       "net552OnSameDrives": {
-       "p50": 5.346,
-       "p90": 6.98,
-       "p95": 7.471
+       "p50": 5.33,
+       "p90": 6.896,
+       "p95": 7.413
       },
       "net552MinusUninterrupted": {
-       "p50": 3.0661,
-       "p95": 5.8936
+       "p50": 2.9498,
+       "p95": 5.8922
       },
-      "shareUninterruptedEqualsNet": 0.0172,
+      "shareUninterruptedEqualsNet": 0.0395,
       "gridLowerBracket": {
-       "p50": 1.688,
-       "p95": 4.205
+       "p50": 1.73,
+       "p95": 3.768
       },
       "shifted0p5": {
-       "p50": 1.697,
-       "p95": 4.208
+       "p50": 1.765,
+       "p95": 3.745
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 1.689,
-       "p95": 4.206
+       "p50": 1.731,
+       "p95": 3.782
       },
       "nearZeroSensitivity": {
        "noInterp": {
-        "p50": 0.0,
-        "p95": 0.0322,
-        "n": 56
+        "p50": 0.0001,
+        "p95": 0.0337,
+        "n": 74
        },
        "deadband": {
         "p50": 0.0,
-        "p95": 0.0079,
-        "n": 58
+        "p95": 0.0052,
+        "n": 76
        },
        "offPlus": {
-        "p50": 0.1384,
-        "p95": 0.2202,
-        "n": 58
+        "p50": 0.1382,
+        "p95": 0.2337,
+        "n": 76
        },
        "offMinus": {
-        "p50": 0.1383,
-        "p95": 0.1457,
-        "n": 54
+        "p50": 0.1381,
+        "p95": 0.1455,
+        "n": 72
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.2566,
-       "noInterp": 0.2478,
-       "deadband": 0.2566
+       "primary": 0.2734,
+       "noInterp": 0.2662,
+       "deadband": 0.2734
       },
       "displayRule": {
        "showCell": true,
@@ -1378,52 +1378,52 @@
        "showP95": true,
        "showP99AndMax": false,
        "lowSupport": true,
-       "nEligible": 58,
-       "nDaysEligible": 31
+       "nEligible": 76,
+       "nDaysEligible": 40
       },
       "bracketTriggered": {
        "triggered": true,
        "brackets": [
         "offPlus"
        ],
-       "noInterpP95": 4.267,
-       "noInterpP95ShiftKw": 0.0322
+       "noInterpP95": 3.804,
+       "noInterpP95ShiftKw": 0.0337
       }
      },
      "charge": {
-      "eligibleRunShare": 0.0841,
-      "nDrivesWithRun": 19,
-      "nDaysWithRun": 13,
+      "eligibleRunShare": 0.1115,
+      "nDrivesWithRun": 31,
+      "nDaysWithRun": 21,
       "uninterrupted": {
        "p50": {
-        "value": 7.371,
+        "value": 7.288,
         "ci95": [
-         6.093,
-         12.101
+         6.053,
+         11.687
         ],
-        "nDrives": 19,
-        "nDays": 13,
+        "nDrives": 31,
+        "nDays": 21,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 15.331,
+        "value": 15.25,
         "ci95": null,
-        "nDrives": 19,
-        "nDays": 13
+        "nDrives": 31,
+        "nDays": 21
        },
        "p95": {
-        "value": 15.667,
+        "value": 15.717,
         "ci95": null,
-        "nDrives": 19,
-        "nDays": 13
+        "nDrives": 31,
+        "nDays": 21
        },
        "p99": {
-        "value": 15.758,
+        "value": 16.574,
         "ci95": null,
-        "nDrives": 19,
-        "nDays": 13
+        "nDrives": 31,
+        "nDays": 21
        },
-       "max": 15.781
+       "max": 16.914
       },
       "uninterruptedZeroIncluded": {
        "p50": {
@@ -1432,124 +1432,124 @@
          0.0,
          0.0
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p90": {
-        "value": 0.0,
+        "value": 4.517,
         "ci95": [
          0.0,
-         6.083
+         6.485
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p95": {
-        "value": 6.996,
+        "value": 7.604,
         "ci95": [
-         0.0,
-         11.687
+         5.161,
+         13.278
         ],
-        "nDrives": 226,
-        "nDays": 44,
+        "nDrives": 278,
+        "nDays": 55,
         "degenerateReplicateShare": 0.0
        },
        "p99": {
-        "value": 15.176,
+        "value": 15.343,
         "ci95": null,
-        "nDrives": 226,
-        "nDays": 44
+        "nDrives": 278,
+        "nDays": 55
        },
-       "max": 15.781
+       "max": 16.914
       },
       "net552OnSameDrives": {
-       "p50": 12.514,
-       "p90": 15.331,
-       "p95": 15.667
+       "p50": 12.165,
+       "p90": 15.25,
+       "p95": 15.717
       },
       "net552MinusUninterrupted": {
        "p50": 0.0,
-       "p95": 6.0339
+       "p95": 8.4827
       },
-      "shareUninterruptedEqualsNet": 0.5789,
+      "shareUninterruptedEqualsNet": 0.5161,
       "gridLowerBracket": {
-       "p50": 7.371,
-       "p95": 15.666
+       "p50": 7.287,
+       "p95": 15.714
       },
       "shifted0p5": {
-       "p50": 7.368,
-       "p95": 15.656
+       "p50": 7.281,
+       "p95": 15.708
       },
       "runsWithExactButNoGridStart": 0,
       "exposure600s": {
-       "p50": 7.371,
-       "p95": 15.667
+       "p50": 7.288,
+       "p95": 15.717
       },
       "nearZeroSensitivity": {
        "noInterp": {
         "p50": 0.0,
-        "p95": 0.0046,
-        "n": 18
+        "p95": 0.0089,
+        "n": 30
        },
        "deadband": {
         "p50": 0.0,
-        "p95": 0.0003,
-        "n": 19
+        "p95": 0.0,
+        "n": 31
        },
        "offPlus": {
-        "p50": 0.1434,
-        "p95": 0.1459,
-        "n": 17
+        "p50": 0.1442,
+        "p95": 0.1467,
+        "n": 28
        },
        "offMinus": {
-        "p50": 0.1434,
-        "p95": 0.4987,
-        "n": 19
+        "p50": 0.1442,
+        "p95": 0.146,
+        "n": 31
        }
       },
       "eligibleShareByBracket": {
-       "primary": 0.0841,
-       "noInterp": 0.0796,
-       "deadband": 0.0885
+       "primary": 0.1115,
+       "noInterp": 0.1079,
+       "deadband": 0.1151
       },
       "displayRule": {
-       "showCell": false,
-       "showP50": false,
-       "showP90": false,
+       "showCell": true,
+       "showP50": true,
+       "showP90": true,
        "showP95": false,
        "showP99AndMax": false,
        "lowSupport": true,
-       "nEligible": 19,
-       "nDaysEligible": 13
+       "nEligible": 31,
+       "nDaysEligible": 21
       },
       "bracketTriggered": {
        "triggered": false,
        "brackets": [],
-       "noInterpP95": 15.673,
-       "noInterpP95ShiftKw": 0.0046
+       "noInterpP95": 15.724,
+       "noInterpP95ShiftKw": 0.0089
       }
      }
     }
    },
    "runSeconds": {
     "dis": {
-     "median": 4.02,
-     "p95": 39.5,
-     "n": 14958
+     "median": 3.95,
+     "p95": 39.01,
+     "n": 17604
     },
     "chg": {
-     "median": 2.58,
-     "p95": 25.36,
-     "n": 14782
+     "median": 2.59,
+     "p95": 24.97,
+     "n": 17399
     }
    },
    "runEndBracket": {
     "5": {
      "discharge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 227,
+      "nDrivesWithSegment": 279,
+      "nPaired": 279,
       "upperOnlyDrives": 0,
       "eligibleShare": {
        "noInterp": 1.0,
@@ -1557,12 +1557,12 @@
        "upper": 1.0
       },
       "upperPaired": {
-       "p50": 23.888,
-       "p95": 34.564
+       "p50": 23.236,
+       "p95": 33.941
       },
       "primaryPaired": {
-       "p50": 23.843,
-       "p95": 34.564
+       "p50": 23.236,
+       "p95": 33.941
       },
       "upperMinusPrimary": {
        "p50": 0.0,
@@ -1570,94 +1570,30 @@
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.069
+       "p95": 0.048
       },
       "holdMinusUpper": {
        "p50": 0.0,
-       "p95": 0.597
+       "p95": 0.505
       },
       "triggers": []
      },
      "charge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 226,
+      "nDrivesWithSegment": 279,
+      "nPaired": 278,
       "upperOnlyDrives": 1,
       "eligibleShare": {
-       "noInterp": 0.9868,
-       "primary": 0.9956,
+       "noInterp": 0.9857,
+       "primary": 0.9964,
        "upper": 1.0
       },
       "upperPaired": {
-       "p50": 31.395,
-       "p95": 44.97
+       "p50": 30.639,
+       "p95": 44.544
       },
       "primaryPaired": {
-       "p50": 31.395,
-       "p95": 44.97
-      },
-      "upperMinusPrimary": {
-       "p50": 0.0,
-       "p95": 0.033
-      },
-      "primaryMinusNoInterp": {
-       "p50": 0.0,
-       "p95": 0.365
-      },
-      "holdMinusUpper": {
-       "p50": 0.0,
-       "p95": 0.716
-      },
-      "triggers": []
-     }
-    },
-    "10": {
-     "discharge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 227,
-      "upperOnlyDrives": 0,
-      "eligibleShare": {
-       "noInterp": 0.9956,
-       "primary": 1.0,
-       "upper": 1.0
-      },
-      "upperPaired": {
-       "p50": 18.637,
-       "p95": 28.074
-      },
-      "primaryPaired": {
-       "p50": 18.62,
-       "p95": 28.074
-      },
-      "upperMinusPrimary": {
-       "p50": 0.0,
-       "p95": 0.073
-      },
-      "primaryMinusNoInterp": {
-       "p50": 0.0,
-       "p95": 0.406
-      },
-      "holdMinusUpper": {
-       "p50": 0.0,
-       "p95": 0.536
-      },
-      "triggers": []
-     },
-     "charge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 214,
-      "upperOnlyDrives": 1,
-      "eligibleShare": {
-       "noInterp": 0.9339,
-       "primary": 0.9427,
-       "upper": 0.9471
-      },
-      "upperPaired": {
-       "p50": 26.635,
-       "p95": 37.868
-      },
-      "primaryPaired": {
-       "p50": 26.635,
-       "p95": 37.863
+       "p50": 30.639,
+       "p95": 44.544
       },
       "upperMinusPrimary": {
        "p50": 0.0,
@@ -1665,63 +1601,127 @@
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.218
+       "p95": 0.4
       },
       "holdMinusUpper": {
        "p50": 0.0,
-       "p95": 0.687
+       "p95": 0.734
+      },
+      "triggers": []
+     }
+    },
+    "10": {
+     "discharge": {
+      "nDrivesWithSegment": 279,
+      "nPaired": 279,
+      "upperOnlyDrives": 0,
+      "eligibleShare": {
+       "noInterp": 0.9964,
+       "primary": 1.0,
+       "upper": 1.0
+      },
+      "upperPaired": {
+       "p50": 18.075,
+       "p95": 28.001
+      },
+      "primaryPaired": {
+       "p50": 18.075,
+       "p95": 28.001
+      },
+      "upperMinusPrimary": {
+       "p50": 0.0,
+       "p95": 0.075
+      },
+      "primaryMinusNoInterp": {
+       "p50": 0.0,
+       "p95": 0.419
+      },
+      "holdMinusUpper": {
+       "p50": 0.0,
+       "p95": 0.547
+      },
+      "triggers": []
+     },
+     "charge": {
+      "nDrivesWithSegment": 279,
+      "nPaired": 261,
+      "upperOnlyDrives": 2,
+      "eligibleShare": {
+       "noInterp": 0.9283,
+       "primary": 0.9355,
+       "upper": 0.9427
+      },
+      "upperPaired": {
+       "p50": 26.182,
+       "p95": 37.521
+      },
+      "primaryPaired": {
+       "p50": 26.182,
+       "p95": 37.521
+      },
+      "upperMinusPrimary": {
+       "p50": 0.0,
+       "p95": 0.03
+      },
+      "primaryMinusNoInterp": {
+       "p50": 0.0,
+       "p95": 0.231
+      },
+      "holdMinusUpper": {
+       "p50": 0.0,
+       "p95": 0.701
       },
       "triggers": []
      }
     },
     "30": {
      "discharge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 222,
+      "nDrivesWithSegment": 279,
+      "nPaired": 274,
       "upperOnlyDrives": 0,
       "eligibleShare": {
-       "noInterp": 0.978,
-       "primary": 0.978,
-       "upper": 0.978
+       "noInterp": 0.9785,
+       "primary": 0.9821,
+       "upper": 0.9821
       },
       "upperPaired": {
-       "p50": 7.321,
-       "p95": 17.247
+       "p50": 7.131,
+       "p95": 17.094
       },
       "primaryPaired": {
-       "p50": 7.099,
-       "p95": 17.247
+       "p50": 7.012,
+       "p95": 17.087
       },
       "upperMinusPrimary": {
        "p50": 0.0,
-       "p95": 0.629
+       "p95": 0.37
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.195
+       "p95": 0.223
       },
       "holdMinusUpper": {
        "p50": 0.0,
-       "p95": 0.19
+       "p95": 0.197
       },
       "triggers": []
      },
      "charge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 185,
-      "upperOnlyDrives": 3,
+      "nDrivesWithSegment": 279,
+      "nPaired": 229,
+      "upperOnlyDrives": 4,
       "eligibleShare": {
-       "noInterp": 0.793,
-       "primary": 0.815,
-       "upper": 0.8282
+       "noInterp": 0.8029,
+       "primary": 0.8208,
+       "upper": 0.8351
       },
       "upperPaired": {
-       "p50": 17.743,
-       "p95": 22.746
+       "p50": 17.693,
+       "p95": 22.554
       },
       "primaryPaired": {
-       "p50": 17.693,
-       "p95": 22.746
+       "p50": 17.658,
+       "p95": 22.554
       },
       "upperMinusPrimary": {
        "p50": 0.0,
@@ -1729,96 +1729,96 @@
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.061
+       "p95": 0.06
       },
       "holdMinusUpper": {
        "p50": 0.0,
-       "p95": 0.138
+       "p95": 0.136
       },
       "triggers": []
      }
     },
     "60": {
      "discharge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 162,
+      "nDrivesWithSegment": 279,
+      "nPaired": 201,
       "upperOnlyDrives": 1,
       "eligibleShare": {
-       "noInterp": 0.7137,
-       "primary": 0.7137,
-       "upper": 0.7181
+       "noInterp": 0.7204,
+       "primary": 0.7204,
+       "upper": 0.724
       },
       "upperPaired": {
-       "p50": 3.384,
-       "p95": 10.189
+       "p50": 3.392,
+       "p95": 9.622
       },
       "primaryPaired": {
-       "p50": 3.363,
-       "p95": 10.061
+       "p50": 3.375,
+       "p95": 9.422
       },
       "upperMinusPrimary": {
        "p50": 0.0,
-       "p95": 0.027
+       "p95": 0.026
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.071
+       "p95": 0.06
       },
       "holdMinusUpper": {
-       "p50": 0.002,
-       "p95": 0.102
+       "p50": 0.004,
+       "p95": 0.098
       },
       "triggers": []
      },
      "charge": {
-      "nDrivesWithSegment": 227,
-      "nPaired": 101,
+      "nDrivesWithSegment": 279,
+      "nPaired": 132,
       "upperOnlyDrives": 6,
       "eligibleShare": {
-       "noInterp": 0.4317,
-       "primary": 0.4449,
-       "upper": 0.4714
+       "noInterp": 0.4624,
+       "primary": 0.4731,
+       "upper": 0.4946
       },
       "upperPaired": {
-       "p50": 13.649,
-       "p95": 18.176
+       "p50": 13.814,
+       "p95": 18.37
       },
       "primaryPaired": {
-       "p50": 13.641,
-       "p95": 18.176
+       "p50": 13.814,
+       "p95": 18.37
       },
       "upperMinusPrimary": {
        "p50": 0.0,
-       "p95": 0.01
+       "p95": 0.012
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.036
+       "p95": 0.041
       },
       "holdMinusUpper": {
        "p50": 0.0,
-       "p95": 0.085
+       "p95": 0.089
       },
       "triggers": []
      }
     },
     "120": {
      "discharge": {
-      "nDrivesWithSegment": 226,
-      "nPaired": 58,
-      "upperOnlyDrives": 1,
+      "nDrivesWithSegment": 278,
+      "nPaired": 76,
+      "upperOnlyDrives": 2,
       "eligibleShare": {
-       "noInterp": 0.2478,
-       "primary": 0.2566,
-       "upper": 0.2611
+       "noInterp": 0.2662,
+       "primary": 0.2734,
+       "upper": 0.2806
       },
       "upperPaired": {
-       "p50": 1.689,
-       "p95": 4.208
+       "p50": 1.731,
+       "p95": 3.789
       },
       "primaryPaired": {
-       "p50": 1.689,
-       "p95": 4.206
+       "p50": 1.731,
+       "p95": 3.782
       },
       "upperMinusPrimary": {
        "p50": 0.0,
@@ -1826,42 +1826,42 @@
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.032
+       "p95": 0.034
       },
       "holdMinusUpper": {
-       "p50": 0.0,
-       "p95": 0.047
+       "p50": 0.002,
+       "p95": 0.054
       },
       "triggers": []
      },
      "charge": {
-      "nDrivesWithSegment": 226,
-      "nPaired": 19,
+      "nDrivesWithSegment": 278,
+      "nPaired": 31,
       "upperOnlyDrives": 3,
       "eligibleShare": {
-       "noInterp": 0.0796,
-       "primary": 0.0841,
-       "upper": 0.0973
+       "noInterp": 0.1079,
+       "primary": 0.1115,
+       "upper": 0.1223
       },
       "upperPaired": {
-       "p50": 7.371,
-       "p95": 15.667
+       "p50": 7.288,
+       "p95": 15.717
       },
       "primaryPaired": {
-       "p50": 7.371,
-       "p95": 15.667
+       "p50": 7.288,
+       "p95": 15.717
       },
       "upperMinusPrimary": {
        "p50": 0.0,
-       "p95": 0.001
+       "p95": 0.002
       },
       "primaryMinusNoInterp": {
        "p50": 0.0,
-       "p95": 0.005
+       "p95": 0.009
       },
       "holdMinusUpper": {
        "p50": 0.0,
-       "p95": 0.017
+       "p95": 0.027
       },
       "triggers": []
      }
@@ -1873,9 +1873,9 @@
       "shareByW": {
        "5": 1.0,
        "10": 1.0,
-       "30": 0.978,
-       "60": 0.7137,
-       "120": 0.2566
+       "30": 0.9821,
+       "60": 0.7204,
+       "120": 0.2734
       },
       "firstWBelow50": 120,
       "monotoneInW": true
@@ -1883,10 +1883,10 @@
      "noInterp": {
       "shareByW": {
        "5": 1.0,
-       "10": 0.9956,
-       "30": 0.978,
-       "60": 0.7137,
-       "120": 0.2478
+       "10": 0.9964,
+       "30": 0.9785,
+       "60": 0.7204,
+       "120": 0.2662
       },
       "firstWBelow50": 120,
       "monotoneInW": true
@@ -1895,9 +1895,9 @@
       "shareByW": {
        "5": 1.0,
        "10": 1.0,
-       "30": 0.978,
-       "60": 0.7181,
-       "120": 0.2566
+       "30": 0.9821,
+       "60": 0.724,
+       "120": 0.2734
       },
       "firstWBelow50": 120,
       "monotoneInW": true
@@ -1906,9 +1906,9 @@
       "shareByW": {
        "5": 1.0,
        "10": 1.0,
-       "30": 0.978,
-       "60": 0.7181,
-       "120": 0.2611
+       "30": 0.9821,
+       "60": 0.724,
+       "120": 0.2806
       },
       "firstWBelow50": 120
      },
@@ -1918,33 +1918,33 @@
     "charge": {
      "primary": {
       "shareByW": {
-       "5": 0.9956,
-       "10": 0.9427,
-       "30": 0.815,
-       "60": 0.4449,
-       "120": 0.0841
+       "5": 0.9964,
+       "10": 0.9355,
+       "30": 0.8208,
+       "60": 0.4731,
+       "120": 0.1115
       },
       "firstWBelow50": 60,
       "monotoneInW": true
      },
      "noInterp": {
       "shareByW": {
-       "5": 0.9868,
-       "10": 0.9339,
-       "30": 0.793,
-       "60": 0.4317,
-       "120": 0.0796
+       "5": 0.9857,
+       "10": 0.9283,
+       "30": 0.8029,
+       "60": 0.4624,
+       "120": 0.1079
       },
       "firstWBelow50": 60,
       "monotoneInW": true
      },
      "deadband": {
       "shareByW": {
-       "5": 0.9956,
-       "10": 0.9427,
-       "30": 0.815,
-       "60": 0.4449,
-       "120": 0.0885
+       "5": 0.9964,
+       "10": 0.9355,
+       "30": 0.8208,
+       "60": 0.4731,
+       "120": 0.1151
       },
       "firstWBelow50": 60,
       "monotoneInW": true
@@ -1952,10 +1952,10 @@
      "upper": {
       "shareByW": {
        "5": 1.0,
-       "10": 0.9471,
-       "30": 0.8282,
-       "60": 0.4714,
-       "120": 0.0973
+       "10": 0.9427,
+       "30": 0.8351,
+       "60": 0.4946,
+       "120": 0.1223
       },
       "firstWBelow50": 60
      },
@@ -3907,5 +3907,5 @@
    }
   }
  },
- "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
+ "rawListSha256": "2ef43c7fd16c480aad20caa12e8753f8ca0eb7f9b8a11db50b39888ca0f9f704"
 }

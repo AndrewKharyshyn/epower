@@ -1,0 +1,1 @@
+Frozen inputs (copies of the freeze-time sources) of analyses/M717_winter_predictions.json, byte-exact, matched to the freeze record by sha256 (index.json). They are NOT live outputs: the live files of the same paths are regenerated at each ingestion (scenario_refresh) and must not be used for scoring. Do not edit.

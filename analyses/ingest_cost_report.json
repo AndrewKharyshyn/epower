@@ -1834,38 +1834,280 @@
      "missReason": null
     }
    ]
+  },
+  {
+   "firstRun": "20261120T083352Z",
+   "lastRun": "20261120T223829Z",
+   "nRuns": 17,
+   "result": "ok",
+   "open": false,
+   "executedMin": 787.9,
+   "uniqueMin": 173.1,
+   "repeatedMin": 614.8,
+   "repeatedShare": 3.552,
+   "stops": [
+    {
+     "run": "20261120T083352Z",
+     "stage": "static_preflight",
+     "rc": 1,
+     "class": "hard",
+     "cause": "new raw files: 52; not decidable before the run: stamp_policy_coverage, required_blocks_and_leaf_guard_diff, build_html_compile_and_semantic_gate_B_D"
+    },
+    {
+     "run": "20261120T084501Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20261120T085152Z",
+     "stage": "m321_ladder_monitor",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "{\"status\": \"warn-newspec\", \"warnings\": [\"W1 shift of the corpus pack-temperature distribution (start): P5 17.75 -> 15 C (>= one grid step); seasonal and confoun"
+    },
+    {
+     "run": "20261120T094921Z",
+     "stage": "static_preflight",
+     "rc": 1,
+     "class": "hard",
+     "cause": "new raw files: 0; not decidable before the run: stamp_policy_coverage, required_blocks_and_leaf_guard_diff, build_html_compile_and_semantic_gate_B_D"
+    },
+    {
+     "run": "20261120T095313Z",
+     "stage": "static_preflight",
+     "rc": 1,
+     "class": "hard",
+     "cause": "new raw files: 0; not decidable before the run: stamp_policy_coverage, required_blocks_and_leaf_guard_diff, build_html_compile_and_semantic_gate_B_D"
+    },
+    {
+     "run": "20261120T095617Z",
+     "stage": "m321_ladder_monitor",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "{\"status\": \"warn-newspec\", \"warnings\": [\"W1 shift of the corpus pack-temperature distribution (start): P5 17.75 -> 15 C (>= one grid step); seasonal and confoun"
+    },
+    {
+     "run": "20261120T110314Z",
+     "stage": "static_preflight",
+     "rc": 1,
+     "class": "hard",
+     "cause": "new raw files: 0; not decidable before the run: stamp_policy_coverage, required_blocks_and_leaf_guard_diff, build_html_compile_and_semantic_gate_B_D"
+    },
+    {
+     "run": "20261120T110627Z",
+     "stage": "m321_ladder_monitor",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "{\"status\": \"warn-newspec\", \"warnings\": [\"W1 shift of the corpus pack-temperature distribution (start): P5 17.75 -> 15 C (>= one grid step); seasonal and confoun"
+    },
+    {
+     "run": "20261120T120536Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261120T130932Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261120T133515Z",
+     "stage": "gtr_closure_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): key-set difference @ /fGenMixStandardised"
+    },
+    {
+     "run": "20261120T135554Z",
+     "stage": "gtr_closure_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): key-set difference @ /fGenMixStandardised"
+    },
+    {
+     "run": "20261120T142315Z",
+     "stage": "urban_week_block",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director"
+    },
+    {
+     "run": "20261120T152131Z",
+     "stage": "scenario_refresh",
+     "rc": 1,
+     "class": "hard",
+     "cause": "[scenario_refresh] STOPPED at step gates"
+    },
+    {
+     "run": "20261120T170942Z",
+     "stage": "scenario_refresh",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "[scenario_refresh] STOPPED at step gates"
+    },
+    {
+     "run": "20261120T194334Z",
+     "stage": "hot_tail_sample_occupancy",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP: known-answer mismatch (spec section 3 R1); nothing written"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261120T084501Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261120T085152Z",
+     "resumed": true,
+     "restoredStages": 2,
+     "reason": "stage ingest_core: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T094921Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T095313Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T095617Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261120T110314Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T110627Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": "data file changed: .github/workflows/ci.yml"
+    },
+    {
+     "run": "20261120T120536Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "first stage changed or chain not restorable",
+     "missReason": null
+    },
+    {
+     "run": "20261120T130932Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T133515Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T135554Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T142315Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T152131Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T170942Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": "data file changed: .github/workflows/ci.yml; data file added: analyses/M713/accepted_failure_pattern.json"
+    },
+    {
+     "run": "20261120T194334Z",
+     "resumed": true,
+     "restoredStages": 3,
+     "reason": "stage leaf_guard_early: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261120T223829Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": "data file added: analyses/M638_known_answer_corpus.json; data file removed: .github/workflows/ci.yml"
+    }
+   ]
   }
  ],
  "totals": {
   "stopsByClass": {
    "environment": 12,
-   "hard": 56,
-   "escalation": 35
+   "hard": 61,
+   "escalation": 46
   },
   "stopsByStage": {
    "release_check": 23,
    "leaf_guard": 15,
-   "ingest_core": 13,
-   "gtr_family_refresh": 12,
+   "ingest_core": 14,
+   "gtr_family_refresh": 14,
    "build_html": 9,
+   "urban_week_block": 6,
    "restamp_ingest": 5,
-   "urban_week_block": 5,
+   "m321_ladder_monitor": 4,
+   "static_preflight": 4,
+   "gtr_closure_refresh": 3,
    "refresh_master_seasonal": 2,
    "regen_v2": 2,
    "engine_on_blocks": 2,
    "cadence_regime": 2,
    "powerfade_temperature_specs": 2,
+   "scenario_refresh": 2,
    "preflight": 1,
    "f03_provenance_build": 1,
-   "m321_ladder_monitor": 1,
    "fuel_contract_build": 1,
    "refresh_raw_seasonal": 1,
-   "gtr_closure_refresh": 1,
    "thermal_support_ledger": 1,
    "jsdom": 1,
    "m483_wording_splice": 1,
    "resistance_joint_matrix": 1,
-   "thermal_provenance": 1
+   "thermal_provenance": 1,
+   "hot_tail_sample_occupancy": 1
   },
   "lateHardStopsByCause": {
    "build_html": {
@@ -1895,8 +2137,8 @@
     "{\"nPreviousLeaves\": 281779, \"nLost\": 103, \"expectedByRule\": {\"m466-regen-narrative-thin\": 5, \"m466-regen-row-ciSuppressed\": 1, \"cellspread-rows-moved-to-complem": 1
    }
   },
-  "scopeBatches": 28,
-  "runsAllTime": 131,
-  "runsNotOkAllTime": 103
+  "scopeBatches": 29,
+  "runsAllTime": 148,
+  "runsNotOkAllTime": 119
  }
 }

@@ -135,6 +135,8 @@ def check_ci_anchor(root, n_new):
         return ["ci.yml has no --expect-master-md5 anchor"]
     if n_new:
         return []
+    if "ingest_core" in os.environ.get("XT_RESUME_RESTORED", "").split(","):      # M722: a resumed run restored the staged master from the chain, but ci.yml is not part of the chain; the stage ci_anchor (rerun_on_resume) rewrites the anchor later in this same run and release_check re-verifies it
+        return []
     h = hashlib.md5(open(os.path.join(root, "drive_master.csv"), "rb").read()).hexdigest()
     return [] if h == m.group(1) else ["ci.yml anchor %s differs from drive_master.csv MD5 %s" % (m.group(1), h)]
 
