@@ -1,3 +1,15 @@
+## M722 (2026-11-20): Resumable ingestion: checkpoint chain no longer breaks at stages that name their own output; ci.yml edits no longer discard the chain; opt-in discovery pass over plain gate failures; tooling only, no data or display change
+
+**Rationale.** Root causes (evidence: runs/20261120T142315Z and T152131Z restored only 3 stages, T170942Z found no chain): (1) ingest_checkpoint.code_hash hashed the CONTENT of every existing file named on a stage command line, so a stage that names its own output (leaf_guard_early --out analyses/leaf_guard_early_report.json; leaf_guard likewise) saved its key after writing the file and recomputed it before the restore, so the key never matched and resume always restarted at leaf_guard_early; only code-like files are hashed now (data is covered by the data state); (2) .github/workflows/ci.yml was part of the base key, so any edit (a new CI test line) discarded the whole chain: it is now outside the data state, tracked through the ci_anchor code hash with the anchor MD5 masked, ci_anchor is rerun_on_resume, and the static preflight anchor check is skipped only when the run restored ingest_core (XT_RESUME_RESTORED); (3) --keep-on-failure then --recover keeps the chain, so recover then a plain run continues at the failed stage (test); (4) --collect-stops --continue-on-gate-failure (opt-in, default as ruled in M610) records plain gate failures outside COLLECT_HARD_STOPS in gate_failures.json and goes on, exit 7, never commits. Known-answer test tests/synthetic/test_ingest_resume_chain.py; no gate relaxed.
+
+**State.** `drive_master.csv` 665 rows, MD5 `77bbe275f8c22eaf62d8636867764af3`.
+
+**Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `tools/ingest_checkpoint.py`, `tools/run_ingest.py`, `tools/ingest_static_preflight.py`, `tools/ingest_stages.json`, `tests/synthetic/test_ingest_resume_chain.py`, `.github/workflows/ci.yml`, `docs/workflow-and-tools.md`.
+
+**Merge note (2026-11-21).** The tool, test, stage-list and CI-line changes of this entry were applied by hand inside the M721 ingestion (merged as PR 398, tag M721) so that the M721 run could resume at the failed stage; main already carries them (with `encoding='utf-8'` on the new text-mode reads and the `bms_power_map` stage env added by M721). This merge adds the milestone's own entry and history only.
+
 ## M721 (2026-11-21): Ingestion of 52 drives (2026-11-10..2026-11-20), corpus 665 -> 717; ingestion tooling conformance fixes recorded as deviations
 
 **Rationale.** Routine ingestion of 52 drives (all fast-polled; 30 shoulder, 22 cold, 0 warm), ODO 48110 km as of 2026-11-20. No KPI left its previous CI, no verdict changed, no method changed. Director-gated stops were acknowledged on scoped, hash-bound ack files; no Andrii approval exists or is implied for any of them.
