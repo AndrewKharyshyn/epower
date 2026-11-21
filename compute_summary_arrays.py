@@ -2497,15 +2497,20 @@ def _powerfade_seed_clause_m532(emu, ss):
                ', computed on the previous basis (%d clean drives)' % ss['basisNClean'] if ss.get('stale') else ''))
 
 
-def _powerfade_sig_clause(lo, hi, cs_block):
+def _powerfade_sig_clause(lo, hi, cs_block, facts=None):
     """M721 (Director ruling, Andrii sign-off): the significance clause of powerFade.note. When the published-specification interval does not span zero it says where the interval lies, that this depends on the bootstrap seed at that
-    scale and on the cadence and temperature handling (counts script-written from the specification leaves), and that a fade trend is not established; no fade rate is claimed. Never 'excludes zero' as a standalone statement."""
+    scale and on the cadence and temperature handling (counts script-written from the specification leaves), and that a fade trend is not established; no fade rate is claimed. Never 'excludes zero' as a standalone statement.
+    M724 (Andrii sign-off in chat): when `facts` (powerFade.cadenceCovariates...descriptiveFacts.e0LowerEndpointBelowZero, written by tools/powerfade_covariates.py) are present the clause also states that seed 42 is the published seed and in how
+    many of the pre-listed seeds the lower endpoint is below zero."""
     if lo <= 0.0 <= hi:
         return 'The 95 % day-cluster interval spans zero: a trend is not resolved in this window.'
     side = 'above' if lo > 0.0 else 'below'
     cnt = (' (%d of %d cadence specifications span zero)' % (cs_block['nSpecsSpanZero'], cs_block['nSpecs'])) if cs_block.get('status') == 'ok' else ''
-    return ('Under the published specification the 95 %% day-cluster interval lies %s zero (lower endpoint %s mΩ/month, upper endpoint %s mΩ/month); this depends on the bootstrap seed at that scale and on the cadence and temperature handling%s; '
-            'a fade trend is not established in this window and no fade rate is claimed.' % (side, lo, hi, cnt))
+    seeds = ''
+    if facts and facts.get('ofSeeds'):
+        seeds = '; seed 42 is the published seed and the lower endpoint is below zero in %d of %d pre-listed seeds' % (facts['nSeeds'], facts['ofSeeds'])
+    return ('Under the published specification the 95 %% day-cluster interval lies %s zero (lower endpoint %s mΩ/month, upper endpoint %s mΩ/month)%s; this depends on the bootstrap seed at that scale and on the cadence and temperature handling%s; '
+            'a fade trend is not established in this window and no fade rate is claimed.' % (side, lo, hi, seeds, cnt))
 
 
 def _powerfade_cadence_block(cs, emu):
