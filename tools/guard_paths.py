@@ -13,6 +13,8 @@ PROTECTED = [
     r"(^|/)analyses/M717_winter_predictions\.json$",    # M726 (G1): the frozen winter predictions
     r"(^|/)analyses/M726_extractor_registry\.json$",     # M727: the extractor registry of the winter freeze
     r"(^|/)tools/winter_extractors\.py$",                # M727: the frozen extractors
+    r"(^|/)analyses/M728_extractor_registry\.json$",     # M728: the extractor registry (version 2)
+    r"(^|/)tools/winter_extractors_b\.py$",              # M728: the frozen P4 extractor
 ]
 
 def main():

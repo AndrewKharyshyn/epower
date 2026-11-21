@@ -60,7 +60,7 @@ def refuse_live(path):
     return path
 
 
-REGISTRY = "analyses/M726_extractor_registry.json"
+REGISTRY = "analyses/M728_extractor_registry.json"          # v3 (M728); the M726 / M727 registry is superseded, kept as history
 
 
 def extractors_frozen(pid=None, changelog_text=None):
@@ -125,7 +125,7 @@ def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=400
     P = freeze["predictions"]
     out = []
     for pid in ("P1", "P2", "P3", "P4", "P5", "P6", "P7"):
-        if pid not in ("P2", "P3", "P5", "P7"):
+        if pid not in ("P2", "P3", "P4", "P5", "P7"):
             out.append({"prediction": pid, "status": "not evaluable", "reason": "extractor not frozen (not covered by the registry)"})
             continue
         ok, why = extractors_frozen(pid)
@@ -138,6 +138,27 @@ def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=400
         elif pid == "P3":
             e = WE.extract_p3(winter, freeze["params"]["R_T"]["EaR_kJmol"], freeze["params"]["R_T"]["R25_mohm"], nb=nb)
             out.append(evaluate_cell(pid, e["nDrives"], e["nDays"], e.get("estimate"), e.get("ci95"), P["P3"]["interval"], rule="point") | {"label": e.get("label"), "uncorrected": e.get("uncorrected")})
+        elif pid == "P4":
+            import winter_extractors_b as WB
+            e = WB.extract_p4(winter, nb)
+            if e.get("status") != "fitted":
+                out.append({"prediction": pid, "status": "not evaluable", "reason": e.get("reason", "no cell"), "nDrives": e["nDrives"], "nDays": e["nDays"]})
+            elif not support_ok(e["nDrives"], e["nDays"]):
+                out.append({"prediction": pid, "status": "not evaluable", "reason": "below the support rule (%d drives on %d days; needs %d on %d)" % (e["nDrives"], e["nDays"], SUPPORT_DRIVES, SUPPORT_DAYS)})
+            else:
+                stm = []
+                for name, ok_, est, ci_, band in (("register at 0 C and SoC 60", e["evaluable0C"], e["b0KwAt0CSoc60"], e["b0Ci95"], P["P4"]["kW_at_0C"][1:3]),
+                                                   ("register at -10 C and SoC 60", e["evaluableMinus10C"], e["kwAtMinus10C"], e["kwAtMinus10CCi95"], P["P4"]["envelope_at_minus10C"])):
+                    if not ok_:
+                        stm.append({"statement": name, "status": "not evaluable", "reason": "no data near the temperature (coldest probe %.1f C)" % e["coldestProbeMinC"]})
+                    else:
+                        inside = bool(band[0] <= est <= band[1])
+                        stm.append({"statement": name, "status": "within the band" if inside else "outside the band", "rule": "point inside the frozen interval", "estimate": est, "ci95": ci_, "band": list(band),
+                                    "ciInside": bool(ci_[0] >= band[0] and ci_[1] <= band[1]), "region": region(e["coldestProbeMinC"], basis_probe_min)})
+                ev = [s for s in stm if s["status"] != "not evaluable"]
+                st = "not evaluable" if not ev else ("outside the band" if any(s["status"] == "outside the band" for s in ev) else "within the band")
+                out.append({"prediction": pid, "status": st, "statements": stm, "nDrives": e["nDrives"], "nDays": e["nDays"], "regressionSeconds": e["regressionSeconds"],
+                            "pinWeightedMeanTminC": e["pinWeightedMeanTminC"], "reading": "BMS-reported register, model-derived intercept of a re-fitted plane, not delivered power; within is not validated"})
         elif pid == "P7":
             e = WE.extract_p7(winter, nb)
             if e.get("estimate") is None:
