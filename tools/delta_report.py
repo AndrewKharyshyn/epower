@@ -39,8 +39,29 @@ def reading_flags(prev, cur):
     return ["powerFade: reading changed (%s: %s -> %s)" % (k, prev[k], cur[k]) for k in sorted(cur) if k in (prev or {}) and prev[k] != cur[k]]
 
 
+def _ok_entry(e):
+    """A snapshot entry usable as a reference: numeric value and a complete numeric CI."""
+    return bool(e) and isinstance(e.get("value"), (int, float)) and bool(e.get("ci")) and None not in e["ci"] and all(isinstance(x, (int, float)) for x in e["ci"])
+
+
+def baseline_ref(hist, name):
+    """M743: reference snapshot of the cumulative-drift check for one KPI. The LAST snapshot whose optional `rebaseline` list names the KPI
+    (and that holds the KPI with a numeric value and a complete CI), else the first snapshot (unchanged behaviour). Returns (entry, utc, rebased)."""
+    for rec in reversed(hist):
+        if name in (rec.get("rebaseline") or []) and _ok_entry((rec.get("kpis") or {}).get(name)):
+            return rec["kpis"][name], rec.get("utc"), True
+    if hist and name in hist[0]["kpis"]:
+        return hist[0]["kpis"][name], hist[0].get("utc"), False
+    return None, None, False
+
+
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--commit", action="store_true"); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument("--commit", action="store_true")
+    ap.add_argument("--rebaseline", nargs="+", metavar="KPI", help="M743 (Director-ruled, one named KPI per decision; never run by an ingestion stage or data-worker): with --commit, append a record that moves the cumulative-drift reference of the named KPIs; this also resets 'prev' for ALL KPIs, so run it only on an accepted state")
+    ap.add_argument("--milestone", help="milestone id recorded in the rebaseline record (required with --rebaseline)")
+    a = ap.parse_args()
+    if a.rebaseline and (not a.commit or not a.milestone):
+        raise SystemExit("delta_report: --rebaseline needs --commit and --milestone")
     arr = json.load(open(P("summary_arrays.json"), encoding="utf-8"))
     specs = json.load(open(P("tools", "kpi_paths.json")))["kpis"]
     cur = {}
@@ -51,7 +72,6 @@ def main():
     hist_p = P("snapshots", "kpis.jsonl")
     hist = [json.loads(l) for l in open(hist_p)] if os.path.exists(hist_p) else []
     prev = hist[-1]["kpis"] if hist else None
-    first = hist[0]["kpis"] if hist else None
     rep, flags = {}, []
     cur_readings = readings_of(arr)
     flags += reading_flags((hist[-1].get("readings") if hist else None) or {}, cur_readings)      # M723 C3
@@ -69,9 +89,15 @@ def main():
                 if c["ci"] and None not in c["ci"]:
                     nhw = (c["ci"][1] - c["ci"][0]) / 2
                     if hw and abs(nhw - hw) / hw > 0.5: flags.append(f"{name}: CI half-width changed >50%")
-                if first and name in first and first[name]["ci"] and None not in first[name]["ci"]:
-                    fhw = (first[name]["ci"][1] - first[name]["ci"][0]) / 2
-                    r["cumulative_drift"] = c["value"] - first[name]["value"]
+                ref, ref_utc, rebased = baseline_ref(hist, name)
+                if ref and ref["ci"] and None not in ref["ci"]:
+                    fhw = (ref["ci"][1] - ref["ci"][0]) / 2
+                    r["cumulative_drift"] = c["value"] - ref["value"]
+                    r["baselineUtc"] = ref_utc; r["baselineValue"] = ref["value"]; r["baselineHalfWidth"] = fhw
+                    if rebased:      # M743: monitor reference moved; the original first-snapshot reference and the last five values stay visible
+                        f0 = hist[0]["kpis"].get(name)
+                        r["firstSnapshotValue"] = f0 and f0.get("value"); r["firstSnapshotUtc"] = hist[0].get("utc")
+                        r["history"] = [{"utc": h_.get("utc"), "value": h_["kpis"][name].get("value"), "ci": h_["kpis"][name].get("ci")} for h_ in hist[-5:] if name in h_["kpis"]]
                     if fhw and abs(r["cumulative_drift"]) > fhw: flags.append(f"{name}: cumulative drift > baseline CI half-width")
         rep[name] = r
     gf = P("analyses/gtr_family_delta.json")     # M377b: GTR-family refresh delta (per-block n drives / n days, moves, band and STOP outcomes)
@@ -124,9 +150,18 @@ def main():
     json.dump(out, open(P("delta_report.json"), "w"), indent=1)
     print(json.dumps({"has_baseline": out["has_baseline"], "route_to_audit": out["route_to_audit"], "flags": flags}, indent=1))
     if a.commit:
+        rec = {"utc": out["generated_utc"], "kpis": cur, "readings": cur_readings}
+        if a.rebaseline:      # M743 conditions C1-C3
+            bad = [n for n in a.rebaseline if n not in cur or not _ok_entry(cur[n])]
+            if bad:
+                raise SystemExit("delta_report: --rebaseline names unknown KPIs or KPIs without a numeric value and a complete CI: %s" % bad)
+            step = [f for n in a.rebaseline for f in flags if f.startswith(n + ": ") and "cumulative drift" not in f]
+            if step:
+                raise SystemExit("delta_report: --rebaseline refused, the KPI has a per-step flag in this run (a re-baseline must not absorb a fresh shift): %s" % step)
+            rec["rebaseline"] = list(a.rebaseline); rec["rebaselineMilestone"] = a.milestone
         os.makedirs(P("snapshots"), exist_ok=True)
-        with open(hist_p, "a") as f:
-            f.write(json.dumps({"utc": out["generated_utc"], "kpis": cur, "readings": cur_readings}) + "\n")
+        with open(hist_p, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec) + "\n")
 
 
 if __name__ == "__main__":
