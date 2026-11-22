@@ -1,0 +1,297 @@
+{
+ "spec": "analyses/M727_spec.md",
+ "runs": [
+  {
+   "label": "run 1",
+   "masterBasisDrives": 665,
+   "criteria": {
+    "C-P7": "slope -0.00812 and CI [-0.01061, -0.00566] within 1e-5 on the prototype set",
+    "C-P3": "mean R_pulse / R25 in [0.95, 1.05] for T_pulse in [23, 27] C",
+    "C-P2": "Ah share below 10 C within 0.005 of 0.0047",
+    "C-P5": "placebo, no tolerance"
+   },
+   "C-P7": {
+    "nDrives": 375,
+    "nDays": 89,
+    "coefficientOfA": -0.008124,
+    "ci95": [
+     -0.010614,
+     -0.005662
+    ],
+    "prototype": {
+     "slope": -0.00812,
+     "ci95": [
+      -0.01061,
+      -0.00566
+     ],
+     "n": 375,
+     "nDays": 89
+    },
+    "absDiffSlope": 4.3790357166402505e-06,
+    "absDiffCi": [
+     4.363159214610529e-06,
+     2.4593258691387593e-06
+    ],
+    "pass": true
+   },
+   "C-P3": {
+    "nPulses": 46,
+    "meanRatio25": 0.9550071697437934,
+    "r25Frozen": 111.97,
+    "pass": true
+   },
+   "C-P2": {
+    "estimate": 0.004525437708658771,
+    "prototypeSum": 0.004699999999999999,
+    "absDiff": 0.00017456229134122855,
+    "pass": true
+   },
+   "C-P5-placebo": {
+    "label": "placebo, no tolerance: 'winter' = October-November, 'autumn' = September of the frozen basis",
+    "result": {
+     "status": "not rejected",
+     "statistic": -0.08047261115342402,
+     "p025": -0.1222518592979866,
+     "p975": -0.035730416433384926,
+     "dln": -0.03820188688173247,
+     "dTc": 7.2544218919898515,
+     "boundPerC": 0.005826890812397583,
+     "nWinter": 155,
+     "nAutumn": 178,
+     "nWinterDays": 26,
+     "nAutumnDays": 30,
+     "cells": 4,
+     "droppedShareOfWinterDrives": 0.07185628742514971,
+     "reading": "association (season, route and period move together), not a temperature effect; not rejected is not no increase"
+    }
+   },
+   "allCriteriaPassed": true
+  },
+  {
+   "label": "run 2 (Rev 3: C-P5 per-draw; P2, P3, P7 regression only)",
+   "masterBasisDrives": 665,
+   "criteria": {
+    "C-P7": "slope -0.00812 and CI [-0.01061, -0.00566] within 1e-5 on the prototype set",
+    "C-P3": "mean R_pulse / R25 in [0.95, 1.05] for T_pulse in [23, 27] C",
+    "C-P2": "Ah share below 10 C within 0.005 of 0.0047",
+    "C-P5": "placebo, no tolerance"
+   },
+   "C-P7": {
+    "nDrives": 375,
+    "nDays": 89,
+    "coefficientOfA": -0.008124,
+    "ci95": [
+     -0.010614,
+     -0.005662
+    ],
+    "prototype": {
+     "slope": -0.00812,
+     "ci95": [
+      -0.01061,
+      -0.00566
+     ],
+     "n": 375,
+     "nDays": 89
+    },
+    "absDiffSlope": 4.3790357166402505e-06,
+    "absDiffCi": [
+     4.363159214610529e-06,
+     2.4593258691387593e-06
+    ],
+    "pass": true
+   },
+   "C-P3": {
+    "nPulses": 46,
+    "meanRatio25": 0.9550071697437934,
+    "r25Frozen": 111.97,
+    "pass": true
+   },
+   "C-P2": {
+    "estimate": 0.004525437708658771,
+    "prototypeSum": 0.004699999999999999,
+    "absDiff": 0.00017456229134122855,
+    "pass": true
+   },
+   "C-P5-placebo": {
+    "label": "placebo, no tolerance: 'winter' = October-November, 'autumn' = September of the frozen basis",
+    "result": {
+     "status": "not rejected",
+     "scheme": "per-draw recomputation of cell eligibility and weights (primary, spec 8.1)",
+     "statistic": -0.080472611153424,
+     "p025": -0.12492542239938871,
+     "p975": -0.03491092971628116,
+     "dln": -0.03820188688173244,
+     "dTc": 7.2544218919898515,
+     "boundPerC": 0.005826890812397583,
+     "nUndefinedDraws": 0,
+     "fixedCellVariant": {
+      "p025": -0.1222518592979866,
+      "p975": -0.035730416433384926,
+      "status": "not rejected",
+      "disagreesWithPrimary": false
+     },
+     "nWinter": 155,
+     "nAutumn": 178,
+     "nWinterDays": 26,
+     "nAutumnDays": 30,
+     "cells": 4,
+     "droppedShareOfWinterDrives": 0.07185628742514971,
+     "reading": "association (season, route and period move together), not a temperature effect; not rejected is not no increase"
+    }
+   },
+   "allCriteriaPassed": true,
+   "regressionVsRun1": {
+    "C-P7": true,
+    "C-P3": true,
+    "C-P2": true
+   },
+   "descriptive": {
+    "P7_cleanFilteredFrozenBasis": {
+     "nDrives": 374,
+     "nDays": 88,
+     "coolingSlopePointsPerC": 0.812496350533511,
+     "ci95": [
+      0.5639260515966965,
+      1.065354600952702
+     ],
+     "reading": "descriptive only, no tolerance; the frozen interval came from the unfiltered basis"
+    },
+    "P3_ownLevelSensitivity": {
+     "ownLevelMohm": 106.9321527962125,
+     "nPulsesAt25C": 46,
+     "mainWindow": {
+      "nDrives": 0,
+      "nDays": 0,
+      "estimate": null,
+      "ci95": null,
+      "ownLevelSensitivity": null,
+      "uncorrected": null
+     },
+     "sensitivityWindow": {
+      "nDrives": 0,
+      "nDays": 0,
+      "estimate": null,
+      "ci95": null,
+      "ownLevelSensitivity": null,
+      "uncorrected": null
+     },
+     "reading": "descriptive; the frozen basis holds few or no pulses in the cold windows (coldest pack probe 1.0 C)"
+    }
+   }
+  },
+  {
+   "label": "run 3 (Rev 3 scheme as worded: bootstrap on the full sets, eligibility and weights recomputed per draw; run 2 restricted the recomputation to the observed cells, an implementation slip)",
+   "masterBasisDrives": 665,
+   "criteria": {
+    "C-P7": "slope -0.00812 and CI [-0.01061, -0.00566] within 1e-5 on the prototype set",
+    "C-P3": "mean R_pulse / R25 in [0.95, 1.05] for T_pulse in [23, 27] C",
+    "C-P2": "Ah share below 10 C within 0.005 of 0.0047",
+    "C-P5": "placebo, no tolerance"
+   },
+   "C-P7": {
+    "nDrives": 375,
+    "nDays": 89,
+    "coefficientOfA": -0.008124,
+    "ci95": [
+     -0.010614,
+     -0.005662
+    ],
+    "prototype": {
+     "slope": -0.00812,
+     "ci95": [
+      -0.01061,
+      -0.00566
+     ],
+     "n": 375,
+     "nDays": 89
+    },
+    "absDiffSlope": 4.3790357166402505e-06,
+    "absDiffCi": [
+     4.363159214610529e-06,
+     2.4593258691387593e-06
+    ],
+    "pass": true
+   },
+   "C-P3": {
+    "nPulses": 46,
+    "meanRatio25": 0.9550071697437934,
+    "r25Frozen": 111.97,
+    "pass": true
+   },
+   "C-P2": {
+    "estimate": 0.004525437708658771,
+    "prototypeSum": 0.004699999999999999,
+    "absDiff": 0.00017456229134122855,
+    "pass": true
+   },
+   "C-P5-placebo": {
+    "label": "placebo, no tolerance: 'winter' = October-November, 'autumn' = September of the frozen basis",
+    "result": {
+     "status": "not rejected",
+     "scheme": "per-draw recomputation of cell eligibility and weights (primary, spec 8.1)",
+     "statistic": -0.080472611153424,
+     "p025": -0.1273279104871799,
+     "p975": -0.03555976711363663,
+     "dln": -0.03820188688173244,
+     "dTc": 7.2544218919898515,
+     "boundPerC": 0.005826890812397583,
+     "nUndefinedDraws": 0,
+     "fixedCellVariant": {
+      "p025": -0.1222518592979866,
+      "p975": -0.035730416433384926,
+      "status": "not rejected",
+      "disagreesWithPrimary": false
+     },
+     "nWinter": 155,
+     "nAutumn": 178,
+     "nWinterAll": 167,
+     "nAutumnAll": 181,
+     "nWinterDays": 26,
+     "nAutumnDays": 30,
+     "cells": 4,
+     "droppedShareOfWinterDrives": 0.07185628742514971,
+     "reading": "association (season, route and period move together), not a temperature effect; not rejected is not no increase"
+    }
+   },
+   "allCriteriaPassed": true,
+   "regressionVsRun1": {
+    "C-P7": true,
+    "C-P3": true,
+    "C-P2": true
+   },
+   "descriptive": {
+    "P7_cleanFilteredFrozenBasis": {
+     "nDrives": 374,
+     "nDays": 88,
+     "coolingSlopePointsPerC": 0.812496350533511,
+     "ci95": [
+      0.5639260515966965,
+      1.065354600952702
+     ],
+     "reading": "descriptive only, no tolerance; the frozen interval came from the unfiltered basis"
+    },
+    "P3_ownLevelSensitivity": {
+     "ownLevelMohm": 106.9321527962125,
+     "nPulsesAt25C": 46,
+     "mainWindow": {
+      "nDrives": 0,
+      "nDays": 0,
+      "estimate": null,
+      "ci95": null,
+      "ownLevelSensitivity": null,
+      "uncorrected": null
+     },
+     "sensitivityWindow": {
+      "nDrives": 0,
+      "nDays": 0,
+      "estimate": null,
+      "ci95": null,
+      "ownLevelSensitivity": null,
+      "uncorrected": null
+     },
+     "reading": "descriptive; the frozen basis holds few or no pulses in the cold windows (coldest pack probe 1.0 C)"
+    }
+   }
+  }
+ ]
+}
