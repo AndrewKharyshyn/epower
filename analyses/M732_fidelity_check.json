@@ -1,0 +1,133 @@
+{
+ "spec": "analyses/M732_spec.md",
+ "runs": [
+  {
+   "label": "run 1",
+   "unroundedSeasonal": {
+    "summer": [
+     6.655888708906306,
+     15.936413957163607
+    ],
+    "autumn": [
+     5.799778291749212,
+     15.54283323034408
+    ]
+   },
+   "roundedSeasonal": {
+    "summer": [
+     6.656,
+     15.936
+    ],
+    "autumn": [
+     5.8,
+     15.543
+    ]
+   },
+   "C-P1b-i": {
+    "maxAbsPredDiffVsVendored": 0.0,
+    "sameUseMask": true,
+    "counts": {
+     "eligible": 639,
+     "flaggedAmongEligible": 43,
+     "modelPairs": 596
+    },
+    "stored": {
+     "eligible": 639,
+     "flaggedAmongEligible": 43,
+     "modelPairs": 596
+    },
+    "pass": true
+   },
+   "C-P1b-ii": {
+    "modelPairs": 596,
+    "biasNear15C": -0.2690281816640118,
+    "stored": -0.269,
+    "pass": true
+   },
+   "C-P1b-iii": {
+    "maxAbsPredDiffRoundedVsUnrounded": 0.0006774197585635022,
+    "meanBiasShiftC": -1.1098518235150384e-06
+   },
+   "C-P1b-iv": {
+    "n": 644,
+    "mae": 0.7300323413959177,
+    "bias": -0.052188175773821226,
+    "stored": {
+     "n": 644,
+     "mae": 0.73,
+     "bias": -0.052
+    },
+    "pass": true
+   },
+   "inputs": {
+    "restart_endpoints.csv": "a1e8d26ea674fc6db5173fcb0281a49d80653d40b236690cf5371972bd440a25",
+    "park_model.json": "3677301a392590757d5c66bb3acc7cc75596c641519d4d39cb7308a06de2ab18"
+   },
+   "allCriteriaPassed": true
+  },
+  {
+   "label": "run 2",
+   "unroundedSeasonal": {
+    "summer": [
+     6.655888708906306,
+     15.936413957163607
+    ],
+    "autumn": [
+     5.799778291749212,
+     15.54283323034408
+    ]
+   },
+   "roundedSeasonal": {
+    "summer": [
+     6.656,
+     15.936
+    ],
+    "autumn": [
+     5.8,
+     15.543
+    ]
+   },
+   "C-P1b-i": {
+    "maxAbsPredDiffVsVendored": 0.0,
+    "sameUseMask": true,
+    "counts": {
+     "eligible": 639,
+     "flaggedAmongEligible": 43,
+     "modelPairs": 596
+    },
+    "stored": {
+     "eligible": 639,
+     "flaggedAmongEligible": 43,
+     "modelPairs": 596
+    },
+    "pass": true
+   },
+   "C-P1b-ii": {
+    "modelPairs": 596,
+    "biasNear15C": -0.2690281816640118,
+    "stored": -0.269,
+    "pass": true
+   },
+   "C-P1b-iii": {
+    "maxAbsPredDiffRoundedVsUnrounded": 0.0006774197585635022,
+    "meanBiasShiftC": -1.1098518235150384e-06
+   },
+   "C-P1b-iv": {
+    "n": 644,
+    "mae": 0.7300323413959177,
+    "bias": -0.052188175773821226,
+    "stored": {
+     "n": 644,
+     "mae": 0.73,
+     "bias": -0.052
+    },
+    "pass": true
+   },
+   "inputs": {
+    "restart_endpoints.csv": "a1e8d26ea674fc6db5173fcb0281a49d80653d40b236690cf5371972bd440a25",
+    "park_model.json": "3677301a392590757d5c66bb3acc7cc75596c641519d4d39cb7308a06de2ab18"
+   },
+   "allCriteriaPassed": true
+  }
+ ]
+}

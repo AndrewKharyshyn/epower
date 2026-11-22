@@ -21,6 +21,9 @@ PROTECTED = [
     r"(^|/)tools/(winter_p6|winter_p2_band|winter_p2_band_run)\.py$",   # M731: the frozen P6 extractor and the realised-band tool and runner
     r"(^|/)analyses/M736_extractor_registry\.json$",     # M736: the extractor registry (version 4)
     r"(^|/)tools/winter_p2_v4\.py$",                     # M736: the frozen P2 v4 handling (path-carry bound, offset-adjusted sensitivity)
+    r"(^|/)analyses/M732_extractor_registry\.json$",      # M732: the extractor registry (version 5)
+    r"(^|/)tools/winter_p1\.py$",                         # M732: the frozen P1 extractor
+    r"(^|/)analyses/M732_(fidelity|replay)_check\.json$",  # M732: the frozen-basis checks
 ]
 
 def main():

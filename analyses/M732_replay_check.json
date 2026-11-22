@@ -1,0 +1,342 @@
+{
+ "milestone": "M732",
+ "window": "replay of the frozen basis, months 10 and 11, drives from 2026-10-01 (NOT a winter observation)",
+ "nSidecarRows": 174,
+ "result": {
+  "prediction": "P1",
+  "status": "inconclusive",
+  "months": [
+   10,
+   11
+  ],
+  "cells": {
+   "A_freeRun": {
+    "cell": "A_freeRun",
+    "status": "within",
+    "maeStatus": "within",
+    "biasStatus": "within",
+    "tolerance": {
+     "maeC": 3.0,
+     "absBiasC": 2.0
+    },
+    "bias": -1.086634320139253,
+    "biasCi": [
+     -1.983029646910226,
+     -0.26923635923575545
+    ],
+    "mae": 1.9526698546459957,
+    "maeCi": [
+     1.4042122882742285,
+     2.5663921657826427
+    ],
+    "n": 173,
+    "nDays": 26,
+    "blockBootstrap7d": {
+     "biasCi": [
+      -1.671234626826534,
+      -0.6677395019638553
+     ],
+     "maeCi": [
+      1.63533137761016,
+      2.2216575476549
+     ],
+     "nBlocks": 5
+    },
+    "blockReading": {
+     "mae": "within",
+     "bias": "within"
+    }
+   },
+   "B1_gap12h": {
+    "cell": "B1_gap12h",
+    "status": "inconclusive",
+    "tolerance": {
+     "absBiasC": 1.0
+    },
+    "bias": -0.507701785281097,
+    "biasCi": [
+     -1.6164410864810541,
+     0.6175770121481587
+    ],
+    "mae": 1.8382440743019512,
+    "maeCi": [
+     1.272764645166801,
+     2.380392382208127
+    ],
+    "n": 13,
+    "nDays": 13
+   },
+   "B2_10C": {
+    "cell": "B2_10C",
+    "status": "inconclusive",
+    "tolerance": {
+     "absBiasC": 0.5
+    },
+    "bias": -0.2214753964877641,
+    "biasCi": [
+     -0.6293970229885174,
+     0.20348346720778612
+    ],
+    "mae": 0.7331251302805386,
+    "maeCi": [
+     0.47894665785732626,
+     1.106897783956971
+    ],
+    "n": 31,
+    "nDays": 14
+   },
+   "B3_15C": {
+    "cell": "B3_15C",
+    "status": "inconclusive",
+    "tolerance": {
+     "absBiasC": 0.5
+    },
+    "bias": -0.4564955098603693,
+    "biasCi": [
+     -0.8664257991877652,
+     -0.0734153522535299
+    ],
+    "mae": 0.8759829261220161,
+    "maeCi": [
+     0.6085017534131337,
+     1.2184633961812712
+    ],
+    "n": 52,
+    "nDays": 22
+   }
+  },
+  "cellsOutside": [],
+  "reanchors": {
+   "first": 1,
+   "nonFinite": 0,
+   "overlapOrDup": 0,
+   "missingAmbient": 0,
+   "missingDrive": 0,
+   "segmented": 0,
+   "propagatedThroughFlaggedJoins": 13,
+   "propagatedThroughOdoStepJoins": 1,
+   "propagatedThroughLongGapJoins": 1
+  },
+  "droppedSidecarRows": 0,
+  "notScored": {
+   "anchored": 1,
+   "noLoggedStart": 0,
+   "lowCurrentCoverage": 0,
+   "noCurrentCoverageValue": 0,
+   "scoredWithLowCoveragePredecessor": 0
+  },
+  "nDrivesInChain": 174,
+  "nPairsEligibleNotFlagged": 158,
+  "ambientSnapshotSha256": "44df5b7a9d94e619879bce2bf5e9862cf10e8ed2a7716676fd42d324d43a5af6",
+  "disclosure": [
+   "the logged start is the mean of the pack-probe readings at the first sample, not a measurement of the cell",
+   "restart ambient is a heat-soaked vehicle-sensor reading (an input)",
+   "winter amplitude 0.7 x autumn is an assumption, not a fit",
+   "parameters were fitted on May-Nov: winter is out-of-time, not a clean hold-out",
+   "the chain carries error across days and across month boundaries (December errors carry a propagated November state; the next-drive ambient uses its own month amplitude at Nov/Dec and Feb/Mar)",
+   "model-derived, propagated start-temperature error",
+   "cold outputs stay NOT SUPPORTED"
+  ],
+  "sensitivities": {
+   "flagSegmentedChain": {
+    "cell": "A_seg",
+    "status": "within",
+    "maeStatus": "within",
+    "biasStatus": "within",
+    "tolerance": {
+     "maeC": 3.0,
+     "absBiasC": 2.0
+    },
+    "bias": -0.1132229273862343,
+    "biasCi": [
+     -0.6579051507151674,
+     0.39528272848394846
+    ],
+    "mae": 1.2251337873377315,
+    "maeCi": [
+     0.9968383687304453,
+     1.4698917238195626
+    ],
+    "n": 158,
+    "nDays": 26,
+    "blockBootstrap7d": {
+     "biasCi": [
+      -0.25902391665053,
+      -0.027271071899845865
+     ],
+     "maeCi": [
+      1.0062033684205405,
+      1.3557324536453352
+     ],
+     "nBlocks": 5
+    },
+    "blockReading": {
+     "mae": "within",
+     "bias": "within"
+    },
+    "reanchors": {
+     "first": 1,
+     "nonFinite": 0,
+     "overlapOrDup": 0,
+     "missingAmbient": 0,
+     "missingDrive": 0,
+     "segmented": 15,
+     "propagatedThroughFlaggedJoins": 0,
+     "propagatedThroughOdoStepJoins": 0,
+     "propagatedThroughLongGapJoins": 0
+    }
+   },
+   "noWinterAmplitudeReduction": {
+    "cell": "A_amp1",
+    "status": "within",
+    "maeStatus": "within",
+    "biasStatus": "within",
+    "tolerance": {
+     "maeC": 3.0,
+     "absBiasC": 2.0
+    },
+    "bias": -1.086634320139253,
+    "biasCi": [
+     -1.983029646910226,
+     -0.26923635923575545
+    ],
+    "mae": 1.9526698546459957,
+    "maeCi": [
+     1.4042122882742285,
+     2.5663921657826427
+    ],
+    "n": 173,
+    "nDays": 26,
+    "blockBootstrap7d": {
+     "biasCi": [
+      -1.671234626826534,
+      -0.6677395019638553
+     ],
+     "maeCi": [
+      1.63533137761016,
+      2.2216575476549
+     ],
+     "nBlocks": 5
+    },
+    "blockReading": {
+     "mae": "within",
+     "bias": "within"
+    }
+   },
+   "B2_10C_pm2": {
+    "cell": "B2_10C_pm2",
+    "status": "inconclusive",
+    "tolerance": {
+     "absBiasC": 0.5
+    },
+    "bias": 0.09716017175410367,
+    "biasCi": [
+     -0.3747649316987285,
+     0.6832983522358413
+    ],
+    "mae": 0.7557955414164079,
+    "maeCi": [
+     0.44939773544749567,
+     1.2082953908724032
+    ],
+    "n": 18,
+    "nDays": 12
+   },
+   "B3_15C_pm2": {
+    "cell": "B3_15C_pm2",
+    "status": "inconclusive",
+    "tolerance": {
+     "absBiasC": 0.5
+    },
+    "bias": -0.4612585149536849,
+    "biasCi": [
+     -0.9670641092125066,
+     0.045605331569254316
+    ],
+    "mae": 1.0117355960238437,
+    "maeCi": [
+     0.6903194293840387,
+     1.4265791697370804
+    ],
+    "n": 38,
+    "nDays": 20
+   },
+   "B2_10C_selectedOnPredicted": {
+    "cell": "B2_10C_selectedOnPredicted",
+    "status": "outside",
+    "tolerance": {
+     "absBiasC": 0.5
+    },
+    "bias": -0.5545389371278976,
+    "biasCi": [
+     -1.0917370759908316,
+     -0.12262822966340822
+    ],
+    "mae": 0.9427965028636309,
+    "maeCi": [
+     0.6053981154433524,
+     1.399430366270551
+    ],
+    "n": 33,
+    "nDays": 16
+   },
+   "B3_15C_selectedOnPredicted": {
+    "cell": "B3_15C_selectedOnPredicted",
+    "status": "inconclusive",
+    "tolerance": {
+     "absBiasC": 0.5
+    },
+    "bias": -0.2882812796361048,
+    "biasCi": [
+     -0.7882472219914524,
+     0.1513018207020227
+    ],
+    "mae": 0.8220796384292742,
+    "maeCi": [
+     0.5152480556705719,
+     1.2082021945501598
+    ],
+    "n": 46,
+    "nDays": 20
+   }
+  },
+  "novemberBeside": {
+   "A_freeRun": {
+    "cell": "A_nov",
+    "status": "inconclusive",
+    "maeStatus": "inconclusive",
+    "biasStatus": "inconclusive",
+    "tolerance": {
+     "maeC": 3.0,
+     "absBiasC": 2.0
+    },
+    "bias": -1.5419889029520217,
+    "biasCi": [
+     -3.237805985639119,
+     -0.1700321369635914
+    ],
+    "mae": 2.2277451379883177,
+    "maeCi": [
+     1.2055624843514774,
+     3.5508404442398778
+    ],
+    "n": 59,
+    "nDays": 9,
+    "blockBootstrap7d": {
+     "biasCi": [
+      -1.8837858289765628,
+      -0.5393845866133672
+     ],
+     "maeCi": [
+      1.6471889227939582,
+      2.425662029531849
+     ],
+     "nBlocks": 2
+    },
+    "blockReading": {
+     "status": "not evaluable (fewer than 5 blocks)"
+    }
+   }
+  }
+ }
+}
