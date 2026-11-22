@@ -1,0 +1,178 @@
+{
+ "milestone": "M736",
+ "stage": "G0",
+ "spec": "analyses/M736_spec.md Rev 2",
+ "role": "auxiliary",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "pinnedMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "external_inputs_used": [],
+ "privacy": "aggregates only; no coordinates or tracks",
+ "cloud_positions_screened": 40295,
+ "cloud_sample_interval_s_median": 30.0,
+ "obd_files_with_position": 627,
+ "obd_files_with_altitude": 53,
+ "obd_altitude_samples": 24850,
+ "obd_track_screen": {
+  "rule": "GPS path length / integral of OBD speed in [0.80, 1.25] per drive, per 60 s window for position agreement and per segment for grade (frozen or jumping logged GPS fails)",
+  "drives_passing": 400,
+  "drives_failing_or_untestable": 227
+ },
+ "P1_position_agreement": {
+  "shift_-16s": {
+   "below30": {
+    "n_fixes": 2271,
+    "n_drives": 340,
+    "n_days": 94,
+    "median_m": 151.18608740112742,
+    "p90_m": 247.1622927054809,
+    "share_within_150m": 0.496257155438133,
+    "median_ci95_m": [
+     145.8889566224198,
+     156.58248527193456
+    ]
+   },
+   "30to80": {
+    "n_fixes": 2470,
+    "n_drives": 312,
+    "n_days": 93,
+    "median_m": 340.6313358027339,
+    "p90_m": 564.8503484825425,
+    "share_within_150m": 0.004858299595141701,
+    "median_ci95_m": [
+     317.68148402936635,
+     363.54392067646245
+    ]
+   },
+   "above80": {
+    "n_fixes": 383,
+    "n_drives": 41,
+    "n_days": 33,
+    "median_m": 801.0644239866001,
+    "p90_m": 1081.361162723292,
+    "share_within_150m": 0.0,
+    "median_ci95_m": [
+     778.1383332837979,
+     894.8443900827974
+    ]
+   }
+  },
+  "shift_+0s": {
+   "below30": {
+    "n_fixes": 2252,
+    "n_drives": 341,
+    "n_days": 94,
+    "median_m": 75.11696699695808,
+    "p90_m": 148.09984316878462,
+    "share_within_150m": 0.9027531083481349,
+    "median_ci95_m": [
+     70.64218054439556,
+     79.70507165047299
+    ]
+   },
+   "30to80": {
+    "n_fixes": 2495,
+    "n_drives": 317,
+    "n_days": 93,
+    "median_m": 169.34505868158737,
+    "p90_m": 291.0806590143891,
+    "share_within_150m": 0.3935871743486974,
+    "median_ci95_m": [
+     157.90190039535852,
+     181.20487100248897
+    ]
+   },
+   "above80": {
+    "n_fixes": 385,
+    "n_drives": 41,
+    "n_days": 33,
+    "median_m": 355.9953398521477,
+    "p90_m": 605.1031759932602,
+    "share_within_150m": 0.0,
+    "median_ci95_m": [
+     328.61058018341276,
+     453.03741750526075
+    ]
+   }
+  },
+  "shift_+16s": {
+   "below30": {
+    "n_fixes": 2283,
+    "n_drives": 346,
+    "n_days": 94,
+    "median_m": 17.82487995770844,
+    "p90_m": 52.892040136151266,
+    "share_within_150m": 0.9894875164257556,
+    "median_ci95_m": [
+     15.873543545755489,
+     19.850427393571863
+    ]
+   },
+   "30to80": {
+    "n_fixes": 2442,
+    "n_drives": 316,
+    "n_days": 93,
+    "median_m": 33.57990257075923,
+    "p90_m": 93.63185692683282,
+    "share_within_150m": 0.9717444717444718,
+    "median_ci95_m": [
+     26.650301489333234,
+     40.80518206317192
+    ]
+   },
+   "above80": {
+    "n_fixes": 385,
+    "n_drives": 41,
+    "n_days": 33,
+    "median_m": 114.14695038567135,
+    "p90_m": 165.27068149741308,
+    "share_within_150m": 0.8077922077922078,
+    "median_ci95_m": [
+     63.083943847705015,
+     125.79084930732236
+    ]
+   }
+  }
+ },
+ "cloud_track_geometry": {
+  "below30": {
+   "n_steps": 6547,
+   "spacing_m_median": 72.14854968580046,
+   "spacing_m_p90": 287.5287579772219
+  },
+  "30to80": {
+   "n_steps": 4812,
+   "spacing_m_median": 407.7292197171943,
+   "spacing_m_p90": 665.1666822928922
+  },
+  "above80": {
+   "n_steps": 3009,
+   "spacing_m_median": 873.2893612684894,
+   "spacing_m_p90": 980.641812619755
+  }
+ },
+ "P2_validation_support": {
+  "qualifying_segments_all": 510,
+  "qualifying_segments_with_cloud_track": 507,
+  "drives": 20,
+  "days": 8,
+  "total_km": 241.7933174016422,
+  "unique_km_approx_100m_cells": 290.2,
+  "grade_sd_pp": 1.8809515537703094,
+  "class_shares_below-2_flat_above2": [
+   0.08875739644970414,
+   0.796844181459566,
+   0.11439842209072978
+  ],
+  "repeat_traversal_pairs": 67,
+  "reference_noise_floor_pp_L500": 0.3857715751644611,
+  "reverse_movement_screen": "not available (no gear channel, speed unsigned); not applied at G0",
+  "note": "OBD altitude is sparse: files with altitude carry few altitude samples, so qualifying 500 m segments are counted, not assumed"
+ },
+ "G0_gate": {
+  "proceed_to_downloads": false,
+  "reasons": [
+   "days 8 < 30"
+  ],
+  "outcome": "not testable at G0: milestone ends, no download requested"
+ }
+}
