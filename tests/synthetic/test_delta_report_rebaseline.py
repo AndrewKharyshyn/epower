@@ -15,9 +15,9 @@ def kp(v, hw):
 
 def setup(td, hist, cur, extra_args):
     os.makedirs(os.path.join(td, "tools")); os.makedirs(os.path.join(td, "snapshots"))
-    json.dump(SPECS, open(os.path.join(td, "tools", "kpi_paths.json"), "w"))
+    json.dump(SPECS, open(os.path.join(td, "tools", "kpi_paths.json"), "w", encoding="utf-8"))
     json.dump({"a": {"v": cur["A"][0], "lo": cur["A"][0] - cur["A"][1], "hi": cur["A"][0] + cur["A"][1]},
-               "b": {"v": cur["B"][0], "lo": cur["B"][0] - cur["B"][1], "hi": cur["B"][0] + cur["B"][1]}}, open(os.path.join(td, "summary_arrays.json"), "w"))
+               "b": {"v": cur["B"][0], "lo": cur["B"][0] - cur["B"][1], "hi": cur["B"][0] + cur["B"][1]}}, open(os.path.join(td, "summary_arrays.json"), "w", encoding="utf-8"))
     with open(os.path.join(td, "snapshots", "kpis.jsonl"), "w", encoding="utf-8", newline="") as f:
         for i, h in enumerate(hist):
             rec = {"utc": "2026-01-0%dT00:00:00+00:00" % (i + 1), "kpis": h["kpis"]}
@@ -33,7 +33,7 @@ def run(td, args):
     try:
         with contextlib.redirect_stdout(buf):
             D.main()
-        return None, json.load(open(os.path.join(td, "delta_report.json")))
+        return None, json.load(open(os.path.join(td, "delta_report.json"), encoding="utf-8"))
     except SystemExit as e:
         return str(e), None
     finally:
