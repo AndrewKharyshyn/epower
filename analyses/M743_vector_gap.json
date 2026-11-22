@@ -1,0 +1,34 @@
+{
+ "milestone": "M743",
+ "role": "documentation of the M742 K5 gap (logged vectors 641 tool vs 636 auditor); no tool, threshold or figure change",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "diff": {
+  "tool_only_drives": 5,
+  "auditor_only_drives": 0,
+  "master_rows_k": [
+   344,
+   361,
+   457,
+   504,
+   616
+  ],
+  "ref_km": [
+   1.5,
+   2.5,
+   3.3,
+   2.0,
+   4.0
+  ],
+  "tool_cloud_km": [
+   2.19,
+   5.02,
+   5.82,
+   2.35,
+   6.6
+  ]
+ },
+ "reading": "all five are short drives (1.5 to 4.0 km, ens_outlier_v2 false) whose tool cloud distance is 1.2 to 2.0 times the OBD distance: a movement unit spanning two nearby drives is assigned to the drive with the larger overlap with the UNPADDED window in the tool, while the auditor's rule did not assign it to these drives; the spec Rev 2.1 'one matched unit assigned to one drive (max overlap)' does not say whether overlap is measured against the padded or the unpadded window",
+ "effect": "auditor's 636-drive set gives distance median relative error 0.0215 and aggregate bias -0.064 against the tool's 0.0217 and -0.0628, and every U2 estimate differs by at most 0.003: the tie rule is immaterial at the reported precision",
+ "cause_status": "identified at the level of the five drives and the unspecified overlap reference; the auditor's exact tie-break was not inspected (blind)",
+ "language": "descriptive; reference, not a truth"
+}
