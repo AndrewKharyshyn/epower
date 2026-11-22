@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import winter_score as WS
 
 F_ = json.load(open(os.path.join(ROOT, "analyses", "M717_winter_predictions.json"), encoding="utf-8"))
-assert WS.REGISTRY == "analyses/M731_extractor_registry.json"
+assert WS.REGISTRY == "analyses/M736_extractor_registry.json"
 
 
 def frame(nd=24, nday=8, margin=-4.0, tmin=-3.0, ah_cold_share=0.1):
@@ -82,6 +82,9 @@ try:
     side = frame()[["key"] + [c for c in frame().columns if c.startswith("p6_")]]
     assert {c["prediction"]: c for c in WS.score_all(g, F_, nb=50, p6_sidecar_fn=lambda w: side)}["P6"]["status"] == "fitted"
     assert {c["prediction"]: c for c in WS.score_all(g, F_, nb=50)}["P6"]["status"] == "not evaluable"
+    # M736: the v4 hook replaces the status and keeps the v3 status beside
+    p2d = {c["prediction"]: c for c in WS.score_all(frame(), F_, nb=100, realised_band_fn=lambda w: band2, p2_v4_fn=lambda w, ev, ep: {"status": "not established (ambient-scale sensitive)", "call": None})}["P2"]
+    assert p2d["status"] == "not established (ambient-scale sensitive)" and p2d["v3Status"] == "within the band" and "registry v4" in p2d["scoredAgainst"]
 finally:
     WS.extractors_frozen, WS.p6_tol = _orig, _tol
 print("OK test_winter_score_v4")

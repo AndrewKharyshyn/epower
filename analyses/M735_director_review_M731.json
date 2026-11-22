@@ -1,0 +1,25 @@
+{
+ "milestone": "M735",
+ "reviewer": "research-director",
+ "subject": "freeze review of M731 (Rev 2.1/2.2 changes) and of the M735 follow-up checks",
+ "needs_andrii_signoff": false,
+ "freezeReview": {
+  "decision": "accept with disclosure",
+  "rulings": [
+   "tolEffC floor: accept with disclosure (set before any scoring read; restores the literal rule margin>0; tolerance not calibrated, reference n=15 drives on 10 days, none below 0 C)",
+   "null-day window match: accept with disclosure, conditional on a partial-window known answer and a blind check of the runner",
+   "driver-read shift: accept with disclosure; do not redefine it, bracket it"
+  ]
+ },
+ "followUpRuling": {
+  "C-P2e": "FAILED against the pre-set 1e-9 criterion (never relaxed after the fact): total Ah additive to 5e-15, Ah below 10 C differs by up to 0.75 % relative (400 draws) from the park-state carry across null days",
+  "windowBandUsable": "usable with the bias disclosed: score P2 with the band shrunk and widened by the bound measured at 4000 draws; if the inside/outside call flips between the two, P2 = not evaluable (path-carry); do not fix the carry inside registry v3",
+  "ambientScale": "driver-read ambient is 1.4-4.0 C warmer than the engine reconstructed ambient (May-Nov frozen basis; Dec-Feb unobserved), so the v3 shift is probably biased warm; keep the v3 primary byte-identical; a later registry v4, frozen before any winter read, adds the offset-adjusted sensitivity with offsets {0, 1.37, 3.98} C; a verdict only if primary and sensitivity agree, otherwise 'not established (ambient-scale sensitive)'; a diagnostic on winter drives reports the Dec-Feb offset at scoring but does not decide",
+  "beforeLook": "C-P2e at 4000 draws; spec Rev 2.3 records the 4.2/4.5 conflict (4.2 engine Abar, 4.5 driver A_day; v3 froze 4.5); v4 known-answer test with a planted offset plus blind audit; v4 sha256 in the CHANGELOG; Director check"
+ },
+ "language": [
+  "model-derived band",
+  "path-carry artefact of bounded size",
+  "offset-adjusted sensitivity, never 'corrected shift'"
+ ]
+}

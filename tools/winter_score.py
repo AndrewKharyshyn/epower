@@ -60,7 +60,7 @@ def refuse_live(path):
     return path
 
 
-REGISTRY = "analyses/M731_extractor_registry.json"          # v3 (M731, scoring module v4); the M726 / M727 / M728 registries are superseded, kept as history
+REGISTRY = "analyses/M736_extractor_registry.json"          # v4 (M736, scoring module v5); the M726 / M727 / M728 / M731 registries are superseded, kept as history
 
 
 def extractors_frozen(pid=None, changelog_text=None):
@@ -124,7 +124,7 @@ def p6_tol():
     return None if not runs else float(runs[-1]["C-P6c"]["tolC"])
 
 
-def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=4000, realised_band_fn=None, p6_sidecar_fn=None):
+def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=4000, realised_band_fn=None, p6_sidecar_fn=None, p2_v4_fn=None):
     """M727 / M731: scores the predictions covered by the extractor registry on the scoring set of the frame (clean drives that start after F + 1 h; autumn comparison = clean Sep-Nov drives before F - 1 h). Reads the frozen predictions and the frozen
     parameters from the freeze file only. Cells below the support rule, or not covered by the registry, are 'not evaluable' and carry no number."""
     import winter_exposure_monitor as WM
@@ -155,6 +155,12 @@ def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=400
                     cell["frozenBandStatus"] = cell["status"]
                     cell["status"] = r_["status"]
                     cell["scoredAgainst"] = "the realised-ambient window-matched band (model-derived, S2 with realised shifts); the frozen annual band is beside it"
+                if p2_v4_fn is not None and rb.get("status") == "ok":
+                    v4 = p2_v4_fn(winter, lambda band: evaluate_cell(pid, e["nDrives"], e["nDays"], e["estimate"], e["ci95"], band, rule="ci")["status"], rb["windowMatched"])
+                    cell["v4"] = v4
+                    cell["v3Status"] = cell["status"]
+                    cell["status"] = v4["status"]
+                    cell["scoredAgainst"] += "; registry v4: path-carry bound and offset-adjusted sensitivity applied (M736)"
             out.append(cell)
         elif pid == "P3":
             e = WE.extract_p3(winter, freeze["params"]["R_T"]["EaR_kJmol"], freeze["params"]["R_T"]["R25_mohm"], nb=nb)
@@ -217,12 +223,13 @@ def main(argv=None):
     import winter_extractors as WE
     import winter_p2_band as WB2
     import winter_p6 as W6
+    import winter_p2_v4 as W4
     raw_dir = os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw")
     cols = ["key"] + [c for c in W6.COLUMNS["P6"] if c != "day"]
 
     def sidecar(w):
         return W6.build_sidecar(raw_dir, keys=set(w["key"]), out=None)[cols]
-    out = score_all(WE.load_frame(ROOT), freeze, realised_band_fn=WB2.realised_band, p6_sidecar_fn=sidecar)
+    out = score_all(WE.load_frame(ROOT), freeze, realised_band_fn=WB2.realised_band, p6_sidecar_fn=sidecar, p2_v4_fn=lambda w, ev, ep: W4.p2_v4(w, W4.band_fn_engine, ev, expected_primary=ep))
     print(json.dumps({"freezeSha256": sha(FREEZE), "cells": out}))
     return 0
 
