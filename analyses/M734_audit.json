@@ -1,0 +1,9 @@
+{"milestone": "M734",
+ "auditor": "analytical-auditor (blind: claim and data paths only; tool, tests and result JSON not read)",
+ "spec": "analyses/M734_spec.md Rev 2, clarified by section 9 (Rev 2.1)",
+ "round1": {"C1": {"reproduced": true, "note": "506 drives, 133 days, median 0.0, median abs 0.2100, P90 1.72, 12 class switches; reproduced only with samples to the padded end and the 70 % denominator at the unpadded end (spec text was silent)"},
+            "C2": {"reproduced": true, "matched_slope": 0.5605, "screened_slope": 0.58012, "ci95_diff": [0.00306, 0.03819]},
+            "C3": {"reproduced": false, "auditor_gaps": 349, "auditor_days": 115, "auditor_diff": -0.0536, "auditor_ci95": [-0.0998, -0.0174], "note": "gap set depended on two undefined rules (endpoint window reference, inclusion rule); same sign and size, no variant reached 321 gaps"},
+            "verdict": "revise"},
+ "round2_after_rev2_1": {"C3": {"reproduced": true, "gaps": 321, "days": 113, "mae_manual": 0.7830, "mae_screened": 0.7234, "diff": -0.0596, "ci95": [-0.1087, -0.0194]}, "verdict": "accept; C1, C2 and C3 reproduce once Rev 2.1 pins the rules"},
+ "disclosure": "Rev 2.1 was written after the first run and the first audit round; it records the rules the code already used and changes no threshold, estimand or decision rule"}

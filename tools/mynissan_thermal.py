@@ -231,6 +231,9 @@ def t2_variant(d, scr, nb, label):
     assert list(c_ctrl.file) == list(c_scr.file)
     import n02_seasonal_fits as n02
     out = {"label": label, "published": {"nDrives": int(len(c_all)), "nDays": int(c_all.date.nunique())}, "subset": n02.support_block(c_ctrl) if len(c_ctrl) else None}
+    if len(c_ctrl):
+        out["subset_band_support"] = {nm: (n02.support_block(g) if len(g) else {"nDrives": 0, "status": "not shown"})
+                                      for nm, lo, hi in n02.BANDS for g in [c_ctrl[(c_ctrl.ambient_time_mean_c >= lo) & (c_ctrl.ambient_time_mean_c < hi)]]}
     if len(c_ctrl) < MIN_DRIVES or c_ctrl.date.nunique() < MIN_DAYS:
         out["status"] = "not evaluable"; return out, c_all, c_ctrl
     for kind in ("Q1", "Q2"):
@@ -326,6 +329,23 @@ def main(argv=None):
             scr["cut180_speed5"][f] = s5["mean"]
         rows.append(r)
     R = pd.DataFrame(rows)
+    clock = {}
+    for sh in (16.0, -16.0):
+        at2 = [t + sh for t in at]; st2 = [t + sh for t in st]
+        amb2 = [(t + sh, v) for t, v in amb]; spd2 = [(t + sh, v) for t, v in spd]
+        dif = []
+        for f, m in win.items():
+            if m["t0"] > F_EPOCH - 3600:
+                continue
+            lo, hi = m["t0"] - PAD, m["t1"] + PAD
+            m0b = movement_start(win_of(st2, spd2, lo, hi), 0.0)
+            sb = screened_mean(win_of(at2, amb2, lo, hi), m0b, m["t1"], 180.0, quantum)
+            base_v = R.loc[R.file == f, "screened180_c"].iloc[0]
+            if sb is not None and pd.notna(base_v):
+                dif.append(sb["mean"] - base_v)
+        dif = np.array(dif)
+        clock["%+.0f s" % sh] = {"n_drives": int(len(dif)), "median_diff_C": float(np.median(dif)) if len(dif) else None, "p90_abs_diff_C": float(np.percentile(np.abs(dif), 90)) if len(dif) else None,
+                                 "max_abs_diff_C": float(np.abs(dif).max()) if len(dif) else None}
     pr = R[R.group == "primary"]
     t1 = {"definition": "screened (180 s after sustained movement) minus manual ambient", "n_primary_drives": int(len(pr)), "n_post_F_drives": int((R.group == "post_F").sum()),
           "coverage": {"with_m0": int(pr.m0_found.sum()), **{"screened%d" % c: int(pr["screened%d_c" % c].notna().sum()) for c in CUTOFFS}, "screened180_speed5": int(pr.screened180_speed5_c.notna().sum()),
@@ -340,14 +360,20 @@ def main(argv=None):
                                        "median_abs": float(both["diff"].abs().median()), "p90_abs": float(both["diff"].abs().quantile(0.9)), "share_abs_gt_3C": float((both["diff"].abs() > 3).mean())}
         both["band"] = both.manual_c.map(band_of); both["band_scr"] = both.screened180_c.map(band_of)
         t1["cohort_switches"] = {"n": int((both.band != both.band_scr).sum()), "files": both[both.band != both.band_scr].file.tolist()}
+        def sup(n_, dates):
+            if n_ < MIN_DRIVES or len(set(dates)) < MIN_DAYS:
+                return "not evaluable", None
+            ess = n02.support(list(dates), np.ones(len(dates)))[1]
+            return ("exploratory (essDays < 10, no verdict wording)" if ess < 10 else "supported"), round(float(ess), 2)
         t1["by_band"] = {nm: ({"n_drives": int(len(g)), "n_days": int(g.date.nunique()), "median_diff": float(g["diff"].median()),
-                               "status": "not evaluable" if (len(g) < MIN_DRIVES or g.date.nunique() < MIN_DAYS) else "supported"}) for nm, g in both.groupby("band")}
+                               "status": sup(len(g), g.date.values)[0], "essDays": sup(len(g), g.date.values)[1]}) for nm, g in both.groupby("band")}
         t1["by_month"] = {m_: {"n_drives": int(len(g)), "median_diff": float(g["diff"].median())} for m_, g in both.groupby(both.date.str[:7])}
     bb = pr.dropna(subset=["manual_c", "baseline_c"])
     if len(bb):
         e = (bb.baseline_c - bb.manual_c)
         t1["baseline_vs_manual"] = {"n_drives": int(len(bb)), "median_abs": float(e.abs().median()), "p90_abs": float(e.abs().quantile(0.9)), "n_abs_gt_3C": int((e.abs() > 3).sum()),
                                     "R1_note": "handoff targets (565 logs, median 0.28 C, P90 2.23 C) are unverified known-answer targets; the 565-log subset cannot be identified here, so R1 for T1 is not testable; live-set values are shown for comparison only"}
+    t1["clock_offset_sensitivity"] = {"note": "cloud timestamps shifted by +-16 s (M730 estimate, not applied in the primary); screened mean minus the unshifted screened mean on the same drives", **clock}
     res["T1_ambient"] = t1
     res["gates"]["R1_T1"] = "not testable (565-log subset not identifiable); live values reported"
 
@@ -503,6 +529,17 @@ def main(argv=None):
         t3.update({"folds": len(blocks), "models": summ, "contrasts": contrasts, "split_conformal_coverage": cal, "month_blocked_secondary": mb,
                    "published_tau_in_sample_h": pub["Q3"]["primary"]["tauH"], "diurnal_params_cloud": {k: {"amp": v[0], "hpk": v[1]} for k, v in par.items()},
                    "F3_closed_form": "T(g) = A0 + b g - b/k + (T0 - A0 + b/k) exp(-k g), b = (A1 - A0)/g, k = 1/tau"})
+        e0m, e1m = (G.T0 - G.Am).values, (G.T1 - G.Am).values
+        predm = np.full(len(G), np.nan)
+        for blk in blocks:
+            te_ = G.date.isin(blk).values
+            if (~te_).sum() < 20 or te_.sum() == 0:
+                continue
+            tk = n02.l1_tau(e0m[~te_], e1m[~te_], g[~te_]); predm[te_] = G.Am.values[te_] + e0m[te_] * np.exp(-g[te_] / tk)
+        e_f1 = np.abs(predm - T1v)
+        t3["F1_manual_control"] = {"definition": "published n02 construction (temperature scale, n02.l1_tau, same folds) on the same gaps", "mae": float(np.nanmean(e_f1)),
+                                   "max_abs_difference_in_prediction_error_vs_F0": float(np.nanmax(np.abs(e_f1 - err["F0_manual_const"]))),
+                                   "reading": "identical to F0 by construction; the check compares two independent tau optimisers"}
         G["fold_err_F0"] = err["F0_manual_const"]; G["fold_err_F2"] = err["F2_cloud_const"]; G["fold_err_F3"] = err["F3_cloud_linear"]; G["fold_err_F4"] = err["F4_cloud_diurnal"]
         os.makedirs(a.out_dir, exist_ok=True)
         G[["prev", "next", "date", "gap_h", "T0", "T1", "Am", "A0c", "A1c", "Ac", "cls", "fold_err_F0", "fold_err_F2", "fold_err_F3", "fold_err_F4"]].round(4).to_csv(os.path.join(a.out_dir, "M734_park_gaps.csv"), index=False, lineterminator="\n")
@@ -542,7 +579,7 @@ def main(argv=None):
     nun = [x for x in audit if x["unexplained"]]
     t3["warm_rise_audit"] = {"n_cases": len(audit), "cases": audit, "n_unexplained": len(nun), "n_unexplained_days": len({x["date"] for x in nun}),
                              "second_state_milestone_triggered": bool(len(nun) >= 5 and len({x["date"] for x in nun}) >= 3),
-                             "note": "A2 is false by construction when the endpoint extractor accepted the first reading (within 60 s); A4 is None when no cloud speed sample lies in the gap; None counts as not-explained-by that criterion"}
+                             "regenerated": "the spec text names eight cases (handoff, 665-drive basis); the list is regenerated on the live corpus", "note": "A2 is false by construction when the endpoint extractor accepted the first reading (within 60 s); A4 is None when no cloud speed sample lies in the gap; None counts as not-explained-by that criterion"}
     res["T3_parked_forcing"] = t3
 
     # ---- T4 coolant

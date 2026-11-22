@@ -81,19 +81,22 @@
     "n_drives": 316,
     "n_days": 94,
     "median_diff": 0.0,
-    "status": "supported"
+    "status": "supported",
+    "essDays": 69.93
    },
    "5 to 15 C": {
     "n_drives": 146,
     "n_days": 58,
     "median_diff": 0.0,
-    "status": "supported"
+    "status": "supported",
+    "essDays": 45.55
    },
    "below 5 C": {
     "n_drives": 44,
     "n_days": 16,
     "median_diff": 0.0,
-    "status": "supported"
+    "status": "supported",
+    "essDays": 11.66
    }
   },
   "by_month": {
@@ -132,6 +135,21 @@
    "p90_abs": 2.082599999999999,
    "n_abs_gt_3C": 37,
    "R1_note": "handoff targets (565 logs, median 0.28 C, P90 2.23 C) are unverified known-answer targets; the 565-log subset cannot be identified here, so R1 for T1 is not testable; live-set values are shown for comparison only"
+  },
+  "clock_offset_sensitivity": {
+   "note": "cloud timestamps shifted by +-16 s (M730 estimate, not applied in the primary); screened mean minus the unshifted screened mean on the same drives",
+   "+16 s": {
+    "n_drives": 505,
+    "median_diff_C": 0.0,
+    "p90_abs_diff_C": 0.0004285714285714448,
+    "max_abs_diff_C": 0.08977777777777796
+   },
+   "-16 s": {
+    "n_drives": 502,
+    "median_diff_C": 0.0,
+    "p90_abs_diff_C": 0.0004437499999962349,
+    "max_abs_diff_C": 0.11699999999999999
+   }
   }
  },
  "T2_Q1_Q2": {
@@ -147,6 +165,29 @@
     "essDays": 35.58,
     "largestDayShare": 0.076,
     "status": "supported"
+   },
+   "subset_band_support": {
+    "below 5 C": {
+     "nDrives": 44,
+     "nDays": 16,
+     "essDays": 4.76,
+     "largestDayShare": 0.383,
+     "status": "exploratory"
+    },
+    "5 to 15 C": {
+     "nDrives": 142,
+     "nDays": 55,
+     "essDays": 15.26,
+     "largestDayShare": 0.195,
+     "status": "supported"
+    },
+    "15 C or warmer": {
+     "nDrives": 311,
+     "nDays": 93,
+     "essDays": 25.3,
+     "largestDayShare": 0.095,
+     "status": "supported"
+    }
    },
    "Q1": {
     "published_all_drives_estimate": -0.00326,
@@ -247,6 +288,29 @@
     "largestDayShare": 0.076,
     "status": "supported"
    },
+   "subset_band_support": {
+    "below 5 C": {
+     "nDrives": 49,
+     "nDays": 16,
+     "essDays": 4.89,
+     "largestDayShare": 0.377,
+     "status": "exploratory"
+    },
+    "5 to 15 C": {
+     "nDrives": 153,
+     "nDays": 55,
+     "essDays": 15.59,
+     "largestDayShare": 0.192,
+     "status": "supported"
+    },
+    "15 C or warmer": {
+     "nDrives": 336,
+     "nDays": 94,
+     "essDays": 25.59,
+     "largestDayShare": 0.094,
+     "status": "supported"
+    }
+   },
    "Q1": {
     "published_all_drives_estimate": -0.00326,
     "matched_control": {
@@ -315,6 +379,29 @@
     "essDays": 34.01,
     "largestDayShare": 0.079,
     "status": "supported"
+   },
+   "subset_band_support": {
+    "below 5 C": {
+     "nDrives": 35,
+     "nDays": 13,
+     "essDays": 4.46,
+     "largestDayShare": 0.397,
+     "status": "exploratory"
+    },
+    "5 to 15 C": {
+     "nDrives": 106,
+     "nDays": 50,
+     "essDays": 13.93,
+     "largestDayShare": 0.206,
+     "status": "supported"
+    },
+    "15 C or warmer": {
+     "nDrives": 247,
+     "nDays": 88,
+     "essDays": 24.39,
+     "largestDayShare": 0.097,
+     "status": "supported"
+    }
    },
    "Q1": {
     "published_all_drives_estimate": -0.00326,
@@ -385,6 +472,29 @@
     "largestDayShare": 0.077,
     "status": "supported"
    },
+   "subset_band_support": {
+    "below 5 C": {
+     "nDrives": 44,
+     "nDays": 16,
+     "essDays": 4.76,
+     "largestDayShare": 0.383,
+     "status": "exploratory"
+    },
+    "5 to 15 C": {
+     "nDrives": 139,
+     "nDays": 55,
+     "essDays": 15.18,
+     "largestDayShare": 0.195,
+     "status": "supported"
+    },
+    "15 C or warmer": {
+     "nDrives": 304,
+     "nDays": 93,
+     "essDays": 25.22,
+     "largestDayShare": 0.095,
+     "status": "supported"
+    }
+   },
    "Q1": {
     "published_all_drives_estimate": -0.00326,
     "matched_control": {
@@ -453,6 +563,29 @@
     "essDays": 35.57,
     "largestDayShare": 0.076,
     "status": "supported"
+   },
+   "subset_band_support": {
+    "below 5 C": {
+     "nDrives": 44,
+     "nDays": 16,
+     "essDays": 4.76,
+     "largestDayShare": 0.383,
+     "status": "exploratory"
+    },
+    "5 to 15 C": {
+     "nDrives": 142,
+     "nDays": 55,
+     "essDays": 15.26,
+     "largestDayShare": 0.195,
+     "status": "supported"
+    },
+    "15 C or warmer": {
+     "nDrives": 310,
+     "nDays": 93,
+     "essDays": 25.29,
+     "largestDayShare": 0.095,
+     "status": "supported"
+    }
    },
    "Q1": {
     "published_all_drives_estimate": -0.00326,
@@ -579,9 +712,9 @@
     ]
    },
    "F4_cloud_diurnal": {
-    "mae": 0.5946410149171776,
-    "median_abs_error": 0.356296591289464,
-    "p90_abs_error": 1.5319577415425663,
+    "mae": 0.59464100996959,
+    "median_abs_error": 0.35629659436727934,
+    "p90_abs_error": 1.5319578116826378,
     "n_gaps": 321,
     "n_days": 113,
     "tau_per_fold_h": [
@@ -634,10 +767,10 @@
     "verdict": "descriptive"
    },
    "F4_cloud_diurnal_minus_F0": {
-    "mean_abs_error_difference": -0.1883772664008474,
+    "mean_abs_error_difference": -0.18837727134843502,
     "ci95_day_bootstrap": [
-     -0.28836062464775114,
-     -0.09288482724304464
+     -0.2883606328290881,
+     -0.0928848324885691
     ],
     "interval_excludes_zero": true,
     "verdict": "descriptive"
@@ -890,15 +1023,21 @@
   "published_tau_in_sample_h": 7.873,
   "diurnal_params_cloud": {
    "autumn": {
-    "amp": 5.757710930602266,
+    "amp": 5.757710930602265,
     "hpk": 15.291779662120533
    },
    "summer": {
-    "amp": 7.000804219828679,
-    "hpk": 16.249790818312025
+    "amp": 7.000804219828681,
+    "hpk": 16.24979081831203
    }
   },
   "F3_closed_form": "T(g) = A0 + b g - b/k + (T0 - A0 + b/k) exp(-k g), b = (A1 - A0)/g, k = 1/tau",
+  "F1_manual_control": {
+   "definition": "published n02 construction (temperature scale, n02.l1_tau, same folds) on the same gaps",
+   "mae": 0.783018281318025,
+   "max_abs_difference_in_prediction_error_vs_F0": 0.0,
+   "reading": "identical to F0 by construction; the check compares two independent tau optimisers"
+  },
   "F0_manual_full_primary_base": {
    "n_gaps": 665,
    "median_abs_error_C": 0.3805855501525923,
@@ -1092,6 +1231,7 @@
    "n_unexplained": 3,
    "n_unexplained_days": 3,
    "second_state_milestone_triggered": false,
+   "regenerated": "the spec text names eight cases (handoff, 665-drive basis); the list is regenerated on the live corpus",
    "note": "A2 is false by construction when the endpoint extractor accepted the first reading (within 60 s); A4 is None when no cloud speed sample lies in the gap; None counts as not-explained-by that criterion"
   }
  },
