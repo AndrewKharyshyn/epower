@@ -1,0 +1,416 @@
+{
+ "spec": "analyses/M745_spec.md Rev 2",
+ "commits": {
+  "S0": "55ba671",
+  "S1": "6d8f399"
+ },
+ "G0": {
+  "S0": {
+   "pass": true,
+   "recomputed": {
+    "value": 26.928784895576964,
+    "n": 104,
+    "pairedKm": 568.84
+   },
+   "published": {
+    "value": 26.928784895576964,
+    "n": 104,
+    "pairedKm": 568.84
+   },
+   "valueOk": true,
+   "nOk": true,
+   "kmOk": true,
+   "snapshotOk": true,
+   "snapshotValue": 26.928784895576964
+  },
+  "S1": {
+   "pass": true,
+   "recomputed": {
+    "value": 19.518785068304776,
+    "n": 177,
+    "pairedKm": 1992.54
+   },
+   "published": {
+    "value": 19.518785068304773,
+    "n": 177,
+    "pairedKm": 1992.54
+   },
+   "valueOk": true,
+   "nOk": true,
+   "kmOk": true,
+   "snapshotOk": true,
+   "snapshotValue": 19.518785068304773
+  }
+ },
+ "parsedBooleans": {
+  "S0": {
+   "ens_invalid": {
+    "": 12,
+    "True": 2,
+    "False": 510
+   },
+   "ens_outlier_v2": {
+    "": 12,
+    "True": 2,
+    "False": 510
+   }
+  },
+  "S1": {
+   "ens_invalid": {
+    "": 12,
+    "True": 2,
+    "False": 607
+   },
+   "ens_outlier_v2": {
+    "": 12,
+    "True": 2,
+    "False": 607
+   }
+  }
+ },
+ "commitWalk": {
+  "note": "point values only, no intervals, no reading (spec C7)",
+  "rows": [
+   {
+    "label": "M378 snapshot 2",
+    "commit": "55ba671",
+    "recomputed": {
+     "value": 26.928784895576964,
+     "n": 104,
+     "pairedKm": 568.84
+    },
+    "published": {
+     "value": 26.928784895576964,
+     "n": 104,
+     "pairedKm": 568.84
+    },
+    "reproduces": true,
+    "nDrivesInMaster": 524
+   },
+   {
+    "label": "M388",
+    "commit": "533000e",
+    "recomputed": {
+     "value": 26.900051692157998,
+     "n": 118,
+     "pairedKm": 657.74
+    },
+    "published": {
+     "value": 26.900051692157998,
+     "n": 118,
+     "pairedKm": 657.74
+    },
+    "reproduces": true,
+    "nDrivesInMaster": 554
+   },
+   {
+    "label": "M426",
+    "commit": "32e8aaf",
+    "recomputed": {
+     "value": 23.94790334186121,
+     "n": 136,
+     "pairedKm": 1000.64
+    },
+    "published": {
+     "value": 23.94790334186121,
+     "n": 136,
+     "pairedKm": 1000.64
+    },
+    "reproduces": true,
+    "nDrivesInMaster": 578
+   },
+   {
+    "label": "M463",
+    "commit": "3eb3f3c",
+    "recomputed": {
+     "value": 19.254713281806268,
+     "n": 162,
+     "pairedKm": 1938.14
+    },
+    "published": {
+     "value": 19.254713281806275,
+     "n": 162,
+     "pairedKm": 1938.14
+    },
+    "reproduces": true,
+    "nDrivesInMaster": 606
+   },
+   {
+    "label": "M575 snapshot 3",
+    "commit": "6d8f399",
+    "recomputed": {
+     "value": 19.518785068304776,
+     "n": 177,
+     "pairedKm": 1992.54
+    },
+    "published": {
+     "value": 19.518785068304773,
+     "n": 177,
+     "pairedKm": 1992.54
+    },
+    "reproduces": true,
+    "nDrivesInMaster": 621
+   }
+  ]
+ },
+ "endPointS2": {
+  "commit": "d49ab8a",
+  "recomputed": {
+   "value": 20.053052691290702,
+   "n": 209,
+   "pairedKm": 2185.94
+  },
+  "published": {
+   "value": 20.053052691290706,
+   "n": 209,
+   "pairedKm": 2185.94
+  }
+ },
+ "decomposition": {
+  "counts": {
+   "C": 104,
+   "A": 73,
+   "R": 0,
+   "reasonA": {
+    "new_file": 73,
+    "membership_change": 0,
+    "eligibility_change": 0
+   },
+   "reasonR": {
+    "deleted_file": 0,
+    "membership_change": 0,
+    "eligibility_change": 0
+   },
+   "nDaysUnion": 50
+  },
+  "V_S0": 26.928784895576968,
+  "V_S1": 19.518785068304773,
+  "V_S0_ci95": [
+   24.903022823178414,
+   29.848881496097633
+  ],
+  "V_S1_ci95": [
+   16.47590706533365,
+   24.90840252988558
+  ],
+  "total": -7.409999827272195,
+  "total_ci95": [
+   -11.748605151254006,
+   -1.8061246406708222
+  ],
+  "droppedDrawsTotal": 0,
+  "contributions": {
+   "f1_values_rederived": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "share": -0.0,
+    "effectiveDays": 15.36,
+    "droppedDraws": 0,
+    "reading": "not distinguishable from 0"
+   },
+   "f2_removed": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "share": -0.0,
+    "effectiveDays": 0.0,
+    "droppedDraws": 0,
+    "reading": "exploratory (fewer than 5 effective days): no reading"
+   },
+   "f3_added": {
+    "value": -7.409999827272194,
+    "ci95": [
+     -11.748605151254006,
+     -1.806124640670822
+    ],
+    "share": 0.9999999999999999,
+    "effectiveDays": 5.83,
+    "droppedDraws": 0,
+    "reading": "accounts for the step"
+   }
+  },
+  "overall": "added drives",
+  "identity": {
+   "w": 0.7145151414777119,
+   "V_C_S1": 26.928784895576968,
+   "V_A_S1": 16.55811617616071,
+   "reconstructed": 19.51878506830478,
+   "V_S1": 19.518785068304773
+  },
+  "sequential": {
+   "f1-f2-f3": {
+    "f1": 0.0,
+    "f2": 0.0,
+    "f3": -7.409999827272195
+   },
+   "f3-f2-f1": {
+    "f3": -7.409999827272195,
+    "f2": 0.0,
+    "f1": 0.0
+   }
+  },
+  "detailByReason": {
+   "f1": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "effectiveDays": 15.36
+   },
+   "R:deleted_file": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "effectiveDays": 0.0
+   },
+   "R:membership_change": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "effectiveDays": 0.0
+   },
+   "R:eligibility_change": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "effectiveDays": 0.0
+   },
+   "A:new_file": {
+    "value": -7.409999827272192,
+    "ci95": [
+     -11.748605151254003,
+     -1.8061246406708211
+    ],
+    "effectiveDays": 5.83
+   },
+   "A:membership_change": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "effectiveDays": 0.0
+   },
+   "A:eligibility_change": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "effectiveDays": 0.0
+   }
+  },
+  "f1ColumnSplit": null,
+  "blockBootstrap7d": {
+   "total": [
+    -11.531525194528722,
+    0.31319144432519364
+   ],
+   "f1": [
+    0.0,
+    0.0
+   ],
+   "f2": [
+    0.0,
+    0.0
+   ],
+   "f3": [
+    -11.531525194528722,
+    0.31319144432519364
+   ],
+   "nBlocks": 11
+  },
+  "covariates": {
+   "C": {
+    "nDrives": 104,
+    "km": 568.84,
+    "meanKmPerDrive": 5.469615384615385,
+    "ambientMeanC": 11.852403846153846,
+    "months": {
+     "2026-05": 4,
+     "2026-06": 2,
+     "2026-07": 8,
+     "2026-09": 80,
+     "2026-10": 10
+    },
+    "driveType": {
+     "urban": 102,
+     "mixed": 2
+    },
+    "ratioOfSumsS1": 26.928784895576964,
+    "nDays": 34
+   },
+   "A": {
+    "nDrives": 73,
+    "km": 1423.7,
+    "meanKmPerDrive": 19.502739726027396,
+    "ambientMeanC": 9.23972602739726,
+    "months": {
+     "2026-10": 58,
+     "2026-11": 15
+    },
+    "driveType": {
+     "urban": 60,
+     "mixed": 6,
+     "mixed_highway": 5,
+     "highway": 2
+    },
+    "ratioOfSumsS1": 16.55811617616071,
+    "nDays": 16
+   },
+   "R": {
+    "nDrives": 0,
+    "km": 0,
+    "meanKmPerDrive": null,
+    "ambientMeanC": null,
+    "months": {},
+    "driveType": {},
+    "ratioOfSumsS0": null,
+    "nDays": 0
+   }
+  },
+  "columnChecks": {
+   "distanceSeasonalVsMasterDisagreeS1": 0,
+   "commonDriveDateChanged": 0
+  }
+ },
+ "placebo": {
+  "nPermutations": 200,
+  "fractionIntervalExcludesZero": 0.145,
+  "note": "reported, not a gate (spec C3 c2)"
+ },
+ "provenance": {
+  "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+  "scriptSha256": "30e20fcd95b3bac0e7c942fccda5e66e912b8d179fa69e47343e6a70cf0fda2a",
+  "specSha256": "21d997a0f2ab4a107cf1d1d54975f20d0fd7913a0d32771e7a23bfa9cdbd023b",
+  "blobs": {
+   "55ba671": {
+    "drive_master.csv": "2152a05a6b8583221f011e05259006132876fc4f",
+    "seasonal_drive_master.csv": "711e8e3443dcee97bed69874aededca667924518",
+    "summary_arrays.json": "afe66bb0d9a70b21eb20d64a5b56ba6707da1922"
+   },
+   "6d8f399": {
+    "drive_master.csv": "5cb3ae104c3a2b958f9af7e4c798b519cc9cdd5a",
+    "seasonal_drive_master.csv": "1f0fdf6bdfbdb7173d581e2b94ba96e942cc6139",
+    "summary_arrays.json": "5fe776a74fc3d74c3a2f97fb86bf9110e4d0a38e"
+   }
+  },
+  "bootstrap": {
+   "seed": 42,
+   "draws": 4000,
+   "unit": "calendar day (multinomial weights over the union of days)"
+  }
+ }
+}
