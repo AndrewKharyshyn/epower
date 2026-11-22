@@ -17,6 +17,7 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 REL_BAND, ABS_BAND, ABS_SWITCH, NDAYS_BAND = 0.10, 0.01, 0.1, 0.20
 ALLOW = ["/generatorTractionRecon/gtrClosure", "/generatorTractionRecon/staleBlocks"]
+SIBLING_KEYS = ("fGenMixStandardised",)       # M741: sibling keys written INTO gtrClosure by a later stage (M639 stage fgen_mix_standardised); not part of this refresh: excluded from the diff, carried through the splice, recomputed by their own stage later in the same run
 DOC_LISTS = ("/scope/excludedNoBatteryInputs", "/scope/excludedWithoutPublishedRow", "/scope/publishedRowsWithFgenOne")
 UNITS = {"fractions": "0-1 unless the leaf name ends in Pct", "per100km": "kWh per 100 km", "scope": "counts, days, km"}
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
@@ -138,11 +139,18 @@ def apply_ack(delta, ack, master_md5, perdrive_sha):
                 "scope": "exactly the listed stops and escalations; every other stop stays unacknowledgeable"}
 
 
+def strip_siblings(block):
+    """Pure (M741): (block without the sibling keys of later stages, the sibling keys)."""
+    sib = {k: block[k] for k in SIBLING_KEYS if k in block}
+    return {k: v for k, v in block.items() if k not in SIBLING_KEYS}, sib
+
+
 def splice_plan(A, blk):
-    """Pure: the new arrays (gtrClosure replaced, gtrClosure removed from staleBlocks) or a list of problems."""
+    """Pure: the new arrays (gtrClosure replaced, its sibling keys of later stages carried over, gtrClosure removed from staleBlocks) or a list of problems."""
     new = copy.deepcopy(A)
     G = new["generatorTractionRecon"]
-    G["gtrClosure"] = blk
+    _, sib = strip_siblings(G.get("gtrClosure", {}))
+    G["gtrClosure"] = {**blk, **{k: v for k, v in sib.items() if k not in blk}}
     sb = G["staleBlocks"]
     sb["blocks"] = [b for b in sb["blocks"] if b != "gtrClosure"]
     sb["perBlock"] = [p for p in sb["perBlock"] if p["block"] != "gtrClosure"]
@@ -188,7 +196,7 @@ def main():
     sys.argv = [sys.argv[0], "--m377c"]
     import gtr_closure_block as GB
     blk = GB.build()
-    old_cmp = copy.deepcopy(old)
+    old_cmp, _sib = strip_siblings(copy.deepcopy(old))
     old_cmp["scope"].pop("carriedAtIngestion", None)            # the M377b disclosure leaf is removed by this refresh
     delta = diff_blocks(old_cmp, blk)
     diag = json.load(open("analyses/M377c_closure_diag.json", encoding="utf-8"))

@@ -88,6 +88,16 @@ assert R.allow_check(A, nw) == []
 nw["meta"]["n"] = 2
 assert R.allow_check(A, nw) == ["/meta/n"]
 
+# ---- M741: sibling keys of later stages (fGenMixStandardised) are carried through the splice and excluded from the diff ----
+A2 = {"generatorTractionRecon": {"gtrClosure": {"x": 1, "fGenMixStandardised": {"v": 7}}, "staleBlocks": {"blocks": ["gtrClosure"], "perBlock": [{"block": "gtrClosure"}]}}}
+nw2 = R.splice_plan(A2, {"x": 2})
+assert nw2["generatorTractionRecon"]["gtrClosure"] == {"x": 2, "fGenMixStandardised": {"v": 7}}, "the sibling is carried"
+assert R.allow_check(A2, nw2) == []
+clean, sib = R.strip_siblings(A2["generatorTractionRecon"]["gtrClosure"])
+assert clean == {"x": 1} and sib == {"fGenMixStandardised": {"v": 7}}
+assert not any("fGenMixStandardised" in s["path"] for s in R.diff_blocks(clean, {"x": 1})["stops"]), "no key-set stop for the sibling"
+assert any("fGenMixStandardised" in s["path"] for s in R.diff_blocks(A2["generatorTractionRecon"]["gtrClosure"], {"x": 1})["stops"]), "(the pre-fix behaviour: a key-set stop)"
+
 # ---- one-time re-pin (Director ruling; stated deviation from spec Rev 2 item 1) ----
 with tempfile.TemporaryDirectory() as td:
     old_root, old_rec = CM.ROOT, CM.RECORD
