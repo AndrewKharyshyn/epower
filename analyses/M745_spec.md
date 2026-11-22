@@ -1,0 +1,35 @@
+# M745 spec Rev 1: decomposition of the EnergyIntensity.shoulder step (snapshot of 2026-10-05 -> snapshot of 2026-11-04)
+
+Status: draft for Director review. Written BEFORE any decomposition result exists. Number taken after checking the CHANGELOG head (M743), open PR 421 (M744) and the remote branch list (parallel session). Origin: M743 open item; the step 26.93 [24.98, 29.86] -> 19.52 [16.27, 25.23] lies outside the previous interval and was never blind-audited (M743 spec R1). Descriptive accounting of a published monitor value; no new headline figure, no payload key, no dashboard change, no article figure.
+
+## 1. Estimand
+The published quantity is `seasonalCharts.charts.EnergyIntensity.data.shoulder.value` (kWh/100 km): ratio of sums over paired canonical-clean shoulder drives, V = 100 x sum(gross_throughput_kwh) / sum(distance_km). Estimand of this study: the exact additive accounting of V(S1) - V(S0), where S0 is the repository state at commit 55ba671 (M378, snapshot 2: 26.93) and S1 the state at commit 6d8f399 (M575, snapshot 3 of the history: 19.52). S2 (the live state, 20.05) is reported as a descriptive end point only. The accounting is arithmetic on the per-drive columns of each state, not a causal or temperature effect.
+
+## 2. Data (read-only, from git blobs of the two commits; nothing in the working tree is modified)
+Per state: `seasonal_drive_master.csv` (thermal_regime, ambient fields, distance, drive_type), `drive_master.csv` (gross_throughput_kwh, ens_invalid, ens_outlier_v2) and `summary_arrays.json` (published value, n, paired km). Drive key = `file`. Shoulder membership and eligibility are taken from each state as built (thermal_regime == 'shoulder', canonical-clean: ens_invalid and ens_outlier_v2 not explicitly True, gross_throughput and distance present = paired).
+
+## 3. Gate G0 (reproduction, before anything else)
+For each of S0 and S1 recompute V from the per-drive columns with the rule of section 2 and compare with the published `shoulder.value`, `n` and `pairedKm` of that commit. Pass: |difference| <= 1e-6 kWh/100 km, n and paired km equal. If G0 fails at a state, the decomposition does NOT run on that state with the section 2 rule; the cause is reported (definition or code difference) and the fallback is to run that commit's own `cohort_arrays.py` in a temporary worktree to produce the per-drive eligibility flag; if that fails too the result is "not decomposable" and nothing further is claimed. A G0 failure is itself the finding "definition changed between the states".
+
+## 4. Decomposition (primary)
+Drives are partitioned by presence and membership: C = drives paired-eligible in the shoulder cohort in BOTH states; A = added (eligible in S1, not in S0, whatever the reason: new file, membership change, eligibility change; the reason is tabulated per drive); R = removed (eligible in S0, not in S1). Each drive carries its S0 values (x0, km0) and S1 values (x1, km1) where present (common files, possibly re-processed).
+Three factors move V(S0) to V(S1): (f1) values of common drives re-derived (x0, km0 -> x1, km1 on the drives in C), (f2) removal of R, (f3) addition of A. V is evaluated on every cell of the 2^3 grid of these factors and the contribution of each factor is its Shapley value (average over the 3! orders), so the three contributions sum exactly to V(S1) - V(S0) (checked to 1e-9, an assert). The ordered sequential decomposition is reported beside it as a sensitivity (orders f1,f2,f3 and f3,f2,f1). Within f3 the added drives are further split by reason (new file / membership change / eligibility change) with the same Shapley rule.
+Exact identity reported beside: V(S1) = (1 - w) V_C(S1) + w V_A(S1), w = km share of A in S1.
+Descriptive covariates of A versus C (no inference): ambient mean, drive_type mix, distance, month, speed_mean, stationary share.
+
+## 5. Uncertainty
+Resampling unit: calendar day. Day-clustered percentile bootstrap over the union of days of S0 and S1 (seed 42, 4000 draws, days ascending, multinomial day weights applied identically to every cell of the grid, so the paired structure is kept); 95 % percentile intervals for V(S0), V(S1), the total step, each Shapley contribution, w, V_C and V_A. Counts: n drives, n days, effective days for every cell. A contribution with fewer than 5 effective days is labelled exploratory. Sensitivity: 7-day block bootstrap.
+
+## 6. Reading rule (fixed before the result)
+Per factor: 'accounts for the step' if its Shapley contribution has the sign of the total, is >= 50 % of the total in absolute value and its interval excludes 0; 'contributes' if the interval excludes 0 and the share is < 50 %; otherwise 'not distinguishable from 0'. Overall: 'added drives' / 're-derived values' / 'removal' if one factor accounts for the step; 'mixed' if two or more contribute; 'not decomposable' if G0 fails. If the total itself has an interval including 0 the overall reading is 'step not distinguishable from 0 on the common days' and no factor is read. A reading is a statement about the arithmetic of the published monitor, never about a cause in the vehicle.
+
+## 7. Falsifiers and stops
+(a) G0 fails at either state (section 3). (b) The Shapley contributions do not sum to the total within 1e-9 (code error: stop). (c) The same pipeline applied with a permuted drive-to-day labelling (placebo, 200 permutations) yields contributions whose 95 % range excludes 0 for more than 5 % of the cells (the bootstrap would be miscalibrated): report and do not read. (d) The common drives alone (C, S0 values) differ from the common drives (C, S1 values) by more than 1e-6: this is not a failure but triggers the sub-decomposition of f1 by column (gross_throughput change vs distance change) with the same rule.
+
+## 8. Checks
+K1 known-answer test `tests/synthetic/test_m745_decomposition.py` (added to the CI list, with encoding utf-8 on every text-mode open): planted per-drive tables where the step is only additions, only re-derived values, only removals, a mix with known Shapley values, and an empty cell; contributions sum to the total; gate G0 on a planted pair; the day bootstrap equals a hand computation on a three-day example; placebo permutation runs.
+K2 blind audit by `analytical-auditor`: claim and data paths only (the two commits, the section 2 columns, the rule of section 1); reproduces V(S0), V(S1), the grid and the Shapley contributions to the displayed digits and the intervals within 10 % of the width at a second seed.
+K3 Director review of spec and result; deviations recorded.
+
+## 9. Out of scope
+Any change of the monitor, the payload, the dashboard, the shoulder definition or eligibility; a temperature, season or vehicle-cause interpretation; the S1 -> S2 movement beyond a one-line descriptive end point; other cohorts (warm moves 0.21 and is not part of the finding). Language: 'accounting of the published value', 'contribution', never 'cause', 'explained away' or 'resolved'; the shoulder level stays unaccepted unless a later milestone says so.
