@@ -1,4 +1,4 @@
-"""M736 stage G0 known-answer tests (analyses/M736_spec.md Rev 2): along-track distance, planted grade, altitude runs and 500 m chunks,
+"""M737 stage G0 known-answer tests (analyses/M737_spec.md Rev 2): along-track distance, planted grade, altitude runs and 500 m chunks,
 repeat-traversal noise floor, planted position offset recovered through interpolation, day-clustered bootstrap, gate rule, optional-stage skip."""
 import os, sys, tempfile
 import numpy as np

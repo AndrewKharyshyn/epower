@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""M736 stage G0 (offline feasibility): cloud-versus-OBD position agreement, cloud track geometry, support of the P2 validation set,
-reference noise of the OBD-altitude grade, and the G0 gate. Spec: analyses/M736_spec.md Rev 2. Auxiliary, report-only, offline: no DEM or road
+"""M737 stage G0 (offline feasibility): cloud-versus-OBD position agreement, cloud track geometry, support of the P2 validation set,
+reference noise of the OBD-altitude grade, and the G0 gate. Spec: analyses/M737_spec.md Rev 2. Auxiliary, report-only, offline: no DEM or road
 network is read or fetched. Stages G1 to G3 are not implemented here (they need Andrii's approval of the downloads).
-Writes analyses/M736_g0.json: aggregates only (public repository, RC7): no coordinates, tracks or per-drive route geometry.
+Writes analyses/M737_g0.json: aggregates only (public repository, RC7): no coordinates, tracks or per-drive route geometry.
 Usage: python tools/mynissan_grade.py [--store DIR] [--out-dir analyses] [--raw-dir DIR] [--nb 4000]"""
 import argparse, bisect, glob, json, math, os, re, sys
 import numpy as np
@@ -214,12 +214,12 @@ def main(argv=None):
         print("mynissan_grade: no cloud store or raw directory, skipped (optional)"); return 0
     sys.stdout.reconfigure(encoding="utf-8")
     md5 = mc.md5(a.master)
-    res = {"milestone": "M736", "stage": "G0", "spec": "analyses/M736_spec.md Rev 2", "role": "auxiliary", "masterMd5": md5, "pinnedMd5": PINNED_MD5,
+    res = {"milestone": "M737", "stage": "G0", "spec": "analyses/M737_spec.md Rev 2", "role": "auxiliary", "masterMd5": md5, "pinnedMd5": PINNED_MD5,
            "external_inputs_used": [], "privacy": "aggregates only; no coordinates or tracks"}
     if md5 != PINNED_MD5:
         res["stopped"] = "master md5 differs from the pin"
         os.makedirs(a.out_dir, exist_ok=True)
-        json.dump(res, open(os.path.join(a.out_dir, "M736_g0.json"), "w", encoding="utf-8"), indent=1)
+        json.dump(res, open(os.path.join(a.out_dir, "M737_g0.json"), "w", encoding="utf-8"), indent=1)
         print("mynissan_grade: master pin failed"); return 1
     master = mc.load_master(a.master)
     idx = raw_index(a.raw_dir)
@@ -238,6 +238,7 @@ def main(argv=None):
     p1 = {s: {c[2]: {"err": [], "day": [], "drive": set()} for c in SPEED_CLASSES} for s in SHIFTS}
     geom = {c[2]: {"spacing_m": [], "n": 0} for c in SPEED_CLASSES}
     segs = []   # per qualifying segment: day, drive, grade, cells, heading, km
+    segs_unscreened = []   # same chunks without any ratio screen (Director: the gate must not depend on the post-hoc screen)
     n_files = n_pos = n_alt = 0
     n_track_ok = n_track_rej = 0
     alt_pts_total = 0
@@ -254,6 +255,7 @@ def main(argv=None):
         # cloud fixes inside the padded window
         i0, i1 = bisect.bisect_left(ct, m["t0"] - 60.0), bisect.bisect_right(ct, m["t1"] + 60.0)
         has_cloud = (i1 - i0) >= 2
+        cloud_any = has_cloud     # before the track screen: used for the unscreened support count
         pr = path_ratio(o["t"], o["lat"], o["lon"], o["spd"])
         track_ok = pr is not None and RATIO_LO <= pr <= RATIO_HI
         n_track_ok += int(track_ok); n_track_rej += int(not track_ok)
@@ -285,13 +287,18 @@ def main(argv=None):
             n_alt += 1
             alt_pts_total += int(has_alt.sum())
         cd = cum_dist(o["lat"], o["lon"])
-        for run in (altitude_runs(o["t"], has_alt) if track_ok else []):
+        for run in altitude_runs(o["t"], has_alt):
             if len(run) < 2:
                 continue
             dr = cd[run] - cd[run[0]]
             for c0, c1 in chunk_run(dr):
                 ii = run[c0:c1]
                 if len(ii) < MIN_ALT_PTS:
+                    continue
+                seg_run0 = slice(run[c0], run[c1 - 1] + 1)
+                if cloud_any:
+                    segs_unscreened.append({"day": m["date"], "drive": m["file"], "len_m": float(cd[ii[-1]] - cd[ii[0]]), "cells": cell_set(o["lat"][seg_run0], o["lon"][seg_run0])})
+                if not track_ok:
                     continue
                 seg_pr = path_ratio(o["t"][run[c0]:run[c1 - 1] + 1], o["lat"][run[c0]:run[c1 - 1] + 1], o["lon"][run[c0]:run[c1 - 1] + 1], o["spd"][run[c0]:run[c1 - 1] + 1])
                 if seg_pr is None or not RATIO_LO <= seg_pr <= RATIO_HI:
@@ -349,11 +356,21 @@ def main(argv=None):
         "repeat_traversal_pairs": n_pairs, "reference_noise_floor_pp_L500": floor,
         "reverse_movement_screen": "not available (no gear channel, speed unsigned); not applied at G0",
         "note": "OBD altitude is sparse: files with altitude carry few altitude samples, so qualifying 500 m segments are counted, not assumed"}
+    cells_u = set().union(*[x["cells"] for x in segs_unscreened]) if segs_unscreened else set()
+    res["P2_support_without_ratio_screen"] = {"segments": len(segs_unscreened), "drives": len({x["drive"] for x in segs_unscreened}), "days": len({x["day"] for x in segs_unscreened}),
+                                              "total_km": float(sum(x["len_m"] for x in segs_unscreened) / 1000.0), "unique_km_approx_100m_cells": len(cells_u) * 0.1,
+                                              "note": "all altitude chunks with a cloud track, no path/speed screen; the gate outcome must not depend on the post-hoc screen"}
     res["G0_gate"] = g0_decision(len(days), unique_km, n_pairs, floor)
+    res["G0_gate"]["outcome_independent_of_screen"] = bool(res["P2_support_without_ratio_screen"]["days"] < MIN_DAYS)
+    res["deviations_from_spec"] = [
+        "The path/speed ratio screen (0.80 to 1.25; whole drive, 60 s window for P1, per segment for grade; speed integral at least 200 m) and the speed-class assignment (OBD speed interpolated over rows carrying speed) were defined after the first run; the spec text is unchanged.",
+        "The reverse-movement screen was not applied (no gear channel, speed unsigned); skipping it can only raise the segment count, so it is conservative for a failed gate.",
+        "Spec section 3(c) asks for the share of drive distance within 150 m; the share of fixes within 150 m is reported.",
+        "Valid-track subset is selected on OBD speed consistency; position agreement describes cloud-minus-OBD disagreement of two phone/vehicle fixes, not cloud accuracy; the best-agreeing shift is not an established latency."]
     if mc.md5(a.master) != PINNED_MD5:
         print("mynissan_grade: master changed during the run"); return 1
     os.makedirs(a.out_dir, exist_ok=True)
-    json.dump(res, open(os.path.join(a.out_dir, "M736_g0.json"), "w", encoding="utf-8"), indent=1)
+    json.dump(res, open(os.path.join(a.out_dir, "M737_g0.json"), "w", encoding="utf-8"), indent=1)
     print("mynissan_grade G0:", json.dumps(res["G0_gate"]), "| segments", len(qual), "days", len(days), "unique km %.1f" % unique_km, "pairs", n_pairs)
     return 0
 

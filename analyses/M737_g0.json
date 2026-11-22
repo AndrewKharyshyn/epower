@@ -168,11 +168,26 @@
   "reverse_movement_screen": "not available (no gear channel, speed unsigned); not applied at G0",
   "note": "OBD altitude is sparse: files with altitude carry few altitude samples, so qualifying 500 m segments are counted, not assumed"
  },
+ "P2_support_without_ratio_screen": {
+  "segments": 670,
+  "drives": 26,
+  "days": 9,
+  "total_km": 319.9588429559726,
+  "unique_km_approx_100m_cells": 379.5,
+  "note": "all altitude chunks with a cloud track, no path/speed screen; the gate outcome must not depend on the post-hoc screen"
+ },
  "G0_gate": {
   "proceed_to_downloads": false,
   "reasons": [
    "days 8 < 30"
   ],
-  "outcome": "not testable at G0: milestone ends, no download requested"
- }
+  "outcome": "not testable at G0: milestone ends, no download requested",
+  "outcome_independent_of_screen": true
+ },
+ "deviations_from_spec": [
+  "The path/speed ratio screen (0.80 to 1.25; whole drive, 60 s window for P1, per segment for grade; speed integral at least 200 m) and the speed-class assignment (OBD speed interpolated over rows carrying speed) were defined after the first run; the spec text is unchanged.",
+  "The reverse-movement screen was not applied (no gear channel, speed unsigned); skipping it can only raise the segment count, so it is conservative for a failed gate.",
+  "Spec section 3(c) asks for the share of drive distance within 150 m; the share of fixes within 150 m is reported.",
+  "Valid-track subset is selected on OBD speed consistency; position agreement describes cloud-minus-OBD disagreement of two phone/vehicle fixes, not cloud accuracy; the best-agreeing shift is not an established latency."
+ ]
 }
