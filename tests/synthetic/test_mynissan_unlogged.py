@@ -1,4 +1,4 @@
-"""M738 known-answer tests (analyses/M738_spec.md Rev 2): step rule incl. speed at one end, unit joining at 120 s, strict flag, time shares,
+"""M739 known-answer tests (analyses/M739_spec.md Rev 2): step rule incl. speed at one end, unit joining at 120 s, strict flag, time shares,
 unit vector, overlap classes at the 10 % and 90 % edges, TV, terciles, within-day permutation, km partition, absent store skipped."""
 import os, sys, tempfile
 import numpy as np

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""M738: exposure of the driving seen only by the cloud export (unlogged), with masked-drive validation (auxiliary, report-only).
-Spec: analyses/M738_spec.md Rev 2. Nothing published is changed: no payload, dashboard, summary, drive_master.csv or frozen winter file is written.
-Writes analyses/M738_unlogged_exposure.json (aggregates only: no coordinates, no per-drive tracks).
+"""M739: exposure of the driving seen only by the cloud export (unlogged), with masked-drive validation (auxiliary, report-only).
+Spec: analyses/M739_spec.md Rev 2. Nothing published is changed: no payload, dashboard, summary, drive_master.csv or frozen winter file is written.
+Writes analyses/M739_unlogged_exposure.json (aggregates only: no coordinates, no per-drive tracks).
 Usage: python tools/mynissan_unlogged.py [--store DIR] [--out-dir analyses] [--raw-dir DIR] [--nb 4000]"""
 import argparse, bisect, csv, glob, hashlib, json, math, os, re, sys
 from datetime import datetime
@@ -232,16 +232,16 @@ def main(argv=None):
         print("mynissan_unlogged: no cloud store, skipped (optional)"); return 0
     sys.stdout.reconfigure(encoding="utf-8")
     md5 = mc.md5(a.master)
-    spec_path = os.path.join(ROOT, "analyses", "M738_spec.md")
+    spec_path = os.path.join(ROOT, "analyses", "M739_spec.md")
     spec_txt = open(spec_path, encoding="utf-8", newline="").read() if os.path.exists(spec_path) else ""
     m_ = re.search(r"Rev 2 file sha256 before this section: ([0-9a-f]{64})", spec_txt)
-    res = {"milestone": "M738", "spec": "analyses/M738_spec.md Rev 2.1 (Rev 2 clarified by section 9)", "spec_sha256_file": hashlib.sha256(spec_txt.encode("utf-8")).hexdigest() if spec_txt else None,
+    res = {"milestone": "M739", "spec": "analyses/M739_spec.md Rev 2.1 (Rev 2 clarified by section 9)", "spec_sha256_file": hashlib.sha256(spec_txt.encode("utf-8")).hexdigest() if spec_txt else None,
            "spec_rev2_sha256": m_.group(1) if m_ else None, "role": "auxiliary", "masterMd5": md5, "pinnedMd5": PINNED_MD5,
            "privacy": "aggregates only; no coordinates or per-drive tracks", "external_inputs_used": []}
     if md5 != PINNED_MD5:
         res["stopped"] = "master md5 differs from the pin"
         os.makedirs(a.out_dir, exist_ok=True)
-        json.dump(res, open(os.path.join(a.out_dir, "M738_unlogged_exposure.json"), "w", encoding="utf-8"), indent=1)
+        json.dump(res, open(os.path.join(a.out_dir, "M739_unlogged_exposure.json"), "w", encoding="utf-8"), indent=1)
         print("mynissan_unlogged: master pin failed"); return 1
     frozen = [os.path.join(ROOT, "analyses", "M717_winter_predictions.json")]
     frozen_before = {p: mc.md5(p) for p in frozen if os.path.exists(p)}
@@ -309,7 +309,7 @@ def main(argv=None):
                            "units_in_window_overlap_ge_10pct": n_inwin, "precision_in_window_units_matched_ge_90pct": sum(1 for c, f, h in asg if c == "matched") / max(1, n_inwin),
                            "precision_note": "an in-window unit always overlaps a drive by construction; precision is the share of in-window units whose overlap is at least 90 % (the rest are boundary cases)",
                            "boundary_units": sum(1 for c, _, _ in asg if c == "boundary"),
-                           "disclosed_sensitivities_recall_other_assignment_readings": {"a_unit_may_match_several_drives": 0.847, "single_unit_test": 0.804, "source": "blind audit, analyses/M738_audit.json; not results"}}
+                           "disclosed_sensitivities_recall_other_assignment_readings": {"a_unit_may_match_several_drives": 0.847, "single_unit_test": 0.804, "source": "blind audit, analyses/M739_audit.json; not results"}}
     # OBD reference and V1
     canon = [k for k in ref_rows if k in dv and not bool(byf.loc[master[k]["file"], "ens_outlier_v2"])]
     raw_idx = th.raw_index(a.raw_dir) if os.path.isdir(a.raw_dir) else {}
@@ -516,7 +516,7 @@ def main(argv=None):
     if mc.md5(a.master) != PINNED_MD5 or any(mc.md5(p) != v for p, v in frozen_before.items()):
         print("mynissan_unlogged: master or frozen file changed during the run"); return 1
     os.makedirs(a.out_dir, exist_ok=True)
-    json.dump(res, open(os.path.join(a.out_dir, "M738_unlogged_exposure.json"), "w", encoding="utf-8"), indent=1)
+    json.dump(res, open(os.path.join(a.out_dir, "M739_unlogged_exposure.json"), "w", encoding="utf-8"), indent=1)
     print("mynissan_unlogged: units %d (strict %d), unlogged strict %d (%.0f km), validation drives %d, R1 %s" % (len(units), res["alignment"]["strict_units"], u1["strict_units"], u1["total_km_cloud"], len(R), json.dumps(res["R1_carried_to_U"])))
     return 0
 
