@@ -1,0 +1,398 @@
+{
+ "milestone": "M738",
+ "spec": "analyses/M738_spec.md Rev 2",
+ "role": "auxiliary",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "pinnedMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "privacy": "aggregates only; no coordinates or per-drive tracks",
+ "external_inputs_used": [],
+ "alignment": {
+  "drives_in_master": 717,
+  "drives_in_export_span": 713,
+  "export_range_kyiv": [
+   "2026-05-10T12:25:56+03:00",
+   "2026-11-19T18:43:14+02:00"
+  ],
+  "cloud_odometer_gain_km": 13285.0390625,
+  "accepted_steps": 31660,
+  "units": 1162,
+  "strict_units": 975
+ },
+ "V2_detection": {
+  "drives_in_span": 713,
+  "recall_all_in_span": 0.8387096774193549,
+  "recall_n": 598,
+  "drives_with_cloud_coverage": 667,
+  "recall_among_covered": 0.896551724137931,
+  "units_in_window_overlap_ge_10pct": 730,
+  "precision_in_window_units_matched_ge_90pct": 0.9917808219178083,
+  "precision_note": "an in-window unit always overlaps a drive by construction; precision is the share of in-window units whose overlap is at least 90 % (the rest are boundary cases)",
+  "boundary_units": 6
+ },
+ "V1_n": {
+  "validation_drives": 641,
+  "days": 135,
+  "ref_km": 9970.539999999999
+ },
+ "V1_reconstruction_error": {
+  "distance": {
+   "median_abs_rel_err": 0.021739130434782532,
+   "ci95_day": [
+    0.020089285714285716,
+    0.024170532226562447
+   ],
+   "aggregate_signed_bias": -0.06278192429898471,
+   "bias_ci95_day": [
+    -0.10407487404837806,
+    -0.029429513017240765
+   ]
+  },
+  "duration": {
+   "median_abs_err_s": 43.90000000000009,
+   "ci95_day": [
+    39.0,
+    49.450000000000045
+   ],
+   "aggregate_signed_bias": -0.12386016403018,
+   "bias_ci95_day": [
+    -0.1567391658137839,
+    -0.09614909311570399
+   ],
+   "note": "cloud duration runs from the first to the last accepted step; the OBD duration includes stationary lead-in and lead-out, so a negative bias is expected"
+  },
+  "time_shares": {
+   "n_drives": 641,
+   "median_tv": 0.06495915645889269,
+   "ci95_day": [
+    0.05958646175479257,
+    0.06948908318169748
+   ],
+   "signed_mean_error_by_class": {
+    "below30": -0.02469870409521446,
+    "30to80": 0.01897861577897265,
+    "above80": 0.005720088316241804
+   }
+  },
+  "ambient": {
+   "n_drives": 517,
+   "median_abs_diff_C": 0.20833333333333215,
+   "ci95_day": [
+    0.12886597938144284,
+    0.2631928891377385
+   ],
+   "note": "reference is the driver-recorded ambient; the M734 screening rules were tuned on the same drives (in-sample)"
+  },
+  "mean_speed_descriptive": {
+   "n_drives": 641,
+   "median_abs_err_kmh": 2.8351562500000007
+  }
+ },
+ "R1_verdicts": {
+  "support_floor_met": true,
+  "distance": {
+   "median_rel": "met",
+   "aggregate_bias": "not met"
+  },
+  "duration": {
+   "median_abs_err_s": "met",
+   "aggregate_bias": "not met"
+  },
+  "time_shares": "met",
+  "ambient": "met"
+ },
+ "R1_carried_to_U": {
+  "distance": false,
+  "duration": false,
+  "time_shares": true,
+  "ambient": true
+ },
+ "V1_strata": {
+  "length_tercile_cuts_km_cloud": [
+   2.3,
+   5.9
+  ],
+  "strata": {
+   "0/weekday": {
+    "n_drives": 125,
+    "n_days": 55,
+    "agg_bias": -0.25290421195652174,
+    "bias_ci95_day": [
+     -0.49738836595064584,
+     0.008586426737193424
+    ],
+    "supported": true
+   },
+   "0/weekend": {
+    "n_drives": 82,
+    "n_days": 28,
+    "agg_bias": -0.055713590642824176,
+    "bias_ci95_day": [
+     -0.18446934154064676,
+     0.016148433467254492
+    ],
+    "supported": true
+   },
+   "1/weekday": {
+    "n_drives": 136,
+    "n_days": 64,
+    "agg_bias": -0.016495616772582766,
+    "bias_ci95_day": [
+     -0.08179838799681369,
+     0.03330449271700025
+    ],
+    "supported": true
+   },
+   "1/weekend": {
+    "n_drives": 83,
+    "n_days": 32,
+    "agg_bias": 0.02494329193093703,
+    "bias_ci95_day": [
+     0.002799838636204805,
+     0.05157603907243103
+    ],
+    "supported": true
+   },
+   "2/weekday": {
+    "n_drives": 125,
+    "n_days": 60,
+    "agg_bias": -0.0599352112415791,
+    "bias_ci95_day": [
+     -0.11135808167835307,
+     -0.020440214376792564
+    ],
+    "supported": true
+   },
+   "2/weekend": {
+    "n_drives": 90,
+    "n_days": 37,
+    "agg_bias": -0.0666261547587503,
+    "bias_ci95_day": [
+     -0.13466529693181306,
+     -0.018494129314580172
+    ],
+    "supported": true
+   }
+  }
+ },
+ "U1_unlogged": {
+  "strict_units": 331,
+  "days": 85,
+  "total_km_cloud": 1917.9453125,
+  "total_hours_cloud": 59.452222222222225,
+  "crude_units_all": 432,
+  "crude_total_km_cloud": 1951.46484375,
+  "mean_unit_km": 5.79439671450151,
+  "median_unit_km": 2.41796875,
+  "mean_logged_drive_km_master": 15.554664586583462,
+  "in_support": {
+   "units": 331,
+   "km_cloud": 1917.9453125
+  },
+  "outside_validation_support": {
+   "units": 0,
+   "km_cloud": 0.0,
+   "days": 0,
+   "note": "count, km and days only; no exposure statement"
+  },
+  "time_share_km_weighted": {
+   "below30": 0.3904300636876765,
+   "30to80": 0.4752031862969594,
+   "above80": 0.13436675001536408
+  }
+ },
+ "U2_representativeness": {
+  "carried": true,
+  "signed_diff_unlogged_minus_logged_cloud": {
+   "below30": {
+    "estimate": 0.1587733462392091,
+    "ci95_day": [
+     0.07054894447882687,
+     0.2671572174664889
+    ],
+    "mde_80pct_power": 0.1416067336395582
+   },
+   "30to80": {
+    "estimate": 0.03916390262568786,
+    "ci95_day": [
+     -0.0251762316650496,
+     0.09606780369184423
+    ],
+    "mde_80pct_power": 0.08664733898166616
+   },
+   "above80": {
+    "estimate": -0.197937248864897,
+    "ci95_day": [
+     -0.295074223752881,
+     -0.0948459127280237
+    ],
+    "mde_80pct_power": 0.14368307469984878
+   }
+  },
+  "tv_km_weighted_mean_shares": {
+   "observed": 0.19793724886489675,
+   "permutation_p_within_day_labels": 0.04795204795204795,
+   "note": "labels shuffled within each day; TV is non-negative and biased upward, so only the permutation p is read"
+  },
+  "n": {
+   "logged_cloud_vectors": 641,
+   "unlogged_units": 331,
+   "days": 166
+  }
+ },
+ "U3_km_decomposition": {
+  "matched_units": 9562.76171875,
+  "unlogged_units": 1951.46484375,
+  "boundary_units": 27.74609375,
+  "remainder": 1743.06640625,
+  "partition_exhaustive": true,
+  "remainder_nonnegative": true
+ },
+ "sensitivities": {
+  "unpadded": {
+   "units_changing_class": 41,
+   "unlogged_strict_units": 331,
+   "unlogged_km_cloud": 1917.9453125
+  },
+  "shift_plus16s": {
+   "units_changing_class": 4,
+   "unlogged_strict_units": 331,
+   "unlogged_km_cloud": 1917.9453125
+  },
+  "shift_minus16s": {
+   "units_changing_class": 6,
+   "unlogged_strict_units": 331,
+   "unlogged_km_cloud": 1917.9453125
+  },
+  "boundary_km_bracket": {
+   "lower_excludes": 1917.9453125,
+   "upper_adds_non_overlap": 1924.0859555514126,
+   "boundary_km": 27.74609375
+  }
+ },
+ "cloud_missingness": {
+  "holes_ge_24h": [
+   {
+    "hours": 26.0,
+    "from": "2026-05-19",
+    "to": "2026-05-20"
+   },
+   {
+    "hours": 24.0,
+    "from": "2026-05-30",
+    "to": "2026-05-31"
+   },
+   {
+    "hours": 38.4,
+    "from": "2026-06-01",
+    "to": "2026-06-03"
+   },
+   {
+    "hours": 44.8,
+    "from": "2026-06-14",
+    "to": "2026-06-16"
+   },
+   {
+    "hours": 24.4,
+    "from": "2026-06-19",
+    "to": "2026-06-20"
+   },
+   {
+    "hours": 73.2,
+    "from": "2026-06-29",
+    "to": "2026-07-02"
+   },
+   {
+    "hours": 61.6,
+    "from": "2026-07-02",
+    "to": "2026-07-05"
+   },
+   {
+    "hours": 52.5,
+    "from": "2026-07-05",
+    "to": "2026-07-07"
+   },
+   {
+    "hours": 47.0,
+    "from": "2026-07-07",
+    "to": "2026-07-09"
+   },
+   {
+    "hours": 38.2,
+    "from": "2026-07-09",
+    "to": "2026-07-11"
+   },
+   {
+    "hours": 36.6,
+    "from": "2026-07-26",
+    "to": "2026-07-28"
+   },
+   {
+    "hours": 47.5,
+    "from": "2026-07-28",
+    "to": "2026-07-30"
+   },
+   {
+    "hours": 43.2,
+    "from": "2026-07-30",
+    "to": "2026-08-01"
+   },
+   {
+    "hours": 43.9,
+    "from": "2026-08-06",
+    "to": "2026-08-08"
+   },
+   {
+    "hours": 26.3,
+    "from": "2026-08-12",
+    "to": "2026-08-13"
+   },
+   {
+    "hours": 29.9,
+    "from": "2026-08-19",
+    "to": "2026-08-20"
+   },
+   {
+    "hours": 25.2,
+    "from": "2026-08-25",
+    "to": "2026-08-26"
+   },
+   {
+    "hours": 44.8,
+    "from": "2026-08-26",
+    "to": "2026-08-28"
+   },
+   {
+    "hours": 52.5,
+    "from": "2026-10-18",
+    "to": "2026-10-20"
+   },
+   {
+    "hours": 43.8,
+    "from": "2026-10-20",
+    "to": "2026-10-22"
+   },
+   {
+    "hours": 45.7,
+    "from": "2026-10-22",
+    "to": "2026-10-24"
+   },
+   {
+    "hours": 98.7,
+    "from": "2026-10-25",
+    "to": "2026-10-29"
+   },
+   {
+    "hours": 36.6,
+    "from": "2026-10-29",
+    "to": "2026-10-31"
+   },
+   {
+    "hours": 25.3,
+    "from": "2026-11-16",
+    "to": "2026-11-17"
+   }
+  ],
+  "note": "unlogged driving inside these holes and on dates without export rows is unobservable here; listed, not modelled"
+ },
+ "scope": "M726: no U1/U2 output feeds the winter session; no winter prediction is scored or extended"
+}
