@@ -1,17 +1,14 @@
 {
- "generated_utc": "2026-11-21T01:48:28+00:00",
+ "generated_utc": "2026-11-22T19:42:10+00:00",
  "has_baseline": true,
- "flags": [
-  "EnergyIntensity.shoulder: cumulative drift > baseline CI half-width",
-  "gtrClosure: key-set difference @ /fGenMixStandardised"
- ],
- "route_to_audit": true,
+ "flags": [],
+ "route_to_audit": false,
  "kpis": {
   "meta.totalDrives": {
    "value": 717,
    "ci": null,
-   "prev": 632,
-   "delta": 85
+   "prev": 717,
+   "delta": 0
   },
   "EnergyIntensity.all (kWh/100km, canonical-clean)": {
    "value": 17.962899134531597,
@@ -19,11 +16,14 @@
     16.378576210758272,
     20.0432618744072
    ],
-   "prev": 17.60576062131476,
-   "delta": 0.3571385132168352,
+   "prev": 17.962899134531597,
+   "delta": 0.0,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.1947859190939772,
-   "cumulative_drift": 0.3727663250422495
+   "delta_over_halfwidth": 0.0,
+   "cumulative_drift": 0.3727663250422495,
+   "baselineUtc": "2026-10-05T11:37:44+00:00",
+   "baselineValue": 17.590132809489347,
+   "baselineHalfWidth": 2.0186614249751305
   },
   "EnergyIntensity.warm": {
    "value": 17.20496027087479,
@@ -35,7 +35,10 @@
    "delta": 0.0,
    "outside_prev_ci": false,
    "delta_over_halfwidth": 0.0,
-   "cumulative_drift": 0.21396918972947176
+   "cumulative_drift": 0.21396918972947176,
+   "baselineUtc": "2026-10-05T11:37:44+00:00",
+   "baselineValue": 16.990991081145317,
+   "baselineHalfWidth": 1.9385120021032298
   },
   "EnergyIntensity.shoulder": {
    "value": 20.053052691290706,
@@ -43,23 +46,70 @@
     16.85601391988414,
     25.23171696319744
    ],
-   "prev": 19.562009106997277,
-   "delta": 0.4910435842934291,
+   "prev": 20.053052691290706,
+   "delta": 0.0,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.11091548877625214,
-   "cumulative_drift": -6.743698435710687
+   "delta_over_halfwidth": 0.0,
+   "cumulative_drift": 0.0,
+   "baselineUtc": "2026-11-22T19:42:10+00:00",
+   "baselineValue": 20.053052691290706,
+   "baselineHalfWidth": 4.187851521656649,
+   "firstSnapshotValue": 26.796751127001393,
+   "firstSnapshotUtc": "2026-10-05T11:37:44+00:00",
+   "history": [
+    {
+     "utc": "2026-10-05T12:27:11+00:00",
+     "value": 26.928784895576964,
+     "ci": [
+      24.980484118870486,
+      29.85624680754112
+     ]
+    },
+    {
+     "utc": "2026-11-04T23:11:21+00:00",
+     "value": 19.518785068304773,
+     "ci": [
+      16.26820374598123,
+      25.226336362005487
+     ]
+    },
+    {
+     "utc": "2026-11-05T06:15:38+00:00",
+     "value": 19.518785068304773,
+     "ci": [
+      16.26820374598123,
+      25.226336362005487
+     ]
+    },
+    {
+     "utc": "2026-11-05T18:44:10+00:00",
+     "value": 19.562009106997277,
+     "ci": [
+      16.345269662086498,
+      25.19964319839219
+     ]
+    },
+    {
+     "utc": "2026-11-22T19:42:10+00:00",
+     "value": 20.053052691290706,
+     "ci": [
+      16.85601391988414,
+      25.23171696319744
+     ]
+    }
+   ]
   },
   "generatorTractionRecon.corpus.fGen": {
    "value": 0.507,
    "ci": null,
-   "prev": 0.515,
-   "delta": -0.008000000000000007
+   "prev": 0.507,
+   "delta": 0.0
   },
   "generatorTractionRecon.corpus.etaBus": {
    "value": 0.325,
    "ci": null,
-   "prev": 0.328,
-   "delta": -0.0030000000000000027
+   "prev": 0.325,
+   "delta": 0.0
   },
   "cellSpreadStep.M0 linear slope (mV/month)": {
    "value": 0.9341,
@@ -67,8 +117,8 @@
     null,
     null
    ],
-   "prev": 0.7396,
-   "delta": 0.1945
+   "prev": 0.9341,
+   "delta": 0.0
   },
   "cellSpreadStep.M3 step term (mV)": {
    "value": 3.2177,
@@ -76,8 +126,8 @@
     null,
     null
    ],
-   "prev": 2.8941,
-   "delta": 0.3235999999999999
+   "prev": 3.2177,
+   "delta": 0.0
   },
   "degradationTrends.cellSpread slope (mV/month, CR t-ref)": {
    "value": 0.9341,
@@ -85,8 +135,8 @@
     null,
     null
    ],
-   "prev": 0.7396,
-   "delta": 0.1945
+   "prev": 0.9341,
+   "delta": 0.0
   }
  },
  "gtrFamily": {
@@ -206,17 +256,15 @@
   "stops": []
  },
  "gtrClosure": {
-  "keyDiffs": [
-   "/fGenMixStandardised"
-  ],
+  "keyDiffs": [],
   "ciChecks": [
    {
     "path": "/alphaStar",
     "prev": [
-     0.621,
+     0.624,
      [
-      0.601,
-      0.639
+      0.606,
+      0.64
      ]
     ],
     "new": [
@@ -227,15 +275,15 @@
      ]
     ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.8947
+    "ciWidthRatio": 1.0
    },
    {
     "path": "/excessWithoutDual",
     "prev": [
-     -0.0918,
+     -0.0931,
      [
-      -0.1189,
-      -0.0747
+      -0.117,
+      -0.0766
      ]
     ],
     "new": [
@@ -246,15 +294,15 @@
      ]
     ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.914
+    "ciWidthRatio": 1.0
    },
    {
     "path": "/fGen",
     "prev": [
-     0.5093,
+     0.507,
      [
-      0.4196,
-      0.5696
+      0.4271,
+      0.5647
      ]
     ],
     "new": [
@@ -265,15 +313,15 @@
      ]
     ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.9173
+    "ciWidthRatio": 1.0
    },
    {
     "path": "/nodeExcess",
     "prev": [
      0.0561,
      [
-      0.0441,
-      0.0746
+      0.045,
+      0.0722
      ]
     ],
     "new": [
@@ -284,35 +332,35 @@
      ]
     ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.8918
+    "ciWidthRatio": 1.0
    }
   ],
   "pointOnly": [
    {
     "path": "/alphaStar/nInfeasibleDrivesBaseline",
-    "prev": 25,
+    "prev": 30,
     "new": 30,
     "comparedAs": "share of set size",
-    "prevShare": 0.0577,
+    "prevShare": 0.0619,
     "newShare": 0.0619,
-    "absDiff": 0.004119,
-    "relDiff": 0.07134,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMax",
-    "prev": 0.782,
+    "prev": 0.787,
     "new": 0.787,
-    "absDiff": 0.005,
-    "relDiff": 0.00639,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMin",
-    "prev": 0.211,
+    "prev": 0.218,
     "new": 0.218,
-    "absDiff": 0.007,
-    "relDiff": 0.03318,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
@@ -325,18 +373,18 @@
    },
    {
     "path": "/fGen/variantMax",
-    "prev": 0.5312,
+    "prev": 0.5291,
     "new": 0.5291,
-    "absDiff": 0.0021,
-    "relDiff": 0.00395,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/fGen/variantMin",
-    "prev": 0.4676,
+    "prev": 0.4652,
     "new": 0.4652,
-    "absDiff": 0.0024,
-    "relDiff": 0.00513,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
@@ -349,10 +397,10 @@
    },
    {
     "path": "/interval/lo",
-    "prev": -0.0918,
+    "prev": -0.0931,
     "new": -0.0931,
-    "absDiff": 0.0013,
-    "relDiff": 0.01416,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
@@ -373,109 +421,67 @@
    },
    {
     "path": "/per100km/battToTractionResidual",
-    "prev": 9.013,
+    "prev": 9.128,
     "new": 9.128,
-    "absDiff": 0.115,
-    "relDiff": 0.01276,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattDual",
-    "prev": 2.371,
+    "prev": 2.42,
     "new": 2.42,
-    "absDiff": 0.049,
-    "relDiff": 0.02067,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattEngineOn",
-    "prev": 5.204,
+    "prev": 5.317,
     "new": 5.317,
-    "absDiff": 0.113,
-    "relDiff": 0.02171,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattUpper",
-    "prev": 7.576,
+    "prev": 7.737,
     "new": 7.737,
-    "absDiff": 0.161,
-    "relDiff": 0.02125,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToTraction",
-    "prev": 9.354,
+    "prev": 9.386,
     "new": 9.386,
-    "absDiff": 0.032,
-    "relDiff": 0.00342,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/generator",
-    "prev": 16.03,
+    "prev": 16.213,
     "new": 16.213,
-    "absDiff": 0.183,
-    "relDiff": 0.01142,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/regenToBatt",
-    "prev": 2.675,
+    "prev": 2.685,
     "new": 2.685,
-    "absDiff": 0.01,
-    "relDiff": 0.00374,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    }
   ],
   "boolFlips": [],
   "typeChanges": [],
   "listChanges": [],
-  "scopeChanges": [
-   {
-    "path": "/scope/km",
-    "prev": 3994.8,
-    "new": 4318.2
-   },
-   {
-    "path": "/scope/nCanonical",
-    "prev": 665,
-    "new": 717
-   },
-   {
-    "path": "/scope/nDays",
-    "prev": 76,
-    "new": 87
-   },
-   {
-    "path": "/scope/nDrives",
-    "prev": 433,
-    "new": 485
-   }
-  ],
-  "stringChanges": [
-   {
-    "path": "/_staleness"
-   },
-   {
-    "path": "/scope/excludedNote"
-   },
-   {
-    "path": "/sources/closureDiag/sha256"
-   },
-   {
-    "path": "/sources/fuelReconMaster/sha256"
-   },
-   {
-    "path": "/sources/step2/sha256"
-   }
-  ],
-  "stops": [
-   {
-    "rule": "key-set difference",
-    "path": "/fGenMixStandardised"
-   }
-  ],
+  "scopeChanges": [],
+  "stringChanges": [],
+  "stops": [],
   "escalations": [],
   "units": {
    "fractions": "0-1 unless the leaf name ends in Pct",
@@ -487,9 +493,9 @@
    "nInsidePreviousCI": 4,
    "nPointOnly": 17,
    "nPointOnlyWithinBand": 17,
-   "nStops": 1,
+   "nStops": 0,
    "nEscalations": 0,
-   "nStringChanges": 5
+   "nStringChanges": 0
   },
   "set": {
    "nDrives": 485,
@@ -953,6 +959,11 @@
     "2026-10-17_23-13-01.csv",
     "2026-11-04_21-26-25.csv",
     "2026-11-09_16-07-41.csv",
+    "2026-11-11_08-11-53.csv",
+    "2026-11-12_08-15-52.csv",
+    "2026-11-18_08-13-18.csv",
+    "2026-11-19_08-19-42.csv",
+    "2026-11-20_09-02-32.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -963,27 +974,7 @@
     "20260906_122920.csv",
     "20260909_140527.csv"
    ],
-   "inNewDrives": [
-    "2026-11-11_08-11-53.csv",
-    "2026-11-12_08-15-52.csv",
-    "2026-11-18_08-13-18.csv",
-    "2026-11-19_08-19-42.csv",
-    "2026-11-20_09-02-32.csv"
-   ]
-  },
-  "acknowledgement": {
-   "ruling": "analyses/M721_gtr_closure_director_ruling.json",
-   "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
-   "perDriveSha256": "a4ee4a65d61be26f430cf876492e1b98ba4b92212d81307002f44abdf8c23d4e",
-   "stopsSha256": "1ab17a80035b1888ca88c8cd4d023667303c71dd8f7f9cb88981c3a1669967dc",
-   "stops": [
-    {
-     "rule": "key-set difference",
-     "path": "/fGenMixStandardised"
-    }
-   ],
-   "escalations": [],
-   "scope": "exactly the listed stops and escalations; every other stop stays unacknowledgeable"
+   "inNewDrives": []
   }
  },
  "dissipationMonitor": {
@@ -1101,6 +1092,19 @@
    }
   ],
   "last_regime": "fast"
+ },
+ "winterFreezeMonitor": {
+  "informational": "report-only (M726): exposure and support counts of the winter freeze; E1 routes to the Director and is reported to Andrii (refit as a new version)",
+  "events": {
+   "E1_firstSubZero": false,
+   "E1_driveDays": [],
+   "E1_singleSampleFlagOnly": false,
+   "probeResolutionC": 1.0,
+   "E2_postFreezeColdDrives": 0,
+   "E3_liveRefitAfterF": true
+  },
+  "scoringSetDrives": 12,
+  "coldestProbeMinCInScoringSet": 8.0
  },
  "estimatorValidity": {
   "informational": "report-only (M614): a change of the mixed-effects sensitivity validity fields does not stop an ingestion and does not route to audit; the headline is the cluster-robust OLS",
