@@ -3,7 +3,7 @@
 Spec: analyses/M738_spec.md Rev 2. Nothing published is changed: no payload, dashboard, summary, drive_master.csv or frozen winter file is written.
 Writes analyses/M738_unlogged_exposure.json (aggregates only: no coordinates, no per-drive tracks).
 Usage: python tools/mynissan_unlogged.py [--store DIR] [--out-dir analyses] [--raw-dir DIR] [--nb 4000]"""
-import argparse, bisect, csv, glob, json, math, os, re, sys
+import argparse, bisect, csv, glob, hashlib, json, math, os, re, sys
 from datetime import datetime
 import numpy as np
 import pandas as pd
@@ -232,7 +232,11 @@ def main(argv=None):
         print("mynissan_unlogged: no cloud store, skipped (optional)"); return 0
     sys.stdout.reconfigure(encoding="utf-8")
     md5 = mc.md5(a.master)
-    res = {"milestone": "M738", "spec": "analyses/M738_spec.md Rev 2", "role": "auxiliary", "masterMd5": md5, "pinnedMd5": PINNED_MD5,
+    spec_path = os.path.join(ROOT, "analyses", "M738_spec.md")
+    spec_txt = open(spec_path, encoding="utf-8", newline="").read() if os.path.exists(spec_path) else ""
+    m_ = re.search(r"Rev 2 file sha256 before this section: ([0-9a-f]{64})", spec_txt)
+    res = {"milestone": "M738", "spec": "analyses/M738_spec.md Rev 2.1 (Rev 2 clarified by section 9)", "spec_sha256_file": hashlib.sha256(spec_txt.encode("utf-8")).hexdigest() if spec_txt else None,
+           "spec_rev2_sha256": m_.group(1) if m_ else None, "role": "auxiliary", "masterMd5": md5, "pinnedMd5": PINNED_MD5,
            "privacy": "aggregates only; no coordinates or per-drive tracks", "external_inputs_used": []}
     if md5 != PINNED_MD5:
         res["stopped"] = "master md5 differs from the pin"
@@ -304,7 +308,8 @@ def main(argv=None):
                            "drives_with_cloud_coverage": len(cov_k), "recall_among_covered": sum(1 for k in cov_k if k in rec_all) / max(1, len(cov_k)),
                            "units_in_window_overlap_ge_10pct": n_inwin, "precision_in_window_units_matched_ge_90pct": sum(1 for c, f, h in asg if c == "matched") / max(1, n_inwin),
                            "precision_note": "an in-window unit always overlaps a drive by construction; precision is the share of in-window units whose overlap is at least 90 % (the rest are boundary cases)",
-                           "boundary_units": sum(1 for c, _, _ in asg if c == "boundary")}
+                           "boundary_units": sum(1 for c, _, _ in asg if c == "boundary"),
+                           "disclosed_sensitivities_recall_other_assignment_readings": {"a_unit_may_match_several_drives": 0.847, "single_unit_test": 0.804, "source": "blind audit, analyses/M738_audit.json; not results"}}
     # OBD reference and V1
     canon = [k for k in ref_rows if k in dv and not bool(byf.loc[master[k]["file"], "ens_outlier_v2"])]
     raw_idx = th.raw_index(a.raw_dir) if os.path.isdir(a.raw_dir) else {}
@@ -382,8 +387,9 @@ def main(argv=None):
         return all(x in ("met", "marginal") for x in vals)
     res["R1_carried_to_U"] = {q: carried(q) for q in ("distance", "duration", "time_shares", "ambient")}
 
-    # strata (length tercile x day type); cuts from the validation reference km
-    cuts = tercile_cuts(R.ref_km.values) if len(R) >= 9 else (0.0, 0.0)
+    # strata (length tercile x day type); cuts from the validation cloud km
+    cuts = tercile_cuts(R.c_km.values) if len(R) >= 9 else (0.0, 0.0)
+    R["tercile"] = [length_tercile(x, cuts) for x in R.c_km]
     R["stratum"] = [(length_tercile(x, cuts), day_type(t)) for x, t in zip(R.c_km, R.t0)]
     strata_v = {}
     for key, g in R.groupby("stratum"):
@@ -394,8 +400,12 @@ def main(argv=None):
         strata_v[sk] = {"n_drives": int(len(g)), "n_days": int(g.date.nunique()), "agg_bias": float((ck.sum() - rk.sum()) / rk.sum()),
                         "bias_ci95_day": boot_days(gg, lambda ix: float((ck[ix].sum() - rk[ix].sum()) / rk[ix].sum()), a.nb), "supported": bool(len(g) >= MIN_STRATUM)}
     res["V1_strata"] = {"length_tercile_cuts_km_cloud": list(cuts), "strata": strata_v}
+    shd = R.dropna(subset=["ref_sh", "c_sh"])
+    if len(shd) >= 9:
+        v1["time_shares_by_length_tercile"] = {str(t): {"n_drives": int(len(g_)), "median_tv": float(np.median([tv_distance(x_, y_) for x_, y_ in zip(g_.ref_sh, g_.c_sh)]))} for t, g_ in shd.groupby("tercile")}
+    decile = float(np.percentile(R.c_km.values, 10)) if len(R) >= 10 else 0.0
+    res["V1_strata"]["shortest_decile_cut_km_cloud"] = decile
 
-    # U1, U2, U3 sensitivities
     def unlogged_units(assignment, strict_only=True):
         return [i for i, (c, f, h) in enumerate(assignment) if c == "unlogged" and (is_strict(units[i]) or not strict_only)]
     ui = unlogged_units(asg)
@@ -404,64 +414,86 @@ def main(argv=None):
     u1 = {"strict_units": len(ui), "days": int(um.date.nunique()) if len(um) else 0, "total_km_cloud": float(um.km.sum()) if len(um) else 0.0,
           "total_hours_cloud": float(um.dur.sum() / 3600.0) if len(um) else 0.0, "crude_units_all": len(unlogged_units(asg, False)),
           "crude_total_km_cloud": float(sum(vecs[i]["km"] for i in unlogged_units(asg, False))),
-          "mean_unit_km": float(um.km.mean()) if len(um) else None, "median_unit_km": float(um.km.median()) if len(um) else None,
-          "mean_logged_drive_km_master": float(R.ref_km.mean()) if len(R) else None}
+          "mean_unit_km_cloud": float(um.km.mean()) if len(um) else None, "median_unit_km_cloud": float(um.km.median()) if len(um) else None,
+          "mean_logged_drive_km_master_OBD": float(R.ref_km.mean()) if len(R) else None,
+          "mean_logged_drive_km_cloud_reconstructed": float(R.c_km.mean()) if len(R) else None,
+          "bases_note": "the cloud unit mean and the master (OBD) drive mean are different bases: units are cloud-odometer steps, drives are OBD windows; the cloud-reconstructed logged mean is the like-for-like comparator",
+          "km_and_hours_label": "lower-biased cloud totals (distance and duration are R1 not met); not reconstructed exposure"}
+    ins = um.iloc[0:0].copy()
     if len(um):
         um["stratum"] = ["%d/%s" % (length_tercile(k, cuts), day_type(t)) for k, t in zip(um.km, um.t0)]
         sup = {sk for sk, v in strata_v.items() if v["supported"]}
-        ins = um[um.stratum.isin(sup)]
-        out = um[~um.stratum.isin(sup)]
-        u1["in_support"] = {"units": int(len(ins)), "km_cloud": float(ins.km.sum())}
-        u1["outside_validation_support"] = {"units": int(len(out)), "km_cloud": float(out.km.sum()), "days": int(out.date.nunique()) if len(out) else 0, "note": "count, km and days only; no exposure statement"}
-        if carried("distance") and len(ins):
-            lo = hi = 0.0
-            for sk, g in ins.groupby("stratum"):
-                b = strata_v[sk]["bias_ci95_day"]
-                if b[0] is None:
-                    continue
-                hi += g.km.sum() / (1.0 + b[0]); lo += g.km.sum() / (1.0 + b[1])
-            u1["in_support_km_bias_bracket_V1_stratum"] = [float(lo), float(hi)]
-            u1["interval_covers"] = "measurement error only (a census of the export); V1 stratum bias interval propagated"
+        ok_u = um.stratum.isin(sup) & (um.km >= decile)
+        ins, out = um[ok_u], um[~ok_u]
+        u1["in_support"] = {"units": int(len(ins)), "km_cloud": float(ins.km.sum()), "days": int(ins.date.nunique()) if len(ins) else 0}
+        u1["outside_validation_support"] = {"units": int(len(out)), "km_cloud": float(out.km.sum()), "days": int(out.date.nunique()) if len(out) else 0,
+                                            "rule": "stratum with fewer than 30 validation drives, or cloud km below the shortest decile of the validated drives", "note": "count, km and days only; no exposure statement"}
+        lo = hi = 0.0
+        for sk, g in ins.groupby("stratum"):
+            b = strata_v[sk]["bias_ci95_day"]
+            if b[0] is None:
+                continue
+            hi += g.km.sum() / (1.0 + b[0]); lo += g.km.sum() / (1.0 + b[1])
+        u1["in_support_km_bias_bracket_V1_stratum"] = {"bracket_km": [float(lo), float(hi)], "carried": bool(carried("distance")),
+                                                       "note": "illustrative only: distance is not carried (R1 not met); interval covers measurement error only (a census of the export), V1 stratum bias interval propagated"}
         if carried("time_shares"):
             w = ins.dropna(subset=["sh"])
             if len(w):
-                tot = w.km.values
-                u1["time_share_km_weighted"] = {CLASS_NAMES[i]: float(np.average([s[i] for s in w.sh], weights=tot)) for i in range(3)}
+                u1["time_share_km_weighted"] = {CLASS_NAMES[i]: float(np.average([s_[i] for s_ in w.sh], weights=w.km.values)) for i in range(3)}
+        mo = um.assign(month=[datetime.fromtimestamp(t, mc.KYIV).strftime("%Y-%m") for t in um.t0])
+        lg = R.assign(month=[datetime.fromtimestamp(t, mc.KYIV).strftime("%Y-%m") for t in R.t0])
+        u1["monthly_ratio_unlogged_over_logged_km"] = {m: {"unlogged_km_cloud": float(mo[mo.month == m].km.sum()), "logged_km_cloud": float(lg[lg.month == m].c_km.sum()),
+                                                          "ratio": (float(mo[mo.month == m].km.sum() / lg[lg.month == m].c_km.sum()) if lg[lg.month == m].c_km.sum() > 0 else None)}
+                                                      for m in sorted(set(mo.month) | set(lg.month))}
     res["U1_unlogged"] = u1
-    # U2: signed differences, km-weighted, comparator = cloud-reconstructed vector of logged drives
-    u2 = {"carried": bool(carried("time_shares") and len(um) > 0)}
+    # U2: signed differences of shares, length-tercile, day-type and hour-class mixes; km-weighted (primary) and time-weighted (sensitivity);
+    # comparator = cloud-reconstructed vector of the logged drives; units = in-support unlogged units
+    u2 = {"carried": bool(carried("time_shares") and len(ins) > 0)}
     if u2["carried"] and len(R.dropna(subset=["c_sh"])):
         L = R.dropna(subset=["c_sh"])
-        Um = um.dropna(subset=["sh"])
-        vals_sh = np.array(list(L.c_sh) + list(Um.sh), float)
-        wts = np.array(list(L.c_km) + list(Um.km), float)
+        Um = ins.dropna(subset=["sh"])
+
+        def feat(shv, km, t0):
+            tr = length_tercile(km, cuts)
+            return list(shv) + [float(tr == 0), float(tr == 1), float(tr == 2), float(day_type(t0) == "weekend"), float(hour_class(t0) == "night")]
+        names = list(CLASS_NAMES) + ["length_t1", "length_t2", "length_t3", "weekend", "night"]
+        F = np.array([feat(x, k, t) for x, k, t in zip(L.c_sh, L.c_km, L.t0)] + [feat(x, k, t) for x, k, t in zip(Um.sh, Um.km, Um.t0)], float)
         lab = np.array([0] * len(L) + [1] * len(Um))
         dys = np.array(list(L.date) + list(Um.date))
-
-        def diff(vs, lb, wt=wts):
-            return np.array([np.average(vs[lb == 1][:, i], weights=wt[lb == 1]) - np.average(vs[lb == 0][:, i], weights=wt[lb == 0]) for i in range(3)])
-        obs = diff(vals_sh, lab)
         ud = list(dict.fromkeys(dys))
         gps = [np.where(dys == d)[0] for d in ud]
-        rng = np.random.default_rng(SEED)
-        bs = []
-        for _ in range(a.nb):
-            ix = np.concatenate([gps[j] for j in rng.integers(0, len(gps), len(gps))])
-            if (lab[ix] == 1).any() and (lab[ix] == 0).any():
-                bs.append(diff(vals_sh[ix], lab[ix], wts[ix]))
-        bs = np.array(bs)
-        u2["signed_diff_unlogged_minus_logged_cloud"] = {CLASS_NAMES[i]: {"estimate": float(obs[i]), "ci95_day": [float(np.percentile(bs[:, i], 2.5)), float(np.percentile(bs[:, i], 97.5))],
-                                                                           "mde_80pct_power": float(2.8 * bs[:, i].std())} for i in range(3)}
-        tv_stat = lambda vs, lb: tv_distance(*[np.average(vs[lb == g], axis=0, weights=wts[lb == g]) for g in (1, 0)])
-        tv, p = within_day_permutation_p(vals_sh, lab, dys, tv_stat, 1000)
-        u2["tv_km_weighted_mean_shares"] = {"observed": float(tv), "permutation_p_within_day_labels": float(p), "note": "labels shuffled within each day; TV is non-negative and biased upward, so only the permutation p is read"}
-        u2["n"] = {"logged_cloud_vectors": int(len(L)), "unlogged_units": int(len(Um)), "days": len(ud)}
+
+        def diffs(Fm, lb, wt):
+            return np.array([np.average(Fm[lb == 1][:, i], weights=wt[lb == 1]) - np.average(Fm[lb == 0][:, i], weights=wt[lb == 0]) for i in range(Fm.shape[1])])
+        for wname, wts in (("km_weighted_primary", np.array(list(L.c_km) + list(Um.km), float)), ("time_weighted_sensitivity", np.array(list(L.c_dur) + list(Um.dur), float))):
+            obs = diffs(F, lab, wts)
+            rng = np.random.default_rng(SEED)
+            bs = []
+            for _ in range(a.nb):
+                ix = np.concatenate([gps[j] for j in rng.integers(0, len(gps), len(gps))])
+                if (lab[ix] == 1).any() and (lab[ix] == 0).any():
+                    bs.append(diffs(F[ix], lab[ix], wts[ix]))
+            bs = np.array(bs)
+            u2[wname] = {names[i]: {"estimate": float(obs[i]), "ci95_day": [float(np.percentile(bs[:, i], 2.5)), float(np.percentile(bs[:, i], 97.5))], "mde_80pct_power": float(2.8 * bs[:, i].std())} for i in range(F.shape[1])}
+        wk = np.array(list(L.c_km) + list(Um.km), float)
+        tv_stat = lambda vs, lb: tv_distance(*[np.average(vs[lb == g][:, :3], axis=0, weights=wk[lb == g]) for g in (1, 0)])
+        tv, pp = within_day_permutation_p(F, lab, dys, tv_stat, 1000)
+        u2["tv_km_weighted_mean_shares"] = {"observed": float(tv), "permutation_p_within_day_labels": float(pp),
+                                            "note": "labels shuffled WITHIN each day (deviation from the spec wording 'day-level null': each day carries both groups, so a whole-day label swap is not exchangeable); TV is non-negative and biased upward, so only the permutation p is read; p is descriptive only"}
+        u2["n"] = {"logged_cloud_vectors": int(len(L)), "unlogged_in_support_units": int(len(Um)), "days": len(ud)}
+        u2["reading"] = "descriptive selection difference, confounded by unit length; not an effect; not a correction of any KPI"
     res["U2_representativeness"] = u2
     # U3 km decomposition
     km_by = {"matched": 0.0, "unlogged": 0.0, "boundary": 0.0}
     for u, (c, f, h) in zip(units, asg):
         km_by[c] += sum(s[2] for s in u)
     res["U3_km_decomposition"] = decompose_km(float(odo[-1][1] - odo[0][1]), {"matched_units": km_by["matched"], "unlogged_units": km_by["unlogged"], "boundary_units": km_by["boundary"]})
+    res["U3_km_decomposition"]["label"] = "unlogged_units here = ALL unlogged units (crude definition); the strict subset is U1 (strict_units, total_km_cloud)"
+    if "distance" in v1:
+        bl, bh = v1["distance"]["bias_ci95_day"]
+        if bl is not None:
+            res["U3_km_decomposition"]["illustrative_bias_brackets_km"] = {k_: [float(km_by[k_.split("_")[0]] / (1.0 + bh)), float(km_by[k_.split("_")[0]] / (1.0 + bl))] for k_ in ("matched_units", "unlogged_units", "boundary_units")}
+            res["U3_km_decomposition"]["bracket_note"] = "V1 aggregate distance bias interval applied to the cloud km; illustrative, distance is not carried (R1 not met)"
     # sensitivities: unpadded overlap, +16 s clock shift, boundary km bracket
     sens = {}
     for name, sh_, pad_ in (("unpadded", 0.0, 0.0), ("shift_plus16s", 16.0, PAD), ("shift_minus16s", -16.0, PAD)):
@@ -477,6 +509,9 @@ def main(argv=None):
     holes = [(b - a_, a_, b) for (a_, _), (b, _) in zip(odo, odo[1:]) if b - a_ >= 24 * 3600]
     res["cloud_missingness"] = {"holes_ge_24h": [{"hours": round(h[0] / 3600, 1), "from": iso(h[1]), "to": iso(h[2])} for h in holes],
                                 "note": "unlogged driving inside these holes and on dates without export rows is unobservable here; listed, not modelled"}
+    res["deviations_from_spec"] = ["Rev 2.1 (section 9) was written after the first run and audit round; no threshold, estimand or decision rule changed",
+                                   "U2 permutation shuffles labels within days (not a whole-day null); p is descriptive only",
+                                   "U1/U3 kilometre intervals are illustrative bracket values because distance is not carried (R1 not met)"]
     res["scope"] = "M726: no U1/U2 output feeds the winter session; no winter prediction is scored or extended"
     if mc.md5(a.master) != PINNED_MD5 or any(mc.md5(p) != v for p, v in frozen_before.items()):
         print("mynissan_unlogged: master or frozen file changed during the run"); return 1
