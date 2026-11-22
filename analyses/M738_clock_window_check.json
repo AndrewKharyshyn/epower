@@ -1,0 +1,28 @@
+{
+ "milestone": "M738",
+ "maxShiftTestedSeconds": 60.0,
+ "nDrives": 717,
+ "lastDriveStart": "2026-11-20 09:29:50",
+ "driveStartsWithinShiftOfScoringBoundary(F+1h)": 0,
+ "driveStartsWithinShiftOfBasisBoundary(F-1h)": 0,
+ "driveStartsWithinShiftOfFreezeTime(F)": 0,
+ "driveStartsWithinShiftOfMidnight": 0,
+ "m730": {
+  "n_drives": 517,
+  "n_days": 137,
+  "pooled_best_offset_s": 16
+ },
+ "m730ByDstPeriod": {
+  "after_2026-10-25": {
+   "median_best_s": 17.0,
+   "n": 79
+  },
+  "before_2026-10-25": {
+   "median_best_s": 17.0,
+   "n": 438
+  }
+ },
+ "reading": "the M730 offset is cloud-versus-OBD, not logger-versus-true-time, and it is about 16 s (P90 26 s); the guard around F is 3600 s and the frozen scoring rule uses drive starts, so a 16 s shift cannot move a drive across the boundary unless a start lies within the shift of it (counted above). The offset is the same before and after the 25 Oct time change, so there is no sign of a time-zone handling defect (that would be 3600 s). It only matters for a calendar-day label when a drive starts within the shift of midnight (counted above); re-run at scoring on the scoring frame.",
+ "language": "an offset of about 16 s; logger clock assumed Europe/Kyiv local time (not verified against an external time source)",
+ "noDriveClassificationChangesToday": true
+}
