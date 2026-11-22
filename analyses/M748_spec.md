@@ -1,0 +1,34 @@
+# M748 spec: a labelled, auxiliary "MyNISSAN cloud export" section in the dashboard, bound to a pipeline-written payload block
+
+Rev 1. Committed BEFORE any code, payload or dashboard change. Author: main session (Sonnet). Number taken after checking the CHANGELOG head (M747, parallel session), open PRs and remote branches. Origin: Andrii's request in chat, 2026-11-22: "update the HTML dashboard using the auxiliary data from the cloud export". Next step: Director review, then payload script + tests, jsx binding, language/semantic gates, blind audit, Director decision, dashboard change rule (SendUserFile render + commit with sources).
+
+## 0. What is requested and what stands in the way
+The six cloud tools (M729 coverage, M730 clock offset, M733 tyre, M734 thermal sensitivity, M737 grade G0, M739 unlogged exposure) were all built "report-only": no payload key, no dashboard binding. The owner's request lifts that for display. It does not lift: OBD as the primary source; the auxiliary label; the language gate (estimated / reconstructed / proxy, never measured); the rule that every displayed figure binds to a pipeline-computed `S.*` key (no hardcoded literals); the article restriction (a figure entering the article needs an Opus audit and Andrii's separate sign-off; this display is not article use); the M726 winter freeze (nothing displayed may score or extend a winter prediction).
+
+## 1. What is shown (proposal; the Director rules per item)
+Source files are the REGISTERED results only (`analyses/M729_cloud_brief.json`, `M730_clock_offset.json`, `M733_tyre_pressure.json`, `M734_thermal_forcing.json`, `M737_g0.json`, `M739_unlogged_exposure.json`), never the M746 retests. Each item carries its basis ("registered on 717 drives, master MD5 d514d600..., export span ...") and its verdict wording as already pre-registered.
+- C1 Coverage: drives in the master with cloud data, export span, cloud odometer gain versus logged km (M729). Uncovered drives: "no cloud data yet", never "gap" for the OBD study.
+- C2 Clock offset: pooled best offset (about +16 s, cloud earlier) with its day-bootstrap interval and n (M730), labelled "estimated cloud-to-OBD clock offset".
+- C3 Unlogged exposure (M739): strict unlogged units, cloud kilometres labelled "lower-biased cloud total" (R1 distance and duration "not met"), time shares and ambient as reconstructable (R1 met), U2 descriptive differences with intervals, U3 kilometre partition; all with the V1 error stated next to them.
+- C4 Grade (M737 G0): the status "not testable at this support" with the support counts against the floor, not a result of grade.
+- C5 Tyre pressure (M733): descriptive only, scale flagged UNVALIDATED (tenths of kPa assumed); shown only if the Director rules the unvalidated scale displayable, else a one-line status.
+- C6 Thermal sensitivity (M734): shown only as the registered sensitivity result with its own caveats; the Director rules whether any of it may appear next to the winter-frozen content.
+Not shown: any per-drive track, coordinate or per-day table (public repository); the M746 retests; anything derived from a battery or energy claim.
+
+## 2. Mechanism
+- `tools/cloud_payload.py`: reads the registered JSONs, asserts each file's recorded `masterMd5` equals its registered pin, and writes ONE additive payload block `cloudAuxiliary` (aggregates only, each item with `basis`, `verdictLabel`, `n`, `days`, interval where the source has one) into `summary_arrays.json` by the additive leaf-level splice pattern (compute only the new key, deep-diff, only that key changes; `drive_master.csv` untouched). Idempotent; fails closed (writes nothing) if a source file is missing or its pin mismatches. Registered as an ingestion stage `cloud_payload` (cheap, deterministic), AFTER the arrays stages, BEFORE the dashboard build, so a normal ingestion refreshes the block from the unchanged registered results (the block carries its own basis, so after later ingestions it reads "registered on 717 drives" beside a larger OBD corpus, which is the correct statement).
+- `xtrail_summary.jsx`: a new section bound only to `S.cloudAuxiliary.*`. Placement (Director rules): a new tab "cloud (auxiliary)" vs a section inside an existing tab; a new tab changes the 9-tab validation and the tab-dump baselines, a section does not.
+- `summary_config.json`: section title and the static wording that is not a number.
+- Gates that must pass: `node build_html.js`, `node validate_jsdom.js`, `semantic_gate.py` (A2 language), `language_gate.py` rules (new rules for any new wording, each with a ledger id), isolation diff (only `cloudAuxiliary` added in the payload; no other key moves), `release_check.py`, the CI unit list.
+
+## 3. Constraints
+Public repository: aggregates only. No coordinate or per-drive item in the payload. The block is read-only on the winter files (M726); `analyses/M717_*` hashes asserted unchanged. `drive_master.csv` MD5 asserted before and after. The section states, in words, that it is auxiliary, that OBD remains the primary source and that none of it corrects or replaces any OBD-based figure. No "measured", "confirmed", "corrected", "validated" wording for cloud-derived quantities.
+
+## 4. Acceptance and falsification
+Accepted when: payload isolation diff shows only `cloudAuxiliary`; jsdom and semantic gates pass on the rebuilt dashboard; every displayed number equals the corresponding registered-JSON value (a known-answer test reads both); each item's verdict label equals its registered verdict; the rebuilt dashboard is shown in the session (SendUserFile render) with the keys listed; CI green. Falsified if any displayed figure is not traceable to a registered JSON field or any not-met verdict is displayed without its label.
+
+## 5. Parallel work and order
+`summary_arrays.json`, `xtrail_summary.jsx`, `xtrail_dashboard.html` conflict with any running ingestion: this milestone lands after the ingestion that is in progress in the parallel session has merged, branching from the then-current `main`. Order: Director review of this spec, then wait for the merge, then payload script and tests, jsx, gates, blind audit, Director decision, PR (dashboard change rule: the PR carries the html and its sources together).
+
+## 6. Questions for the Director
+(a) New tab or a section in an existing tab, given the tab-count tests? (b) Which of C1 to C6 may be displayed (C5 unvalidated scale, C6 thermal next to the winter freeze)? (c) Is showing "registered on 717 drives" beside a larger OBD corpus acceptable, or must the block be marked stale once the master moves on? (d) Does displaying a not-met distance total ("lower-biased cloud total") invite misuse, and what exact wording is required? (e) Is a blind audit enough, or does a dashboard display of cloud-derived figures need the Opus audit even though it is not article use?
