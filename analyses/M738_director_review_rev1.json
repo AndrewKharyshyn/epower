@@ -1,0 +1,30 @@
+{
+ "milestone": "M738",
+ "reviewer": "research-director (Opus)",
+ "reviewed": "analyses/M738_spec.md Rev 1 (9d5ee3b, sha256 5a68eb1b9785ec7a63ec963ed859cb1482370cd71c55ee597a0943affd2f28aa)",
+ "decision": "revise",
+ "required_changes": [
+  "build units on the full cloud stream with no window knowledge, assign by overlap; V2 recall over all drives in the export span plus precision",
+  "restore speed above zero at one end in the step rule or state the deviation",
+  "U2: signed per-class differences with day-cluster intervals and MDE, or a permutation null for TV (TV is non-negative and biased upward)",
+  "U2 comparator is the cloud-reconstructed vector of logged drives, km-weighted on both sides",
+  "R1: km-weighted signed-bias criterion for distance; absolute criterion for duration; define moving time; mean speed and stop-and-go descriptive only",
+  "R2: stratum-matched V1 error applied to U units, transport assumption stated, cloud missingness reported as a selection",
+  "state which uncertainty the U1 intervals cover (census, measurement error only) and how it is propagated",
+  "rename truth vector to OBD reference; manual ambient is a driver-recorded reference; M734 rules may be tuned in-sample",
+  "align the km spans (717 drives in the master vs 713 in the export span); state the M726 scope for November dates"
+ ],
+ "answers": {
+  "a": "conditionally sound: in-support, stratum-matched units; otherwise counts and km; fall back to counts if any stratum has fewer than 30 validation drives",
+  "b": "distance fine; duration needs an absolute criterion; 130 cap irrelevant to classes; ambient 1.0 C fine; UB at most 1.5x threshold is lenient, label marginal; TV fine for V1, not for U2 nulls",
+  "c": "mostly adequate; state padded versus unpadded; run the +16 s shift as a sensitivity; bracket boundary km",
+  "d": "keep U3 as a disjoint exhaustive km decomposition only; no ratio named a share; the owner KPI stays the only share"
+ },
+ "risks": [
+  "short-trip selection: mean unit 5.8 km against 15.4 km per logged drive",
+  "cloud gaps not at random",
+  "a competing date-aligned share",
+  "possible in-sample ambient from M734"
+ ],
+ "needs_andrii_signoff": false
+}
