@@ -1,0 +1,26 @@
+{
+ "milestone": "M746",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M746_spec.md Rev 2",
+ "decision": "revise",
+ "required_changes_adopted_in": "section 8 (Rev 3)",
+ "summary": [
+  "registered mode writes no stub into analyses/",
+  "retest outputs in analyses/cloud_retests/<tool>_<md5_8>/ with all outputs",
+  "protected set extended",
+  "slow-tool trigger = fingerprint change; XT_CLOUD_SLOW=0 opt-out",
+  "open_items reconciliation and skipped_pinned_master until Rev 3 registered",
+  "retest scope line and wording; no dashboard/payload/article use without Director and Andrii",
+  "state whether cloud_retests/ is committed"
+ ],
+ "answers": {
+  "rev3_addendum_enough": "yes, one hashed addendum per tool, committed before the first retest, plus a byte-identical known-answer test on the pinned master; a retest needs no own spec or blind audit",
+  "thermal_E1": "safe in the wrapper; not safe by hand until 8.1",
+  "risks": [
+   "repeated retests read as cumulative evidence",
+   "hand runs overwrite registered files",
+   "retests on winter data",
+   "integrity breach after release_check makes that pass stale"
+  ]
+ }
+}
