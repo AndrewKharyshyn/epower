@@ -1,0 +1,104 @@
+{
+ "milestone": "M730",
+ "spec": "analyses/M730_spec.md Rev 1",
+ "role": "auxiliary",
+ "n_drives": 517,
+ "n_days": 137,
+ "pooled_best_offset_s": 16,
+ "pooled_median_abs_err_at_0": 7.20993382918607,
+ "pooled_median_abs_err_at_best": 3.299999237060547,
+ "per_drive_best": {
+  "median": 17.0,
+  "p10": 13.0,
+  "p90": 26.0,
+  "share_within_30s": 0.9458413926499033,
+  "share_within_60s": 1.0
+ },
+ "split_validation": {
+  "train_odd_days": {
+   "global_offset_s": 16,
+   "n_train": 269,
+   "n_test": 248,
+   "test_median_abs_err_at_0": 7.099998474000003,
+   "test_median_abs_err_at_global": 3.3934759826685905,
+   "test_median_abs_err_at_own_best_optimistic": 2.818385664607291
+  },
+  "train_even_days": {
+   "global_offset_s": 15,
+   "n_train": 248,
+   "n_test": 269,
+   "test_median_abs_err_at_0": 7.305634700843634,
+   "test_median_abs_err_at_global": 3.3000030517578125,
+   "test_median_abs_err_at_own_best_optimistic": 2.7000007629999985
+  }
+ },
+ "by_month": {
+  "2026-05": {
+   "median_best_s": 18.0,
+   "n": 27
+  },
+  "2026-06": {
+   "median_best_s": 16.0,
+   "n": 46
+  },
+  "2026-07": {
+   "median_best_s": 17.0,
+   "n": 82
+  },
+  "2026-08": {
+   "median_best_s": 16.0,
+   "n": 82
+  },
+  "2026-09": {
+   "median_best_s": 17.0,
+   "n": 132
+  },
+  "2026-10": {
+   "median_best_s": 17.0,
+   "n": 69
+  },
+  "2026-11": {
+   "median_best_s": 17.0,
+   "n": 79
+  }
+ },
+ "by_dst_period": {
+  "after_2026-10-25": {
+   "median_best_s": 17.0,
+   "n": 79
+  },
+  "before_2026-10-25": {
+   "median_best_s": 17.0,
+   "n": 438
+  }
+ },
+ "by_duration_tercile": {
+  "0": {
+   "median_best_s": 17.0,
+   "n": 172
+  },
+  "1": {
+   "median_best_s": 17.0,
+   "n": 173
+  },
+  "2": {
+   "median_best_s": 17.0,
+   "n": 172
+  }
+ },
+ "median_best_offset_ci95_day_bootstrap": [
+  16.0,
+  17.0
+ ],
+ "pedal_secondary": {
+  "median_abs_diff_pp_at_0": 7.154933753272495,
+  "median_abs_diff_pp_at_global": 4.686165056690239,
+  "n_matches": 11039
+ },
+ "decision_rule": {
+  "held_out_gain_and_within_0.25_of_own_best": false,
+  "months_within_5s": true,
+  "adopt_global_offset": false,
+  "recommended_offset_s": 16
+ }
+}
