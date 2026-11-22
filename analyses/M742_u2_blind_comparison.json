@@ -1,0 +1,193 @@
+{
+ "milestone": "M742",
+ "spec": "analyses/M742_spec.md",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "rule": "spec section 3 (fixed before the audit)",
+ "classes": {
+  "km_weighted.below30": {
+   "tool": 0.158,
+   "audit": 0.1603,
+   "d_est": 0.0023,
+   "d_lo": 0.0009,
+   "d_hi": 0.0022,
+   "sign_same": true,
+   "mde_rel": 0.002,
+   "ok": true
+  },
+  "km_weighted.30to80": {
+   "tool": 0.0397,
+   "audit": 0.0389,
+   "d_est": -0.0008,
+   "d_lo": -0.0064,
+   "d_hi": -0.0033,
+   "sign_same": true,
+   "mde_rel": 0.027,
+   "ok": true
+  },
+  "km_weighted.above80": {
+   "tool": -0.1977,
+   "audit": -0.1991,
+   "d_est": -0.0014,
+   "d_lo": -0.0039,
+   "d_hi": -0.0019,
+   "sign_same": true,
+   "mde_rel": 0.009,
+   "ok": true
+  },
+  "km_weighted.length_t1": {
+   "tool": 0.0976,
+   "audit": 0.0977,
+   "d_est": 0.0001,
+   "d_lo": 0.0,
+   "d_hi": -0.002,
+   "sign_same": true,
+   "mde_rel": 0.0,
+   "ok": true
+  },
+  "km_weighted.length_t2": {
+   "tool": 0.1801,
+   "audit": 0.1811,
+   "d_est": 0.001,
+   "d_lo": 0.0043,
+   "d_hi": -0.0012,
+   "sign_same": true,
+   "mde_rel": 0.018,
+   "ok": true
+  },
+  "km_weighted.length_t3": {
+   "tool": -0.2777,
+   "audit": -0.2788,
+   "d_est": -0.0011,
+   "d_lo": 0.0033,
+   "d_hi": -0.006,
+   "sign_same": true,
+   "mde_rel": 0.013,
+   "ok": true
+  },
+  "km_weighted.weekend": {
+   "tool": -0.085,
+   "audit": -0.0854,
+   "d_est": -0.0004,
+   "d_lo": -0.0015,
+   "d_hi": -0.005,
+   "sign_same": true,
+   "mde_rel": 0.01,
+   "ok": true
+  },
+  "km_weighted.night": {
+   "tool": 0.0097,
+   "audit": 0.0096,
+   "d_est": -0.0001,
+   "d_lo": -0.001,
+   "d_hi": -0.0016,
+   "sign_same": true,
+   "mde_rel": 0.008,
+   "ok": true
+  },
+  "time_weighted.below30": {
+   "tool": 0.1389,
+   "audit": 0.1419,
+   "d_est": 0.003,
+   "d_lo": 0.0027,
+   "d_hi": 0.0027,
+   "sign_same": true,
+   "mde_rel": 0.005,
+   "ok": true
+  },
+  "time_weighted.30to80": {
+   "tool": -0.0076,
+   "audit": -0.0089,
+   "d_est": -0.0013,
+   "d_lo": -0.0041,
+   "d_hi": -0.004,
+   "sign_same": true,
+   "mde_rel": 0.015,
+   "ok": true
+  },
+  "time_weighted.above80": {
+   "tool": -0.1312,
+   "audit": -0.133,
+   "d_est": -0.0018,
+   "d_lo": -0.0025,
+   "d_hi": -0.0012,
+   "sign_same": true,
+   "mde_rel": 0.01,
+   "ok": true
+  },
+  "time_weighted.length_t1": {
+   "tool": 0.1347,
+   "audit": 0.1348,
+   "d_est": 0.0001,
+   "d_lo": 0.0002,
+   "d_hi": 0.0016,
+   "sign_same": true,
+   "mde_rel": 0.011,
+   "ok": true
+  },
+  "time_weighted.length_t2": {
+   "tool": 0.1922,
+   "audit": 0.1944,
+   "d_est": 0.0022,
+   "d_lo": 0.0061,
+   "d_hi": 0.0002,
+   "sign_same": true,
+   "mde_rel": 0.031,
+   "ok": true
+  },
+  "time_weighted.length_t3": {
+   "tool": -0.3268,
+   "audit": -0.3292,
+   "d_est": -0.0024,
+   "d_lo": 0.002,
+   "d_hi": -0.0088,
+   "sign_same": true,
+   "mde_rel": 0.018,
+   "ok": true
+  },
+  "time_weighted.weekend": {
+   "tool": -0.1407,
+   "audit": -0.141,
+   "d_est": -0.0003,
+   "d_lo": -0.0026,
+   "d_hi": -0.0045,
+   "sign_same": true,
+   "mde_rel": 0.017,
+   "ok": true
+  },
+  "time_weighted.night": {
+   "tool": 0.0026,
+   "audit": 0.0024,
+   "d_est": -0.0002,
+   "d_lo": -0.0009,
+   "d_hi": 0.0004,
+   "sign_same": true,
+   "mde_rel": 0.005,
+   "ok": true
+  }
+ },
+ "findings": [
+  "K5 logged vectors 641 (tool) vs 636 (auditor): not exact; auditor's NaN-as-clean variant gives 646; all estimates still inside tolerance; cause not resolved",
+  "speed total-variation p is fragile: km-weighted 0.046 (tool) / 0.036 (auditor) vs time-weighted 0.071 (auditor); eight classes, no multiplicity adjustment; read descriptively",
+  "tercile-mix differences follow from unlogged units being short (selection by construction), not a finding"
+ ],
+ "TV": {
+  "tool_obs": 0.19771082254675137,
+  "audit_obs": 0.1991229447321302,
+  "tool_p": 0.04595404595404595,
+  "audit_p": 0.03624093976505874,
+  "ok": true
+ },
+ "K5": {
+  "tool_logged_vectors": 641,
+  "audit_logged_vectors": 636,
+  "tool_unlogged": 328,
+  "audit_unlogged": 328,
+  "days": [
+   166,
+   166
+  ],
+  "exact": false
+ },
+ "classes_failing": [],
+ "outcome": "reproduced with disclosed differences"
+}
