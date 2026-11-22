@@ -1,0 +1,21 @@
+{
+ "milestone": "M732",
+ "reviewer": "research-director",
+ "subject": "spec Rev 1 of the P1 extractor",
+ "decision": "revise",
+ "needs_andrii_signoff": false,
+ "rulings": [
+  "Part B reads the park clause correctly; Part A must be a no-re-anchor free run (prototype free_run), flag-segmented chain only as sensitivity",
+  "windows +-3 C (M709 E4), cells 10 C [7,13] and 15 C [12,18] separate",
+  "within = interval inside; outside = point estimate outside; P1 within only if every cell within",
+  "D1 accept (0.7 x 5.8 Dec-Feb only), D2 accept with ambientByDrive sha256, D3 accept with wording, D4 accept (still propagated), D5 revise (Dec-Feb primary, Nov beside)",
+  "C-P1b: 1e-9 vs vendored functions with unrounded amp/hpk; modelPairs 596 exact; biasNear15C -0.269 +-5e-4; mae_Tend 0.74 / bias -0.037 at stored precision; report rounding effect",
+  "add 7-day block bootstrap sensitivity"
+ ],
+ "limits": [
+  "heat-soaked vehicle sensor ambient is an input",
+  "chain carries error across day clusters",
+  "winter amp x0.7 is an assumption",
+  "params fitted May-Nov: out-of-time, not a clean hold-out"
+ ]
+}

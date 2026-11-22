@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import winter_score as WS
 
 F_ = json.load(open(os.path.join(ROOT, "analyses", "M717_winter_predictions.json"), encoding="utf-8"))
-assert WS.REGISTRY == "analyses/M736_extractor_registry.json"
+assert WS.REGISTRY == "analyses/M732_extractor_registry.json"
 
 
 def frame(nd=24, nday=8, margin=-4.0, tmin=-3.0, ah_cold_share=0.1):
@@ -45,11 +45,18 @@ def frame(nd=24, nday=8, margin=-4.0, tmin=-3.0, ah_cold_share=0.1):
 
 
 _orig, _tol = WS.extractors_frozen, WS.p6_tol
-WS.extractors_frozen = lambda pid=None, changelog_text=None: (True, "frozen") if pid in ("P2", "P3", "P4", "P5", "P6", "P7") else (False, "not covered")
+WS.extractors_frozen = lambda pid=None, changelog_text=None: (True, "frozen") if pid in ("P1", "P2", "P3", "P4", "P5", "P6", "P7") else (False, "not covered")
 WS.p6_tol = lambda: 0.0
 try:
     cells = {c["prediction"]: c for c in WS.score_all(frame(), F_, nb=100)}
-    assert cells["P1"]["status"] == "not evaluable"
+    assert cells["P1"]["status"] == "not evaluable" and "sidecar" in cells["P1"]["reason"]
+    # M732: P1 with a stubbed sidecar and a stubbed extractor (the real extractor is tested in test_winter_p1.py)
+    import winter_p1 as W1
+    _ex = W1.extract_p1
+    W1.extract_p1 = lambda sc, params, nb=4000: {"status": "within the frozen tolerance", "cells": {}, "n": len(sc)}
+    c1 = {c["prediction"]: c for c in WS.score_all(frame(), F_, nb=50, p1_sidecar_fn=lambda w: w)}["P1"]
+    W1.extract_p1 = _ex
+    assert c1["status"] == "within the frozen tolerance" and c1["n"] == 24 and c1["prediction"] == "P1"
     c6 = cells["P6"]
     assert c6["status"] == "fitted" and c6["reading"] == "within the map" and c6["exceedCount"] == 0 and c6["nDrives"] == 24 and "delivered" in c6["kind"]
     # one exceedance on two days -> outside the map

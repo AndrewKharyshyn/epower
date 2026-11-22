@@ -1,0 +1,76 @@
+{
+ "milestone": "M732",
+ "auditor": "analytical-auditor",
+ "subject": "blind reproduction of the P1 cells on the frozen-basis replay (months 10, 11)",
+ "verdict": "accept",
+ "agrees": true,
+ "maxAbsDiff": 0.0,
+ "cells": {
+  "A": {
+   "n": 173,
+   "nDays": 26,
+   "bias": -1.086634,
+   "mae": 1.95267,
+   "reading": "within"
+  },
+  "B1": {
+   "n": 13,
+   "reading": "inconclusive"
+  },
+  "B2": {
+   "n": 31,
+   "reading": "inconclusive"
+  },
+  "B3": {
+   "n": 52,
+   "reading": "inconclusive"
+  }
+ },
+ "specChoicesMadeByAuditor": [
+  "no re-anchor on gaps over 168 h",
+  "bias and MAE share the bootstrap draws",
+  "month filter applies to the scored (next) drive; chain spans month boundaries",
+  "Part B amp/hpk from the previous drive, frozen"
+ ],
+ "concerns": [
+  "Part A bias CI lower bound 0.017 C from the -2 tolerance edge",
+  "day bootstrap while error is carried across days (R6 block sensitivity not run by auditor)",
+  "B1 13 pairs just above support",
+  "replay is in-sample, not validation",
+  "P1 overall must not be called within when B cells are inconclusive"
+ ],
+ "script": "analyses/M732_blind_audit/p1_blind.py",
+ "targetedFollowUp": {
+  "verdict": "accept",
+  "match": "all three items match to 4 decimals (difference 0)",
+  "flagSegmentedChain": {
+   "n": 158,
+   "bias": -0.113223
+  },
+  "predictedValueWindows": {
+   "B2": {
+    "n": 33,
+    "bias": -0.554539,
+    "reading": "outside"
+   },
+   "B3": {
+    "n": 46,
+    "bias": -0.288281,
+    "reading": "inconclusive"
+   }
+  },
+  "D4": "no replay drive below icov 0.8; none NaN",
+  "script": "analyses/M732_blind_audit/p1_blind2.py",
+  "concerns": [
+   "B2 selected on the predicted value reads outside while the primary B2 is inconclusive: disclose beside the primary; selection on the predicted value is a sensitivity only",
+   "the segmented chain bias (-0.11) vs the primary (-1.09) shows that the primary free-run bias is driven by flagged or ineligible joins (unlogged use); say so"
+  ]
+ },
+ "targetedFollowUp2": {
+  "verdict": "accept",
+  "plantedSidecar": "analyses/M732/p1_basis_replay_sidecar_planted.csv",
+  "match": "A n 171 bias -1.066142 MAE 1.942322; B1/B2/B3 unchanged; diff 0",
+  "note": "the pair across the dropped row is eligible and not flagged (gap 1.13 h) but falls in no B cell, so the exclusion has no effect there (covered by a known-answer test)",
+  "script": "analyses/M732_blind_audit/p1_blind3.py"
+ }
+}

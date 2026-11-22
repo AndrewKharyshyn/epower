@@ -88,7 +88,8 @@ jobs:
           python tests/synthetic/test_winter_score_v4.py
           python tools/m731_vendor.py --check
           python tests/synthetic/test_winter_p2_v4.py
-          python tools/winter_extractors_d_freeze.py --check
+          python tests/synthetic/test_winter_p1.py
+          python tools/winter_extractors_e_freeze.py --check
           python tests/synthetic/test_park_two_state.py
           python tests/synthetic/test_park_propagation_control.py
           python tests/synthetic/test_ingest_preflight.py
