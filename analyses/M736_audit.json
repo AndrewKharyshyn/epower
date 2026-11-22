@@ -1,0 +1,7 @@
+{"milestone":"M736","stage":"G0","auditor":"analytical-auditor (blind: claim and data paths only; tool, test and result JSON not read)","spec":"analyses/M736_spec.md Rev 2",
+ "C1":{"reproduced":true,"claim":"about 400 of 627 drives pass the path/speed ratio screen","auditor":419,"note":"whole-drive ratio, minimum speed integral 100 m (tool: 200 m)"},
+ "C2":{"reproduced":true,"pattern":"+16 s best shift; error grows with speed","auditor_median_m_at_plus16":{"below30":11,"30to80":36,"above80":96},"auditor_median_m_at_0":{"below30":63,"30to80":178,"above80":377},"claim_plus16":[18,34,114],"note":"differences of 7 to 18 m from rule ambiguity (speed-class definition, window assignment); read as tolerance-level, about +-20 m at high speed"},
+ "C3":{"reproduced":true,"auditor":{"segments":641,"days":9,"drives":25,"km":328},"claim":{"segments":507,"days":8,"drives":20},"note":"both far below the 30-day floor; the G0 stop gate holds; auditor did not apply the repeat-pair rule or reverse screen"},
+ "method_concerns":["descriptive stage, no interval needed for the gate; day count is the right unit","ratio screen drops about a third of the drives: any later use must state the valid-track subset is selected on OBD speed consistency","speed-class and window assignment rules were not in the spec; tolerance-level agreement"],
+ "language":["describe C2 as cloud-minus-OBD position disagreement, not cloud accuracy (the OBD GPS is itself a phone fix)","the 16 s shift is the best-agreeing shift, not an established latency"],
+ "verdict":"accept"}
