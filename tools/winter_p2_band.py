@@ -53,7 +53,7 @@ def _run(shifts, window, draws, tag, workdir):
     out = os.path.join(workdir, tag + ".npy")
     args = {"scenario": SCENARIO, "shifts": np.asarray(shifts).tolist(), "windowMonths": window, "draws": draws, "out": out}
     ap = os.path.join(workdir, tag + ".json")
-    json.dump(args, open(ap, "w"))
+    json.dump(args, open(ap, "w", encoding="utf-8"))
     r = subprocess.run([sys.executable, "-I", RUNNER, ap], capture_output=True, text=True, cwd=ROOT)
     line = [l for l in r.stdout.splitlines() if l.startswith("RESULT ")]
     if r.returncode != 0 or not line:

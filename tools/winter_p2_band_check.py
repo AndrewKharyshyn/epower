@@ -38,7 +38,7 @@ def main(argv=None):
 
     def run(window, tag):
         a = {"scenario": "S3b_cold_winter", "shifts": [[-6, -6, -3, 0, 0, 0, 0, 0, 0, 0, -3, -6]], "windowMonths": window, "draws": 4000, "out": os.path.join(wd, tag + ".npy")}
-        json.dump(a, open(os.path.join(wd, tag + ".json"), "w"))
+        json.dump(a, open(os.path.join(wd, tag + ".json"), "w", encoding="utf-8"))
         p = subprocess.run([sys.executable, "-I", runner, os.path.join(wd, tag + ".json")], capture_output=True, text=True, cwd=ROOT)
         line = [l for l in p.stdout.splitlines() if l.startswith("RESULT ")]
         return json.loads(line[0][7:]) if line else {"error": p.stderr[-400:]}
