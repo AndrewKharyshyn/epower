@@ -1,0 +1,21 @@
+{
+ "milestone": "M745",
+ "decision": "go",
+ "reviewOfSpec": {"decision": "revise", "applied": "analyses/M745_spec.md Rev 2 sections 10 (R1-R3, C1-C7)"},
+ "readingWording": "Accounting of the published monitor value (descriptive, not a cause): the step of EnergyIntensity.shoulder from 26.93 (M378) to 19.52 kWh/100 km (M575) is accounted for in full by the addition of 73 new drives (f3 = total = -7.41, day-clustered 95 % interval [-11.75, -1.81], 177 drives, 50 days, 5.83 effective days for the added set). The 104 common drives have identical values in both states and no drive was removed, so this split is exact arithmetic, not an estimate. The separation from 0 is weak: the 7-day block bootstrap gives [-11.53, +0.31] (includes 0), and the day-label placebo excludes 0 in 14.5 % of permutations against a nominal 5 %, so the day-bootstrap interval is likely too narrow at about 6 effective days.",
+ "rulings": [
+  "R1 The pre-registered reading 'added drives' stands. C3 made the placebo a reported metric, not a gate; it must always appear together with both disclosures.",
+  "R2 The 100 % share needs no inference (f1 = f2 = 0 by construction). The thin part is only whether the added days sit at a different level than the earlier days beyond day-to-day variation.",
+  "R3 The shoulder level is NOT accepted (spec section 9). The M743 re-baseline does not change this.",
+  "R4 Composition covariates are descriptive only (added drives average 19.5 km versus 5.5 km; 13 of 73 mixed or highway; ambient 9.2 vs 11.9 C; months Oct-Nov). Never 'caused by' longer drives, the season or temperature.",
+  "R5 Commit walk, points only: most of the step falls in the M426 (-2.95) and M463 (-4.69) windows; it places the step in time and does not attribute it to a milestone."],
+ "forbiddenWording": ["explained", "resolved", "cause", "temperature or seasonal effect", "measured", "shoulder confirmed"],
+ "needsAndriiSignoff": false,
+ "articleBound": false,
+ "deviationsToRecord": [
+  "Placebo: 500 bootstrap draws per permutation (the spec implies 4000), per-permutation seeds come from seed 42, and the metric is V_S1 - V_C(S1), which equals f3 only because f1 = f2 = 0.",
+  "The placebo (14.5 %) is above nominal while the planted-null K1 coverage is 4.3 %: the synthetic null does not reproduce the real day heterogeneity; both recorded, neither tuned.",
+  "f1 column split not triggered (falsifier d did not fire): not a deviation. f2 has 0 effective days, exploratory by C4, expected."],
+ "openItems": {"close": "shoulder step never audited or decomposed", "keepOpen": "shoulder level unaccepted; day-bootstrap interval likely anticonservative at about 6 effective days; revisit at 10 or more effective days"},
+ "source": "research-director brief of this session, recorded verbatim in substance"
+}
