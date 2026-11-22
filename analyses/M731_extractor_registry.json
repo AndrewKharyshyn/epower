@@ -1,0 +1,147 @@
+{
+ "milestone": "M731",
+ "spec": "analyses/M731_spec.md",
+ "note": "extractors of P2 (with the realised-ambient band), P3, P4, P5, P6, P7 frozen; P1 (M732) not covered",
+ "predictions": [
+  "P2",
+  "P3",
+  "P4",
+  "P5",
+  "P6",
+  "P7"
+ ],
+ "perPrediction": {
+  "P2": {
+   "function": "tools/winter_extractors.py::extract_p2 + tools/winter_p2_band.py::realised_band",
+   "version": 1,
+   "columns": [
+    "ahc_T_<0",
+    "ahc_T_0-5",
+    "ahc_T_5-10",
+    "ahd_T_<0",
+    "ahd_T_0-5",
+    "ahd_T_5-10",
+    "day",
+    "start",
+    "ambient_start_c",
+    "ambient_end_c"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "6438216df39c3c2920cb64e9aa24059b77eee88d459adb65bdce83bfdc5a85f6",
+   "winterScoreV4Sha256": "b36a1e904e2c51604cfed643f8faaa13db07470d3613b722487b38e133aa8071"
+  },
+  "P3": {
+   "function": "tools/winter_extractors.py::extract_p3",
+   "version": 1,
+   "columns": [
+    "R_pulse_mohm",
+    "T_pulse"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "9094e06d915eb688b8b4a60fe1cd50fd7f9b3194fb0b577975c5ed65713df943",
+   "winterScoreV4Sha256": "b36a1e904e2c51604cfed643f8faaa13db07470d3613b722487b38e133aa8071"
+  },
+  "P4": {
+   "function": "tools/winter_extractors_b.py::extract_p4",
+   "version": 1,
+   "columns": [
+    "Tlo_min",
+    "pin_n",
+    "pin_xty_0",
+    "pin_xty_1",
+    "pin_xty_2",
+    "pin_xtx_00",
+    "pin_xtx_01",
+    "pin_xtx_02",
+    "pin_xtx_10",
+    "pin_xtx_11",
+    "pin_xtx_12",
+    "pin_xtx_20",
+    "pin_xtx_21",
+    "pin_xtx_22"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "7ccdbccb6504c8e37bd2e0842747a4f4a0d810bfc431a363a91f25a5b8779452",
+   "winterScoreV4Sha256": "b36a1e904e2c51604cfed643f8faaa13db07470d3613b722487b38e133aa8071"
+  },
+  "P5": {
+   "function": "tools/winter_extractors.py::extract_p5",
+   "version": 1,
+   "columns": [
+    "km",
+    "ah",
+    "spd_s",
+    "dur_h",
+    "ambient_start_c",
+    "ambient_end_c",
+    "month",
+    "start"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "9094e06d915eb688b8b4a60fe1cd50fd7f9b3194fb0b577975c5ed65713df943",
+   "winterScoreV4Sha256": "b36a1e904e2c51604cfed643f8faaa13db07470d3613b722487b38e133aa8071"
+  },
+  "P6": {
+   "function": "tools/winter_p6.py::extract_p6 (+ sidecar p6_row)",
+   "version": 1,
+   "columns": [
+    "day",
+    "p6_n_s",
+    "p6_margin_c",
+    "p6_peak_c",
+    "p6_Tlo",
+    "p6_soc",
+    "p6_limit_c"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "6438216df39c3c2920cb64e9aa24059b77eee88d459adb65bdce83bfdc5a85f6",
+   "winterScoreV4Sha256": "b36a1e904e2c51604cfed643f8faaa13db07470d3613b722487b38e133aa8071"
+  },
+  "P7": {
+   "function": "tools/winter_extractors.py::extract_p7",
+   "version": 1,
+   "columns": [
+    "km",
+    "ah",
+    "spd_s",
+    "dur_h",
+    "eng_on_s",
+    "rpm_s",
+    "ambient_start_c",
+    "ambient_end_c"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "9094e06d915eb688b8b4a60fe1cd50fd7f9b3194fb0b577975c5ed65713df943",
+   "winterScoreV4Sha256": "b36a1e904e2c51604cfed643f8faaa13db07470d3613b722487b38e133aa8071"
+  }
+ },
+ "bootstrap": "numpy.random.default_rng(42).integers; day-clustered percentile; 4000 draws; days in ascending date order",
+ "modules": {
+  "tools/winter_extractors.py": "7d8ae215e9316cb6d9bc198130e5ebcaeb37145308493ee2c7296a17c2e4b4f6",
+  "tools/winter_extractors_b.py": "78c27c6efdca32973483a490e58aeb5b9486f301ac8c6103d1e2ea953818ed3c",
+  "tools/winter_p6.py": "ba0c20e10619ee62063a4b1a5b15fe718c2ff3546cdfdbde2c1b99a48353a69d",
+  "tools/winter_p2_band.py": "67adc655f52f738636820ea6cc291012d3c0621820e79c2c640543a9350a2ce9",
+  "tools/winter_p2_band_run.py": "047ee28d9f19e84f63acb10a836b6ea58f779f20cbf7c49b4caeae2e5e0dd6af",
+  "tools/winter_score.py": "b36a1e904e2c51604cfed643f8faaa13db07470d3613b722487b38e133aa8071",
+  "analyses/M731_consistency_check.json": "5c413acbc3dff342eb7b0c7f83592a7be1fde774a258db11b05ca31e293627f6",
+  "analyses/M731_engine_check.json": "0d1cce3ba9e90f5ee9a31084daf47f664b25c09caf592a515fca7730947d2981",
+  "analyses/M731_frozen_engine/index.json": "a63bc497c1851cb388512b32235d6e04e8ba539789a5aac508a4c67cf761688b",
+  "analyses/M731_frozen_engine/root/analyses/M709/park_model.json": "3677301a392590757d5c66bb3acc7cc75596c641519d4d39cb7308a06de2ab18",
+  "analyses/M731_frozen_engine/root/analyses/M713/exposure_drives.csv": "e5a6c3cf2fac6e281cc69ec406133c12ce94a9340613524918aa57f983330cc2",
+  "analyses/M731_frozen_engine/root/analyses/M713/exposure_slices.npz": "610cfb8712416bdaec759d2144fb8abcd7ae658c31a554c4270b97952b9fe880",
+  "analyses/M731_frozen_engine/root/analyses/M713/odometer_check.json": "03875a81b1e8e46da7b9810b1e61a0b340f7c683e1bfef36eb3dd087878f69f1",
+  "analyses/M731_frozen_engine/root/analyses/M713/state_params.json": "0dda8c93f54ee222eb698d9cf326f274275e7d505732f67774a05f0992e6fdda",
+  "analyses/M731_frozen_engine/root/summary_arrays.json": "d59a84cfbe2f025b566d8b1d1f809be615f87c26f09c0af4f559163124cf9a05",
+  "analyses/M731_frozen_engine/root/summary_config.json": "ff8f052a87239df21390f7d7aeab9f26cc81d971f971edf8fc51da6066423100",
+  "analyses/M731_frozen_engine/root/tools/exposure_state.py": "9d55f6c9c0ac5db8b5ddd94cfeb50558c624160ce67e068192fe88fc8c2b3c39",
+  "analyses/M731_frozen_engine/root/tools/park_model.py": "c0cb3cc530f213edca6d1af4aa3f38a93d269eaf6a7899c860fb7e36b5115a2b",
+  "analyses/M731_frozen_engine/root/tools/raw_resolver.py": "4acf7ff7c54e09778194d8abca12df79ce2f6c3088bba33135d856cacc2863b4",
+  "analyses/M731_frozen_engine/root/tools/restart_census.py": "b655d9ce0009a96fb1aaf42ef3f2ca0190ede370310b7f27bb8593e3393a63d7",
+  "analyses/M731_frozen_engine/root/tools/scenario_engine.py": "e6bcc75551a6ea6c84f06c0522321f599f13bd9a036822c35746184d1d14bcb3",
+  "analyses/M731_frozen_engine/root/tools/scenario_frame.py": "9ea3435e7c6bf3dce4b267df45d235d0ba88d242125b2a505975391a44f14770"
+ },
+ "supersedes": {
+  "registry": "analyses/M728_extractor_registry.json",
+  "sha256": "8ab523459fd50dedb13b54503289aa3f288435a346ff927ecd259c63958ab767"
+ }
+}

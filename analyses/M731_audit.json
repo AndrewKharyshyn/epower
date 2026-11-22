@@ -1,0 +1,33 @@
+{
+ "milestone": "M731",
+ "role": "analytical-auditor (blind, independent code; definitions in words only)",
+ "claimA": {
+  "reproduced": {
+   "nDrives": 15,
+   "nDays": 10,
+   "median": -8.0845,
+   "p90": -3.4578,
+   "p95": -3.2998,
+   "subZeroChargeSeconds": 0
+  },
+  "authorValues": "15 drives, 10 days, p95 -3.29979, 0 sub-zero seconds",
+  "agrees": true
+ },
+ "claimB": {
+  "reproduced": {
+   "shift": 2.5452,
+   "ci95": [
+    1.1285,
+    3.9618
+   ]
+  },
+  "authorValues": "mean+0.9+0.9785=2.54517; default_rng(42) day bootstrap [1.1285, 3.96183]",
+  "agrees": true
+ },
+ "notes": [
+  "11 raw files have no current column: no eligible second, cannot change the count",
+  "15 drives is a small reference; percentiles move with one drive"
+ ],
+ "verdict": "accept",
+ "storedBy": "main session from the auditor hand-back"
+}

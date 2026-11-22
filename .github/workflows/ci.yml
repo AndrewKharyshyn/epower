@@ -78,7 +78,11 @@ jobs:
           python tests/synthetic/test_winter_guards.py
           python tests/synthetic/test_winter_extractors.py
           python tests/synthetic/test_winter_extractors_b.py
-          python tools/winter_extractors_b_freeze.py --check
+          python tests/synthetic/test_winter_p6.py
+          python tests/synthetic/test_winter_p2_band.py
+          python tests/synthetic/test_winter_score_v4.py
+          python tools/m731_vendor.py --check
+          python tools/winter_extractors_c_freeze.py --check
           python tests/synthetic/test_park_two_state.py
           python tests/synthetic/test_park_propagation_control.py
           python tests/synthetic/test_ingest_preflight.py
