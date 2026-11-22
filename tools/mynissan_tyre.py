@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""M731: cloud tyre pressure as an auxiliary covariate (descriptive, report-only). Spec: analyses/M731_spec.md Rev 1.
-Writes analyses/M731_tyre_pressure.json and analyses/M731_tyre_snapshots.csv. Corner fields are read as tenths of kPa (UNVALIDATED scale).
+"""M733: cloud tyre pressure as an auxiliary covariate (descriptive, report-only). Spec: analyses/M733_spec.md Rev 1.
+Writes analyses/M733_tyre_pressure.json and analyses/M733_tyre_snapshots.csv. Corner fields are read as tenths of kPa (UNVALIDATED scale).
 Usage: python tools/mynissan_tyre.py [--store DIR] [--out-dir analyses] [--master drive_master.csv] [--coverage analyses/M729_cloud_coverage.csv]"""
 import argparse, bisect, csv, json, os, sys
 from datetime import datetime
@@ -77,7 +77,7 @@ def main(argv=None):
         am = [v for t, v in amb if d["t0"] + SETTLE_S <= t <= d["t1"]]
         rows.append({"file": d["file"], "date": d["date"], "km": d["km"], "t": s["t"], "min_into_drive": (s["t"] - d["t0"]) / 60.0, "p": s["p"],
                      "n_snap": j - i, "amb": float(np.mean(am)) if len(am) >= 5 else None})
-    res = {"milestone": "M731", "spec": "analyses/M731_spec.md Rev 1", "role": "auxiliary", "scale_assumption": "raw/10 = kPa, UNVALIDATED",
+    res = {"milestone": "M733", "spec": "analyses/M733_spec.md Rev 1", "role": "auxiliary", "scale_assumption": "raw/10 = kPa, UNVALIDATED",
            "snapshots_total": len(snaps), "snapshots_excluded_puncture": len(excluded),
            "puncture_window_kyiv": [kyiv(punct[0]), kyiv(punct[1])] if punct else None, "drives_with_snapshot": len(rows)}
     # E1 level
@@ -164,8 +164,8 @@ def main(argv=None):
         m = r["date"][:7]
         res["E5_feasibility"]["drives_with_snapshot_by_month"][m] = res["E5_feasibility"]["drives_with_snapshot_by_month"].get(m, 0) + 1
     os.makedirs(a.out_dir, exist_ok=True)
-    json.dump(res, open(os.path.join(a.out_dir, "M731_tyre_pressure.json"), "w", encoding="utf-8"), indent=1)
-    with open(os.path.join(a.out_dir, "M731_tyre_snapshots.csv"), "w", newline="", encoding="utf-8") as f:
+    json.dump(res, open(os.path.join(a.out_dir, "M733_tyre_pressure.json"), "w", encoding="utf-8"), indent=1)
+    with open(os.path.join(a.out_dir, "M733_tyre_snapshots.csv"), "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f, lineterminator="\n")
         w.writerow(["file", "date", "min_into_drive", "settled_ambient_c", "fl_kpa", "fr_kpa", "rl_kpa", "rr_kpa", "n_snapshots_in_window"])
         for r in rows:

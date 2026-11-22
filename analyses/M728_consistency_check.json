@@ -1,0 +1,51 @@
+{
+ "spec": "analyses/M728_spec.md",
+ "runs": [
+  {
+   "label": "run 1",
+   "basisDrives": 665,
+   "criteria": {
+    "n_s": "within 0.5 % of 89334",
+    "nDays": "== 60",
+    "b0": "within 0.05 kW of 33.92",
+    "bT": "within 0.01 of 1.553",
+    "bS": "within 0.01 of -1.01",
+    "b0Ci": "endpoints within 0.15 kW of [32.72, 35.47]"
+   },
+   "C-P4a": {
+    "n_s": 89334,
+    "nDays": 60,
+    "b0": 33.922099127759914,
+    "b0Ci95": [
+     32.721596728722844,
+     35.466726718706546
+    ],
+    "bT": 1.5529405996000778,
+    "bS": -1.0096520783208087,
+    "coldestProbeMinC": 1.0,
+    "pinWeightedMeanTminC": 15.271968119640897,
+    "conditionNumber": 6265.286651452353,
+    "nDrives": 184,
+    "diffs": {
+     "n_sRel": 0.0,
+     "nDays": 0,
+     "b0": 0.002099127759912278,
+     "bT": 5.940039992213819e-05,
+     "bS": 0.0003479216791912876,
+     "b0CiEnds": [
+      0.0015967287228448868,
+      0.0032732812934526123
+     ]
+    },
+    "pass": true
+   },
+   "C-P4b-descriptive": {
+    "nDrives": 232,
+    "nDays": 71,
+    "b0": 34.03658989893145,
+    "reading": "sensitivity to the key set (all frame drives); never the check; the M713 production frame at 696 drives gave 34.04 kW"
+   },
+   "allCriteriaPassed": true
+  }
+ ]
+}

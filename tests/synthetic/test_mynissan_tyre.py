@@ -1,4 +1,4 @@
-"""M731 known-answer tests (analyses/M731_spec.md Rev 1): planted temperature response, puncture exclusion, step detection, absent store is non-blocking."""
+"""M733 known-answer tests (analyses/M733_spec.md Rev 1): planted temperature response, puncture exclusion, step detection, absent store is non-blocking."""
 import csv, io, os, sys, tempfile, zipfile, json
 from datetime import datetime, timezone, timedelta
 
@@ -41,7 +41,7 @@ with open(mp, "w", newline="", encoding="utf-8") as f:
     w = csv.DictWriter(f, fieldnames=list(master[0]), lineterminator="\n"); w.writeheader(); w.writerows(master)
 out = os.path.join(tmp, "out")
 assert ty.main(["--store", store, "--out-dir", out, "--master", mp, "--coverage", os.path.join(tmp, "none.csv")]) == 0
-r = json.load(open(os.path.join(out, "M731_tyre_pressure.json")))
+r = json.load(open(os.path.join(out, "M733_tyre_pressure.json"), encoding="utf-8"))
 assert r["snapshots_excluded_puncture"] == 1 and r["puncture_window_kyiv"] is not None
 # the planted slope is 0.5 kPa/C but the inflation step on day 25 biases a plain regression; the step must be detected on all four corners
 assert r["E3_steps"]["n"] == 4 and all(s["date"] == "2026-11-26" for s in r["E3_steps"]["list"]), r["E3_steps"]
