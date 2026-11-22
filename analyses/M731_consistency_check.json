@@ -1,0 +1,72 @@
+{
+ "spec": "analyses/M731_spec.md",
+ "runs": [
+  {
+   "label": "run 1",
+   "basisDrives": 665,
+   "criteria": {
+    "C-P6a": "peak equals frame peak_c_chg within 1e-6 for 100 % or exceptions listed",
+    "C-P6b": "sum p6_n_s == 0",
+    "C-P6c": "tol = 95th percentile of the 0..10 C margin"
+   },
+   "C-P6a": {
+    "nExceptions": 0,
+    "exceptions": [],
+    "pass": true,
+    "passStrict100pct": true
+   },
+   "C-P6b": {
+    "sumP6Ns": 0,
+    "frameHoursBelow0C": 0.0,
+    "pass": true
+   },
+   "C-P6c": {
+    "nDrives": 15,
+    "nDays": 10,
+    "tolC": -3.2997947496202245,
+    "medianMarginC": -8.084528082953561,
+    "maxMarginC": -3.0138058607313365,
+    "quantiles": {
+     "p50": -8.084528082953561,
+     "p90": -3.4578059828016485,
+     "p95": -3.2997947496202245
+    }
+   },
+   "allCriteriaPassed": true
+  },
+  {
+   "label": "run 2 (tol floor)",
+   "basisDrives": 665,
+   "criteria": {
+    "C-P6a": "peak equals frame peak_c_chg within 1e-6 for 100 % or exceptions listed",
+    "C-P6b": "sum p6_n_s == 0",
+    "C-P6c": "tol = 95th percentile of the 0..10 C margin"
+   },
+   "C-P6a": {
+    "nExceptions": 0,
+    "exceptions": [],
+    "pass": true,
+    "passStrict100pct": true
+   },
+   "C-P6b": {
+    "sumP6Ns": 0,
+    "frameHoursBelow0C": 0.0,
+    "pass": true
+   },
+   "C-P6c": {
+    "nDrives": 15,
+    "nDays": 10,
+    "tolRefP95C": -3.2997947496202245,
+    "tolC": 0.0,
+    "medianMarginC": -8.084528082953561,
+    "maxMarginC": -3.0138058607313365,
+    "quantiles": {
+     "p50": -8.084528082953561,
+     "p90": -3.4578059828016485,
+     "p95": -3.2997947496202245
+    }
+   },
+   "allCriteriaPassed": true
+  }
+ ]
+}

@@ -1,0 +1,65 @@
+{
+ "spec": "analyses/M731_spec.md",
+ "runs": [
+  {
+   "label": "run 1",
+   "C-P2a": {
+    "perScenario": {
+     "S2_balanced_owner_expected": {
+      "keys": 77,
+      "differing": []
+     },
+     "S3a_mild_winter": {
+      "keys": 77,
+      "differing": []
+     },
+     "S3b_cold_winter": {
+      "keys": 77,
+      "differing": []
+     }
+    },
+    "ahShareLt10": {
+     "S2_balanced_owner_expected": [
+      0.0762,
+      0.0582,
+      0.0977
+     ],
+     "S3a_mild_winter": [
+      0.0435,
+      0.0316,
+      0.0577
+     ],
+     "S3b_cold_winter": [
+      0.1194,
+      0.0944,
+      0.1476
+     ]
+    },
+    "union": [
+     0.0316,
+     0.1476
+    ],
+    "pass": true
+   },
+   "C-P2d": {
+    "allMonths": [
+     0.1194,
+     0.0944,
+     0.1476
+    ],
+    "frozenS3b": [
+     0.1194,
+     0.0944,
+     0.1476
+    ],
+    "januaryOnly": [
+     0.4115,
+     0.2611,
+     0.605
+    ],
+    "pass": true
+   },
+   "allCriteriaPassed": true
+  }
+ ]
+}
