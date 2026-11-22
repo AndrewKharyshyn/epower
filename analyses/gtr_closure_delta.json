@@ -1,15 +1,13 @@
 {
- "keyDiffs": [
-  "/fGenMixStandardised"
- ],
+ "keyDiffs": [],
  "ciChecks": [
   {
    "path": "/alphaStar",
    "prev": [
-    0.621,
+    0.624,
     [
-     0.601,
-     0.639
+     0.606,
+     0.64
     ]
    ],
    "new": [
@@ -20,15 +18,15 @@
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 0.8947
+   "ciWidthRatio": 1.0
   },
   {
    "path": "/excessWithoutDual",
    "prev": [
-    -0.0918,
+    -0.0931,
     [
-     -0.1189,
-     -0.0747
+     -0.117,
+     -0.0766
     ]
    ],
    "new": [
@@ -39,15 +37,15 @@
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 0.914
+   "ciWidthRatio": 1.0
   },
   {
    "path": "/fGen",
    "prev": [
-    0.5093,
+    0.507,
     [
-     0.4196,
-     0.5696
+     0.4271,
+     0.5647
     ]
    ],
    "new": [
@@ -58,15 +56,15 @@
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 0.9173
+   "ciWidthRatio": 1.0
   },
   {
    "path": "/nodeExcess",
    "prev": [
     0.0561,
     [
-     0.0441,
-     0.0746
+     0.045,
+     0.0722
     ]
    ],
    "new": [
@@ -77,35 +75,35 @@
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 0.8918
+   "ciWidthRatio": 1.0
   }
  ],
  "pointOnly": [
   {
    "path": "/alphaStar/nInfeasibleDrivesBaseline",
-   "prev": 25,
+   "prev": 30,
    "new": 30,
    "comparedAs": "share of set size",
-   "prevShare": 0.0577,
+   "prevShare": 0.0619,
    "newShare": 0.0619,
-   "absDiff": 0.004119,
-   "relDiff": 0.07134,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/alphaStar/variantMax",
-   "prev": 0.782,
+   "prev": 0.787,
    "new": 0.787,
-   "absDiff": 0.005,
-   "relDiff": 0.00639,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/alphaStar/variantMin",
-   "prev": 0.211,
+   "prev": 0.218,
    "new": 0.218,
-   "absDiff": 0.007,
-   "relDiff": 0.03318,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
@@ -118,18 +116,18 @@
   },
   {
    "path": "/fGen/variantMax",
-   "prev": 0.5312,
+   "prev": 0.5291,
    "new": 0.5291,
-   "absDiff": 0.0021,
-   "relDiff": 0.00395,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/fGen/variantMin",
-   "prev": 0.4676,
+   "prev": 0.4652,
    "new": 0.4652,
-   "absDiff": 0.0024,
-   "relDiff": 0.00513,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
@@ -142,10 +140,10 @@
   },
   {
    "path": "/interval/lo",
-   "prev": -0.0918,
+   "prev": -0.0931,
    "new": -0.0931,
-   "absDiff": 0.0013,
-   "relDiff": 0.01416,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
@@ -166,109 +164,67 @@
   },
   {
    "path": "/per100km/battToTractionResidual",
-   "prev": 9.013,
+   "prev": 9.128,
    "new": 9.128,
-   "absDiff": 0.115,
-   "relDiff": 0.01276,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/per100km/genToBattDual",
-   "prev": 2.371,
+   "prev": 2.42,
    "new": 2.42,
-   "absDiff": 0.049,
-   "relDiff": 0.02067,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/per100km/genToBattEngineOn",
-   "prev": 5.204,
+   "prev": 5.317,
    "new": 5.317,
-   "absDiff": 0.113,
-   "relDiff": 0.02171,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/per100km/genToBattUpper",
-   "prev": 7.576,
+   "prev": 7.737,
    "new": 7.737,
-   "absDiff": 0.161,
-   "relDiff": 0.02125,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/per100km/genToTraction",
-   "prev": 9.354,
+   "prev": 9.386,
    "new": 9.386,
-   "absDiff": 0.032,
-   "relDiff": 0.00342,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/per100km/generator",
-   "prev": 16.03,
+   "prev": 16.213,
    "new": 16.213,
-   "absDiff": 0.183,
-   "relDiff": 0.01142,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/per100km/regenToBatt",
-   "prev": 2.675,
+   "prev": 2.685,
    "new": 2.685,
-   "absDiff": 0.01,
-   "relDiff": 0.00374,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   }
  ],
  "boolFlips": [],
  "typeChanges": [],
  "listChanges": [],
- "scopeChanges": [
-  {
-   "path": "/scope/km",
-   "prev": 3994.8,
-   "new": 4318.2
-  },
-  {
-   "path": "/scope/nCanonical",
-   "prev": 665,
-   "new": 717
-  },
-  {
-   "path": "/scope/nDays",
-   "prev": 76,
-   "new": 87
-  },
-  {
-   "path": "/scope/nDrives",
-   "prev": 433,
-   "new": 485
-  }
- ],
- "stringChanges": [
-  {
-   "path": "/_staleness"
-  },
-  {
-   "path": "/scope/excludedNote"
-  },
-  {
-   "path": "/sources/closureDiag/sha256"
-  },
-  {
-   "path": "/sources/fuelReconMaster/sha256"
-  },
-  {
-   "path": "/sources/step2/sha256"
-  }
- ],
- "stops": [
-  {
-   "rule": "key-set difference",
-   "path": "/fGenMixStandardised"
-  }
- ],
+ "scopeChanges": [],
+ "stringChanges": [],
+ "stops": [],
  "escalations": [],
  "units": {
   "fractions": "0-1 unless the leaf name ends in Pct",
@@ -280,9 +236,9 @@
   "nInsidePreviousCI": 4,
   "nPointOnly": 17,
   "nPointOnlyWithinBand": 17,
-  "nStops": 1,
+  "nStops": 0,
   "nEscalations": 0,
-  "nStringChanges": 5
+  "nStringChanges": 0
  },
  "set": {
   "nDrives": 485,
@@ -746,6 +702,11 @@
    "2026-10-17_23-13-01.csv",
    "2026-11-04_21-26-25.csv",
    "2026-11-09_16-07-41.csv",
+   "2026-11-11_08-11-53.csv",
+   "2026-11-12_08-15-52.csv",
+   "2026-11-18_08-13-18.csv",
+   "2026-11-19_08-19-42.csv",
+   "2026-11-20_09-02-32.csv",
    "20260515_075207.csv",
    "20260603_122008.csv",
    "20260814_101007.csv",
@@ -756,26 +717,6 @@
    "20260906_122920.csv",
    "20260909_140527.csv"
   ],
-  "inNewDrives": [
-   "2026-11-11_08-11-53.csv",
-   "2026-11-12_08-15-52.csv",
-   "2026-11-18_08-13-18.csv",
-   "2026-11-19_08-19-42.csv",
-   "2026-11-20_09-02-32.csv"
-  ]
- },
- "acknowledgement": {
-  "ruling": "analyses/M721_gtr_closure_director_ruling.json",
-  "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
-  "perDriveSha256": "a4ee4a65d61be26f430cf876492e1b98ba4b92212d81307002f44abdf8c23d4e",
-  "stopsSha256": "1ab17a80035b1888ca88c8cd4d023667303c71dd8f7f9cb88981c3a1669967dc",
-  "stops": [
-   {
-    "rule": "key-set difference",
-    "path": "/fGenMixStandardised"
-   }
-  ],
-  "escalations": [],
-  "scope": "exactly the listed stops and escalations; every other stop stays unacknowledgeable"
+  "inNewDrives": []
  }
 }
