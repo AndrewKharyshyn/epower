@@ -1,0 +1,313 @@
+{
+ "milestone": "M742",
+ "scope": "U2 only; blind; own code in scratchpad (units.py,u2.py,var.py)",
+ "n": {
+  "logged_vectors": 636,
+  "unlogged_strict_in_support_units": 328,
+  "days_union": 166,
+  "days_logged": 135,
+  "days_unlogged": 85,
+  "km_logged": 9318.4,
+  "km_unlogged": 1914.7
+ },
+ "classes_km_weighted": {
+  "below30": {
+   "est": 0.1603,
+   "ci95": [
+    0.0711,
+    0.2683
+   ],
+   "mde80": 0.1412
+  },
+  "30to80": {
+   "est": 0.0389,
+   "ci95": [
+    -0.0307,
+    0.0936
+   ],
+   "mde80": 0.0889
+  },
+  "above80": {
+   "est": -0.1991,
+   "ci95": [
+    -0.2987,
+    -0.0966
+   ],
+   "mde80": 0.145
+  },
+  "t1": {
+   "est": 0.0977,
+   "ci95": [
+    0.0541,
+    0.1588
+   ],
+   "mde80": 0.0766
+  },
+  "t2": {
+   "est": 0.1811,
+   "ci95": [
+    0.1005,
+    0.2934
+   ],
+   "mde80": 0.1398
+  },
+  "t3": {
+   "est": -0.2788,
+   "ci95": [
+    -0.445,
+    -0.162
+   ],
+   "mde80": 0.2058
+  },
+  "weekend": {
+   "est": -0.0854,
+   "ci95": [
+    -0.3567,
+    0.157
+   ],
+   "mde80": 0.3758
+  },
+  "night": {
+   "est": 0.0096,
+   "ci95": [
+    -0.0247,
+    0.0656
+   ],
+   "mde80": 0.0655
+  }
+ },
+ "time_weighted": {
+  "below30": {
+   "est": 0.1419,
+   "ci95": [
+    0.0554,
+    0.2292
+   ],
+   "mde80": 0.1246
+  },
+  "30to80": {
+   "est": -0.0089,
+   "ci95": [
+    -0.0638,
+    0.0401
+   ],
+   "mde80": 0.0741
+  },
+  "above80": {
+   "est": -0.133,
+   "ci95": [
+    -0.2034,
+    -0.0577
+   ],
+   "mde80": 0.1058
+  },
+  "t1": {
+   "est": 0.1348,
+   "ci95": [
+    0.0799,
+    0.2001
+   ],
+   "mde80": 0.0869
+  },
+  "t2": {
+   "est": 0.1944,
+   "ci95": [
+    0.1115,
+    0.2814
+   ],
+   "mde80": 0.1222
+  },
+  "t3": {
+   "est": -0.3292,
+   "ci95": [
+    -0.4601,
+    -0.2106
+   ],
+   "mde80": 0.1821
+  },
+  "weekend": {
+   "est": -0.141,
+   "ci95": [
+    -0.3377,
+    0.0427
+   ],
+   "mde80": 0.2767
+  },
+  "night": {
+   "est": 0.0024,
+   "ci95": [
+    -0.0255,
+    0.0401
+   ],
+   "mde80": 0.046
+  }
+ },
+ "TV": {
+  "speed3_km": {
+   "obs": 0.1991229447321302,
+   "p": 0.03624093976505874
+  },
+  "tercile_km": {
+   "obs": 0.27882793178366916,
+   "p": 0.00024993751562109475
+  },
+  "speed3_timeweighted": {
+   "obs": 0.14189339667630066,
+   "p": 0.071232191952012
+  }
+ },
+ "rules_inferred": [
+  "units 1162 (U 432/V 718/B 12) from odometer steps; unit dist=sum accepted increments",
+  "drive vector = sum of V units assigned to max-overlap drive; logged side = 636 clean (ens_outlier_v2==False) vectors (NaN-clean variant 646)",
+  "terciles = cuts of logged cloud dist (2.3, 5.9 km); in-support = dist>=logged 10th pct (1.1 km) and tercile x daytype >=30 logged",
+  "weekend/night from Kyiv unit start; day cluster = Kyiv start date over union of days",
+  "MDE80=2.8016*bootstrap SD",
+  "TV = 0.5*sum|diff| of km-weighted mean shares; permutation = within-day label shuffle, 4000, (k+1)/(B+1)"
+ ],
+ "sensitivity": {
+  "nanclean": {
+   "below30": {
+    "est": 0.1614,
+    "ci95": [
+     0.0736,
+     0.2697
+    ],
+    "mde80": 0.1404
+   },
+   "30to80": {
+    "est": 0.0402,
+    "ci95": [
+     -0.029,
+     0.094
+    ],
+    "mde80": 0.0878
+   },
+   "above80": {
+    "est": -0.2016,
+    "ci95": [
+     -0.3,
+     -0.1011
+    ],
+    "mde80": 0.1429
+   },
+   "t1": {
+    "est": 0.0919,
+    "ci95": [
+     0.0502,
+     0.1506
+    ],
+    "mde80": 0.0728
+   },
+   "t2": {
+    "est": 0.1875,
+    "ci95": [
+     0.1055,
+     0.3017
+    ],
+    "mde80": 0.1421
+   },
+   "t3": {
+    "est": -0.2793,
+    "ci95": [
+     -0.4462,
+     -0.1625
+    ],
+    "mde80": 0.2056
+   },
+   "weekend": {
+    "est": -0.0938,
+    "ci95": [
+     -0.3645,
+     0.1483
+    ],
+    "mde80": 0.3734
+   },
+   "night": {
+    "est": 0.0102,
+    "ci95": [
+     -0.0239,
+     0.0659
+    ],
+    "mde80": 0.0654
+   }
+  },
+  "no_support_filter": {
+   "n_unl": 430,
+   "cls": {
+    "below30": {
+     "est": 0.1697,
+     "ci95": [
+      0.0801,
+      0.2788
+     ],
+     "mde80": 0.1425
+    },
+    "30to80": {
+     "est": 0.0319,
+     "ci95": [
+      -0.0383,
+      0.087
+     ],
+     "mde80": 0.0897
+    },
+    "above80": {
+     "est": -0.2016,
+     "ci95": [
+      -0.3007,
+      -0.0989
+     ],
+     "mde80": 0.1444
+    },
+    "t1": {
+     "est": 0.1141,
+     "ci95": [
+      0.0673,
+      0.18
+     ],
+     "mde80": 0.0826
+    },
+    "t2": {
+     "est": 0.1762,
+     "ci95": [
+      0.0977,
+      0.2832
+     ],
+     "mde80": 0.1349
+    },
+    "t3": {
+     "est": -0.2904,
+     "ci95": [
+      -0.4575,
+      -0.1715
+     ],
+     "mde80": 0.2069
+    },
+    "weekend": {
+     "est": -0.0902,
+     "ci95": [
+      -0.3595,
+      0.1515
+     ],
+     "mde80": 0.3726
+    },
+    "night": {
+     "est": 0.009,
+     "ci95": [
+      -0.0251,
+      0.0641
+     ],
+     "mde80": 0.0643
+    }
+   }
+  }
+ },
+ "method_concerns": [
+  "tercile cut source, support-decile reference, day assignment not fixed by spec; my choices stated",
+  "n_logged 636 vs spec 641: small unresolved difference",
+  "weekend interval wide (MDE 0.38): not distinguishable, not equivalence",
+  "speed3 TV p=0.036 km-weighted but 0.071 time-weighted: fragile to weighting; 8 classes, no multiplicity adjustment",
+  "tercile classes mechanically tied to unlogged units being short"
+ ],
+ "verdict_wording": "Reproduced by own implementation: estimated unlogged exposure (cloud-reconstructed) has more below-30 and less above-80 time share and shorter units than logged drives; 30to80, weekend, night not distinguishable (not equivalence); descriptive, not an effect.",
+ "verdict": "accept"
+}
