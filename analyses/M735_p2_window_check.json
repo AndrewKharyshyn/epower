@@ -1,0 +1,53 @@
+{
+ "milestone": "M735",
+ "spec": "Director freeze review of M731 (analyses/M735_director_review_M731.json)",
+ "result": {
+  "drawsChecked": 4000,
+  "maxRelDiffAh": 5.335184172394481e-15,
+  "maxRelDiffAhLt10": 0.011152859173836183,
+  "windowShareRange": [
+   0.2116085443027864,
+   0.6168184215485955
+  ],
+  "annualShareRange": [
+   0.0757863250498808,
+   0.18922148514071938
+  ],
+  "windowAhShareOfAnnual": 0.22767682747507578,
+  "ambientOffsetByMonth": {
+   "5": {
+    "days": 10,
+    "meanOffsetC": 2.049798286105028
+   },
+   "6": {
+    "days": 18,
+    "meanOffsetC": 3.976870935667833
+   },
+   "7": {
+    "days": 20,
+    "meanOffsetC": 3.3124762297347212
+   },
+   "8": {
+    "days": 26,
+    "meanOffsetC": 3.4142918576696677
+   },
+   "9": {
+    "days": 30,
+    "meanOffsetC": 1.5422390722476254
+   },
+   "10": {
+    "days": 17,
+    "meanOffsetC": 1.3650999132269463
+   },
+   "11": {
+    "days": 9,
+    "meanOffsetC": 2.348879975745062
+   }
+  },
+  "bias": -0.9785230123445579,
+  "C-P2e": {
+   "pass": false,
+   "criterion": "per-draw window + complement equals annual to 1e-9 relative (Ah and Ah below 10 C)"
+  }
+ }
+}
