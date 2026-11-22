@@ -1,0 +1,195 @@
+{
+ "ambientReconstruction": {
+  "autumn": {
+   "amp": 5.8,
+   "hpk": 15.543
+  },
+  "summer": {
+   "amp": 6.656,
+   "hpk": 15.936
+  }
+ },
+ "support": {
+  "pairsEligible": 639,
+  "flaggedUnloggedUseAmongEligible": 43,
+  "removedNoAmbientOrInput": 0,
+  "modelPairs": 596,
+  "modelDays": 125,
+  "byGapClass": {
+   "1-4 h": 123,
+   "10-60 min": 187,
+   "4-12 h": 64,
+   "<10 min": 145,
+   ">=12 h": 77
+  }
+ },
+ "M2_fullSample_nonFlagged": {
+  "tau_h": 9.105,
+  "tauCi": [
+   8.19,
+   10.162
+  ],
+  "offset_C": 0.469,
+  "offsetCi": [
+   -0.578,
+   1.407
+  ],
+  "nPairs": 596,
+  "nDays": 125,
+  "bootDraws": 4000
+ },
+ "M2_flaggedKept": {
+  "tau_h": 7.532,
+  "offset_C": 2.45,
+  "nPairs": 639,
+  "nDays": 126
+ },
+ "validation_fitMayAug_testSepNov": {
+  "tau_h": 9.223,
+  "offset_C": -0.248,
+  "nTrain": 269,
+  "nTest": 327,
+  "nTestDays": 55,
+  "MAE_M2": {
+   "<10 min": 0.2804,
+   "10-60 min": 0.289,
+   "1-4 h": 0.5648,
+   "4-12 h": 1.3543,
+   ">=12 h": 2.0784,
+   "<1 h": 0.2847,
+   "n": {
+    "<10 min": 101,
+    "10-60 min": 102,
+    "1-4 h": 51,
+    "4-12 h": 44,
+    ">=12 h": 29
+   }
+  },
+  "MAE_persistence": {
+   "<10 min": 0.2401,
+   "10-60 min": 0.4828,
+   "1-4 h": 2.3971,
+   "4-12 h": 9.8636,
+   ">=12 h": 14.1121,
+   "<1 h": 0.3621,
+   "n": {
+    "<10 min": 101,
+    "10-60 min": 102,
+    "1-4 h": 51,
+    "4-12 h": 44,
+    ">=12 h": 29
+   }
+  },
+  "M2_minus_persistence_lt1h": {
+   "est": -0.0773,
+   "lo": -0.175,
+   "hi": -0.0018,
+   "n": 203,
+   "nDays": 52
+  },
+  "note": "not a clean hold-out: ambient amp/hpk fitted on the whole corpus; model form and gap classes chosen after full-sample results; split confounded with slow polling and the software update"
+ },
+ "E4_coldStartCounts": {
+  "below15C": {
+   "predicted": 71,
+   "logged": 65
+  },
+  "below10C": {
+   "predicted": 9,
+   "logged": 11
+  },
+  "atOrAbove35C": {
+   "predicted": 74,
+   "logged": 78
+  },
+  "biasNear15C_C": -0.269
+ },
+ "ambientComparisonWithExploratory": {
+  "nDrives": 665,
+  "maxAbsAbar_s": 0.047,
+  "maxAbsAbar_e": 0.047,
+  "medianAbsAbar_s": 0.018,
+  "ampDiffMax": 0.046,
+  "hpkDiffMax": 0.013,
+  "matches(maxAbsAbar<=0.25C, amp<=0.1C, hpk<=0.25h)": true
+ },
+ "gates": {
+  "P-R3a": {
+   "pass": true,
+   "target": {
+    "<1 h": 0.28,
+    "1-4 h": 0.57,
+    "4-12 h": 1.36,
+    ">=12 h": 2.09
+   },
+   "production": {
+    "<1 h": 0.2847,
+    "1-4 h": 0.5648,
+    "4-12 h": 1.3543,
+    ">=12 h": 2.0784
+   }
+  },
+  "P-R3b": {
+   "reductionVsPersistence": {
+    "1-4 h": 0.764,
+    "4-12 h": 0.863,
+    ">=12 h": 0.853
+   },
+   "lt1h": {
+    "M2": 0.2847,
+    "persistence": 0.3621
+   },
+   "pass": true
+  },
+  "P-R4": {
+   "contaminationDirection": {
+    "pass": true,
+    "nonFlagged": [
+     9.105,
+     0.469
+    ],
+    "flaggedKept": [
+     7.532,
+     2.45
+    ]
+   },
+   "tauBand8to10.5h": {
+    "pass": true,
+    "tau_h": 9.105,
+    "binding": true
+   }
+  },
+  "P-R2": {
+   "pass": null,
+   "note": "two-state model M3 not implemented in this module yet; gate not evaluated"
+  }
+ },
+ "target_E3_exploratory": {
+  "tau_h": 9.11,
+  "tauCi": [
+   8.13,
+   10.14
+  ],
+  "offset_C": 0.45,
+  "nPairs": 596,
+  "nDays": 125,
+  "flaggedKept": {
+   "tau_h": 7.54,
+   "offset_C": 2.44
+  },
+  "holdoutMAE_C": {
+   "<1 h": 0.28,
+   "1-4 h": 0.57,
+   "4-12 h": 1.36,
+   ">=12 h": 2.09
+  },
+  "persistenceMAE_C": {
+   "<1 h": 0.36,
+   "1-4 h": 2.4,
+   "4-12 h": 9.86,
+   ">=12 h": 14.11
+  }
+ },
+ "milestone": "M709",
+ "spec": "analyses/M708_spec.md"
+}

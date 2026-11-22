@@ -60,7 +60,7 @@ def refuse_live(path):
     return path
 
 
-REGISTRY = "analyses/M728_extractor_registry.json"          # v3 (M728); the M726 / M727 registry is superseded, kept as history
+REGISTRY = "analyses/M731_extractor_registry.json"          # v3 (M731, scoring module v4); the M726 / M727 / M728 registries are superseded, kept as history
 
 
 def extractors_frozen(pid=None, changelog_text=None):
@@ -112,8 +112,20 @@ def evaluate_cell(pid, n_drives, n_days, estimate=None, ci=None, band=None, cell
     return {"prediction": pid, "status": st, "rule": "interval inside the frozen band", "estimate": estimate, "ci95": [lo, hi], "band": [blo, bhi], "region": reg}
 
 
-def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=4000):
-    """M727: scores the predictions covered by the extractor registry on the scoring set of the frame (clean drives that start after F + 1 h; autumn comparison = clean Sep-Nov drives before F - 1 h). Reads the frozen predictions and the frozen
+CHECK6 = "analyses/M731_consistency_check.json"
+
+
+def p6_tol():
+    """The frozen tolerance of the P6 count rule: `tolC` of the last passing run of the frozen-basis check (a file hashed in the registry)."""
+    p = os.path.join(ROOT, CHECK6)
+    if not os.path.exists(p):
+        return None
+    runs = [r for r in json.load(open(p, encoding="utf-8"))["runs"] if r.get("allCriteriaPassed")]
+    return None if not runs else float(runs[-1]["C-P6c"]["tolC"])
+
+
+def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=4000, realised_band_fn=None, p6_sidecar_fn=None):
+    """M727 / M731: scores the predictions covered by the extractor registry on the scoring set of the frame (clean drives that start after F + 1 h; autumn comparison = clean Sep-Nov drives before F - 1 h). Reads the frozen predictions and the frozen
     parameters from the freeze file only. Cells below the support rule, or not covered by the registry, are 'not evaluable' and carry no number."""
     import winter_exposure_monitor as WM
     import winter_extractors as WE
@@ -125,7 +137,7 @@ def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=400
     P = freeze["predictions"]
     out = []
     for pid in ("P1", "P2", "P3", "P4", "P5", "P6", "P7"):
-        if pid not in ("P2", "P3", "P4", "P5", "P7"):
+        if pid not in ("P2", "P3", "P4", "P5", "P6", "P7"):
             out.append({"prediction": pid, "status": "not evaluable", "reason": "extractor not frozen (not covered by the registry)"})
             continue
         ok, why = extractors_frozen(pid)
@@ -134,7 +146,16 @@ def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=400
             continue
         if pid == "P2":
             e = WE.extract_p2(winter, nb)
-            out.append(evaluate_cell(pid, e["nDrives"], e["nDays"], e["estimate"], e["ci95"], P["P2"]["bandAhShareBelow10C"], rule="ci") | {"scoredAgainst": "the frozen band, not the realised-ambient band (optimistic-leaning)"})
+            cell = evaluate_cell(pid, e["nDrives"], e["nDays"], e["estimate"], e["ci95"], P["P2"]["bandAhShareBelow10C"], rule="ci") | {"scoredAgainst": "the frozen band, not the realised-ambient band (optimistic-leaning)"}
+            if cell["status"] != "not evaluable" and realised_band_fn is not None:
+                rb = realised_band_fn(winter)
+                cell["realisedBand"] = {k: rb.get(k) for k in ("status", "reason", "windowMatched", "annual", "thinMonths", "flags", "table", "scenario")}
+                if rb.get("status") == "ok":
+                    r_ = evaluate_cell(pid, e["nDrives"], e["nDays"], e["estimate"], e["ci95"], rb["windowMatched"], rule="ci")
+                    cell["frozenBandStatus"] = cell["status"]
+                    cell["status"] = r_["status"]
+                    cell["scoredAgainst"] = "the realised-ambient window-matched band (model-derived, S2 with realised shifts); the frozen annual band is beside it"
+            out.append(cell)
         elif pid == "P3":
             e = WE.extract_p3(winter, freeze["params"]["R_T"]["EaR_kJmol"], freeze["params"]["R_T"]["R25_mohm"], nb=nb)
             out.append(evaluate_cell(pid, e["nDrives"], e["nDays"], e.get("estimate"), e.get("ci95"), P["P3"]["interval"], rule="point") | {"label": e.get("label"), "uncorrected": e.get("uncorrected")})
@@ -159,6 +180,15 @@ def score_all(frame, freeze, basis_ambient_min=-1.0, basis_probe_min=1.0, nb=400
                 st = "not evaluable" if not ev else ("outside the band" if any(s["status"] == "outside the band" for s in ev) else "within the band")
                 out.append({"prediction": pid, "status": st, "statements": stm, "nDrives": e["nDrives"], "nDays": e["nDays"], "regressionSeconds": e["regressionSeconds"],
                             "pinWeightedMeanTminC": e["pinWeightedMeanTminC"], "reading": "BMS-reported register, model-derived intercept of a re-fitted plane, not delivered power; within is not validated"})
+        elif pid == "P6":
+            import winter_p6 as W6
+            tol = p6_tol()
+            wn = winter if "p6_n_s" in winter.columns else winter.merge(p6_sidecar_fn(winter), on="key", how="left", suffixes=("", "_p6")) if p6_sidecar_fn is not None else None
+            if wn is None or tol is None:
+                out.append({"prediction": pid, "status": "not evaluable", "reason": "no P6 sidecar or no frozen tolerance"})
+                continue
+            e = W6.extract_p6(wn, tol, nb)
+            out.append({"prediction": pid, **e, "limitMap": "frozen map extrapolated below the observed range"} if e.get("status") == "fitted" else {"prediction": pid, "status": "not evaluable", "reason": e.get("reason"), "nDrives": e["nDrives"], "nDays": e["nDays"]})
         elif pid == "P7":
             e = WE.extract_p7(winter, nb)
             if e.get("estimate") is None:
@@ -185,7 +215,14 @@ def main(argv=None):
         read_source(freeze, k)
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import winter_extractors as WE
-    out = score_all(WE.load_frame(ROOT), freeze)
+    import winter_p2_band as WB2
+    import winter_p6 as W6
+    raw_dir = os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw")
+    cols = ["key"] + [c for c in W6.COLUMNS["P6"] if c != "day"]
+
+    def sidecar(w):
+        return W6.build_sidecar(raw_dir, keys=set(w["key"]), out=None)[cols]
+    out = score_all(WE.load_frame(ROOT), freeze, realised_band_fn=WB2.realised_band, p6_sidecar_fn=sidecar)
     print(json.dumps({"freezeSha256": sha(FREEZE), "cells": out}))
     return 0
 
