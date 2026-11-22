@@ -10,6 +10,16 @@
 
 **Files.** `analyses/M735_p2_window_check.json`, `analyses/M735_director_review_M731.json`, `analyses/M735_note.md`, `tools/winter_p2_band_check2.py`.
 
+## M734 (2026-11-22): Cloud thermal forcing as a report-only sensitivity of Q1, Q2, Q3 and the parked-pack model: screened cloud ambient shifts Q2 by +0.020 (inside the control interval), cloud endpoints lower parked-pack error by 0.060 C
+
+**Rationale.** Spec analyses/M734_spec.md Rev 2 (pre-registered before any tool, sha256 0de50385ecebb5aeb187841d6532d0e561c38640567ae7a4d561e9d3da5a15b9; Director review of Rev 1: revise, six changes adopted, analyses/M734_director_review_rev1.json); section 9 (Rev 2.1, sha256 of the file f25420b445ede98a29017352cf8758fa519762d742d21eb03ab9de8010ce6502) pins two window and inclusion rules AFTER the first run and the first blind round, recording what the code already did, no threshold or decision rule changed. Tool tools/mynissan_thermal.py, outputs analyses/M734_thermal_forcing.json, M734_ambient_drives.csv, M734_park_gaps.csv. Gates: R2 replication of the published Q1/Q2 matches to 1e-5 on all 717 drives; R3 master MD5 d514d6009d6d9a0a168ad4fb09b9bb98 and the frozen winter file unchanged; R1 not testable for T1 and T3 (the handoff 565-log and 223-gap subsets cannot be identified; live values 0.286/2.08 C against targets 0.28/2.23 C). Results (primary 180 s, 497 drives, 130 days): Q2 matched control 0.561, screened 0.580, paired interval [0.003, 0.038], escalated to the Director under the pre-registered rule and read as an errors-in-variables sensitivity, not a correction; unstable across cutoffs (120 s includes zero); Q1 no ambient effect established. T3 (321 gaps, 113 days, day-blocked folds): F2 minus F0 mean absolute error -0.060 C [-0.109, -0.019] (consistency comparison, not a forecast); F3 not established, F4 diurnal descriptive (-0.188 C); pooled split-conformal undercovers long gaps (0.44 at 80 %); warm-rise audit 10 cases, 3 unexplained on 3 days, no second-state trigger. Blind audit (analytical-auditor, analyses/M734_audit.json): C1 and C2 reproduced; C3 first differed (349 gaps against 321) because two rules were undefined, then reproduced exactly (321 gaps, 113 days, -0.0596 [-0.1087, -0.0194]) under Rev 2.1. Director decision analyses/M734_director_decision.json: accept as report-only sensitivity; no published figure, payload or dashboard changed; adopting the screened ambient in a published figure is not justified; cold stays out of any winter evaluation (M726).
+
+**State.** `drive_master.csv` 717 rows, MD5 `d514d6009d6d9a0a168ad4fb09b9bb98`.
+
+**Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width; gtrClosure: key-set difference @ /fGenMixStandardised.
+
+**Files.** `tools/mynissan_thermal.py`, `tests/synthetic/test_mynissan_thermal.py`, `analyses/M734_spec.md`, `analyses/M734_thermal_forcing.json`, `analyses/M734_ambient_drives.csv`, `analyses/M734_park_gaps.csv`, `analyses/M734_audit.json`, `analyses/M734_director_decision.json`, `analyses/M734_director_review_rev1.json`, `.github/workflows/ci.yml`.
+
 
 ## M731 (2026-11-22): Winter-freeze extractor of P6 and realised-ambient band of P2 specified (Rev 2.2), checked on the frozen basis only, blind-reproduced and frozen in registry v3 (winter_score v4); P1 remains M732
 
