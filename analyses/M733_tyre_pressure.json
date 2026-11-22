@@ -1,0 +1,155 @@
+{
+ "milestone": "M733",
+ "spec": "analyses/M733_spec.md Rev 1",
+ "role": "auxiliary",
+ "scale_assumption": "raw/10 = kPa, UNVALIDATED",
+ "snapshots_total": 749,
+ "snapshots_excluded_puncture": 3,
+ "puncture_window_kyiv": [
+  "2026-07-14T11:44:00+03:00",
+  "2026-07-14T15:05:58+03:00"
+ ],
+ "drives_with_snapshot": 403,
+ "E1_level": {
+  "FrontLeft": {
+   "median_ratio": 1.032,
+   "p25": 0.996,
+   "p75": 1.056,
+   "median_kpa": 258.0
+  },
+  "FrontRight": {
+   "median_ratio": 1.032,
+   "p25": 0.996,
+   "p75": 1.056,
+   "median_kpa": 258.0
+  },
+  "RearLeft": {
+   "median_ratio": 1.0304347826086957,
+   "p25": 0.991304347826087,
+   "p75": 1.0565217391304347,
+   "median_kpa": 237.0
+  },
+  "RearRight": {
+   "median_ratio": 1.017391304347826,
+   "p25": 0.9782608695652174,
+   "p75": 1.0434782608695652,
+   "median_kpa": 234.0
+  },
+  "front_axle": {
+   "median_ratio": 1.026,
+   "p25": 0.996,
+   "p75": 1.056
+  },
+  "rear_axle": {
+   "median_ratio": 1.0239130434782608,
+   "p25": 0.9847826086956522,
+   "p75": 1.05
+  },
+  "reading": "plausible, not validated"
+ },
+ "E2_temperature_response": {
+  "front": {
+   "n_drives": 338,
+   "n_days": 123,
+   "slope_kpa_per_c": 0.7143716831642003,
+   "ci95_day_bootstrap": [
+    0.48318220306687915,
+    0.9311034560686745
+   ],
+   "minutes_into_drive_coef_kpa_per_min": 0.0499790182160722,
+   "ideal_gas_reference_kpa_per_c": 1.1983626129967595,
+   "ratio_to_reference": 0.5961231395376752,
+   "supported_interval_excludes_zero": true
+  },
+  "rear": {
+   "n_drives": 338,
+   "n_days": 123,
+   "slope_kpa_per_c": 0.5502627816903615,
+   "ci95_day_bootstrap": [
+    0.35067144813800133,
+    0.7572148467456162
+   ],
+   "minutes_into_drive_coef_kpa_per_min": 0.06004993164131933,
+   "ideal_gas_reference_kpa_per_c": 1.1301381545283986,
+   "ratio_to_reference": 0.48689868533815106,
+   "supported_interval_excludes_zero": true
+  }
+ },
+ "E3_steps": {
+  "n": 6,
+  "list": [
+   {
+    "corner": "FrontLeft",
+    "date": "2026-07-26",
+    "from_kpa": 242.7,
+    "to_kpa": 280.9
+   },
+   {
+    "corner": "FrontRight",
+    "date": "2026-07-26",
+    "from_kpa": 242.7,
+    "to_kpa": 272.6
+   },
+   {
+    "corner": "FrontRight",
+    "date": "2026-10-10",
+    "from_kpa": 257.1,
+    "to_kpa": 281.1
+   },
+   {
+    "corner": "RearLeft",
+    "date": "2026-07-26",
+    "from_kpa": 225.1,
+    "to_kpa": 249.5
+   },
+   {
+    "corner": "RearLeft",
+    "date": "2026-10-16",
+    "from_kpa": 267.9,
+    "to_kpa": 233.2
+   },
+   {
+    "corner": "RearRight",
+    "date": "2026-07-26",
+    "from_kpa": 225.1,
+    "to_kpa": 246.5
+   }
+  ],
+  "note": "inflation, tyre swap or leak candidates; never confirmed events"
+ },
+ "E4_asymmetry": {
+  "front": {
+   "median_left_minus_right_kpa": 3.0,
+   "ci95_day_bootstrap": [
+    0.0,
+    3.0
+   ],
+   "n_drives": 403,
+   "n_days": 123
+  },
+  "rear": {
+   "median_left_minus_right_kpa": 3.0,
+   "ci95_day_bootstrap": [
+    3.0,
+    3.0
+   ],
+   "n_drives": 403,
+   "n_days": 123
+  }
+ },
+ "E5_feasibility": {
+  "candidate_drives": 169,
+  "qualifying_pairs": 9,
+  "days_in_pairs": 12,
+  "meets_30_pairs_15_days": false,
+  "drives_with_snapshot_by_month": {
+   "2026-05": 28,
+   "2026-06": 20,
+   "2026-07": 31,
+   "2026-08": 49,
+   "2026-09": 136,
+   "2026-10": 57,
+   "2026-11": 82
+  }
+ }
+}
