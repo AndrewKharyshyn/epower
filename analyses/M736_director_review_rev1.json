@@ -1,0 +1,28 @@
+{
+ "milestone": "M736",
+ "reviewer": "research-director (Opus)",
+ "reviewed": "analyses/M736_spec.md Rev 1 (39e4ab2, sha256 199b1bf987179aec97450d913f2b4d96f522c2229e7f36bc2a7e567f444be9b9)",
+ "decision": "revise",
+ "required_changes": [
+  "RC1 reference noise from repeat traversals on different days; third R2 outcome not testable when the floor at L=500 m is above about 1 pp",
+  "RC2 split P2a (DEM on OBD track) and P2b (DEM on matched cloud route); segments by projected position; R2 on P2b",
+  "RC3 G0 checks the R2 support floor (30 days, 100 km) before any download request",
+  "RC4 report grade SD and prevalence; error criteria primary; bias interval inside +-1.0 pp",
+  "RC5 R5 comparator: validation segments versus all matched cloud routes",
+  "RC6 no grade-sensitive cell = not established with MDE, not falsified; multiplicity and M441 floors after downhill exclusion",
+  "RC7 public repo: no per-drive coordinates committed; aggregates only; record sha256, version and licence of downloads"
+ ],
+ "answers": {
+  "a": "agreement design between two proxies; stratify on the mean of the two grades",
+  "b": "yes for (a)/(b) at L=500 m; tag bridges, cuttings and urban (surface model)",
+  "c": "grade-class stratification primary; m g dh sensitivity only",
+  "d": "labelled sensitivity only; never counts toward R2 or G3"
+ },
+ "risks": [
+  "DEM error mislabelled as reference error or the reverse",
+  "repeated commute roads inflate n (report unique km)",
+  "+-16 s offset",
+  "reverse movement read as regen events"
+ ],
+ "needs_andrii_signoff": true
+}
