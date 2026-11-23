@@ -1,0 +1,175 @@
+{
+ "audit": "M751 blind audit (Sonnet), own code in session scratchpad, pipeline functions called read-only",
+ "pairs": 706,
+ "pairs_with_ambient": 593,
+ "V0": "own _battery_temp_traj + _heat_soak_carryover reproduce published nPairs 706/593, bin medians, tau 11.03, nfit 483; own Sen k 0.09063 (published 0.09063)",
+ "join_counts": {
+  "S": 504,
+  "D": 93,
+  "D_driving_observed": 68,
+  "D_odometer_only": 25,
+  "D1_moved_ge_1km": 68,
+  "U": 103,
+  "X": 6,
+  "X_detail": "no_cloud_data 4, export_break 1, no_cloud_row 1",
+  "gaps_716_to_pairs": "706 gap rows match a pair key; 10 gaps have no pair (pack temp missing at an end: 7 in May 11-14, 3 in Aug 14-16); 0 pairs without a gap row by key; 1 pair fails the 0.01 h check (2026-10-17_23-13-01 -> next: 351.245 vs 352.245 h, exactly 1 h = DST change 25 Oct), put in no_cloud_row",
+  "dup_keys": 0
+ },
+ "bins": [
+  {
+   "bin": "0-1",
+   "nAmbA": 320,
+   "medA": 1.0,
+   "medB": 1.0,
+   "medC": 1.0,
+   "shiftB": 0.0,
+   "ciB": [
+    0,
+    0
+   ],
+   "shiftC": 0.0,
+   "ciC": [
+    0,
+    0
+   ]
+  },
+  {
+   "bin": "1-3",
+   "nAmbA": 90,
+   "medA": 0.884,
+   "medB": 0.884,
+   "medC": 0.882,
+   "shiftB": 0.0,
+   "ciB": [
+    -2.5,
+    1.8
+   ],
+   "shiftC": 0.17,
+   "ciC": [
+    -1.1,
+    1.6
+   ]
+  },
+  {
+   "bin": "3-6",
+   "nAmbA": 35,
+   "medA": 0.7,
+   "medB": 0.66,
+   "medC": 0.667,
+   "shiftB": 3.98,
+   "ciB": [
+    -1.7,
+    11.2
+   ],
+   "shiftC": 3.33,
+   "ciC": [
+    0.0,
+    8.7
+   ]
+  },
+  {
+   "bin": "6-12",
+   "nAmbA": 58,
+   "medA": 0.354,
+   "medB": 0.252,
+   "medC": 0.279,
+   "shiftB": 10.13,
+   "ciB": [
+    3.4,
+    21.9
+   ],
+   "shiftC": 7.45,
+   "ciC": [
+    2.6,
+    14.8
+   ]
+  },
+  {
+   "bin": "12-24",
+   "nAmbA": 67,
+   "medA": 0.028,
+   "medB": 0.0,
+   "medC": 0.0,
+   "shiftB": 2.8,
+   "ciB": [
+    0.0,
+    15.8
+   ],
+   "shiftC": 2.8,
+   "ciC": [
+    0.0,
+    17.2
+   ]
+  },
+  {
+   "bin": "24+",
+   "nAmbA": 23,
+   "medA": -0.022,
+   "medB": -0.141,
+   "medC": -0.098,
+   "shiftB": 11.9,
+   "ciB": null,
+   "shiftC": 7.57,
+   "ciC": null
+  }
+ ],
+ "bins_note": "nAmbB per bin 251/58/24/26/37/10; 24+ not estimable (10 B pairs, 10 days). Only 6-12 h is material (B 10.1 pp, C 7.4 pp, same sign, both intervals exclude 0, >=5 pp). Others not distinguishable (3-6 h C interval lower edge exactly 0.0). C1 agrees with C.",
+ "tau_k": {
+  "A": {
+   "k": 0.0906,
+   "n": 483,
+   "ci": [
+    0.0772,
+    0.1044
+   ]
+  },
+  "B": {
+   "k": 0.1058,
+   "n": 332,
+   "ci": [
+    0.0903,
+    0.1219
+   ]
+  },
+  "C": {
+   "k": 0.1082,
+   "n": 417,
+   "ci": [
+    0.0962,
+    0.1203
+   ]
+  },
+  "kB_minus_kA": {
+   "est": 0.0152,
+   "ci": [
+    0.005,
+    0.0268
+   ]
+  },
+  "kC_minus_kA": {
+   "est": 0.0176,
+   "ci": [
+    0.0105,
+    0.0256
+   ]
+  },
+  "ratio_kA_over_kB": 0.857,
+  "ratio_kA_over_kC": 0.837,
+  "nonpositive_draws": 0
+ },
+ "tau_reading": "interval excludes 0 but ratio inside [0.80,1.25] for B and C: small, not material. Bootstrap CI of A differs from published at 4th decimal (0.07723 vs 0.07713), RNG draw order.",
+ "rules_inferred": [
+  "day-cluster resampling draws days from all pairs (A) and subsets taken within draw; bins with ambient only (retainedFrac defined, ie>0)",
+  "pairs failing 0.01 h gap tolerance -> no_cloud_row, in set C but not B",
+  "support: nAmb in B>=20 and B arrival days>=10 per bin",
+  "tau fit uses pairs with ie>3, re>0.5, Sen slope via pipeline _sen_slope, C1 not in tau brief"
+ ],
+ "concerns": [
+  "Median retained fraction is integer-temperature quantised; 12-24 h B median exactly 0.0 and percentile edges land on 0.0, so 'interval includes zero' is edge-sensitive",
+  "Selection on cloud coverage in B (S needs odometer anchors): B has fewer 6-12 h pairs (26 of 58)",
+  "tau materiality sits near the band edge (A/B 0.857); small by rule but not far from 0.80",
+  "Early May and Aug pairs absent from the published table (no pack temp) not disclosed by class"
+ ],
+ "verdict_wording": "Published 6-12 h retained fraction is sensitive to unlogged driving (lower-bound shift, B and C same sign); other supported bins no material shift detected at this support; tau decay rate small shift. Overall per spec 4/9.1: sensitive (bin-level), not a correction.",
+ "verdict": "accept"
+}
