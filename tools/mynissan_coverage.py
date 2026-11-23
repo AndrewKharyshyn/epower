@@ -13,7 +13,9 @@ import mynissan_import as mi
 
 ROOT = mi.ROOT
 KYIV = ZoneInfo("Europe/Kyiv")
-STEP_MAX_S, STEP_MAX_KMH, BURST_GAP_S = 35, 180.0, 120
+# M750 (owner, 2026-11-23): the physical car limit is 180 km/h; a cloud speed between 130 and 180 km/h is a valid reading in any export (the current export's display is clipped at exactly 130.0, measured, but no tool may assume 130 as a limit); only a reading above 180 km/h or below 0 is implausible and is dropped
+PHYSICAL_MAX_KMH = 180.0
+STEP_MAX_S, STEP_MAX_KMH, BURST_GAP_S = 35, PHYSICAL_MAX_KMH, 120
 BOX = (44.0, 52.5, 22.0, 40.5)  # provisional lat/lon box; Ukraine polygon screen is a later milestone
 
 
@@ -26,6 +28,12 @@ def fnum(x):
         return float(x)
     except (TypeError, ValueError):
         return None
+
+
+def speed_kmh(x):
+    """A cloud displayed-speed reading in km/h, or None when it is not a number, is negative or exceeds the physical limit (PHYSICAL_MAX_KMH); 130 to 180 km/h is accepted."""
+    v = fnum(x)
+    return v if v is not None and 0.0 <= v <= PHYSICAL_MAX_KMH else None
 
 
 def hav_m(a, b):
@@ -82,7 +90,7 @@ def build(store, master, pad, outdir):
     conf_t = {mi.to_epoch(t) for s, t in conflicts if s == "Odometer"}
     odo = Series([(t, fnum(x["StatusDistanceTotalizerComputed"])) for t, x in st["Odometer"]
                   if x["StatusDistanceTotalizerComputed"] != "" and t not in conf_t])
-    spd = Series([(t, fnum(x["SpeedDisplayedValueinkmh"])) for t, x in st["Trip_Information"] if x["SpeedDisplayedValueinkmh"] != ""])
+    spd = Series([(t, speed_kmh(x["SpeedDisplayedValueinkmh"])) for t, x in st["Trip_Information"] if speed_kmh(x["SpeedDisplayedValueinkmh"]) is not None])
     veh = st["Vehicle_Information"]
     pos = []
     for t, x in st["Geolocation"]:

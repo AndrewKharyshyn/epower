@@ -286,7 +286,7 @@ def main(argv=None):
     amb = [(t, mc.fnum(x["ExternalTempDisplayValue"])) for t, x in veh if x["ExternalTempDisplayValue"] != ""]
     amb = [(t, v) for t, v in amb if v is not None]
     cool = [(t, mc.fnum(x["EngineCoolantTemp"])) for t, x in veh if x["EngineCoolantTemp"] != ""]
-    spd = [(t, mc.fnum(x["SpeedDisplayedValueinkmh"])) for t, x in trip if x["SpeedDisplayedValueinkmh"] != ""]
+    spd = [(t, mc.speed_kmh(x["SpeedDisplayedValueinkmh"])) for t, x in trip if mc.speed_kmh(x["SpeedDisplayedValueinkmh"]) is not None]
     spd = [(t, v) for t, v in spd if v is not None]
     at, st = [t for t, _ in amb], [t for t, _ in spd]
     vals = sorted({v for _, v in amb})

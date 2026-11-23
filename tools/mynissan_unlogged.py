@@ -16,7 +16,7 @@ import mynissan_thermal as th
 
 ROOT = mi.ROOT
 PINNED_MD5 = "d514d6009d6d9a0a168ad4fb09b9bb98"
-STEP_MAX_S, STEP_MAX_KMH, JOIN_S, PAD = 35.0, 180.0, 120.0, 60.0
+STEP_MAX_S, STEP_MAX_KMH, JOIN_S, PAD = 35.0, mc.PHYSICAL_MAX_KMH, 120.0, 60.0
 UNLOGGED_MAX, MATCHED_MIN = 0.10, 0.90
 CLASSES = ((0.0, 30.0), (30.0, 80.0), (80.0, 1e9))
 CLASS_NAMES = ("below30", "30to80", "above80")
@@ -212,7 +212,7 @@ def load_streams(store):
                 conf.add(mi.to_epoch(r["timestamp_utc"]))
     odo = [(t, mc.fnum(x.get("StatusDistanceTotalizerComputed", ""))) for t, x in st["Odometer"] if x.get("StatusDistanceTotalizerComputed", "") != "" and t not in conf]
     odo = [(t, v) for t, v in odo if v is not None]
-    spd = [(t, mc.fnum(x.get("SpeedDisplayedValueinkmh", ""))) for t, x in st["Trip_Information"] if x.get("SpeedDisplayedValueinkmh", "") != ""]
+    spd = [(t, mc.speed_kmh(x.get("SpeedDisplayedValueinkmh", ""))) for t, x in st["Trip_Information"] if x.get("SpeedDisplayedValueinkmh", "") != ""]
     spd = [(t, v) for t, v in spd if v is not None]
     amb = [(t, mc.fnum(x.get("ExternalTempDisplayValue", ""))) for t, x in st["Vehicle_Information"] if x.get("ExternalTempDisplayValue", "") != ""]
     amb = [(t, v) for t, v in amb if v is not None]
