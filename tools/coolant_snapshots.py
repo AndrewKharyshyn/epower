@@ -42,6 +42,18 @@ def md5(path):
 
 
 # ---------------------------------------------------------------------------- snapshots
+def ambient_mean(entry):
+    """Manual ambient of a drive from an ambientByDrive entry. Rev 2.1 (spec 10): a list [start, interim..., end] gives its mean (as in the heat-soak block); a plain number (66 drives of 11-22 September 2026 store the
+    ambient this way) is a valid single reading and is used as it is; the published heat-soak code skips such entries silently (disclosed, not copied). None when nothing numeric is available."""
+    try:
+        if isinstance(entry, (list, tuple)):
+            vals = [float(x) for x in entry]
+            return sum(vals) / len(vals) if vals else None
+        return float(entry)
+    except (TypeError, ValueError):
+        return None
+
+
 def snapshot_near(ts, vs, t, lo=WIN_LO_S, hi=WIN_HI_S):
     """Cloud coolant row nearest to t inside [t - lo, t + hi]; returns (value, time, age_s = row time - t) or None."""
     i0, i1 = int(np.searchsorted(ts, t - lo, side="left")), int(np.searchsorted(ts, t + hi, side="right"))
@@ -246,10 +258,9 @@ def main(argv=None):
         cfg = json.load(open(os.path.join(ROOT, "summary_config.json"), encoding="utf-8"))
         amb = {}
         for fn, pair in (cfg.get("ambientByDrive") or {}).items():
-            try:
-                amb[fn] = sum(float(x) for x in pair) / len(pair)
-            except Exception:
-                pass
+            v = ambient_mean(pair)
+            if v is not None:
+                amb[fn] = v
         V = mi.load_stream(a.store, "Vehicle_Information")
         ct = np.array([t for t, r in V if r.get("EngineCoolantTemp", "") != ""], float)
         cv = np.array([float(r["EngineCoolantTemp"]) for t, r in V if r.get("EngineCoolantTemp", "") != ""], float)

@@ -28,6 +28,10 @@ assert K.main(["--store", store, "--raw-dir", rawd, "--gaps", fake_gaps, "--out-
 for d_, off in K.KYIV_CHECK.items():
     assert datetime.strptime(d_ + " 12:00:00", "%Y-%m-%d %H:%M:%S").replace(tzinfo=mc.KYIV).utcoffset().total_seconds() == off
 
+# ambient parsing: a list gives its mean, a plain number is used as it is (the heat-soak code skips it), junk gives None
+assert K.ambient_mean([10.0, 14.0]) == 12.0 and K.ambient_mean([8.0, 9.0, 13.0]) == 10.0 and K.ambient_mean(13) == 13.0 and K.ambient_mean(13.5) == 13.5
+assert K.ambient_mean(None) is None and K.ambient_mean([]) is None and K.ambient_mean(["x"]) is None and K.ambient_mean("n/a") is None
+
 # snapshot window and age
 ts, vs = np.array([100.0, 150.0, 400.0, 900.0]), np.array([80.0, 75.0, 60.0, 40.0])
 v, t, age = K.snapshot_near(ts, vs, 140.0)

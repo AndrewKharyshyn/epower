@@ -8,7 +8,7 @@
  "storeManifestSha256": "7cbab168a882a561f55005e27a6fe484b91eb450c7e1bc2a2b6e0a37b25b3a96",
  "seed": 42,
  "nBoot": 4000,
- "toolSha256": "260fde3076915402a651eebe630954107ce6cdeca98ac4dd0241ae0a3199ee70",
+ "toolSha256": "18ba63878f07ecf3e7bd1fe12d8c70e3dc532929f1e13ea522f33136d91a6934",
  "control_V0": {
   "unloggedStrictUnits": 331,
   "dGaps": 98,
@@ -394,263 +394,263 @@
  "K3_cooling": {
   "anchorDiagnostics": {
    "D_anchor_time_diff_s_max": 10237.644000053406,
-   "gapsWithoutSnapshotD": 29,
-   "gapsWithSnapshotD": 55
+   "gapsWithoutSnapshotD": 31,
+   "gapsWithSnapshotD": 62
   },
   "sets": {
    "S_obd": {
     "primary": {
-     "nPairs": 198,
-     "nDays": 92,
-     "kSen": 0.36739,
-     "interceptSen": -0.1254,
-     "kThroughOriginLS": 0.39645,
-     "tauSenH": 2.72,
+     "nPairs": 217,
+     "nDays": 98,
+     "kSen": 0.35889,
+     "interceptSen": -0.1447,
+     "kThroughOriginLS": 0.38271,
+     "tauSenH": 2.79,
      "exclusions": {
-      "input": 446,
-      "outsideParkedRange": 246,
+      "input": 502,
+      "outsideParkedRange": 283,
       "eaNotAbove10": 2,
       "ebNotAbove1": 0,
-      "kept": 198
+      "kept": 217
      },
      "supported": true,
      "kCI95": [
-      0.34092,
-      0.39875
+      0.33034,
+      0.38904
      ]
     },
     "sensitivity_eb_above_3C": {
-     "nPairs": 196,
-     "nDays": 92,
-     "kSen": 0.36339,
-     "interceptSen": -0.1275,
-     "kThroughOriginLS": 0.38617,
-     "tauSenH": 2.75,
+     "nPairs": 215,
+     "nDays": 98,
+     "kSen": 0.35541,
+     "interceptSen": -0.1418,
+     "kThroughOriginLS": 0.37345,
+     "tauSenH": 2.81,
      "exclusions": {
-      "input": 446,
-      "outsideParkedRange": 246,
+      "input": 502,
+      "outsideParkedRange": 283,
       "eaNotAbove10": 2,
       "ebNotAbove3": 2,
-      "kept": 196
+      "kept": 215
      }
     },
     "sensitivity_parked_to_24h": {
-     "nPairs": 243,
-     "nDays": 104,
-     "kSen": 0.2666,
-     "interceptSen": -0.2138,
-     "kThroughOriginLS": 0.20486,
-     "tauSenH": 3.75,
+     "nPairs": 272,
+     "nDays": 111,
+     "kSen": 0.2541,
+     "interceptSen": -0.2307,
+     "kThroughOriginLS": 0.20716,
+     "tauSenH": 3.94,
      "exclusions": {
-      "input": 446,
-      "outsideParkedRange": 177,
+      "input": 502,
+      "outsideParkedRange": 202,
       "eaNotAbove10": 2,
-      "ebNotAbove1": 24,
-      "kept": 243
+      "ebNotAbove1": 26,
+      "kept": 272
      }
     },
     "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
    },
    "S_cloud": {
     "primary": {
-     "nPairs": 191,
-     "nDays": 93,
-     "kSen": 0.37387,
-     "interceptSen": -0.0839,
-     "kThroughOriginLS": 0.38046,
-     "tauSenH": 2.67,
+     "nPairs": 209,
+     "nDays": 99,
+     "kSen": 0.36641,
+     "interceptSen": -0.0965,
+     "kThroughOriginLS": 0.37577,
+     "tauSenH": 2.73,
      "exclusions": {
-      "input": 433,
-      "outsideParkedRange": 240,
-      "eaNotAbove10": 2,
+      "input": 489,
+      "outsideParkedRange": 277,
+      "eaNotAbove10": 3,
       "ebNotAbove1": 0,
-      "kept": 191
+      "kept": 209
      },
      "supported": true,
      "kCI95": [
-      0.34618,
-      0.40252
+      0.3383,
+      0.39397
      ]
     },
     "sensitivity_eb_above_3C": {
-     "nPairs": 189,
-     "nDays": 93,
-     "kSen": 0.37028,
-     "interceptSen": -0.0897,
-     "kThroughOriginLS": 0.37091,
-     "tauSenH": 2.7,
+     "nPairs": 207,
+     "nDays": 99,
+     "kSen": 0.36288,
+     "interceptSen": -0.0956,
+     "kThroughOriginLS": 0.3673,
+     "tauSenH": 2.76,
      "exclusions": {
-      "input": 433,
-      "outsideParkedRange": 240,
-      "eaNotAbove10": 2,
+      "input": 489,
+      "outsideParkedRange": 277,
+      "eaNotAbove10": 3,
       "ebNotAbove3": 2,
-      "kept": 189
+      "kept": 207
      }
     },
     "sensitivity_parked_to_24h": {
-     "nPairs": 235,
-     "nDays": 104,
-     "kSen": 0.26956,
-     "interceptSen": -0.165,
-     "kThroughOriginLS": 0.19901,
-     "tauSenH": 3.71,
+     "nPairs": 263,
+     "nDays": 111,
+     "kSen": 0.25807,
+     "interceptSen": -0.1813,
+     "kThroughOriginLS": 0.20194,
+     "tauSenH": 3.87,
      "exclusions": {
-      "input": 433,
-      "outsideParkedRange": 172,
-      "eaNotAbove10": 2,
-      "ebNotAbove1": 24,
-      "kept": 235
+      "input": 489,
+      "outsideParkedRange": 197,
+      "eaNotAbove10": 3,
+      "ebNotAbove1": 26,
+      "kept": 263
      }
     },
     "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
    },
    "D_cloud": {
     "primary": {
-     "nPairs": 26,
-     "nDays": 25,
-     "kSen": 0.31384,
-     "interceptSen": -0.1745,
-     "kThroughOriginLS": 0.35912,
-     "tauSenH": 3.19,
+     "nPairs": 29,
+     "nDays": 28,
+     "kSen": 0.30851,
+     "interceptSen": -0.1925,
+     "kThroughOriginLS": 0.36315,
+     "tauSenH": 3.24,
      "exclusions": {
-      "input": 55,
-      "outsideParkedRange": 29,
+      "input": 62,
+      "outsideParkedRange": 33,
       "eaNotAbove10": 0,
       "ebNotAbove1": 0,
-      "kept": 26
+      "kept": 29
      },
      "supported": true,
      "kCI95": [
-      0.24807,
-      0.40853
+      0.25094,
+      0.39413
      ]
     },
     "sensitivity_eb_above_3C": {
-     "nPairs": 26,
-     "nDays": 25,
-     "kSen": 0.31384,
-     "interceptSen": -0.1745,
-     "kThroughOriginLS": 0.35912,
-     "tauSenH": 3.19,
+     "nPairs": 29,
+     "nDays": 28,
+     "kSen": 0.30851,
+     "interceptSen": -0.1925,
+     "kThroughOriginLS": 0.36315,
+     "tauSenH": 3.24,
      "exclusions": {
-      "input": 55,
-      "outsideParkedRange": 29,
+      "input": 62,
+      "outsideParkedRange": 33,
       "eaNotAbove10": 0,
       "ebNotAbove3": 0,
-      "kept": 26
+      "kept": 29
      }
     },
     "sensitivity_parked_to_24h": {
-     "nPairs": 41,
-     "nDays": 35,
-     "kSen": 0.18875,
-     "interceptSen": -0.3438,
-     "kThroughOriginLS": 0.18985,
-     "tauSenH": 5.3,
+     "nPairs": 47,
+     "nDays": 39,
+     "kSen": 0.18119,
+     "interceptSen": -0.3654,
+     "kThroughOriginLS": 0.18867,
+     "tauSenH": 5.52,
      "exclusions": {
-      "input": 55,
-      "outsideParkedRange": 10,
+      "input": 62,
+      "outsideParkedRange": 11,
       "eaNotAbove10": 0,
       "ebNotAbove1": 4,
-      "kept": 41
+      "kept": 47
      }
     },
     "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
    },
    "D_cloud_m729": {
     "primary": {
-     "nPairs": 28,
-     "nDays": 26,
-     "kSen": 0.30858,
-     "interceptSen": -0.1665,
-     "kThroughOriginLS": 0.35811,
-     "tauSenH": 3.24,
+     "nPairs": 31,
+     "nDays": 29,
+     "kSen": 0.30324,
+     "interceptSen": -0.1975,
+     "kThroughOriginLS": 0.362,
+     "tauSenH": 3.3,
      "exclusions": {
-      "input": 57,
-      "outsideParkedRange": 29,
+      "input": 65,
+      "outsideParkedRange": 34,
       "eaNotAbove10": 0,
       "ebNotAbove1": 0,
-      "kept": 28
+      "kept": 31
      },
      "supported": true
     },
     "sensitivity_eb_above_3C": {
-     "nPairs": 28,
-     "nDays": 26,
-     "kSen": 0.30858,
-     "interceptSen": -0.1665,
-     "kThroughOriginLS": 0.35811,
-     "tauSenH": 3.24,
+     "nPairs": 31,
+     "nDays": 29,
+     "kSen": 0.30324,
+     "interceptSen": -0.1975,
+     "kThroughOriginLS": 0.362,
+     "tauSenH": 3.3,
      "exclusions": {
-      "input": 57,
-      "outsideParkedRange": 29,
+      "input": 65,
+      "outsideParkedRange": 34,
       "eaNotAbove10": 0,
       "ebNotAbove3": 0,
-      "kept": 28
+      "kept": 31
      }
     },
     "sensitivity_parked_to_24h": {
-     "nPairs": 43,
-     "nDays": 36,
-     "kSen": 0.19358,
-     "interceptSen": -0.3295,
-     "kThroughOriginLS": 0.19024,
-     "tauSenH": 5.17,
+     "nPairs": 49,
+     "nDays": 40,
+     "kSen": 0.18383,
+     "interceptSen": -0.3569,
+     "kThroughOriginLS": 0.189,
+     "tauSenH": 5.44,
      "exclusions": {
-      "input": 57,
-      "outsideParkedRange": 10,
+      "input": 65,
+      "outsideParkedRange": 12,
       "eaNotAbove10": 0,
       "ebNotAbove1": 4,
-      "kept": 43
+      "kept": 49
      }
     },
     "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
    },
    "D1_cloud": {
     "primary": {
-     "nPairs": 24,
-     "nDays": 23,
-     "kSen": 0.30653,
-     "interceptSen": -0.2099,
-     "kThroughOriginLS": 0.3572,
-     "tauSenH": 3.26,
+     "nPairs": 26,
+     "nDays": 25,
+     "kSen": 0.29294,
+     "interceptSen": -0.2386,
+     "kThroughOriginLS": 0.35945,
+     "tauSenH": 3.41,
      "exclusions": {
-      "input": 48,
-      "outsideParkedRange": 24,
+      "input": 54,
+      "outsideParkedRange": 28,
       "eaNotAbove10": 0,
       "ebNotAbove1": 0,
-      "kept": 24
+      "kept": 26
      },
      "supported": true
     },
     "sensitivity_eb_above_3C": {
-     "nPairs": 24,
-     "nDays": 23,
-     "kSen": 0.30653,
-     "interceptSen": -0.2099,
-     "kThroughOriginLS": 0.3572,
-     "tauSenH": 3.26,
+     "nPairs": 26,
+     "nDays": 25,
+     "kSen": 0.29294,
+     "interceptSen": -0.2386,
+     "kThroughOriginLS": 0.35945,
+     "tauSenH": 3.41,
      "exclusions": {
-      "input": 48,
-      "outsideParkedRange": 24,
+      "input": 54,
+      "outsideParkedRange": 28,
       "eaNotAbove10": 0,
       "ebNotAbove3": 0,
-      "kept": 24
+      "kept": 26
      }
     },
     "sensitivity_parked_to_24h": {
-     "nPairs": 39,
-     "nDays": 33,
-     "kSen": 0.1857,
-     "interceptSen": -0.3948,
-     "kThroughOriginLS": 0.1896,
-     "tauSenH": 5.38,
+     "nPairs": 44,
+     "nDays": 37,
+     "kSen": 0.17416,
+     "interceptSen": -0.4092,
+     "kThroughOriginLS": 0.18817,
+     "tauSenH": 5.74,
      "exclusions": {
-      "input": 48,
-      "outsideParkedRange": 5,
+      "input": 54,
+      "outsideParkedRange": 6,
       "eaNotAbove10": 0,
       "ebNotAbove1": 4,
-      "kept": 39
+      "kept": 44
      }
     },
     "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
@@ -658,23 +658,23 @@
   },
   "comparisons": {
    "S_cloud_minus_S_obd": {
-    "difference": 0.00648,
+    "difference": 0.00752,
     "ci95": [
-     -0.00167,
-     0.01336
+     0.00038,
+     0.01464
     ],
-    "mde": 0.0106,
-    "wording": "not distinguishable",
+    "mde": 0.01023,
+    "wording": "small",
     "bootstrap": "paired (same gaps)",
     "label": "difference between the sets, confounded by driver, time of day, parking place and a possibly two-time-constant engine; not an unlogged effect"
    },
    "D_cloud_minus_S_cloud": {
-    "difference": -0.06003,
+    "difference": -0.0579,
     "ci95": [
-     -0.13268,
-     0.0427
+     -0.12115,
+     0.02606
     ],
-    "mde": 0.13246,
+    "mde": 0.10558,
     "wording": "not distinguishable",
     "bootstrap": "joint day-clustered resample of disjoint gap sets",
     "label": "difference between the sets, confounded by driver, time of day, parking place and a possibly two-time-constant engine; not an unlogged effect"
@@ -692,5 +692,5 @@
   "OBD coolant is read directly from the raw files (thermal.obd_coolant), not through _battery_temp_traj, so drives without pack-sensor columns are kept; drives without an OBD coolant channel are counted"
  ],
  "scope": "report-only: no payload, dashboard or master change; never a pack-temperature statement",
- "seconds": 394.1
+ "seconds": 383.8
 }
