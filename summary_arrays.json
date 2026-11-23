@@ -71164,6 +71164,54 @@
      "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff"
     }
    }
+  },
+  "heatSoakGapSensitivity": {
+   "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-23T23:27:48.233401+00:00",
+   "pipelineVersion": 6,
+   "computationStatus": "computed",
+   "computationStatusNote": "M758: copied by tools/heatsoak_gap_payload.py from the registered M756 rerun result (carried; spec analyses/M758_spec.md Rev 2)",
+   "includedInReleaseAt": "2026-11-23T23:27:48.233401+00:00",
+   "computedAt": "2026-11-23T23:27:48.233401+00:00",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "inputBasis": {
+    "nDrives": 717,
+    "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "declaredIdentity": {
+    "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M756_rerun/M751_heatsoak_gap_sensitivity.json": "c742c4caa41304bc7d29b10d68445b55"
+    }
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+      "generatedAt": "2026-11-23T23:27:48.233401+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-11-23T23:48:16.294559+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "upstreamHashes": {
+    "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M756_rerun/M751_heatsoak_gap_sensitivity.json": "c742c4caa41304bc7d29b10d68445b55"
+    }
+   }
   }
  },
  "ambientTable": {
@@ -479239,6 +479287,320 @@
    "adoptGlobalOffset": false,
    "convention": "a positive offset compares a cloud value at time t with the OBD value at t + offset",
    "note": "Not adopted as a correction (held-out rule not met); no displayed figure uses it"
+  }
+ },
+ "heatSoakGapSensitivity": {
+  "basis": "computed on the registered corpus of 717 drives (master MD5 d514d600...; all pairs, set A), cloud gap table M729 sha256 d1d3f8e9..., ambient read through the shared reader (M755 basis); later drives are not included",
+  "registeredMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+  "corpusDrives": 717,
+  "pairsRegistered": 706,
+  "sourceFile": "analyses/M756_rerun/M751_heatsoak_gap_sensitivity.json",
+  "sourceSha256": "2ea781c96575569d89d7733c8931c9fcdc8eb0d90866a31e31e587b603b23c8c",
+  "resultToolSha256": "7535aa14f3dc622f0e9d638efbf0ff7bcc7c585be7434af84f9b56ea70fddef3",
+  "seed": 42,
+  "nBoot": 4000,
+  "status": "carried sensitivity block, auxiliary; not an article figure; not refreshed by ingestion",
+  "staleness": {
+   "carried": true,
+   "corpusDrives": 717,
+   "refreshedAt": null
+  },
+  "setLabels": {
+   "A": "all pairs, registered corpus",
+   "C": "pairs without definite estimated unlogged movement (set C)",
+   "B": "stationary-consistent pairs only (set B)"
+  },
+  "bins": [
+   {
+    "gapLoH": 0,
+    "gapHiH": 1,
+    "label": "0-1 h",
+    "allPairs": {
+     "nAmb": 350,
+     "med": 1.0
+    },
+    "pairsInBin": 376,
+    "pairsStationaryConsistent": 302,
+    "pairsWithMovementOrUnknown": 74,
+    "C": {
+     "nAmb": 331,
+     "days": 112,
+     "med": 1.0,
+     "supported": true,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    },
+    "B": {
+     "nAmb": 279,
+     "days": 105,
+     "med": 1.0,
+     "supported": true,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 1,
+    "gapHiH": 3,
+    "label": "1-3 h",
+    "allPairs": {
+     "nAmb": 96,
+     "med": 0.8824
+    },
+    "pairsInBin": 109,
+    "pairsStationaryConsistent": 76,
+    "pairsWithMovementOrUnknown": 33,
+    "C": {
+     "nAmb": 84,
+     "days": 61,
+     "med": 0.8824,
+     "supported": true,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      -1.02,
+      1.44
+     ],
+     "mdePp": 1.56,
+     "verdict": "not distinguishable"
+    },
+    "B": {
+     "nAmb": 64,
+     "days": 47,
+     "med": 0.8824,
+     "supported": true,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      -1.83,
+      1.79
+     ],
+     "mdePp": 2.36,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 3,
+    "gapHiH": 6,
+    "label": "3-6 h",
+    "allPairs": {
+     "nAmb": 41,
+     "med": 0.7222
+    },
+    "pairsInBin": 47,
+    "pairsStationaryConsistent": 35,
+    "pairsWithMovementOrUnknown": 12,
+    "C": {
+     "nAmb": 34,
+     "days": 30,
+     "med": 0.7,
+     "supported": true,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      0.0,
+      7.66
+     ],
+     "mdePp": 6.02,
+     "verdict": "not distinguishable (interval lower bound at 0.0; boundary case, not evidence of no shift)"
+    },
+    "B": {
+     "nAmb": 29,
+     "days": 25,
+     "med": 0.7,
+     "supported": true,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      -0.18,
+      10.0
+     ],
+     "mdePp": 8.04,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 6,
+    "gapHiH": 12,
+    "label": "6-12 h",
+    "allPairs": {
+     "nAmb": 66,
+     "med": 0.3537
+    },
+    "pairsInBin": 73,
+    "pairsStationaryConsistent": 37,
+    "pairsWithMovementOrUnknown": 36,
+    "C": {
+     "nAmb": 46,
+     "days": 42,
+     "med": 0.2817,
+     "supported": true,
+     "shiftPp": 7.19,
+     "ci95Pp": [
+      2.45,
+      12.98
+     ],
+     "mdePp": 7.46,
+     "verdict": "material"
+    },
+    "B": {
+     "nAmb": 32,
+     "days": 29,
+     "med": 0.2727,
+     "supported": true,
+     "shiftPp": 8.1,
+     "ci95Pp": [
+      2.85,
+      17.97
+     ],
+     "mdePp": 10.48,
+     "verdict": "material"
+    }
+   },
+   {
+    "gapLoH": 12,
+    "gapHiH": 24,
+    "label": "12-24 h",
+    "allPairs": {
+     "nAmb": 73,
+     "med": 0.0625
+    },
+    "pairsInBin": 76,
+    "pairsStationaryConsistent": 44,
+    "pairsWithMovementOrUnknown": 32,
+    "C": {
+     "nAmb": 53,
+     "days": 53,
+     "med": 0.0,
+     "supported": true,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      15.95
+     ],
+     "mdePp": 11.36,
+     "verdict": "not distinguishable (interval lower bound at 0.0; boundary case, not evidence of no shift)"
+    },
+    "B": {
+     "nAmb": 41,
+     "days": 41,
+     "med": 0.0,
+     "supported": true,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      14.31
+     ],
+     "mdePp": 11.32,
+     "verdict": "not distinguishable (interval lower bound at 0.0; boundary case, not evidence of no shift)"
+    }
+   },
+   {
+    "gapLoH": 24,
+    "gapHiH": null,
+    "label": "24 h and longer",
+    "allPairs": {
+     "nAmb": 24,
+     "med": -0.0109
+    },
+    "pairsInBin": 25,
+    "pairsStationaryConsistent": 10,
+    "pairsWithMovementOrUnknown": 15,
+    "C": {
+     "nAmb": 14,
+     "days": 14,
+     "med": -0.0976,
+     "supported": false,
+     "verdict": "not estimable at this support"
+    },
+    "B": {
+     "nAmb": 10,
+     "days": 10,
+     "med": -0.1409,
+     "supported": false,
+     "verdict": "not estimable at this support"
+    }
+   }
+  ],
+  "tau": {
+   "A": {
+    "nPairsWithAmbient": 706,
+    "nFit": 531,
+    "tauH": 11.1,
+    "tauCI": [
+     9.69,
+     12.82
+    ],
+    "decayRateK": 0.09012,
+    "decayRateKCI": [
+     0.07798,
+     0.10321
+    ]
+   },
+   "C": {
+    "nPairsWithAmbient": 613,
+    "nFit": 460,
+    "tauH": 9.34,
+    "tauCI": [
+     8.52,
+     10.42
+    ],
+    "decayRateK": 0.10705,
+    "decayRateKCI": [
+     0.096,
+     0.11731
+    ],
+    "kShiftVsA": 0.01693,
+    "kShiftCI95": [
+     0.01054,
+     0.02386
+    ],
+    "verdictK": "small"
+   },
+   "B": {
+    "nPairsWithAmbient": 504,
+    "nFit": 375,
+    "tauH": 9.53,
+    "tauCI": [
+     8.54,
+     10.95
+    ],
+    "decayRateK": 0.1049,
+    "decayRateKCI": [
+     0.09134,
+     0.11714
+    ],
+    "kShiftVsA": 0.01478,
+    "kShiftCI95": [
+     0.0059,
+     0.02383
+    ],
+    "verdictK": "small"
+   }
+  },
+  "overall": "sensitive to unlogged driving (lower bound): a supported bin or tau is material under B and under C",
+  "unloggedPairCounts": {
+   "S": 504,
+   "D": 93,
+   "U": 103,
+   "X": 6
+  },
+  "pairsTotal": 706,
+  "notes": {
+   "lead": "Sensitivity of the retained-heat medians in the gap bins above to estimated unlogged driving between logged drives (estimated, lower bound). The explanation above is unchanged.",
+   "unlogged": "Unlogged means no OBD record. The classes come from the cloud odometer and geolocation gap table (estimated, not an OBD record); undetected unlogged driving stays in the subsets, so the shifts are lower bounds.",
+   "setB": "Set B also selects on cloud coverage; B and C do not bracket the truth (cloud recall is below 1), so both are lower bounds.",
+   "ambient": "Ambient is the hand-entered driving-time value, as in the table above.",
+   "sensitivity": "A sensitivity of the registered-corpus median, not a replacement of any displayed figure.",
+   "audit": "The blind reproduction reproduced these cells within construction differences, not leaf-exactly (6-12 h A-C 6.52 vs 7.19 pp; tau B 9.79 vs 9.53 h; 12-24 h point estimates differ). The tau fit conditions on the outcome (residual excess above 0.5 C).",
+   "days": "Day counts are the calendar days of the arrival clusters in the registered result.",
+   "unsupported": "not estimable at this support"
   }
  }
 }

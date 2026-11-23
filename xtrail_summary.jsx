@@ -13798,6 +13798,32 @@ export default function App() {
                 direction is not identified.</>
               );})()}
             </div>
+          {S.heatSoakGapSensitivity && (()=>{const G=S.heatSoakGapSensitivity;
+            const pct=(x)=>typeof x==="number"?`${(x*100).toFixed(1)}%`:"n/a";
+            const ci=(a)=>Array.isArray(a)?`[${a[0]}, ${a[1]}]`:"";
+            const cellTxt=(c)=>c.supported?`${pct(c.med)} (n=${c.nAmb}, ${c.days} days) · shift ${c.shiftPp} pp ${ci(c.ci95Pp)}`:`${pct(c.med)} (n=${c.nAmb}, ${c.days} days)`;
+            const f3=(x)=>typeof x==="number"?x.toFixed(3):"n/a";
+            const tauTxt=(k,t)=>`${G.setLabels[k]}: τ ${t.tauH} h [${t.tauCI[0]}, ${t.tauCI[1]}], decay rate k ${f3(t.decayRateK)} h⁻¹ [${f3(t.decayRateKCI[0])}, ${f3(t.decayRateKCI[1])}], ${t.nFit} pairs in the fit`+(t.verdictK?`; shift of k versus all pairs ${f3(t.kShiftVsA)} [${f3(t.kShiftCI95[0])}, ${f3(t.kShiftCI95[1])}] (${t.verdictK})`:"");
+            return (<div data-heatsoak-gap-sensitivity="1" style={{marginTop:12,padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,fontSize:10,color:"#64748b",lineHeight:1.6}}>
+              <div style={{fontWeight:700,color:"#334155",marginBottom:4}}>Sensitivity to unlogged driving between logged drives (estimated, lower bound)</div>
+              <div style={{marginBottom:6}}>{G.notes.lead} Basis: {G.basis}. {G.notes.unlogged} {G.notes.sensitivity}</div>
+              <div style={{overflowX:"auto"}}><table style={{borderCollapse:"collapse",fontSize:10,minWidth:640,width:"100%"}}>
+                <thead><tr style={{textAlign:"left",color:"#334155"}}>
+                  <th style={{padding:"3px 6px"}}>Gap</th><th style={{padding:"3px 6px"}}>{G.setLabels.A}</th><th style={{padding:"3px 6px"}}>{G.setLabels.C}</th><th style={{padding:"3px 6px"}}>{G.setLabels.B}</th><th style={{padding:"3px 6px"}}>Verdict (C / B)</th>
+                </tr></thead>
+                <tbody>{G.bins.map((r,i)=>(<tr key={i} style={{borderTop:"1px solid #e2e8f0"}}>
+                  <td style={{padding:"3px 6px",fontWeight:700,color:"#0f172a"}}>{r.label}</td>
+                  <td style={{padding:"3px 6px"}}>{pct(r.allPairs.med)} (n={r.allPairs.nAmb})</td>
+                  <td style={{padding:"3px 6px"}}>{cellTxt(r.C)}</td>
+                  <td style={{padding:"3px 6px"}}>{cellTxt(r.B)}</td>
+                  <td style={{padding:"3px 6px",color:"#0f172a"}}>{r.C.verdict} / {r.B.verdict}</td>
+                </tr>))}</tbody>
+              </table></div>
+              <div style={{marginTop:6}}>{G.tau && ["A","C","B"].map(k=>(<div key={k}>{tauTxt(k,G.tau[k])}</div>))}</div>
+              <div style={{marginTop:6}}><strong style={{color:"#0f172a"}}>{G.overall}.</strong> {G.notes.setB} {G.notes.ambient}</div>
+              <div style={{marginTop:4}}>{G.notes.audit} {G.notes.days}</div>
+              <div style={{marginTop:4}}>{G.status}. Basis: {G.registeredMasterMd5.slice(0,8)}… ({G.staleness.corpusDrives} drives; carried: {String(G.staleness.carried)}).</div>
+            </div>);})()}
           </Section>);})()}
         {S.thermalStepResponse && S.thermalStepResponse.available && S.thermalStepResponse.nFits>0 && (()=>{const TS=S.thermalStepResponse;return (
           <Section title={`Thermal Step Response — Pack Warmup τ (${TS.nFits} identifiable fits)`} accent="#ef4444">

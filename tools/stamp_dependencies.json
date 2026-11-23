@@ -488,6 +488,19 @@
     "analyses/M734_thermal_forcing.json",
     "analyses/M739_unlogged_exposure.json"
    ]
+  },
+  "heatSoakGapSensitivity": {
+   "producer": "tools/heatsoak_gap_payload.py",
+   "producerStages": [
+    "heatsoak_gap_payload"
+   ],
+   "readsRaw": false,
+   "readsRawManifest": false,
+   "rawNote": "no raw read; copies the registered M756 rerun result (heat-soak gap sensitivity, auxiliary, carried) pinned by file sha256 in tools/heatsoak_gap_payload.py",
+   "configSections": [],
+   "inputFiles": [
+    "analyses/M756_rerun/M751_heatsoak_gap_sensitivity.json"
+   ]
   }
  }
 }

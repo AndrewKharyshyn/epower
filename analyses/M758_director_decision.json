@@ -1,0 +1,23 @@
+{
+ "milestone": "M758",
+ "role": "research-director (Opus)",
+ "decision": "accept",
+ "deviations": [
+  "boundary wording also applied to 3-6 h set C and 12-24 h C and B (spec named 12-24 h only); accepted, disclosed",
+  "language rule has two documented exemptions ('not measured unlogged driving' negated; 'unlogged drives and unlogged intervals')",
+  "k shown to 3 decimals (display rounding; payload leaf-exact)"
+ ],
+ "conditions": [
+  "R1 0.3537 check at master d514d600 (confirmed)",
+  "labels confirmed in rendered dump",
+  "owner paragraph byte-identical (jsx diff: 0 deleted lines)",
+  "auditor brief pasted in CHANGELOG",
+  "Dashboard change rule; release_check green before PR"
+ ],
+ "limits": [
+  "B and C are lower bounds, not a bracket",
+  "carried, not refreshed at ingestion"
+ ],
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session (subagent has no Write tool)"
+}
