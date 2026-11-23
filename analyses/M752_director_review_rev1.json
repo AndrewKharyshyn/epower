@@ -1,0 +1,30 @@
+{
+ "milestone": "M752",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M752_spec.md Rev 1",
+ "decision": "revise",
+ "rulings_adopted_in": "section 9 (Rev 2)",
+ "answers": {
+  "a": "E_int primary but biased low at edges; E_int and E_br as lower/upper bracket; flat-bracket rule (rows differing <= 0.05 km give an exact endpoint); +16 s shift sensitivity only",
+  "b": "20 drives / 10 days floor fine; +-3 % too loose: primary +-1 % with +-3 % beside; 0.25 km for drives >= 2 km; drives < 2 km counts and resolution only",
+  "c": "shared-speed caveat not strong enough: common wheel-speed scale error undetectable; wording consistent with the cloud-reported odometer",
+  "d": "keep a side table; master columns only through a separate ingestion-pipeline spec",
+  "e": "classify by the identity |distance - (odo_end - odo_start)| <= 0.05, not distance_source; P3 single-point one-sided plausibility check"
+ },
+ "required_changes": [
+  "withdraw the E_near inherent-bias claim",
+  "report E_int and E_br as bracket; flat-bracket rule; coverage by reason and available vs unavailable comparison",
+  "V0 on raw first/last values 13285.0390625",
+  "wording: consistent with the cloud-reported odometer",
+  "common-scale-error caveat",
+  "difference not error; cloud-reported, interpolated; never substituted into distance_km or the logged-share KPI",
+  "logger counter called logged/app-calculated"
+ ],
+ "risks": [
+  "E_int edge bias read as agreement",
+  "selection from availability",
+  "odometer-stream latency differs from speed latency",
+  "P3 over-read"
+ ],
+ "needs_andrii_signoff": false
+}
