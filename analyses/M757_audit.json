@@ -1,0 +1,106 @@
+{
+ "audit": "M757 blind repro, spec Rev2 s3/5/9; author files unread; master MD5 ok; 17 tiles sha ok",
+ "reproduced": {
+  "F0": {
+   "fixes_in_windows": 28026,
+   "dem_valid": 1.0,
+   "drives_ge3": 661
+  },
+  "primary": {
+   "steps": 3625,
+   "days": 81,
+   "drives": 289,
+   "km": 1940.0
+  },
+  "b": 0.845,
+  "b_ci95": [
+   0.791,
+   0.878
+  ],
+  "placebo_2km_left": {
+   "b": 0.086,
+   "ci95": [
+    0.052,
+    0.118
+   ]
+  },
+  "R2": {
+   "steps_gt2pp": 275,
+   "days_gt2pp": 36,
+   "days_dh_pos": 26,
+   "days_dh_neg": 32
+  },
+  "F1_primary_fuel_steps": {
+   "n": 12,
+   "days": 1,
+   "median_pp": -0.137
+  },
+  "F1_all_alt_drives": {
+   "n": 410,
+   "days": 9,
+   "median_pp": -0.014,
+   "ci95": [
+    -0.094,
+    0.012
+   ]
+  }
+ },
+ "sensitivity": {
+  "b_shift0": 0.681,
+  "b_shift-16": 0.312,
+  "b_plus_minus": [
+   0.818,
+   0.874
+  ],
+  "odd_even": [
+   0.867,
+   0.823
+  ],
+  "cv_incr_R2": 0.308,
+  "placebo_right2km": 0.072,
+  "placebo_5km": [
+   0.035,
+   -0.011,
+   0.072
+  ]
+ },
+ "rules": {
+  "R1": "pass",
+  "R2": "not testable: 275<1000 steps above 2 pp (days 81, km 1940, sign-days ok)",
+  "placebo": "fails 9.4 (CI excludes 0)",
+  "R3": "not testable",
+  "R4": "not testable (9 days); descriptive only"
+ },
+ "method_concerns": [
+  "Only 275 steps above 2 pp; sample nearly flat (SD 1.1 pp).",
+  "Placebo b ~10% of primary, CI excludes zero at 2 km (terrain spatially correlated, r=0.14); 5 km contains zero.",
+  "Road-load columns collinear (VIF 1e3-5e3); duration near-constant (acts as intercept); b orthogonal and stable.",
+  "b very sensitive to shift (0.31 / 0.68 / 0.85 at -16/0/+16 s).",
+  "F1 restricted to fuel drives gives 12 steps/1 day; spec ambiguous; both reported.",
+  "Resolved ambiguities: first/last step among gap<=120 steps (effect <0.001); placebo uses primary step set."
+ ],
+ "language_concerns": [
+  "b is model-derived, conditional on traction reconstruction and m=1950; not measured grade, not DEM validation.",
+  "Do not say informative or validated."
+ ],
+ "verdict": "revise",
+ "cv_recheck": {
+  "earlier_0.31_definition": "delta = (SSE_null-SSE_full)/SST_heldout (SST about each held-out half own mean), pooled over both directions; null = joint fit without mg*dh column (keeps d,v2,v3,duration)",
+  "odd_even_by_sorted_day_index": true,
+  "partial": 0.679,
+  "partial_ci95": [
+   0.55,
+   0.76
+  ],
+  "delta": 0.308,
+  "delta_ci95": [
+   0.219,
+   0.394
+  ],
+  "author_partial": 0.673,
+  "author_delta": 0.298,
+  "delta_diff": 0.01,
+  "agrees_within_0.02": true,
+  "note": "bootstrap 2000 day draws, 1872 valid (degenerate resamples skipped)"
+ }
+}

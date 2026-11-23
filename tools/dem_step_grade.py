@@ -331,33 +331,54 @@ def fit_b(df, dh_col="dh", mass=MASS_KG, W=None, nb=NB_DEFAULT, split=False, fla
 
 
 def cv_incremental(df, dh_col="dh", mass=MASS_KG, W=None, nb=NB_DEFAULT):
-    """Day-blocked cross-validation (odd / even calendar-day ordinal): fit on one half, score on the other, both directions pooled.
-    Incremental R2 = 1 - SSE(with b) / SSE(without b) on the held-out halves; the interval is a day-clustered bootstrap of the pooled held-out sums (fold coefficients held fixed)."""
+    """Day-blocked cross-validation (odd / even calendar-day ordinal): fit on one half, score on the other, both directions pooled. Two named quantities (Director, M757):
+    partial_r2 = 1 - SSE(with b) / SSE(without b) on the held-out halves (null = the pre-registered joint fit without b, primary), and delta_r2 = (SSE_null - SSE_full) / SST_heldout
+    (share of the held-out total variance of y). A post hoc sensitivity uses a null whose road-load terms come from the in-fold DEM-flat steps (|grade| < 1 pp). Intervals: day-clustered
+    bootstrap of the pooled held-out sums with the fold coefficients held fixed."""
     df = df[np.isfinite(df[dh_col]) & np.isfinite(df["E_kJ"])]
     days = np.array(sorted(df["day"].unique()))
     if len(days) < 4:
-        return {"incremental_r2": None}
+        return {"partial_r2": None, "incremental_r2": None}
     di = np.searchsorted(days, df["day"].values)
     nd = len(days)
     par = np.array([pd.Timestamp(str(d)).toordinal() % 2 for d in days])
     X, y = design(df, dh_col, mass)
     s = np.sqrt((X ** 2).mean(axis=0)) + 1e-12
     A, c, yy, n = day_sums(X / s, y, di, nd)
-    sse_f, sse_0, bfold = np.zeros(nd), np.zeros(nd), {}
+    sy = np.array([y[di == d].sum() for d in range(nd)])
+    flat = (100.0 * df[dh_col].values / df["d_m"].values) ** 2 < FLAT_PP ** 2
+    Af, cf_, _, _ = day_sums((X / s)[flat], y[flat], di[flat], nd)
+    sse_f, sse_0, sse_0f, bfold = np.zeros(nd), np.zeros(nd), np.zeros(nd), {}
     for tr in (0, 1):
         w = (par == tr).astype(float)
         cf = solve_w(A, c, w)
         c0 = solve_w(A, c, w, [0, 1, 2, 3])
+        cff = solve_w(Af, cf_, w, [0, 1, 2, 3])
         bfold["train_parity_%d" % tr] = float(cf[4] / s[4])
         for d in np.where(par != tr)[0]:
             sse_f[d] = yy[d] - 2 * cf @ c[d] + cf @ A[d] @ cf
-            cc0 = np.zeros(5); cc0[:4] = c0
-            sse_0[d] = yy[d] - 2 * cc0 @ c[d] + cc0 @ A[d] @ cc0
+            for tgt, cc in ((sse_0, c0), (sse_0f, cff)):
+                v5 = np.zeros(5); v5[:4] = cc
+                tgt[d] = yy[d] - 2 * v5 @ c[d] + v5 @ A[d] @ v5
+    # held-out total variance: SST of each held-out half about its own mean
+    sst = np.zeros(nd)
+    for tr in (0, 1):
+        held = np.where(par != tr)[0]
+        ny, sy_, yy_ = n[held].sum(), sy[held].sum(), yy[held].sum()
+        mu = sy_ / ny
+        for d in held:
+            sst[d] = yy[d] - 2 * mu * sy[d] + n[d] * mu * mu
     if W is None:
         W = boot_weights(nd, nb)
-    r2 = 1.0 - sse_f.sum() / sse_0.sum()
-    bs = 1.0 - (W @ sse_f) / (W @ sse_0)
-    return {"incremental_r2": float(r2), "incremental_r2_ci95": ci(bs), "b_fold": bfold, "n_days": int(nd)}
+    out = {"n_days": int(nd), "b_fold": bfold}
+    out["partial_r2"] = float(1.0 - sse_f.sum() / sse_0.sum())
+    out["partial_r2_ci95"] = ci(1.0 - (W @ sse_f) / (W @ sse_0))
+    out["delta_r2"] = float((sse_0.sum() - sse_f.sum()) / sst.sum())
+    out["delta_r2_ci95"] = ci((W @ (sse_0 - sse_f)) / (W @ sst))
+    out["posthoc_flat_road_load_null"] = {"partial_r2": float(1.0 - sse_f.sum() / sse_0f.sum()), "delta_r2": float((sse_0f.sum() - sse_f.sum()) / sst.sum()),
+                                          "label": "post hoc sensitivity, not pre-registered"}
+    out["incremental_r2"], out["incremental_r2_ci95"] = out["partial_r2"], out["partial_r2_ci95"]      # criterion (ii) uses the pre-registered null (partial)
+    return out
 
 
 # ------------------------------------------------------------------ F1 statistics (known-answer tested)
@@ -381,6 +402,11 @@ def f1_stats(dem_g, obd_g, days, nb=NB_DEFAULT):
         return {"n_steps": int(len(dem_g))}
     ud = np.unique(days)
     idx = [np.where(days == u)[0] for u in ud]
+    if len(ud) < 2:
+        a, b = dem_g, obd_g
+        d = a - b
+        return {"n_steps": int(len(a)), "n_days": 1, "bias_median_pp": float(np.median(d)), "median_abs_diff_pp": float(np.median(np.abs(d))), "p90_abs_diff_pp": float(np.percentile(np.abs(d), 90)),
+                "pearson": float(np.corrcoef(a, b)[0, 1]), "spearman": spearman(a, b), "lin_ccc": lin_ccc(a, b), "interval": "no interval (1 day)", "bias_median_pp_ci95": [None, None]}
 
     def stats(sel):
         a, b = dem_g[sel], obd_g[sel]
@@ -412,6 +438,15 @@ def r4_decision(f1, days, unique_km):
 
 # ------------------------------------------------------------------ decisions (known-answer tested)
 def r2_decision(base, placebo, cv, support, b_obd, b_obd_testable):
+    """Wrapper: the reasons always list a failed negative control next to a support failure (Director, M757)."""
+    r, why = _r2(base, placebo, cv, support, b_obd, b_obd_testable)
+    plo, phi = placebo["b_ci95"]
+    if r == "not testable" and plo is not None and not (plo <= 0 <= phi):
+        why = why + ["negative control failed: displaced-DEM placebo interval excludes zero"]
+    return r, why
+
+
+def _r2(base, placebo, cv, support, b_obd, b_obd_testable):
     """R2 (Rev 2 9.4 / 9.5). support: {days, unique_km, n_above2pp, days_pos, days_neg}. Returns the reading and the reasons."""
     why = []
     sup_ok = (support["days"] >= MIN_DAYS and support["unique_km"] >= MIN_KM and support["n_above2pp"] >= MIN_STEPS_2PP
@@ -474,6 +509,29 @@ def drive_arrays(raw_dir, fname, mrow, t0, scen="central", paux=None):
     return {"t": t, "v": v, "dt": g["dt"].values, "P": ps["Ptrac"]}
 
 
+def speed_only_arrays(path, t0):
+    """Speed and time on the epoch axis for drives without the fuel-flow channel (no traction reconstruction): power is zero and the steps carry fuel = False (F1 only, never F2)."""
+    df = pd.read_csv(path, usecols=lambda c: c == "time" or c in mg.SPD_COLS, low_memory=False)
+    ts = pd.to_datetime(df["time"].astype(str), format="mixed", errors="coerce")
+    sec = (ts.dt.hour * 3600 + ts.dt.minute * 60 + ts.dt.second + ts.dt.microsecond / 1e6).values
+    spd = np.full(len(df), np.nan)
+    for c in mg.SPD_COLS:
+        if c in df.columns:
+            v = pd.to_numeric(df[c], errors="coerce").values
+            spd = np.where(np.isfinite(spd), spd, v)
+    ok0 = np.isfinite(sec)
+    if ok0.sum() < 3:
+        return None
+    tt = t0 + ((sec - sec[ok0][0]) % 86400.0)
+    ok = ok0 & np.isfinite(spd)                      # only the rows that carry a speed (the altitude logging generation logs bursts): no zero fill
+    if ok.sum() < 3:
+        return None
+    t = tt[ok]
+    v = spd[ok] / 3.6
+    dt = np.clip(np.diff(t, prepend=t[0]), 0.0, 5.0)
+    return {"t": t, "v": v, "dt": dt, "P": np.zeros(len(t))}
+
+
 def altitude_arrays(path, t0):
     o = mg.read_obd(path, t0)
     if o is None or not np.isfinite(o["alt"]).any():
@@ -515,16 +573,21 @@ def collect(args, dem, master, dmaster, regime, scens, nb):
         km_track = 0.0
         for scen_key, (scen, paux) in scens.items():
             arr = drive_arrays(args.raw_dir, path, mrow, m["t0"], scen, paux)
+            fuel = arr is not None
             if arr is None:
-                break
+                if scen_key != "central":
+                    break
+                arr = speed_only_arrays(path, m["t0"])
+                if arr is None:
+                    break
             if al is not None:
                 arr["t_alt"], arr["alt"] = al
-            if scen_key == "central":
+            if scen_key == "central" and fuel:
                 cov["fuel_instrumented_drives_used"] += 1
             for shift in SHIFTS if scen_key == "central" else (PRIMARY_SHIFT,):
                 rows, drop = build_steps(arr, ct[i0:i1], cla[i0:i1], clo[i0:i1], dem, shift)
                 for r in rows:
-                    r.update({"day": m["date"], "drive": m["file"], "cohort": regime.get(m["file"], "unknown"), "has_alt": al is not None})
+                    r.update({"day": m["date"], "drive": m["file"], "cohort": regime.get(m["file"], "unknown"), "has_alt": al is not None, "fuel": fuel})
                 tabs.setdefault((scen_key, shift), []).extend(rows)
                 if scen_key == "central" and shift == PRIMARY_SHIFT:
                     km_track = sum(r["d_m"] for r in rows) / 1000.0
@@ -621,7 +684,7 @@ def report(a, tabs, cov, tiles, man, md5, dem):
     n_fix = max(cov["fixes_in_drive_windows"], 1)
     f0 = {"screened_fixes_total": cov["screened_fixes_total"], "fixes_in_drive_windows": cov["fixes_in_drive_windows"], "share_fixes_with_dem": cov["fixes_with_dem"] / n_fix,
           "share_step_km_with_dem": (cov["track_km_with_dem"] / cov["track_km"]) if cov["track_km"] else None, "drives": cov["drives"], "drives_ge3_fixes": cov["drives_ge3_fixes"],
-          "drives_ge1km_track_fuel_instrumented": cov["drives_ge1km_track"], "fuel_instrumented_drives_with_steps_analysis": cov["fuel_instrumented_drives_used"],
+          "drives_ge1km_track": cov["drives_ge1km_track"], "fuel_instrumented_drives_with_steps_analysis": cov["fuel_instrumented_drives_used"],
           "unique_km_approx_100m_cells": len(cov["cells"]) * 0.1}
     f0["R1"] = "passed" if f0["share_fixes_with_dem"] >= 0.90 else "stopped: DEM value at fewer than 90 % of screened fixes"
     res["F0"] = f0
@@ -629,8 +692,9 @@ def report(a, tabs, cov, tiles, man, md5, dem):
         res["F2"] = {"R2": {"reading": "not testable", "reasons": ["no steps or R1 stop"]}}
         res["F1"] = {"R4": "not testable"}
         return res
-    prim = apply_primary(cen)
-    prim = prim[np.isfinite(prim["dh"])]
+    prim_all = apply_primary(cen)
+    prim_all = prim_all[np.isfinite(prim_all["dh"])]
+    prim = prim_all[prim_all["fuel"]]                          # F2 needs the traction reconstruction (fuel-flow channel); F1 does not (Director, M757)
     res["steps"] = {"all_built": int(len(cen)), "primary": int(len(prim)), "primary_km": float(prim["d_m"].sum() / 1000.0), "primary_days": int(prim["day"].nunique()),
                     "primary_drives": int(prim["drive"].nunique()),
                     "excluded_first_last": int((cen["first"] | cen["last"]).sum()), "excluded_vmin_below_8": int((cen["vmin_kmh"] < V_MIN_KMH).sum()),
@@ -640,7 +704,9 @@ def report(a, tabs, cov, tiles, man, md5, dem):
                     "step_length_m": {"p10": float(cen["d_m"].quantile(.1)), "median": float(cen["d_m"].median()), "p90": float(cen["d_m"].quantile(.9))}}
     # ---------------- F1
     f1 = {}
-    alt = prim[np.isfinite(prim["dh_obd"])]
+    alt = prim_all[np.isfinite(prim_all["dh_obd"])]
+    altf = alt[alt["fuel"]]
+    f1["secondary_fuel_instrumented_drives_only"] = f1_stats((100 * altf["dh"] / altf["d_m"]).values, (100 * altf["dh_obd"] / altf["d_m"]).values, altf["day"].values, nb) if len(altf) else {"n_steps": 0}
     ag, ao = 100 * alt["dh"] / alt["d_m"], 100 * alt["dh_obd"] / alt["d_m"]
     cells_alt = len(alt)  # unique km approximated by step km on the altitude days (no coordinates kept)
     f1["all_speeds"] = f1_stats(ag.values, ao.values, alt["day"].values, nb) if len(alt) else {"n_steps": 0}
@@ -707,7 +773,10 @@ def report(a, tabs, cov, tiles, man, md5, dem):
             sens["energy_variant_" + k] = strip(fit_b(q[np.isfinite(q["dh"])], "dh", nb=nb))
     sens["by_thermal_cohort"] = {c: strip(fit_b(g_, "dh", nb=nb)) for c, g_ in prim.groupby("cohort") if g_["day"].nunique() >= 5}
     bvals = [v["b"] for k, v in sens.items() if isinstance(v, dict) and v.get("b") is not None and k != "by_thermal_cohort"]
-    sens["spread_of_b_over_variants"] = {"min": float(min(bvals)), "max": float(max(bvals)), "n_variants": len(bvals)} if bvals else None
+    ev = [v["b"] for k, v in sens.items() if k.startswith("energy_variant_") and v.get("b") is not None]
+    al_ = [v["b"] for k, v in sens.items() if k.startswith("shift_") and v.get("b") is not None] + [base["b"]]
+    sens["spread_energy_variants"] = {"min": float(min(ev)), "max": float(max(ev)), "n": len(ev), "note": "BSFC scalar and auxiliary power only; reported apart from the alignment spread"} if ev else None
+    sens["spread_alignment_shift"] = {"min": float(min(al_)), "max": float(max(al_)), "n": len(al_), "note": "+16 s was frozen before any DEM value; 0 and -16 s are sensitivities, none selects"}
     f2["sensitivities"] = sens
     res["F2"] = f2
     # ---------------- F3
@@ -722,7 +791,7 @@ def report(a, tabs, cov, tiles, man, md5, dem):
         eneg = prim["Eneg_kJ"].values
         f3["regen_bus_energy_share_by_class"] = [float(eneg[cls == i].sum() / eneg.sum()) for i in range(5)]
     else:
-        f3["regen_bus_energy_share_by_class"] = "not computed (F2 not informative, Rev 1 section 3)"
+        f3["regen_bus_energy_share_by_class"] = "not computed (R2 not testable or not informative, Rev 1 section 3)"
     res["F3"] = f3
     res["deviations_from_spec"] = [
         "Rev 2 registered changes: shift +16 s primary; |grade| above 8 pp excluded; duration term in the primary fit; displaced-DEM placebo; first and last step and vmin below 8 km/h excluded; R2/R3 rewritten.",

@@ -124,7 +124,8 @@ for bt in (1.0, 0.5):
     pl = D.fit_b(df, "dh_pl", nb=NB)
     assert pl["b_ci95"][0] <= 0.0 <= pl["b_ci95"][1], pl["b_ci95"]                                    # displaced-DEM placebo: interval contains zero although b = bt
     cv = D.cv_incremental(df, nb=NB)
-    assert cv["incremental_r2"] > 0.2 and cv["incremental_r2_ci95"][0] > 0 and all(x > 0 for x in cv["b_fold"].values())
+    assert cv["partial_r2"] > 0.2 and cv["partial_r2_ci95"][0] > 0 and all(x > 0 for x in cv["b_fold"].values())
+    assert 0.0 < cv["delta_r2"] <= cv["partial_r2"] + 1e-9 and cv["delta_r2_ci95"][0] > 0 and cv["posthoc_flat_road_load_null"]["delta_r2"] > 0     # delta R2 shares the held-out total variance, so it cannot exceed the partial ratio
 # road-load and duration coefficients are recovered when the noise is small (with 20 kJ noise the four speed-shaped terms are collinear and only b is checked)
 cf = D.fit_b(synth(b=1.0, seed=8, noise_e=0.01), nb=50)["coefficients"]
 assert abs(cf["F0_kJ_per_km"] - 120.0) < 0.5 and abs(cf["c_kJ_per_s"] - 0.5) < 0.005 and abs(cf["F1_kJ_per_m2s"] - 0.0015) < 1e-5 and abs(cf["F2_kJ_per_m3s2"] - 0.0004) < 1e-6 and abs(cf["b"] - 1.0) < 1e-3, cf
@@ -132,7 +133,7 @@ null = synth(b=0.0, seed=2)
 rn = D.fit_b(null, nb=NB)
 assert abs(rn["b"]) < 0.02 and -0.02 < rn["b_ci95"][0] and rn["b_ci95"][1] < 0.02, rn                    # planted null: b is zero to within 0.02 (a 95 % interval excludes an exact zero in 1 of 20 seeds)
 cvn = D.cv_incremental(null, nb=NB)
-assert cvn["incremental_r2"] < 0.01
+assert cvn["partial_r2"] < 0.01 and cvn["delta_r2"] < 0.01
 # sign split recovers an asymmetric b
 sp = D.fit_b(synth(b=1.0, b_neg=0.5, seed=4), nb=NB, split=True)
 assert abs(sp["b_pos"] - 1.0) < 0.05 and abs(sp["b_neg"] - 0.5) < 0.05, sp
@@ -157,6 +158,8 @@ assert D.r4_decision(s1, 8, 242.0).startswith("not testable")
 assert D.r4_decision({"bias_median_pp": 0.1, "bias_median_pp_ci95": [-0.2, 0.4], "median_abs_diff_pp": 0.9}, 40, 150.0) == "accepted"
 assert D.r4_decision({"bias_median_pp": 0.1, "bias_median_pp_ci95": [-1.5, 0.4], "median_abs_diff_pp": 0.9}, 40, 150.0) == "not accepted"
 
+one = D.f1_stats(a[:20] + 0.3, a[:20], np.array(["d1"] * 20), nb=50)
+assert one["interval"] == "no interval (1 day)" and abs(one["bias_median_pp"] - 0.3) < 1e-9
 # ---- decision rules
 sup_ok = {"days": 40, "unique_km": 300.0, "n_above2pp": 2000, "days_pos": 30, "days_neg": 30}
 base = {"b": 0.6, "b_ci95": [0.4, 0.8], "mde_b": 0.1}
@@ -164,6 +167,8 @@ cvok = {"b_fold": {"a": 0.5, "b": 0.7}, "incremental_r2": 0.1, "incremental_r2_c
 assert D.r2_decision(base, {"b_ci95": [-0.1, 0.1]}, cvok, sup_ok, 0.8, False)[0] == "informative at step scale"
 assert D.r2_decision(base, {"b_ci95": [0.1, 0.3]}, cvok, sup_ok, 0.8, False)[0] == "inconclusive"                    # negative control failed: downgrade
 assert D.r2_decision(base, {"b_ci95": [-0.1, 0.1]}, cvok, dict(sup_ok, days=8), 0.8, False)[0] == "not testable"
+r_, why_ = D.r2_decision(base, {"b_ci95": [0.05, 0.12]}, cvok, dict(sup_ok, n_above2pp=278), 0.8, False)
+assert r_ == "not testable" and any("negative control failed" in w for w in why_) and any("support" in w for w in why_)
 assert D.r2_decision(base, {"b_ci95": [-0.1, 0.1]}, cvok, dict(sup_ok, days_neg=3), 0.8, False)[0] == "not testable"
 nul = {"b": 0.02, "b_ci95": [-0.1, 0.15], "mde_b": 0.3}
 assert D.r2_decision(nul, {"b_ci95": [-0.1, 0.1]}, cvok, sup_ok, None, False)[0].startswith("not informative")       # upper bound 0.15 < 0.2 (b_obd not testable)
