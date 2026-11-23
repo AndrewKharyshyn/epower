@@ -1,0 +1,29 @@
+{
+ "milestone": "M755",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M755_spec.md Rev 1",
+ "decision": "revise",
+ "rulings_adopted_in": "section 8 (Rev 2)",
+ "answers": {
+  "a": "normalisation loses provenance (seasonal n_points and kind, the single-reading flag and dagger); keep the config as recorded and add one shared reader used at the sites",
+  "b": "route right; published==A at the leaf is not enough: run A twice or pre-register the drift list; published != A in an expected block escalates; run stage-made consumers on both bases",
+  "c": "pre-existing omission; coverage extended; script-written n before->after; ambient stays driver-recorded uncalibrated; dagger stays",
+  "d": "M751 addendum committed before the rerun plus a blind audit and a Director decision; the M751 tool must use the shared reader",
+  "e": "only ambientTable and seasonalCharts declare ambientByDrive; re-deriving stamps after a config rewrite without rerunning producers states a false identity; the reader route leaves the config hash unchanged"
+ },
+ "required_changes": [
+  "Rev 2: reader route with justification",
+  "name every consumer",
+  "expected-changed set includes stage outputs",
+  "guard: readable and in-domain, frozen allow-list of the 69 legacy keys, tests at every site, static test no ad hoc parsing",
+  "check release_identity hash change and caches keyed on compute_summary_arrays source"
+ ],
+ "risks": [
+  "V0 failing on leaves spliced by one-off tools",
+  "partial update of interDriveCarryover",
+  "language and semantic gate hits on new notes",
+  "a dagger count of 0 if the data were normalised",
+  "article use needs an Opus audit and the owner sign-off"
+ ],
+ "needs_andrii_signoff": false
+}
