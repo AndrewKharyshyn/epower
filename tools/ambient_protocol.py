@@ -35,6 +35,38 @@ def canonical(v):
     return [vals[0], vals[0]] if len(vals) == 1 else vals
 
 
+AMB_MIN_C, AMB_MAX_C = -50.0, 60.0
+
+
+def readings(entry):
+    """M755 shared reader: the readings of an ambientByDrive entry AS RECORDED (the count is kept, nothing is padded). A list gives its floats, a plain number gives [v] (a recognised legacy form that seasonal_core reads as
+    ONE sample), anything unreadable, a boolean, an empty list or a value outside -50..60 C gives None (never a silent skip: the release guard counts the unreadable entries)."""
+    if isinstance(entry, bool):
+        return None
+    try:
+        if isinstance(entry, (int, float)):
+            vals = [float(entry)]
+        elif isinstance(entry, (list, tuple)) and entry and not any(isinstance(x, bool) or x is None for x in entry):
+            vals = [float(x) for x in entry]
+        else:
+            return None
+    except (TypeError, ValueError):
+        return None
+    return vals if all(v == v and AMB_MIN_C <= v <= AMB_MAX_C for v in vals) else None
+
+
+def mean_reading(entry):
+    """Arithmetic mean of the readings as recorded, or None."""
+    r = readings(entry)
+    return sum(r) / len(r) if r else None
+
+
+def first_reading(entry):
+    """The start reading (a plain number is its own start), or None."""
+    r = readings(entry)
+    return r[0] if r else None
+
+
 def is_canonical(v):
     return isinstance(v, list) and len(v) >= 2 and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in v)
 

@@ -16,6 +16,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import soak_tau as ST
+import ambient_protocol as AP                      # M755: the shared ambientByDrive reader
 
 GAPS_PIN = "d1d3f8e9da732e7c58212c3bcf5718e05304a186df4f45e567d8799c704d159f"
 REGISTERED_MASTER = "d514d6009d6d9a0a168ad4fb09b9bb98"
@@ -305,10 +306,9 @@ def main(argv=None):
         traj = C._battery_temp_traj(dm, loader)
         amb = {}
         for fn, pair in (cfg.get("ambientByDrive") or {}).items():
-            try:
-                amb[fn] = sum(float(x) for x in pair) / len(pair)
-            except Exception:
-                pass
+            _m = AP.mean_reading(pair)
+            if _m is not None:
+                amb[fn] = _m
         d = C._full_datetimes(dm).dropna(subset=["ts_full"]).sort_values("ts_full").reset_index(drop=True)
         pf = build_pairs(d, traj, amb)
         slope_fn = C._sen_slope

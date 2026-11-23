@@ -13,6 +13,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if __name__ == "__main__":
     os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
 import time_to_threshold as T
+import ambient_protocol as AP                      # M755: the shared ambientByDrive reader
 
 METHOD_VERSION = "M435-r2"
 HORIZONS = [300, 600, 900, 1200, 1800]
@@ -36,9 +37,9 @@ def scope_text(tte, days, files, ambient_by_drive):
     idx = [i for i, r in enumerate(tte) if r.get("status") == "cold"]
     amb = []
     for i in idx:
-        a = (ambient_by_drive or {}).get(files[i]) if files is not None else None
-        if isinstance(a, list) and a and a[0] is not None:
-            amb.append(a[0])
+        a = AP.first_reading((ambient_by_drive or {}).get(files[i])) if files is not None else None
+        if a is not None:
+            amb.append(a)
     parts = [SL.month_span([days[i] for i in idx]), SL.ambient_span(amb)]
     return ", ".join(p for p in parts if p) or None
 
@@ -46,7 +47,7 @@ def scope_text(tte, days, files, ambient_by_drive):
 def coverage_text(tte, files, ambient_by_drive):
     """M625 (spec R8): how many of the analysed cold starts have a driver-recorded start ambient (list entries only)."""
     idx = [i for i, r in enumerate(tte) if r.get("status") == "cold"]
-    n = sum(1 for i in idx if isinstance((ambient_by_drive or {}).get(files[i]), list) and (ambient_by_drive or {}).get(files[i]) and (ambient_by_drive or {}).get(files[i])[0] is not None)
+    n = sum(1 for i in idx if AP.first_reading((ambient_by_drive or {}).get(files[i])) is not None)
     return "start ambient recorded for %d of %d cold starts" % (n, len(idx)) if idx else None
 
 

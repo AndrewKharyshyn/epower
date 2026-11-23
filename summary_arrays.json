@@ -25729,23 +25729,23 @@
    "hi": 49,
    "medPeak": 23,
    "p25Peak": 18.0,
-   "p75Peak": 33.0,
-   "n": 393,
+   "p75Peak": 32.0,
+   "n": 439,
    "color": "#3b82f6",
    "group": "ambient",
-   "note": "n=393 drives with recorded ambient · median peak 23 C"
+   "note": "n=439 drives with recorded ambient · median peak 23 C"
   },
   {
    "label": "Mild ambient (20-26 C)",
    "lo": 14,
    "hi": 51,
-   "medPeak": 33,
-   "p25Peak": 28.0,
+   "medPeak": 32,
+   "p25Peak": 27.0,
    "p75Peak": 39.0,
-   "n": 162,
+   "n": 182,
    "color": "#22c55e",
    "group": "ambient",
-   "note": "n=162 drives with recorded ambient · median peak 33 C"
+   "note": "n=182 drives with recorded ambient · median peak 32 C"
   },
   {
    "label": "Hot ambient (>=26 C)",
@@ -42635,7 +42635,7 @@
  },
  "heatSoakCarryover": {
   "nPairs": 706,
-  "nPairsAmbient": 593,
+  "nPairsAmbient": 650,
   "gapBins": [
    {
     "gapLoH": 0,
@@ -42644,7 +42644,7 @@
     "medShedC": 0.0,
     "medTEnd": 26.0,
     "medTStart": 25.5,
-    "nAmb": 320,
+    "nAmb": 350,
     "medRetainedFrac": 1.0
    },
    {
@@ -42654,8 +42654,8 @@
     "medShedC": 1.0,
     "medTEnd": 29.0,
     "medTStart": 28.0,
-    "nAmb": 90,
-    "medRetainedFrac": 0.884
+    "nAmb": 96,
+    "medRetainedFrac": 0.8824
    },
    {
     "gapLoH": 3,
@@ -42664,8 +42664,8 @@
     "medShedC": 2.0,
     "medTEnd": 28.0,
     "medTStart": 26.0,
-    "nAmb": 35,
-    "medRetainedFrac": 0.7
+    "nAmb": 41,
+    "medRetainedFrac": 0.7222
    },
    {
     "gapLoH": 6,
@@ -42674,7 +42674,7 @@
     "medShedC": 9.0,
     "medTEnd": 27.0,
     "medTStart": 19.0,
-    "nAmb": 58,
+    "nAmb": 66,
     "medRetainedFrac": 0.3537
    },
    {
@@ -42684,8 +42684,8 @@
     "medShedC": 14.0,
     "medTEnd": 32.0,
     "medTStart": 17.0,
-    "nAmb": 67,
-    "medRetainedFrac": 0.028
+    "nAmb": 73,
+    "medRetainedFrac": 0.0625
    },
    {
     "gapLoH": 24,
@@ -42694,19 +42694,19 @@
     "medShedC": 12.0,
     "medTEnd": 30.0,
     "medTStart": 20.0,
-    "nAmb": 23,
-    "medRetainedFrac": -0.0219
+    "nAmb": 24,
+    "medRetainedFrac": -0.0109
    }
   ],
-  "soakTauH": 11.03,
+  "soakTauH": 11.1,
   "soakTauCI": [
-   9.61,
-   12.96
+   9.69,
+   12.82
   ],
-  "soakHalfLifeH": 7.65,
-  "tauFitN": 483,
-  "tauFitR2": -0.725,
-  "tauFitIntercept": 0.0151,
+  "soakHalfLifeH": 7.69,
+  "tauFitN": 531,
+  "tauFitR2": -0.587,
+  "tauFitIntercept": 0.015,
   "fitMethod": "senSlope",
   "minExcessC": 3.0,
   "soakTauCiMethod": {
@@ -42715,23 +42715,23 @@
    "seed": 42,
    "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
    "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
-   "nClusters": 122,
-   "essClusters": 86.2,
-   "nPairs": 483,
+   "nClusters": 125,
+   "essClusters": 92.6,
+   "nPairs": 531,
    "nonDecayingDrawShare": 0.0,
    "upperUnbounded": false,
    "nUndefinedDraws": 0,
    "pointTauDefined": true,
    "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
   },
-  "soakDecayRateK": 0.09063,
+  "soakDecayRateK": 0.09012,
   "soakDecayRateKCI": [
-   0.07713,
-   0.1041
+   0.07798,
+   0.10321
   ],
   "soakHalfLifeCI": [
-   6.66,
-   8.99
+   6.72,
+   8.89
   ],
   "soakTauMethodTable": [
    {
@@ -42751,16 +42751,16 @@
     "nClusters": null,
     "essClusters": null,
     "tauCI": [
-     9.69,
-     12.81
+     9.78,
+     12.65
     ],
     "decayRateKCI": [
-     0.07805,
-     0.10322
+     0.07903,
+     0.10221
     ],
     "halfLifeCI": [
-     6.72,
-     8.88
+     6.78,
+     8.77
     ],
     "nonDecayingDrawShare": 0.0,
     "upperUnbounded": false,
@@ -42770,19 +42770,19 @@
    {
     "id": "arrivalDay",
     "label": "calendar day of the following drive (PRIMARY)",
-    "nClusters": 122,
-    "essClusters": 86.2,
+    "nClusters": 125,
+    "essClusters": 92.6,
     "tauCI": [
-     9.61,
-     12.96
+     9.69,
+     12.82
     ],
     "decayRateKCI": [
-     0.07713,
-     0.1041
+     0.07798,
+     0.10321
     ],
     "halfLifeCI": [
-     6.66,
-     8.99
+     6.72,
+     8.89
     ],
     "nonDecayingDrawShare": 0.0,
     "upperUnbounded": false,
@@ -42792,19 +42792,19 @@
    {
     "id": "departureDay",
     "label": "calendar day of the previous drive's end",
-    "nClusters": 121,
-    "essClusters": 87.5,
+    "nClusters": 125,
+    "essClusters": 93.9,
     "tauCI": [
-     9.72,
-     12.66
+     9.82,
+     12.62
     ],
     "decayRateKCI": [
-     0.07901,
-     0.10284
+     0.07922,
+     0.10186
     ],
     "halfLifeCI": [
-     6.74,
-     8.77
+     6.81,
+     8.75
     ],
     "nonDecayingDrawShare": 0.0,
     "upperUnbounded": false,
@@ -42815,18 +42815,18 @@
     "id": "isoWeek",
     "label": "non-overlapping ISO-week blocks",
     "nClusters": 26,
-    "essClusters": 17.6,
+    "essClusters": 18.3,
     "tauCI": [
-     9.54,
-     12.69
+     9.7,
+     12.56
     ],
     "decayRateKCI": [
-     0.07878,
-     0.10486
+     0.07961,
+     0.10313
     ],
     "halfLifeCI": [
-     6.61,
-     8.8
+     6.72,
+     8.71
     ],
     "nonDecayingDrawShare": 0.0,
     "upperUnbounded": false,
@@ -42836,48 +42836,48 @@
   ],
   "soakTauLeaveOneDay": {
    "decayRateKRange": [
-    0.08899,
-    0.09229
+    0.08868,
+    0.09161
    ],
    "tauRange": [
-    10.84,
-    11.24
+    10.92,
+    11.28
    ],
    "nLeaveOutNonDecaying": 0,
-   "nClusters": 122
+   "nClusters": 125
   },
   "soakTauGapSplit": {
    "thresholdH": 1.0,
    "strata": [
     {
      "label": "gap < 1 h",
-     "nPairs": 280,
-     "nDays": 102,
+     "nPairs": 306,
+     "nDays": 107,
      "decayRateK": 0.0,
      "decayRateKCI": [
       0.0,
-      0.12753
+      0.11016
      ],
      "tau": null,
      "tauCI": [
-      7.84,
+      9.08,
       null
      ],
-     "nonDecayingDrawShare": 0.719
+     "nonDecayingDrawShare": 0.822
     },
     {
      "label": "gap >= 1 h",
-     "nPairs": 203,
-     "nDays": 105,
-     "decayRateK": 0.08497,
+     "nPairs": 225,
+     "nDays": 113,
+     "decayRateK": 0.08581,
      "decayRateKCI": [
-      0.06822,
-      0.10392
+      0.07078,
+      0.10241
      ],
-     "tau": 11.77,
+     "tau": 11.65,
      "tauCI": [
-      9.62,
-      14.66
+      9.76,
+      14.13
      ],
      "nonDecayingDrawShare": 0.0
     }
@@ -42888,18 +42888,18 @@
   "soakFitQuality": {
    "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
    "inSample": {
-    "rSquared": -0.725,
+    "rSquared": -0.587,
     "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
    },
    "selection": {
-    "nBeforeResidualFilter": 640,
-    "nRemovedByResidualFilter": 157,
+    "nBeforeResidualFilter": 706,
+    "nRemovedByResidualFilter": 175,
     "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
    },
    "cv": {
     "k": 10,
-    "nPairs": 483,
-    "nScoredHeldOut": 483,
+    "nPairs": 531,
+    "nScoredHeldOut": 531,
     "nSkippedFolds": 0,
     "bootstrap": {
      "B": 4000,
@@ -42913,81 +42913,81 @@
    },
    "cells": {
     "pooled": {
-     "nPairs": 483,
-     "nDays": 122,
+     "nPairs": 531,
+     "nDays": 125,
      "eligibleForStatements": true,
      "point": {
-      "skillMAE_B0": 0.4095,
-      "skillMAE_B1": 0.4186,
-      "skillMAE_B2": -0.0341,
-      "skillMSElog_B0": -0.5146,
-      "skillMSElog_B1": -0.7806,
-      "skillMSElog_B2": -3.3138,
-      "skillMedAElog_B0": 0.3555,
-      "skillMedAElog_B1": 0.3682,
-      "skillMedAElog_B2": 0.0896,
-      "MAE_M": 0.1324,
-      "MAE_B0": 0.2243,
-      "MedAElog_M": 0.0759,
+      "skillMAE_B0": 0.4342,
+      "skillMAE_B1": 0.4431,
+      "skillMAE_B2": -0.0415,
+      "skillMSElog_B0": -0.3758,
+      "skillMSElog_B1": -0.6356,
+      "skillMSElog_B2": -3.1483,
+      "skillMedAElog_B0": 0.3708,
+      "skillMedAElog_B1": 0.3904,
+      "skillMedAElog_B2": 0.1112,
+      "MAE_M": 0.1268,
+      "MAE_B0": 0.2241,
+      "MedAElog_M": 0.0741,
       "MedAElog_B0": 0.1178,
-      "skillMAE_B3": -0.0197
+      "skillMAE_B3": -0.0213
      },
      "ci95": {
       "skillMAE_B0": [
-       0.3355,
-       0.481
+       0.361,
+       0.5015
       ],
       "skillMAE_B1": [
-       0.3468,
-       0.4888
+       0.372,
+       0.5075
       ],
       "skillMAE_B2": [
-       -0.0704,
-       -0.0002
+       -0.0791,
+       -0.008
       ],
       "skillMSElog_B0": [
-       -2.8098,
-       0.6006
+       -2.4221,
+       0.6279
       ],
       "skillMSElog_B1": [
-       -3.44,
-       0.5299
+       -3.0453,
+       0.5546
       ],
       "skillMSElog_B2": [
-       -10.3962,
-       -0.1882
+       -9.8053,
+       -0.1859
       ],
       "skillMedAElog_B0": [
-       0.2035,
-       0.4181
+       0.2333,
+       0.4256
       ],
       "skillMedAElog_B1": [
-       0.2555,
-       0.4408
+       0.2909,
+       0.4561
       ],
       "skillMedAElog_B2": [
-       -0.0467,
-       0.1969
+       -0.0327,
+       0.2041
       ],
       "MAE_M": [
-       0.1117,
-       0.1566
+       0.1071,
+       0.15
       ],
       "MAE_B0": [
-       0.1985,
-       0.2534
+       0.2004,
+       0.2508
       ],
       "MedAElog_M": [
-       0.0637,
-       0.0956
+       0.0623,
+       0.0917
       ],
       "MedAElog_B0": [
-       0.0953,
-       0.1335
+       0.0977,
+       0.1314
       ],
       "skillMAE_B3": [
-       -0.03,
-       -0.0105
+       -0.0315,
+       -0.0122
       ]
      },
      "nZeroDenominatorDraws": {},
@@ -43017,95 +43017,93 @@
       "statements": {
        "S1": "improvement over persistence established",
        "S2": "gain over a constant level established",
-       "S3": "not shown to be worse than the empirical gap bins"
+       "S3": "worse than the empirical gap bins"
       },
-      "differsFromDayBootstrap": [
-       "S3"
-      ],
+      "differsFromDayBootstrap": [],
       "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
      }
     },
     "gapLt1h": {
-     "nPairs": 280,
-     "nDays": 102,
+     "nPairs": 306,
+     "nDays": 107,
      "eligibleForStatements": true,
      "point": {
-      "skillMAE_B0": -0.0921,
-      "skillMAE_B1": 0.0952,
-      "skillMAE_B2": -0.0921,
-      "skillMSElog_B0": -0.0283,
-      "skillMSElog_B1": 0.8562,
-      "skillMSElog_B2": -0.0089,
-      "skillMedAElog_B0": 0.0921,
-      "skillMedAElog_B1": 0.1597,
-      "skillMedAElog_B2": 0.0921,
-      "MAE_M": 0.0771,
-      "MAE_B0": 0.0706,
-      "MedAElog_M": 0.0454,
-      "MedAElog_B0": 0.05,
-      "skillMAE_B3": -0.064
+      "skillMAE_B0": -0.0998,
+      "skillMAE_B1": 0.0915,
+      "skillMAE_B2": -0.0998,
+      "skillMSElog_B0": -0.0314,
+      "skillMSElog_B1": 0.8688,
+      "skillMSElog_B2": -0.0147,
+      "skillMedAElog_B0": 0.0135,
+      "skillMedAElog_B1": 0.1878,
+      "skillMedAElog_B2": 0.0135,
+      "MAE_M": 0.0743,
+      "MAE_B0": 0.0675,
+      "MedAElog_M": 0.0417,
+      "MedAElog_B0": 0.0422,
+      "skillMAE_B3": -0.0698
      },
      "ci95": {
       "skillMAE_B0": [
-       -0.1541,
-       -0.0375
+       -0.1631,
+       -0.0446
       ],
       "skillMAE_B1": [
-       0.0389,
-       0.1514
+       0.0371,
+       0.1443
       ],
       "skillMAE_B2": [
-       -0.1541,
-       -0.0375
+       -0.1631,
+       -0.0446
       ],
       "skillMSElog_B0": [
-       -0.1136,
+       -0.1183,
        0.051
       ],
       "skillMSElog_B1": [
-       0.8188,
-       0.8874
+       0.8363,
+       0.8978
       ],
       "skillMSElog_B2": [
-       -0.1069,
-       0.0819
+       -0.1162,
+       0.0803
       ],
       "skillMedAElog_B0": [
-       -0.2126,
-       0.232
+       -0.7952,
+       0.2594
       ],
       "skillMedAElog_B1": [
-       -0.0541,
-       0.3788
+       -0.0308,
+       0.4439
       ],
       "skillMedAElog_B2": [
-       -0.2126,
-       0.232
+       -0.7952,
+       0.2594
       ],
       "MAE_M": [
-       0.0667,
-       0.0897
+       0.0638,
+       0.0858
       ],
       "MAE_B0": [
-       0.0592,
-       0.084
+       0.0563,
+       0.0798
       ],
       "MedAElog_M": [
-       0.0313,
-       0.0611
+       0.0254,
+       0.0543
       ],
       "MedAElog_B0": [
        0.0,
-       0.0667
+       0.0606
       ],
       "skillMAE_B3": [
-       -0.0909,
-       -0.0396
+       -0.097,
+       -0.0451
       ]
      },
      "nZeroDenominatorDraws": {
-      "skillMedAElog_B0": 690,
-      "skillMedAElog_B2": 690
+      "skillMedAElog_B0": 1493,
+      "skillMedAElog_B2": 1493
      },
      "statements": {
       "S1": {
@@ -43137,81 +43135,81 @@
      }
     },
     "gapGe1h": {
-     "nPairs": 203,
-     "nDays": 105,
+     "nPairs": 225,
+     "nDays": 113,
      "eligibleForStatements": true,
      "point": {
-      "skillMAE_B0": 0.5214,
-      "skillMAE_B1": 0.5081,
-      "skillMAE_B2": -0.0069,
-      "skillMSElog_B0": -0.5222,
-      "skillMSElog_B1": -1.0236,
-      "skillMSElog_B2": -3.4683,
-      "skillMedAElog_B0": 0.612,
-      "skillMedAElog_B1": 0.612,
-      "skillMedAElog_B2": 0.0321,
-      "MAE_M": 0.2088,
-      "MAE_B0": 0.4362,
-      "MedAElog_M": 0.1573,
+      "skillMAE_B0": 0.5465,
+      "skillMAE_B1": 0.5349,
+      "skillMAE_B2": -0.0141,
+      "skillMSElog_B0": -0.3808,
+      "skillMSElog_B1": -0.8711,
+      "skillMSElog_B2": -3.2939,
+      "skillMedAElog_B0": 0.6095,
+      "skillMedAElog_B1": 0.6095,
+      "skillMedAElog_B2": -0.0504,
+      "MAE_M": 0.1982,
+      "MAE_B0": 0.437,
+      "MedAElog_M": 0.1583,
       "MedAElog_B0": 0.4055,
-      "skillMAE_B3": 0.0014
+      "skillMAE_B3": 0.0018
      },
      "ci95": {
       "skillMAE_B0": [
-       0.4281,
-       0.6106
+       0.4641,
+       0.6273
       ],
       "skillMAE_B1": [
-       0.4142,
-       0.5982
+       0.452,
+       0.6159
       ],
       "skillMAE_B2": [
-       -0.0516,
-       0.0329
+       -0.0574,
+       0.0253
       ],
       "skillMSElog_B0": [
-       -2.7669,
-       0.6172
+       -2.3952,
+       0.6364
       ],
       "skillMSElog_B1": [
-       -4.001,
-       0.4849
+       -3.6152,
+       0.5008
       ],
       "skillMSElog_B2": [
-       -10.9292,
-       -0.198
+       -9.971,
+       -0.1978
       ],
       "skillMedAElog_B0": [
-       0.4164,
-       0.6992
+       0.4429,
+       0.7015
       ],
       "skillMedAElog_B1": [
-       0.4164,
-       0.6942
+       0.4437,
+       0.6907
       ],
       "skillMedAElog_B2": [
-       -0.3669,
-       0.2243
+       -0.366,
+       0.2082
       ],
       "MAE_M": [
-       0.164,
-       0.2604
+       0.1575,
+       0.245
       ],
       "MAE_B0": [
-       0.391,
-       0.4832
+       0.3957,
+       0.4809
       ],
       "MedAElog_M": [
-       0.1316,
-       0.2652
+       0.1359,
+       0.245
       ],
       "MedAElog_B0": [
-       0.2996,
-       0.5596
+       0.3185,
+       0.539
       ],
       "skillMAE_B3": [
-       -0.0045,
-       0.0079
+       -0.0043,
+       0.0082
       ]
      },
      "nZeroDenominatorDraws": {},
@@ -43251,58 +43249,58 @@
    "bins": [
     {
      "bin": "0-1 h",
-     "nPairs": 280,
-     "nDays": 102,
+     "nPairs": 306,
+     "nDays": 107,
      "medianObservedRetained": 1.0,
-     "medianPredictedRetained": 0.9835,
-     "medianResidualLog": 0.0159
+     "medianPredictedRetained": 0.9838,
+     "medianResidualLog": 0.0158
     },
     {
      "bin": "1-3 h",
-     "nPairs": 79,
-     "nDays": 56,
-     "medianObservedRetained": 0.8824,
-     "medianPredictedRetained": 0.8683,
-     "medianResidualLog": 0.0104
+     "nPairs": 85,
+     "nDays": 60,
+     "medianObservedRetained": 0.875,
+     "medianPredictedRetained": 0.8694,
+     "medianResidualLog": 0.0083
     },
     {
      "bin": "3-6 h",
-     "nPairs": 33,
-     "nDays": 31,
-     "medianObservedRetained": 0.7222,
-     "medianPredictedRetained": 0.7063,
-     "medianResidualLog": 0.0247
+     "nPairs": 37,
+     "nDays": 33,
+     "medianObservedRetained": 0.7273,
+     "medianPredictedRetained": 0.7049,
+     "medianResidualLog": 0.0326
     },
     {
      "bin": "6-12 h",
-     "nPairs": 49,
-     "nDays": 38,
-     "medianObservedRetained": 0.3846,
-     "medianPredictedRetained": 0.4071,
-     "medianResidualLog": -0.1442
+     "nPairs": 55,
+     "nDays": 42,
+     "medianObservedRetained": 0.375,
+     "medianPredictedRetained": 0.4017,
+     "medianResidualLog": -0.1439
     },
     {
      "bin": "12-24 h",
-     "nPairs": 33,
-     "nDays": 33,
+     "nPairs": 38,
+     "nDays": 38,
      "medianObservedRetained": 0.2308,
-     "medianPredictedRetained": 0.2302,
-     "medianResidualLog": 0.0266
+     "medianPredictedRetained": 0.233,
+     "medianResidualLog": 0.0097
     },
     {
      "bin": "24-inf h",
-     "nPairs": 9,
-     "nDays": 9,
-     "medianObservedRetained": 0.1667,
-     "medianPredictedRetained": 0.0246,
-     "medianResidualLog": 1.8394
+     "nPairs": 10,
+     "nDays": 10,
+     "medianObservedRetained": 0.1623,
+     "medianPredictedRetained": 0.0521,
+     "medianResidualLog": 1.7871
     }
    ],
    "leaveOneDayOut": {
     "nSkippedFolds": 0,
     "cells": {
      "pooled": {
-      "nPairs": 483,
+      "nPairs": 531,
       "statements": {
        "S1": "improvement over persistence established",
        "S2": "gain over a constant level established",
@@ -43311,16 +43309,18 @@
       "differsFromK10": []
      },
      "gapLt1h": {
-      "nPairs": 280,
+      "nPairs": 306,
       "statements": {
        "S1": "improvement over persistence not established",
-       "S2": "gain over a constant level established",
+       "S2": "gain over a constant level not established",
        "S3": "worse than the empirical gap bins"
       },
-      "differsFromK10": []
+      "differsFromK10": [
+       "S2"
+      ]
      },
      "gapGe1h": {
-      "nPairs": 203,
+      "nPairs": 225,
       "statements": {
        "S1": "improvement over persistence established",
        "S2": "gain over a constant level established",
@@ -43332,8 +43332,8 @@
    },
    "postHoc": {
     "label": "post-hoc, not pre-registered (M430 blind audit)",
-    "logSqErrShareGapGe12h": 0.8603,
-    "shareOfScoredPairsGapGe12h": 0.087,
+    "logSqErrShareGapGe12h": 0.8576,
+    "shareOfScoredPairsGapGe12h": 0.0904,
     "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
    }
   },
@@ -43344,28 +43344,28 @@
   "nDays": 138,
   "thermalDecay": {
    "coolant": {
-    "tau": 3.48,
+    "tau": 3.57,
     "tauCI": [
-     3.12,
-     3.92
+     3.21,
+     3.98
     ],
-    "r2": -11.593,
-    "nfit": 593,
+    "r2": -9.722,
+    "nfit": 658,
     "fitQuality": {
      "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
      "inSample": {
-      "rSquared": -11.593,
+      "rSquared": -9.722,
       "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
      },
      "selection": {
-      "nBeforeResidualFilter": 636,
-      "nRemovedByResidualFilter": 43,
+      "nBeforeResidualFilter": 702,
+      "nRemovedByResidualFilter": 44,
       "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
      },
      "cv": {
       "k": 10,
-      "nPairs": 593,
-      "nScoredHeldOut": 593,
+      "nPairs": 658,
+      "nScoredHeldOut": 658,
       "nSkippedFolds": 0,
       "bootstrap": {
        "B": 4000,
@@ -43379,81 +43379,81 @@
      },
      "cells": {
       "pooled": {
-       "nPairs": 593,
-       "nDays": 130,
+       "nPairs": 658,
+       "nDays": 134,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.6931,
-        "skillMAE_B1": 0.5658,
-        "skillMAE_B2": -0.0727,
-        "skillMSElog_B0": -7.0559,
-        "skillMSElog_B1": -12.1377,
-        "skillMSElog_B2": -49.3031,
-        "skillMedAElog_B0": 0.5177,
-        "skillMedAElog_B1": 0.4569,
-        "skillMedAElog_B2": -0.1941,
-        "MAE_M": 0.1187,
-        "MAE_B0": 0.3869,
-        "MedAElog_M": 0.1658,
-        "MedAElog_B0": 0.3438,
-        "skillMAE_B3": -0.1973
+        "skillMAE_B0": 0.6842,
+        "skillMAE_B1": 0.5596,
+        "skillMAE_B2": -0.0961,
+        "skillMSElog_B0": -5.7773,
+        "skillMSElog_B1": -10.1002,
+        "skillMSElog_B2": -41.2413,
+        "skillMedAElog_B0": 0.4935,
+        "skillMedAElog_B1": 0.4215,
+        "skillMedAElog_B2": -0.2988,
+        "MAE_M": 0.1231,
+        "MAE_B0": 0.3897,
+        "MedAElog_M": 0.1785,
+        "MedAElog_B0": 0.3524,
+        "skillMAE_B3": -0.1934
        },
        "ci95": {
         "skillMAE_B0": [
-         0.6663,
-         0.7186
+         0.6565,
+         0.7094
         ],
         "skillMAE_B1": [
-         0.5226,
-         0.6055
+         0.5194,
+         0.5982
         ],
         "skillMAE_B2": [
-         -0.145,
-         -0.0104
+         -0.162,
+         -0.0344
         ],
         "skillMSElog_B0": [
-         -15.9622,
-         -0.5045
+         -13.4242,
+         -0.3174
         ],
         "skillMSElog_B1": [
-         -26.7771,
-         -1.4171
+         -22.5021,
+         -1.1587
         ],
         "skillMSElog_B2": [
-         -104.6788,
-         -8.6182
+         -87.5767,
+         -7.5966
         ],
         "skillMedAElog_B0": [
-         0.4706,
-         0.5704
+         0.4505,
+         0.5472
         ],
         "skillMedAElog_B1": [
-         0.3665,
-         0.5206
+         0.3478,
+         0.4906
         ],
         "skillMedAElog_B2": [
-         -0.3971,
-         -0.0695
+         -0.4699,
+         -0.1491
         ],
         "MAE_M": [
-         0.1103,
-         0.128
+         0.114,
+         0.1332
         ],
         "MAE_B0": [
-         0.3633,
-         0.4124
+         0.3678,
+         0.4132
         ],
         "MedAElog_M": [
-         0.1454,
-         0.1949
+         0.1559,
+         0.2043
         ],
         "MedAElog_B0": [
-         0.297,
+         0.3083,
          0.4055
         ],
         "skillMAE_B3": [
-         -0.2503,
-         -0.1471
+         -0.2426,
+         -0.1464
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -43487,81 +43487,81 @@
        }
       },
       "gapLt1h": {
-       "nPairs": 339,
-       "nDays": 110,
+       "nPairs": 373,
+       "nDays": 116,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.4058,
-        "skillMAE_B1": 0.4404,
-        "skillMAE_B2": 0.1086,
-        "skillMSElog_B0": 0.6044,
-        "skillMSElog_B1": 0.9375,
-        "skillMSElog_B2": 0.1978,
-        "skillMedAElog_B0": 0.3561,
-        "skillMedAElog_B1": 0.5869,
-        "skillMedAElog_B2": 0.0937,
-        "MAE_M": 0.0968,
-        "MAE_B0": 0.1629,
-        "MedAElog_M": 0.09,
-        "MedAElog_B0": 0.1398,
-        "skillMAE_B3": -0.2929
+        "skillMAE_B0": 0.389,
+        "skillMAE_B1": 0.4402,
+        "skillMAE_B2": 0.0937,
+        "skillMSElog_B0": 0.5895,
+        "skillMSElog_B1": 0.9382,
+        "skillMSElog_B2": 0.1763,
+        "skillMedAElog_B0": 0.342,
+        "skillMedAElog_B1": 0.5979,
+        "skillMedAElog_B2": 0.0738,
+        "MAE_M": 0.0979,
+        "MAE_B0": 0.1603,
+        "MedAElog_M": 0.0909,
+        "MedAElog_B0": 0.1382,
+        "skillMAE_B3": -0.2988
        },
        "ci95": {
         "skillMAE_B0": [
-         0.3755,
-         0.4341
+         0.3597,
+         0.4165
         ],
         "skillMAE_B1": [
-         0.3649,
-         0.507
+         0.3669,
+         0.5046
         ],
         "skillMAE_B2": [
-         0.0461,
-         0.1672
+         0.032,
+         0.1493
         ],
         "skillMSElog_B0": [
-         0.571,
-         0.6358
+         0.5579,
+         0.6203
         ],
         "skillMSElog_B1": [
-         0.9235,
-         0.9501
+         0.9251,
+         0.9503
         ],
         "skillMSElog_B2": [
-         0.1132,
-         0.2746
+         0.095,
+         0.2499
         ],
         "skillMedAElog_B0": [
-         0.3157,
-         0.4645
+         0.2915,
+         0.4212
         ],
         "skillMedAElog_B1": [
-         0.4933,
-         0.6556
+         0.5161,
+         0.6604
         ],
         "skillMedAElog_B2": [
-         -0.0296,
-         0.1833
+         -0.0338,
+         0.1744
         ],
         "MAE_M": [
-         0.089,
-         0.1046
+         0.0904,
+         0.1057
         ],
         "MAE_B0": [
-         0.1497,
-         0.1763
+         0.1474,
+         0.1728
         ],
         "MedAElog_M": [
-         0.0833,
-         0.1011
+         0.0831,
+         0.1022
         ],
         "MedAElog_B0": [
-         0.1278,
-         0.18
+         0.1226,
+         0.1672
         ],
         "skillMAE_B3": [
-         -0.3976,
-         -0.196
+         -0.3966,
+         -0.2039
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -43589,81 +43589,81 @@
        }
       },
       "gapGe1h": {
-       "nPairs": 254,
-       "nDays": 117,
+       "nPairs": 285,
+       "nDays": 125,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.7842,
-        "skillMAE_B1": 0.6369,
-        "skillMAE_B2": -0.3043,
-        "skillMSElog_B0": -7.2368,
-        "skillMSElog_B1": -16.2274,
-        "skillMSElog_B2": -53.0903,
-        "skillMedAElog_B0": 0.5977,
-        "skillMedAElog_B1": 0.4259,
-        "skillMedAElog_B2": -0.7729,
-        "MAE_M": 0.148,
-        "MAE_B0": 0.6858,
-        "MedAElog_M": 0.4684,
-        "MedAElog_B0": 1.1643,
-        "skillMAE_B3": -0.1248
+        "skillMAE_B0": 0.7739,
+        "skillMAE_B1": 0.6253,
+        "skillMAE_B2": -0.3241,
+        "skillMSElog_B0": -5.9216,
+        "skillMSElog_B1": -13.6068,
+        "skillMSElog_B2": -44.3044,
+        "skillMedAElog_B0": 0.6091,
+        "skillMedAElog_B1": 0.4492,
+        "skillMedAElog_B2": -0.8256,
+        "MAE_M": 0.156,
+        "MAE_B0": 0.69,
+        "MedAElog_M": 0.477,
+        "MedAElog_B0": 1.2205,
+        "skillMAE_B3": -0.1188
        },
        "ci95": {
         "skillMAE_B0": [
-         0.752,
-         0.8136
+         0.7409,
+         0.8045
         ],
         "skillMAE_B1": [
-         0.5782,
-         0.6885
+         0.5699,
+         0.6775
         ],
         "skillMAE_B2": [
-         -0.4398,
-         -0.1939
+         -0.4666,
+         -0.2143
         ],
         "skillMSElog_B0": [
-         -16.3499,
-         -0.4584
+         -13.5884,
+         -0.3707
         ],
         "skillMSElog_B1": [
-         -35.5724,
-         -2.0597
+         -29.7478,
+         -1.8482
         ],
         "skillMSElog_B2": [
-         -115.0584,
-         -8.9464
+         -94.2172,
+         -8.0795
         ],
         "skillMedAElog_B0": [
-         0.5297,
-         0.6546
+         0.5455,
+         0.6597
         ],
         "skillMedAElog_B1": [
-         0.2957,
-         0.5303
+         0.3369,
+         0.54
         ],
         "skillMedAElog_B2": [
-         -1.1129,
-         -0.5054
+         -1.1325,
+         -0.5186
         ],
         "MAE_M": [
-         0.1313,
-         0.1657
+         0.138,
+         0.1751
         ],
         "MAE_B0": [
-         0.6607,
-         0.7115
+         0.6658,
+         0.713
         ],
         "MedAElog_M": [
-         0.4235,
-         0.5429
+         0.4339,
+         0.5463
         ],
         "MedAElog_B0": [
-         1.0213,
-         1.361
+         1.0542,
+         1.4019
         ],
         "skillMAE_B3": [
-         -0.162,
-         -0.0925
+         -0.152,
+         -0.0907
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -43700,58 +43700,58 @@
      "bins": [
       {
        "bin": "0-1 h",
-       "nPairs": 339,
-       "nDays": 110,
-       "medianObservedRetained": 0.8704,
-       "medianPredictedRetained": 0.9472,
+       "nPairs": 373,
+       "nDays": 116,
+       "medianObservedRetained": 0.873,
+       "medianPredictedRetained": 0.9495,
        "medianResidualLog": -0.0846
       },
       {
        "bin": "1-3 h",
-       "nPairs": 100,
-       "nDays": 67,
-       "medianObservedRetained": 0.4543,
-       "medianPredictedRetained": 0.6205,
-       "medianResidualLog": -0.2753
+       "nPairs": 107,
+       "nDays": 71,
+       "medianObservedRetained": 0.4516,
+       "medianPredictedRetained": 0.6275,
+       "medianResidualLog": -0.3078
       },
       {
        "bin": "3-6 h",
-       "nPairs": 40,
-       "nDays": 37,
-       "medianObservedRetained": 0.2508,
-       "medianPredictedRetained": 0.3357,
-       "medianResidualLog": -0.1494
+       "nPairs": 47,
+       "nDays": 41,
+       "medianObservedRetained": 0.2553,
+       "medianPredictedRetained": 0.3434,
+       "medianResidualLog": -0.1709
       },
       {
        "bin": "6-12 h",
-       "nPairs": 57,
-       "nDays": 42,
+       "nPairs": 67,
+       "nDays": 49,
        "medianObservedRetained": 0.1296,
-       "medianPredictedRetained": 0.0551,
-       "medianResidualLog": 0.7921
+       "medianPredictedRetained": 0.0611,
+       "medianResidualLog": 0.7331
       },
       {
        "bin": "12-24 h",
-       "nPairs": 44,
-       "nDays": 44,
-       "medianObservedRetained": 0.0663,
-       "medianPredictedRetained": 0.0092,
-       "medianResidualLog": 1.7699
+       "nPairs": 50,
+       "nDays": 50,
+       "medianObservedRetained": 0.0682,
+       "medianPredictedRetained": 0.0108,
+       "medianResidualLog": 1.4993
       },
       {
        "bin": "24-inf h",
-       "nPairs": 13,
-       "nDays": 13,
-       "medianObservedRetained": 0.0556,
+       "nPairs": 14,
+       "nDays": 14,
+       "medianObservedRetained": 0.0548,
        "medianPredictedRetained": 0.0,
-       "medianResidualLog": 10.1566
+       "medianResidualLog": 9.6356
       }
      ],
      "leaveOneDayOut": {
       "nSkippedFolds": 0,
       "cells": {
        "pooled": {
-        "nPairs": 593,
+        "nPairs": 658,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -43760,7 +43760,7 @@
         "differsFromK10": []
        },
        "gapLt1h": {
-        "nPairs": 339,
+        "nPairs": 373,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -43769,7 +43769,7 @@
         "differsFromK10": []
        },
        "gapGe1h": {
-        "nPairs": 254,
+        "nPairs": 285,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -43781,8 +43781,8 @@
      },
      "postHoc": {
       "label": "post-hoc, not pre-registered (M430 blind audit)",
-      "logSqErrShareGapGe12h": 0.9797,
-      "shareOfScoredPairsGapGe12h": 0.0961,
+      "logSqErrShareGapGe12h": 0.9759,
+      "shareOfScoredPairsGapGe12h": 0.0973,
       "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
      }
     },
@@ -43792,23 +43792,23 @@
      "seed": 42,
      "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
      "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
-     "nClusters": 130,
-     "essClusters": 95.4,
-     "nPairs": 593,
+     "nClusters": 134,
+     "essClusters": 102.1,
+     "nPairs": 658,
      "nonDecayingDrawShare": 0.0,
      "upperUnbounded": false,
      "nUndefinedDraws": 0,
      "pointTauDefined": true,
      "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
     },
-    "decayRateK": 0.28727,
+    "decayRateK": 0.28014,
     "decayRateKCI": [
-     0.25478,
-     0.32077
+     0.25122,
+     0.31143
     ],
     "halfLifeCI": [
-     2.16,
-     2.72
+     2.23,
+     2.76
     ],
     "methodTable": [
      {
@@ -43828,16 +43828,16 @@
       "nClusters": null,
       "essClusters": null,
       "tauCI": [
-       3.13,
-       3.91
+       3.22,
+       3.97
       ],
       "decayRateKCI": [
-       0.25551,
-       0.31975
+       0.25164,
+       0.31097
       ],
       "halfLifeCI": [
-       2.17,
-       2.71
+       2.23,
+       2.75
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -43847,19 +43847,19 @@
      {
       "id": "arrivalDay",
       "label": "calendar day of the following drive (PRIMARY)",
-      "nClusters": 130,
-      "essClusters": 95.4,
+      "nClusters": 134,
+      "essClusters": 102.1,
       "tauCI": [
-       3.12,
-       3.92
+       3.21,
+       3.98
       ],
       "decayRateKCI": [
-       0.25478,
-       0.32077
+       0.25122,
+       0.31143
       ],
       "halfLifeCI": [
-       2.16,
-       2.72
+       2.23,
+       2.76
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -43869,19 +43869,19 @@
      {
       "id": "departureDay",
       "label": "calendar day of the previous drive's end",
-      "nClusters": 129,
-      "essClusters": 96.4,
+      "nClusters": 133,
+      "essClusters": 103.1,
       "tauCI": [
-       3.13,
-       3.93
+       3.23,
+       3.99
       ],
       "decayRateKCI": [
-       0.25474,
-       0.31902
+       0.25092,
+       0.30961
       ],
       "halfLifeCI": [
-       2.17,
-       2.72
+       2.24,
+       2.76
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -43892,18 +43892,18 @@
       "id": "isoWeek",
       "label": "non-overlapping ISO-week blocks",
       "nClusters": 27,
-      "essClusters": 19.1,
+      "essClusters": 19.4,
       "tauCI": [
-       3.2,
-       3.87
+       3.32,
+       3.91
       ],
       "decayRateKCI": [
-       0.2586,
-       0.31281
+       0.25563,
+       0.30111
       ],
       "halfLifeCI": [
-       2.22,
-       2.68
+       2.3,
+       2.71
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -43913,48 +43913,48 @@
     ],
     "leaveOneDay": {
      "decayRateKRange": [
-      0.28254,
-      0.29149
+      0.27643,
+      0.28365
      ],
      "tauRange": [
-      3.43,
-      3.54
+      3.53,
+      3.62
      ],
      "nLeaveOutNonDecaying": 0,
-     "nClusters": 130
+     "nClusters": 134
     },
     "gapSplit": {
      "thresholdH": 1.0,
      "strata": [
       {
        "label": "gap < 1 h",
-       "nPairs": 339,
-       "nDays": 110,
-       "decayRateK": 0.60618,
+       "nPairs": 373,
+       "nDays": 116,
+       "decayRateK": 0.61403,
        "decayRateKCI": [
-        0.55543,
-        0.65982
+        0.56119,
+        0.66534
        ],
-       "tau": 1.65,
+       "tau": 1.63,
        "tauCI": [
-        1.52,
-        1.8
+        1.5,
+        1.78
        ],
        "nonDecayingDrawShare": 0.0
       },
       {
        "label": "gap >= 1 h",
-       "nPairs": 254,
-       "nDays": 117,
-       "decayRateK": 0.14189,
+       "nPairs": 285,
+       "nDays": 125,
+       "decayRateK": 0.14085,
        "decayRateKCI": [
-        0.11688,
-        0.16314
+        0.11792,
+        0.15937
        ],
-       "tau": 7.05,
+       "tau": 7.1,
        "tauCI": [
-        6.13,
-        8.56
+        6.27,
+        8.48
        ],
        "nonDecayingDrawShare": 0.0
       }
@@ -43962,46 +43962,46 @@
      "label": "post-hoc descriptive (M429 audit), not pre-registered",
      "reading": "decay rate k = -slope (1/h) per stratum with the arrival-day interval; tau = null when the stratum slope is not negative. The pooled tau is a gap-mix-dependent summary of a single-exponential fit."
     },
-    "nDays": 130,
+    "nDays": 134,
     "fitMethod": "senSlope",
-    "fitIntercept": -0.0834,
+    "fitIntercept": -0.0813,
     "parkingAmbientSensitivity": [
      {
       "ambientOffsetC": -3.0,
-      "tau": 4.49,
-      "nfit": 626
+      "tau": 4.56,
+      "nfit": 692
      },
      {
       "ambientOffsetC": 3.0,
-      "tau": 2.73,
-      "nfit": 555
+      "tau": 2.77,
+      "nfit": 616
      }
     ],
     "parkingAmbientNote": "M234 (audit F08): arrivalAmbientC is the manual DRIVING-time ambient field, not a measured parked-soak environment, which can differ (garage vs open, day/night swing). parkingAmbientSensitivity refits tau after shifting the ambient reference by +-3 degC (applied to both the initial and residual excess, since both reference the same following-drive ambient reading) -- the spread across these two refits is the approximate sensitivity of tau to this unmeasured uncertainty, not a formal error propagation."
    },
    "oil": {
-    "tau": 3.5,
+    "tau": 3.56,
     "tauCI": [
-     3.25,
-     3.78
+     3.32,
+     3.84
     ],
-    "r2": -11.746,
-    "nfit": 581,
+    "r2": -10.144,
+    "nfit": 644,
     "fitQuality": {
      "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
      "inSample": {
-      "rSquared": -11.746,
+      "rSquared": -10.144,
       "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
      },
      "selection": {
-      "nBeforeResidualFilter": 636,
-      "nRemovedByResidualFilter": 55,
+      "nBeforeResidualFilter": 702,
+      "nRemovedByResidualFilter": 58,
       "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
      },
      "cv": {
       "k": 10,
-      "nPairs": 581,
-      "nScoredHeldOut": 581,
+      "nPairs": 644,
+      "nScoredHeldOut": 644,
       "nSkippedFolds": 0,
       "bootstrap": {
        "B": 4000,
@@ -44015,81 +44015,81 @@
      },
      "cells": {
       "pooled": {
-       "nPairs": 581,
-       "nDays": 130,
+       "nPairs": 644,
+       "nDays": 134,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.7016,
-        "skillMAE_B1": 0.5761,
-        "skillMAE_B2": -0.0034,
-        "skillMSElog_B0": -7.5716,
-        "skillMSElog_B1": -12.0622,
-        "skillMSElog_B2": -45.4899,
-        "skillMedAElog_B0": 0.5593,
-        "skillMedAElog_B1": 0.4319,
-        "skillMedAElog_B2": 0.027,
-        "MAE_M": 0.1066,
-        "MAE_B0": 0.3573,
-        "MedAElog_M": 0.1268,
+        "skillMAE_B0": 0.6915,
+        "skillMAE_B1": 0.5678,
+        "skillMAE_B2": -0.018,
+        "skillMSElog_B0": -6.4284,
+        "skillMSElog_B1": -10.3912,
+        "skillMSElog_B2": -38.893,
+        "skillMedAElog_B0": 0.538,
+        "skillMedAElog_B1": 0.4231,
+        "skillMedAElog_B2": -0.0324,
+        "MAE_M": 0.1118,
+        "MAE_B0": 0.3622,
+        "MedAElog_M": 0.1329,
         "MedAElog_B0": 0.2877,
-        "skillMAE_B3": -0.2464
+        "skillMAE_B3": -0.2351
        },
        "ci95": {
         "skillMAE_B0": [
-         0.6654,
-         0.7336
+         0.6561,
+         0.7229
         ],
         "skillMAE_B1": [
-         0.5264,
-         0.6218
+         0.5206,
+         0.6112
         ],
         "skillMAE_B2": [
-         -0.0523,
-         0.0426
+         -0.0615,
+         0.0251
         ],
         "skillMSElog_B0": [
-         -17.5563,
-         -0.2624
+         -15.1119,
+         -0.1719
         ],
         "skillMSElog_B1": [
-         -27.3844,
-         -0.9406
+         -23.5795,
+         -0.8069
         ],
         "skillMSElog_B2": [
-         -100.6852,
-         -6.0218
+         -84.6357,
+         -5.404
         ],
         "skillMedAElog_B0": [
-         0.5169,
-         0.6202
+         0.502,
+         0.602
         ],
         "skillMedAElog_B1": [
-         0.3712,
-         0.503
+         0.3657,
+         0.4848
         ],
         "skillMedAElog_B2": [
-         -0.1016,
-         0.1017
+         -0.1462,
+         0.0551
         ],
         "MAE_M": [
-         0.0966,
-         0.1181
+         0.1013,
+         0.1238
         ],
         "MAE_B0": [
-         0.3359,
-         0.3803
+         0.3419,
+         0.3842
         ],
         "MedAElog_M": [
-         0.1168,
-         0.1396
+         0.1199,
+         0.1425
         ],
         "MedAElog_B0": [
-         0.2578,
-         0.3502
+         0.2603,
+         0.3485
         ],
         "skillMAE_B3": [
-         -0.3232,
-         -0.1819
+         -0.303,
+         -0.1758
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -44126,81 +44126,81 @@
        }
       },
       "gapLt1h": {
-       "nPairs": 339,
-       "nDays": 110,
+       "nPairs": 372,
+       "nDays": 116,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.428,
-        "skillMAE_B1": 0.364,
-        "skillMAE_B2": 0.0787,
-        "skillMSElog_B0": 0.6573,
-        "skillMSElog_B1": 0.9477,
-        "skillMSElog_B2": 0.2871,
-        "skillMedAElog_B0": 0.3532,
-        "skillMedAElog_B1": 0.4309,
-        "skillMedAElog_B2": -0.0421,
-        "MAE_M": 0.0882,
-        "MAE_B0": 0.1541,
-        "MedAElog_M": 0.0926,
-        "MedAElog_B0": 0.1431,
-        "skillMAE_B3": -0.4566
+        "skillMAE_B0": 0.4164,
+        "skillMAE_B1": 0.3591,
+        "skillMAE_B2": 0.0611,
+        "skillMSElog_B0": 0.6411,
+        "skillMSElog_B1": 0.9489,
+        "skillMSElog_B2": 0.2651,
+        "skillMedAElog_B0": 0.3388,
+        "skillMedAElog_B1": 0.4069,
+        "skillMedAElog_B2": -0.087,
+        "MAE_M": 0.0889,
+        "MAE_B0": 0.1523,
+        "MedAElog_M": 0.0937,
+        "MedAElog_B0": 0.1417,
+        "skillMAE_B3": -0.4569
        },
        "ci95": {
         "skillMAE_B0": [
-         0.3956,
-         0.4572
+         0.3833,
+         0.4452
         ],
         "skillMAE_B1": [
-         0.2875,
-         0.4279
+         0.2898,
+         0.4198
         ],
         "skillMAE_B2": [
-         0.0157,
-         0.1337
+         0.0002,
+         0.1143
         ],
         "skillMSElog_B0": [
-         0.6067,
-         0.6972
+         0.5899,
+         0.6826
         ],
         "skillMSElog_B1": [
-         0.9376,
-         0.9567
+         0.9398,
+         0.957
         ],
         "skillMSElog_B2": [
-         0.2149,
-         0.3464
+         0.1928,
+         0.3225
         ],
         "skillMedAElog_B0": [
-         0.3062,
-         0.4016
+         0.2996,
+         0.3916
         ],
         "skillMedAElog_B1": [
-         0.3251,
-         0.5043
+         0.3387,
+         0.4943
         ],
         "skillMedAElog_B2": [
-         -0.2061,
-         0.0701
+         -0.2162,
+         0.0314
         ],
         "MAE_M": [
-         0.0817,
-         0.0956
+         0.0827,
+         0.096
         ],
         "MAE_B0": [
-         0.1427,
-         0.1665
+         0.1413,
+         0.1633
         ],
         "MedAElog_M": [
-         0.0851,
-         0.0983
+         0.0854,
+         0.0987
         ],
         "MedAElog_B0": [
          0.1284,
-         0.1603
+         0.1562
         ],
         "skillMAE_B3": [
-         -0.6028,
-         -0.3297
+         -0.5911,
+         -0.3355
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -44228,81 +44228,81 @@
        }
       },
       "gapGe1h": {
-       "nPairs": 242,
-       "nDays": 115,
+       "nPairs": 272,
+       "nDays": 123,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.7936,
-        "skillMAE_B1": 0.6766,
-        "skillMAE_B2": -0.0943,
-        "skillMSElog_B0": -7.7409,
-        "skillMSElog_B1": -15.3447,
-        "skillMSElog_B2": -48.0291,
-        "skillMedAElog_B0": 0.7206,
-        "skillMedAElog_B1": 0.6077,
-        "skillMedAElog_B2": -0.1085,
-        "MAE_M": 0.1325,
-        "MAE_B0": 0.642,
-        "MedAElog_M": 0.2668,
-        "MedAElog_B0": 0.9547,
-        "skillMAE_B3": -0.0986
+        "skillMAE_B0": 0.7797,
+        "skillMAE_B1": 0.6615,
+        "skillMAE_B2": -0.0966,
+        "skillMSElog_B0": -6.5662,
+        "skillMSElog_B1": -13.3329,
+        "skillMSElog_B2": -40.9588,
+        "skillMedAElog_B0": 0.7165,
+        "skillMedAElog_B1": 0.621,
+        "skillMedAElog_B2": -0.1398,
+        "MAE_M": 0.143,
+        "MAE_B0": 0.6493,
+        "MedAElog_M": 0.2843,
+        "MedAElog_B0": 1.0027,
+        "skillMAE_B3": -0.0936
        },
        "ci95": {
         "skillMAE_B0": [
-         0.7533,
-         0.8311
+         0.7355,
+         0.8184
         ],
         "skillMAE_B1": [
-         0.6125,
-         0.7356
+         0.5955,
+         0.7198
         ],
         "skillMAE_B2": [
-         -0.1763,
-         -0.0208
+         -0.1721,
+         -0.0338
         ],
         "skillMSElog_B0": [
-         -17.841,
-         -0.3086
+         -15.1311,
+         -0.2331
         ],
         "skillMSElog_B1": [
-         -33.9819,
-         -1.405
+         -29.6115,
+         -1.3125
         ],
         "skillMSElog_B2": [
-         -104.6781,
-         -6.7826
+         -90.5755,
+         -5.9718
         ],
         "skillMedAElog_B0": [
-         0.6486,
-         0.7761
+         0.6152,
+         0.7616
         ],
         "skillMedAElog_B1": [
-         0.503,
-         0.7028
+         0.4784,
+         0.69
         ],
         "skillMedAElog_B2": [
-         -0.4107,
-         0.08
+         -0.5534,
+         0.0019
         ],
         "MAE_M": [
-         0.1108,
-         0.1551
+         0.1198,
+         0.1692
         ],
         "MAE_B0": [
-         0.614,
-         0.6716
+         0.6231,
+         0.6766
         ],
         "MedAElog_M": [
-         0.225,
-         0.362
+         0.254,
+         0.3946
         ],
         "MedAElog_B0": [
-         0.8792,
-         1.1884
+         0.9101,
+         1.2192
         ],
         "skillMAE_B3": [
-         -0.145,
-         -0.0632
+         -0.1345,
+         -0.0617
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -44342,58 +44342,58 @@
      "bins": [
       {
        "bin": "0-1 h",
-       "nPairs": 339,
-       "nDays": 110,
-       "medianObservedRetained": 0.8734,
-       "medianPredictedRetained": 0.9476,
-       "medianResidualLog": -0.0808
+       "nPairs": 372,
+       "nDays": 116,
+       "medianObservedRetained": 0.875,
+       "medianPredictedRetained": 0.9495,
+       "medianResidualLog": -0.0817
       },
       {
        "bin": "1-3 h",
-       "nPairs": 101,
-       "nDays": 67,
-       "medianObservedRetained": 0.5366,
-       "medianPredictedRetained": 0.6221,
-       "medianResidualLog": -0.1449
+       "nPairs": 108,
+       "nDays": 71,
+       "medianObservedRetained": 0.5357,
+       "medianPredictedRetained": 0.6259,
+       "medianResidualLog": -0.1555
       },
       {
        "bin": "3-6 h",
-       "nPairs": 39,
-       "nDays": 36,
-       "medianObservedRetained": 0.2955,
-       "medianPredictedRetained": 0.3407,
-       "medianResidualLog": -0.0706
+       "nPairs": 46,
+       "nDays": 40,
+       "medianObservedRetained": 0.2941,
+       "medianPredictedRetained": 0.3422,
+       "medianResidualLog": -0.1066
       },
       {
        "bin": "6-12 h",
-       "nPairs": 55,
-       "nDays": 41,
+       "nPairs": 65,
+       "nDays": 48,
        "medianObservedRetained": 0.1321,
-       "medianPredictedRetained": 0.0582,
-       "medianResidualLog": 0.7119
+       "medianPredictedRetained": 0.0618,
+       "medianResidualLog": 0.7048
       },
       {
        "bin": "12-24 h",
-       "nPairs": 36,
-       "nDays": 36,
-       "medianObservedRetained": 0.0694,
-       "medianPredictedRetained": 0.0089,
-       "medianResidualLog": 1.9619
+       "nPairs": 41,
+       "nDays": 41,
+       "medianObservedRetained": 0.0769,
+       "medianPredictedRetained": 0.0105,
+       "medianResidualLog": 1.7142
       },
       {
        "bin": "24-inf h",
-       "nPairs": 11,
-       "nDays": 11,
-       "medianObservedRetained": 0.0638,
+       "nPairs": 12,
+       "nDays": 12,
+       "medianObservedRetained": 0.0613,
        "medianPredictedRetained": 0.0,
-       "medianResidualLog": 9.9645
+       "medianResidualLog": 9.7083
       }
      ],
      "leaveOneDayOut": {
       "nSkippedFolds": 0,
       "cells": {
        "pooled": {
-        "nPairs": 581,
+        "nPairs": 644,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -44402,7 +44402,7 @@
         "differsFromK10": []
        },
        "gapLt1h": {
-        "nPairs": 339,
+        "nPairs": 372,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -44411,7 +44411,7 @@
         "differsFromK10": []
        },
        "gapGe1h": {
-        "nPairs": 242,
+        "nPairs": 272,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -44423,8 +44423,8 @@
      },
      "postHoc": {
       "label": "post-hoc, not pre-registered (M430 blind audit)",
-      "logSqErrShareGapGe12h": 0.9793,
-      "shareOfScoredPairsGapGe12h": 0.0809,
+      "logSqErrShareGapGe12h": 0.9751,
+      "shareOfScoredPairsGapGe12h": 0.0823,
       "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
      }
     },
@@ -44434,23 +44434,23 @@
      "seed": 42,
      "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
      "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
-     "nClusters": 130,
-     "essClusters": 93.6,
-     "nPairs": 581,
+     "nClusters": 134,
+     "essClusters": 100.6,
+     "nPairs": 644,
      "nonDecayingDrawShare": 0.0,
      "upperUnbounded": false,
      "nUndefinedDraws": 0,
      "pointTauDefined": true,
      "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
     },
-    "decayRateK": 0.28568,
+    "decayRateK": 0.28112,
     "decayRateKCI": [
-     0.2648,
-     0.30772
+     0.26075,
+     0.30151
     ],
     "halfLifeCI": [
-     2.25,
-     2.62
+     2.3,
+     2.66
     ],
     "methodTable": [
      {
@@ -44470,16 +44470,16 @@
       "nClusters": null,
       "essClusters": null,
       "tauCI": [
-       3.27,
-       3.74
+       3.33,
+       3.8
       ],
       "decayRateKCI": [
-       0.2672,
-       0.30601
+       0.26287,
+       0.30066
       ],
       "halfLifeCI": [
-       2.27,
-       2.59
+       2.31,
+       2.64
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -44489,19 +44489,19 @@
      {
       "id": "arrivalDay",
       "label": "calendar day of the following drive (PRIMARY)",
-      "nClusters": 130,
-      "essClusters": 93.6,
+      "nClusters": 134,
+      "essClusters": 100.6,
       "tauCI": [
-       3.25,
-       3.78
+       3.32,
+       3.84
       ],
       "decayRateKCI": [
-       0.2648,
-       0.30772
+       0.26075,
+       0.30151
       ],
       "halfLifeCI": [
-       2.25,
-       2.62
+       2.3,
+       2.66
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -44511,19 +44511,19 @@
      {
       "id": "departureDay",
       "label": "calendar day of the previous drive's end",
-      "nClusters": 128,
-      "essClusters": 94.7,
+      "nClusters": 132,
+      "essClusters": 101.6,
       "tauCI": [
-       3.28,
-       3.75
+       3.33,
+       3.81
       ],
       "decayRateKCI": [
-       0.26641,
-       0.30523
+       0.2622,
+       0.30069
       ],
       "halfLifeCI": [
-       2.27,
-       2.6
+       2.31,
+       2.64
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -44534,18 +44534,18 @@
       "id": "isoWeek",
       "label": "non-overlapping ISO-week blocks",
       "nClusters": 27,
-      "essClusters": 19.0,
+      "essClusters": 19.3,
       "tauCI": [
-       3.36,
-       3.68
+       3.43,
+       3.73
       ],
       "decayRateKCI": [
-       0.27165,
-       0.29789
+       0.26809,
+       0.29168
       ],
       "halfLifeCI": [
-       2.33,
-       2.55
+       2.38,
+       2.59
       ],
       "nonDecayingDrawShare": 0.0,
       "upperUnbounded": false,
@@ -44555,48 +44555,48 @@
     ],
     "leaveOneDay": {
      "decayRateKRange": [
-      0.28207,
-      0.28852
+      0.2778,
+      0.28371
      ],
      "tauRange": [
-      3.47,
-      3.55
+      3.52,
+      3.6
      ],
      "nLeaveOutNonDecaying": 0,
-     "nClusters": 130
+     "nClusters": 134
     },
     "gapSplit": {
      "thresholdH": 1.0,
      "strata": [
       {
        "label": "gap < 1 h",
-       "nPairs": 339,
-       "nDays": 110,
-       "decayRateK": 0.52923,
+       "nPairs": 372,
+       "nDays": 116,
+       "decayRateK": 0.52302,
        "decayRateKCI": [
-        0.49781,
-        0.5635
+        0.49148,
+        0.55916
        ],
-       "tau": 1.89,
+       "tau": 1.91,
        "tauCI": [
-        1.77,
-        2.01
+        1.79,
+        2.03
        ],
        "nonDecayingDrawShare": 0.0
       },
       {
        "label": "gap >= 1 h",
-       "nPairs": 242,
-       "nDays": 115,
-       "decayRateK": 0.1614,
+       "nPairs": 272,
+       "nDays": 123,
+       "decayRateK": 0.15951,
        "decayRateKCI": [
-        0.1352,
-        0.18693
+        0.1354,
+        0.1803
        ],
-       "tau": 6.2,
+       "tau": 6.27,
        "tauCI": [
-        5.35,
-        7.4
+        5.55,
+        7.39
        ],
        "nonDecayingDrawShare": 0.0
       }
@@ -44604,29 +44604,29 @@
      "label": "post-hoc descriptive (M429 audit), not pre-registered",
      "reading": "decay rate k = -slope (1/h) per stratum with the arrival-day interval; tau = null when the stratum slope is not negative. The pooled tau is a gap-mix-dependent summary of a single-exponential fit."
     },
-    "nDays": 130,
+    "nDays": 134,
     "fitMethod": "senSlope",
-    "fitIntercept": -0.0728,
+    "fitIntercept": -0.0733,
     "parkingAmbientSensitivity": [
      {
       "ambientOffsetC": -3.0,
-      "tau": 4.29,
-      "nfit": 617
+      "tau": 4.34,
+      "nfit": 683
      },
      {
       "ambientOffsetC": 3.0,
-      "tau": 2.86,
-      "nfit": 543
+      "tau": 2.91,
+      "nfit": 602
      }
     ],
     "parkingAmbientNote": "M234 (audit F08): arrivalAmbientC is the manual DRIVING-time ambient field, not a measured parked-soak environment, which can differ (garage vs open, day/night swing). parkingAmbientSensitivity refits tau after shifting the ambient reference by +-3 degC (applied to both the initial and residual excess, since both reference the same following-drive ambient reading) -- the spread across these two refits is the approximate sensitivity of tau to this unmeasured uncertainty, not a formal error propagation."
    },
    "battery": {
     "crossReference": "heatSoakCarryover",
-    "tau": 11.03,
+    "tau": 11.1,
     "tauCI": [
-     9.61,
-     12.96
+     9.69,
+     12.82
     ],
     "tauCiMethod": {
      "cluster": "calendar day of the following drive's start",
@@ -44634,9 +44634,9 @@
      "seed": 42,
      "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
      "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
-     "nClusters": 122,
-     "essClusters": 86.2,
-     "nPairs": 483,
+     "nClusters": 125,
+     "essClusters": 92.6,
+     "nPairs": 531,
      "nonDecayingDrawShare": 0.0,
      "upperUnbounded": false,
      "nUndefinedDraws": 0,
@@ -44646,18 +44646,18 @@
     "fitQuality": {
      "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
      "inSample": {
-      "rSquared": -0.725,
+      "rSquared": -0.587,
       "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
      },
      "selection": {
-      "nBeforeResidualFilter": 640,
-      "nRemovedByResidualFilter": 157,
+      "nBeforeResidualFilter": 706,
+      "nRemovedByResidualFilter": 175,
       "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
      },
      "cv": {
       "k": 10,
-      "nPairs": 483,
-      "nScoredHeldOut": 483,
+      "nPairs": 531,
+      "nScoredHeldOut": 531,
       "nSkippedFolds": 0,
       "bootstrap": {
        "B": 4000,
@@ -44671,81 +44671,81 @@
      },
      "cells": {
       "pooled": {
-       "nPairs": 483,
-       "nDays": 122,
+       "nPairs": 531,
+       "nDays": 125,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.4095,
-        "skillMAE_B1": 0.4186,
-        "skillMAE_B2": -0.0341,
-        "skillMSElog_B0": -0.5146,
-        "skillMSElog_B1": -0.7806,
-        "skillMSElog_B2": -3.3138,
-        "skillMedAElog_B0": 0.3555,
-        "skillMedAElog_B1": 0.3682,
-        "skillMedAElog_B2": 0.0896,
-        "MAE_M": 0.1324,
-        "MAE_B0": 0.2243,
-        "MedAElog_M": 0.0759,
+        "skillMAE_B0": 0.4342,
+        "skillMAE_B1": 0.4431,
+        "skillMAE_B2": -0.0415,
+        "skillMSElog_B0": -0.3758,
+        "skillMSElog_B1": -0.6356,
+        "skillMSElog_B2": -3.1483,
+        "skillMedAElog_B0": 0.3708,
+        "skillMedAElog_B1": 0.3904,
+        "skillMedAElog_B2": 0.1112,
+        "MAE_M": 0.1268,
+        "MAE_B0": 0.2241,
+        "MedAElog_M": 0.0741,
         "MedAElog_B0": 0.1178,
-        "skillMAE_B3": -0.0197
+        "skillMAE_B3": -0.0213
        },
        "ci95": {
         "skillMAE_B0": [
-         0.3355,
-         0.481
+         0.361,
+         0.5015
         ],
         "skillMAE_B1": [
-         0.3468,
-         0.4888
+         0.372,
+         0.5075
         ],
         "skillMAE_B2": [
-         -0.0704,
-         -0.0002
+         -0.0791,
+         -0.008
         ],
         "skillMSElog_B0": [
-         -2.8098,
-         0.6006
+         -2.4221,
+         0.6279
         ],
         "skillMSElog_B1": [
-         -3.44,
-         0.5299
+         -3.0453,
+         0.5546
         ],
         "skillMSElog_B2": [
-         -10.3962,
-         -0.1882
+         -9.8053,
+         -0.1859
         ],
         "skillMedAElog_B0": [
-         0.2035,
-         0.4181
+         0.2333,
+         0.4256
         ],
         "skillMedAElog_B1": [
-         0.2555,
-         0.4408
+         0.2909,
+         0.4561
         ],
         "skillMedAElog_B2": [
-         -0.0467,
-         0.1969
+         -0.0327,
+         0.2041
         ],
         "MAE_M": [
-         0.1117,
-         0.1566
+         0.1071,
+         0.15
         ],
         "MAE_B0": [
-         0.1985,
-         0.2534
+         0.2004,
+         0.2508
         ],
         "MedAElog_M": [
-         0.0637,
-         0.0956
+         0.0623,
+         0.0917
         ],
         "MedAElog_B0": [
-         0.0953,
-         0.1335
+         0.0977,
+         0.1314
         ],
         "skillMAE_B3": [
-         -0.03,
-         -0.0105
+         -0.0315,
+         -0.0122
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -44775,95 +44775,93 @@
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
-         "S3": "not shown to be worse than the empirical gap bins"
+         "S3": "worse than the empirical gap bins"
         },
-        "differsFromDayBootstrap": [
-         "S3"
-        ],
+        "differsFromDayBootstrap": [],
         "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
        }
       },
       "gapLt1h": {
-       "nPairs": 280,
-       "nDays": 102,
+       "nPairs": 306,
+       "nDays": 107,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": -0.0921,
-        "skillMAE_B1": 0.0952,
-        "skillMAE_B2": -0.0921,
-        "skillMSElog_B0": -0.0283,
-        "skillMSElog_B1": 0.8562,
-        "skillMSElog_B2": -0.0089,
-        "skillMedAElog_B0": 0.0921,
-        "skillMedAElog_B1": 0.1597,
-        "skillMedAElog_B2": 0.0921,
-        "MAE_M": 0.0771,
-        "MAE_B0": 0.0706,
-        "MedAElog_M": 0.0454,
-        "MedAElog_B0": 0.05,
-        "skillMAE_B3": -0.064
+        "skillMAE_B0": -0.0998,
+        "skillMAE_B1": 0.0915,
+        "skillMAE_B2": -0.0998,
+        "skillMSElog_B0": -0.0314,
+        "skillMSElog_B1": 0.8688,
+        "skillMSElog_B2": -0.0147,
+        "skillMedAElog_B0": 0.0135,
+        "skillMedAElog_B1": 0.1878,
+        "skillMedAElog_B2": 0.0135,
+        "MAE_M": 0.0743,
+        "MAE_B0": 0.0675,
+        "MedAElog_M": 0.0417,
+        "MedAElog_B0": 0.0422,
+        "skillMAE_B3": -0.0698
        },
        "ci95": {
         "skillMAE_B0": [
-         -0.1541,
-         -0.0375
+         -0.1631,
+         -0.0446
         ],
         "skillMAE_B1": [
-         0.0389,
-         0.1514
+         0.0371,
+         0.1443
         ],
         "skillMAE_B2": [
-         -0.1541,
-         -0.0375
+         -0.1631,
+         -0.0446
         ],
         "skillMSElog_B0": [
-         -0.1136,
+         -0.1183,
          0.051
         ],
         "skillMSElog_B1": [
-         0.8188,
-         0.8874
+         0.8363,
+         0.8978
         ],
         "skillMSElog_B2": [
-         -0.1069,
-         0.0819
+         -0.1162,
+         0.0803
         ],
         "skillMedAElog_B0": [
-         -0.2126,
-         0.232
+         -0.7952,
+         0.2594
         ],
         "skillMedAElog_B1": [
-         -0.0541,
-         0.3788
+         -0.0308,
+         0.4439
         ],
         "skillMedAElog_B2": [
-         -0.2126,
-         0.232
+         -0.7952,
+         0.2594
         ],
         "MAE_M": [
-         0.0667,
-         0.0897
+         0.0638,
+         0.0858
         ],
         "MAE_B0": [
-         0.0592,
-         0.084
+         0.0563,
+         0.0798
         ],
         "MedAElog_M": [
-         0.0313,
-         0.0611
+         0.0254,
+         0.0543
         ],
         "MedAElog_B0": [
          0.0,
-         0.0667
+         0.0606
         ],
         "skillMAE_B3": [
-         -0.0909,
-         -0.0396
+         -0.097,
+         -0.0451
         ]
        },
        "nZeroDenominatorDraws": {
-        "skillMedAElog_B0": 690,
-        "skillMedAElog_B2": 690
+        "skillMedAElog_B0": 1493,
+        "skillMedAElog_B2": 1493
        },
        "statements": {
         "S1": {
@@ -44895,81 +44893,81 @@
        }
       },
       "gapGe1h": {
-       "nPairs": 203,
-       "nDays": 105,
+       "nPairs": 225,
+       "nDays": 113,
        "eligibleForStatements": true,
        "point": {
-        "skillMAE_B0": 0.5214,
-        "skillMAE_B1": 0.5081,
-        "skillMAE_B2": -0.0069,
-        "skillMSElog_B0": -0.5222,
-        "skillMSElog_B1": -1.0236,
-        "skillMSElog_B2": -3.4683,
-        "skillMedAElog_B0": 0.612,
-        "skillMedAElog_B1": 0.612,
-        "skillMedAElog_B2": 0.0321,
-        "MAE_M": 0.2088,
-        "MAE_B0": 0.4362,
-        "MedAElog_M": 0.1573,
+        "skillMAE_B0": 0.5465,
+        "skillMAE_B1": 0.5349,
+        "skillMAE_B2": -0.0141,
+        "skillMSElog_B0": -0.3808,
+        "skillMSElog_B1": -0.8711,
+        "skillMSElog_B2": -3.2939,
+        "skillMedAElog_B0": 0.6095,
+        "skillMedAElog_B1": 0.6095,
+        "skillMedAElog_B2": -0.0504,
+        "MAE_M": 0.1982,
+        "MAE_B0": 0.437,
+        "MedAElog_M": 0.1583,
         "MedAElog_B0": 0.4055,
-        "skillMAE_B3": 0.0014
+        "skillMAE_B3": 0.0018
        },
        "ci95": {
         "skillMAE_B0": [
-         0.4281,
-         0.6106
+         0.4641,
+         0.6273
         ],
         "skillMAE_B1": [
-         0.4142,
-         0.5982
+         0.452,
+         0.6159
         ],
         "skillMAE_B2": [
-         -0.0516,
-         0.0329
+         -0.0574,
+         0.0253
         ],
         "skillMSElog_B0": [
-         -2.7669,
-         0.6172
+         -2.3952,
+         0.6364
         ],
         "skillMSElog_B1": [
-         -4.001,
-         0.4849
+         -3.6152,
+         0.5008
         ],
         "skillMSElog_B2": [
-         -10.9292,
-         -0.198
+         -9.971,
+         -0.1978
         ],
         "skillMedAElog_B0": [
-         0.4164,
-         0.6992
+         0.4429,
+         0.7015
         ],
         "skillMedAElog_B1": [
-         0.4164,
-         0.6942
+         0.4437,
+         0.6907
         ],
         "skillMedAElog_B2": [
-         -0.3669,
-         0.2243
+         -0.366,
+         0.2082
         ],
         "MAE_M": [
-         0.164,
-         0.2604
+         0.1575,
+         0.245
         ],
         "MAE_B0": [
-         0.391,
-         0.4832
+         0.3957,
+         0.4809
         ],
         "MedAElog_M": [
-         0.1316,
-         0.2652
+         0.1359,
+         0.245
         ],
         "MedAElog_B0": [
-         0.2996,
-         0.5596
+         0.3185,
+         0.539
         ],
         "skillMAE_B3": [
-         -0.0045,
-         0.0079
+         -0.0043,
+         0.0082
         ]
        },
        "nZeroDenominatorDraws": {},
@@ -45009,58 +45007,58 @@
      "bins": [
       {
        "bin": "0-1 h",
-       "nPairs": 280,
-       "nDays": 102,
+       "nPairs": 306,
+       "nDays": 107,
        "medianObservedRetained": 1.0,
-       "medianPredictedRetained": 0.9835,
-       "medianResidualLog": 0.0159
+       "medianPredictedRetained": 0.9838,
+       "medianResidualLog": 0.0158
       },
       {
        "bin": "1-3 h",
-       "nPairs": 79,
-       "nDays": 56,
-       "medianObservedRetained": 0.8824,
-       "medianPredictedRetained": 0.8683,
-       "medianResidualLog": 0.0104
+       "nPairs": 85,
+       "nDays": 60,
+       "medianObservedRetained": 0.875,
+       "medianPredictedRetained": 0.8694,
+       "medianResidualLog": 0.0083
       },
       {
        "bin": "3-6 h",
-       "nPairs": 33,
-       "nDays": 31,
-       "medianObservedRetained": 0.7222,
-       "medianPredictedRetained": 0.7063,
-       "medianResidualLog": 0.0247
+       "nPairs": 37,
+       "nDays": 33,
+       "medianObservedRetained": 0.7273,
+       "medianPredictedRetained": 0.7049,
+       "medianResidualLog": 0.0326
       },
       {
        "bin": "6-12 h",
-       "nPairs": 49,
-       "nDays": 38,
-       "medianObservedRetained": 0.3846,
-       "medianPredictedRetained": 0.4071,
-       "medianResidualLog": -0.1442
+       "nPairs": 55,
+       "nDays": 42,
+       "medianObservedRetained": 0.375,
+       "medianPredictedRetained": 0.4017,
+       "medianResidualLog": -0.1439
       },
       {
        "bin": "12-24 h",
-       "nPairs": 33,
-       "nDays": 33,
+       "nPairs": 38,
+       "nDays": 38,
        "medianObservedRetained": 0.2308,
-       "medianPredictedRetained": 0.2302,
-       "medianResidualLog": 0.0266
+       "medianPredictedRetained": 0.233,
+       "medianResidualLog": 0.0097
       },
       {
        "bin": "24-inf h",
-       "nPairs": 9,
-       "nDays": 9,
-       "medianObservedRetained": 0.1667,
-       "medianPredictedRetained": 0.0246,
-       "medianResidualLog": 1.8394
+       "nPairs": 10,
+       "nDays": 10,
+       "medianObservedRetained": 0.1623,
+       "medianPredictedRetained": 0.0521,
+       "medianResidualLog": 1.7871
       }
      ],
      "leaveOneDayOut": {
       "nSkippedFolds": 0,
       "cells": {
        "pooled": {
-        "nPairs": 483,
+        "nPairs": 531,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -45069,16 +45067,18 @@
         "differsFromK10": []
        },
        "gapLt1h": {
-        "nPairs": 280,
+        "nPairs": 306,
         "statements": {
          "S1": "improvement over persistence not established",
-         "S2": "gain over a constant level established",
+         "S2": "gain over a constant level not established",
          "S3": "worse than the empirical gap bins"
         },
-        "differsFromK10": []
+        "differsFromK10": [
+         "S2"
+        ]
        },
        "gapGe1h": {
-        "nPairs": 203,
+        "nPairs": 225,
         "statements": {
          "S1": "improvement over persistence established",
          "S2": "gain over a constant level established",
@@ -45090,13 +45090,13 @@
      },
      "postHoc": {
       "label": "post-hoc, not pre-registered (M430 blind audit)",
-      "logSqErrShareGapGe12h": 0.8603,
-      "shareOfScoredPairsGapGe12h": 0.087,
+      "logSqErrShareGapGe12h": 0.8576,
+      "shareOfScoredPairsGapGe12h": 0.0904,
       "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
      }
     },
-    "r2": -0.725,
-    "nfit": 483
+    "r2": -0.587,
+    "nfit": 531
    }
   },
   "regressionModel": {
@@ -50402,27 +50402,27 @@
  },
  "dailyFingerprints": {
   "nDays": 140,
-  "nDaysComplete": 134,
+  "nDaysComplete": 138,
   "silhouetteByK": [
    {
     "k": 2,
-    "silhouette": 0.3714
+    "silhouette": 0.377
    },
    {
     "k": 3,
-    "silhouette": 0.2308
+    "silhouette": 0.2288
    },
    {
     "k": 4,
-    "silhouette": 0.2095
+    "silhouette": 0.2046
    },
    {
     "k": 5,
-    "silhouette": 0.218
+    "silhouette": 0.2215
    },
    {
     "k": 6,
-    "silhouette": 0.2358
+    "silhouette": 0.2338
    }
   ],
   "clusters": {
@@ -50430,6 +50430,22 @@
    "profiles": [
     {
      "dutyProfileId": 0,
+     "nDays": 107,
+     "meanFeatures": {
+      "urbanSharePct": 94.49,
+      "highwaySharePct": 0.0,
+      "coldStartCount": 1.94,
+      "lowSpeedDriveShare": 0.13,
+      "engineStartsPerHour": 63.86,
+      "evDistSharePct": 56.41,
+      "gtcMean": 1.25,
+      "peakPowerKw": 49.74,
+      "ambientTempC": 15.49,
+      "highSpeedSecondsSum": 0.91
+     }
+    },
+    {
+     "dutyProfileId": 1,
      "nDays": 31,
      "meanFeatures": {
       "urbanSharePct": 7.58,
@@ -50440,53 +50456,37 @@
       "evDistSharePct": 31.11,
       "gtcMean": 5.92,
       "peakPowerKw": 71.99,
-      "ambientTempC": 21.92,
+      "ambientTempC": 21.91,
       "highSpeedSecondsSum": 15.68
-     }
-    },
-    {
-     "dutyProfileId": 1,
-     "nDays": 103,
-     "meanFeatures": {
-      "urbanSharePct": 94.27,
-      "highwaySharePct": 0.0,
-      "coldStartCount": 1.93,
-      "lowSpeedDriveShare": 0.12,
-      "engineStartsPerHour": 63.82,
-      "evDistSharePct": 55.97,
-      "gtcMean": 1.27,
-      "peakPowerKw": 50.0,
-      "ambientTempC": 15.48,
-      "highSpeedSecondsSum": 0.95
      }
     }
    ]
   },
   "stabilityCheck": {
    "k": 2,
-   "silhouette": 0.3714,
+   "silhouette": 0.377,
    "nBootstraps": 200,
-   "medianAri": 0.9668,
+   "medianAri": 0.9688,
    "ariCi95": [
-    0.3449,
+    0.2792,
     1.0
    ],
    "stabilityThreshold": 0.4,
    "stable": true
   },
   "featureLoadings": {
-   "urbanSharePct": 1.106,
-   "highwaySharePct": 0.708,
-   "coldStartCount": 0.155,
-   "lowSpeedDriveShare": 0.286,
+   "urbanSharePct": 1.119,
+   "highwaySharePct": 0.717,
+   "coldStartCount": 0.16,
+   "lowSpeedDriveShare": 0.29,
    "engineStartsPerHour": 0.157,
-   "evDistSharePct": 0.921,
-   "gtcMean": 0.895,
-   "peakPowerKw": 0.729,
-   "ambientTempC": 0.402,
-   "highSpeedSecondsSum": 0.411
+   "evDistSharePct": 0.928,
+   "gtcMean": 0.907,
+   "peakPowerKw": 0.738,
+   "ambientTempC": 0.408,
+   "highSpeedSecondsSum": 0.418
   },
-  "verdict": "2 stable recurring duty profiles detected (day-bootstrap median ARI=0.967)",
+  "verdict": "2 stable recurring duty profiles detected (day-bootstrap median ARI=0.969)",
   "dailyFingerprintsMethodology": "M227.2 (P1.6, enhancement plan): per-day feature vectors from drive_master.csv columns (distance-weighted shares/means) plus ambient temperature and genuine per-day engine-start counts (frame_loader + _engine_start_triggers, reused verbatim). coldStartCount and lowSpeedDriveShare are DISCLOSED PROXIES (gap-since-previous-drive; mean-moving-speed<20km/h), not the literal coolant-at-start/stop-go-cycle features, since those live only in other functions' aggregate-only or differently-gated raw passes. peakPowerKw is max(abs(discharge peak), abs(charge peak)) (M231, audit F07: previously plain max() over the two signed columns, which silently discarded any charging peak on any day with a positive discharge peak -- nearly always; the signed components are kept separately as peakPowerDischargeKw/peakPowerChargeKw). Features z-scored; k-means (seed=42) swept k=2-6, k chosen by best silhouette score among candidates >0.15 (a data-driven criterion, not fixed a priori). Stability: 200 day-bootstrap resamples (seed=42), adjusted Rand index against the original clustering: median ARI must reach >=0.4 before ANY cluster is reported as real. Output is labelled recurring DUTY PROFILES throughout -- never \"personality\" or driver categories (proposal Sec.4.6's explicit framing requirement). Single vehicle / ~single driver, warm-season only -- exactly the boundary condition the source proposal's own Sec.2 flags as likely to produce weak cluster stability; a null result here is a legitimate, publishable finding given these study boundaries, not a failure of the method."
  },
  "thermalWarmupLag": {
@@ -55379,8 +55379,8 @@
  "auxLoadAmbient": {
   "exploratory": true,
   "causalityDisclosed": false,
-  "nDrives": 628,
-  "nDays": 133,
+  "nDrives": 692,
+  "nDays": 137,
   "ambientRangeC": [
    -1.0,
    38.0
@@ -55389,18 +55389,18 @@
    0.31,
    2.84
   ],
-  "spearmanCorr": 0.399,
+  "spearmanCorr": 0.394,
   "spearmanCorrBoot": {
-   "bootMedian": 0.399,
+   "bootMedian": 0.396,
    "ci95": [
-    0.254,
-    0.531
+    0.262,
+    0.52
    ],
-   "nDrives": 628,
-   "nDays": 133
+   "nDrives": 692,
+   "nDays": 137
   },
-  "slopeKwPerC": 0.0251,
-  "interceptKw": 0.781,
+  "slopeKwPerC": 0.0254,
+  "interceptKw": 0.762,
   "byAmbientBin": [
    {
     "ambientBinC": "<5",
@@ -55412,35 +55412,35 @@
    },
    {
     "ambientBinC": "5-10",
-    "n": 96,
-    "nDays": 31,
+    "n": 100,
+    "nDays": 32,
     "medianKw": 1.18,
     "p25Kw": 0.548,
-    "p75Kw": 1.37
+    "p75Kw": 1.373
    },
    {
     "ambientBinC": "10-15",
-    "n": 96,
-    "nDays": 41,
-    "medianKw": 0.87,
-    "p25Kw": 0.655,
+    "n": 121,
+    "nDays": 46,
+    "medianKw": 0.86,
+    "p25Kw": 0.52,
     "p75Kw": 1.09
    },
    {
     "ambientBinC": "15-20",
-    "n": 131,
-    "nDays": 53,
+    "n": 146,
+    "nDays": 58,
     "medianKw": 1.01,
     "p25Kw": 0.92,
     "p75Kw": 1.1
    },
    {
     "ambientBinC": "20-25",
-    "n": 140,
-    "nDays": 53,
+    "n": 160,
+    "nDays": 56,
     "medianKw": 1.2,
     "p25Kw": 1.07,
-    "p75Kw": 1.42
+    "p75Kw": 1.43
    },
    {
     "ambientBinC": "25-30",
@@ -55459,7 +55459,7 @@
     "p75Kw": 2.282
    }
   ],
-  "interpretation": "Across the supported bins at and above 15 C the median standstill draw increases from 1.01 kW in the 15-20 C bin to 1.92 kW in the >=30 C bin. Supported bins below 15 C: <5 C: 1.14 kW (60 drives, 16 days); 5-10 C: 1.18 kW (96 drives, 31 days); 10-15 C: 0.87 kW (96 drives, 41 days). Whether low-ambient values reflect heating load is not identified. Standstill draw is a climate-load proxy: there is no HVAC state channel (compressor on/off, fan speed, setpoint), so this is a descriptive correlation, NOT a mechanism claim; cooling and heating loads are both possible readings and neither is identified. The Cold class is thinly observed and concentrated, see cohortSupport.",
+  "interpretation": "Across the supported bins at and above 15 C the median standstill draw increases from 1.01 kW in the 15-20 C bin to 1.92 kW in the >=30 C bin. Supported bins below 15 C: <5 C: 1.14 kW (60 drives, 16 days); 5-10 C: 1.18 kW (100 drives, 32 days); 10-15 C: 0.86 kW (121 drives, 46 days). Whether low-ambient values reflect heating load is not identified. Standstill draw is a climate-load proxy: there is no HVAC state channel (compressor on/off, fan speed, setpoint), so this is a descriptive correlation, NOT a mechanism claim; cooling and heating loads are both possible readings and neither is identified. The Cold class is thinly observed and concentrated, see cohortSupport.",
   "methodology": "Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, stationary median draw, from drive_master, ens-unfiltered to match the M26 scope) paired with the drive-start ambient temperature (ambientByDrive[file][0]). Spearman rank correlation (day-clustered bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a descriptive summary, not a causal estimate. Binned median/IQR by ambient band (right-open bins with explicit open ends, M623; a bin is reported at n >= 5 drives, the sentence compares bins with n >= 10 drives on >= 5 days). EXPLORATORY -- no HVAC state channel, no causality claim. Single vehicle / ~single driver."
  },
  "fullCellCaseStudy": {
@@ -66306,7 +66306,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-20T23:18:20.909506+00:00",
+   "generatedAt": "2026-11-23T16:20:13.965851+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
@@ -66321,7 +66321,7 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M314: per-drive ambient table (tools/build_ambient_table.py) from summary_config.json ambientByDrive and drive_master.csv.",
-   "includedInReleaseAt": "2026-11-20T23:18:20.909506+00:00",
+   "includedInReleaseAt": "2026-11-23T16:20:13.965851+00:00",
    "inputBasis": {
     "nDrives": 717,
     "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
@@ -70661,20 +70661,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "b25a29c7bcf2c4b9b9231421e1315502",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-21T01:11:11.023173+00:00",
+   "generatedAt": "2026-11-23T16:23:18.741234+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M418: derived by tools/thermal_support_ledger.py from the frame cache and the raw files; additive thermal support ledger",
-   "includedInReleaseAt": "2026-11-21T01:11:11.023173+00:00",
-   "computedAt": "2026-11-21T01:11:11.023173+00:00",
+   "includedInReleaseAt": "2026-11-23T16:23:18.741234+00:00",
    "inputBasis": {
     "nDrives": 717,
     "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
     "source": "stamping pass: meta.totalDrives, corpusHash"
-   }
+   },
+   "computedAt": "2026-11-23T16:23:18.741234+00:00"
   },
   "torqueDecoder": {
    "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
@@ -71326,7 +71326,7 @@
    },
    {
     "use": "HV aux/climate load vs ambient (auxLoadAmbient)",
-    "definition": "the start reading only, list entries only; bare-number legacy entries are dropped (64 drives with a standstill draw are excluded for that reason)"
+    "definition": "the start reading only; a bare-number legacy entry is read as its single reading (64 drives with a standstill draw use one; 0 drives have no readable entry)"
    },
    {
     "use": "Scope",
@@ -461370,7 +461370,7 @@
    "winter (December to February) stays unobserved: the cold cohort (77 drives on 18 days, driver-recorded start ambient -1 to 5 C) supports a cohort view, not a winter inference; few days, so the intervals are wide"
   ],
   "limits": [
-   "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 448 of 500 cold starts)",
+   "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 500 of 500 cold starts)",
    "the cold-start definitions differ by estimator on purpose (coolant <= 50 C, none, < 60 C): each ledger states its own",
    "the ledger classifies drives with the estimator's own rules and checks its accepted counts against the published n; a changed estimator rule makes the reconciliation fail until the ledger is updated"
   ],
@@ -471321,7 +471321,7 @@
    },
    "limits": [
     "independent censoring cannot be tested; the bounds and the tilt measure how much it matters, they do not remove it",
-    "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 448 of 500 cold starts)",
+    "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 500 of 500 cold starts)",
     "the continued drive leaves route and load undefined",
     "Cold is descriptive: its observed shares depend on the trip-length mix, are a level and not warm-up physics, and no contrast between cohorts is claimed; a seasonal or temperature effect cannot be estimated",
     "the shares mix drives with different start temperatures"
