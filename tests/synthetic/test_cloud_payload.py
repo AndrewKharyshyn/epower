@@ -93,13 +93,13 @@ if src is not None:
     # splice: only the block and its stamp change; a second splice changes nothing
     arr = {"meta": {"a": 1}, "other": [1, 2], "_artifactStamps": {"powerFadeTemperatureSpecs": {"corpusHash": "x", "computedAt": "t", "generatedAt": "t", "includedInReleaseAt": "t"}}}
     p = os.path.join(tmp, "arr.json")
-    json.dump(arr, open(p, "w"), indent=1)
+    json.dump(arr, open(p, "w", encoding="utf-8"), indent=1)
     assert cp.splice(blk, path=p) is True
-    got = json.load(open(p))
+    got = json.load(open(p, encoding="utf-8"))
     assert got["cloudCrossChecks"] == blk and got["meta"] == arr["meta"] and got["other"] == arr["other"] and "cloudCrossChecks" in got["_artifactStamps"]
     before = open(p, "rb").read()
     assert cp.splice(blk, path=p) is False and open(p, "rb").read() == before
-    arr2 = json.load(open(p))
+    arr2 = json.load(open(p, encoding="utf-8"))
     assert {k for k in arr2 if k not in arr} == {"cloudCrossChecks"}
 
 # the payload key is the one declared for stamping
