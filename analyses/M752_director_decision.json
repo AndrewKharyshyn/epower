@@ -1,0 +1,24 @@
+{
+ "milestone": "M752",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M752_spec.md Rev 2 and Rev 2.1",
+ "audit": "analyses/M752_audit.json",
+ "result": "analyses/M752_odometer_agreement.json",
+ "decision": "accept (report-only; Rev 2.1 deviation disclosed; nothing on the dashboard)",
+ "allowed_wording": "Cloud-reported ODO (interpolated) is available at both ends for 584 of 717 logged drives. For identity-class drives of 2 km or more (418 drives, 130 days) the cloud-reported distance exceeds the logged/app-calculated distance by a median 0.110 km [0.098, 0.130]. The aggregate relative difference is +1.20 % [1.04, 1.40] (E_int, day-clustered bootstrap): not consistent within +-1 %, consistent within +-3 %; small difference, cloud larger. Same sign under E_br (+1.23 %), E_near and the +16 s shift (+1.15 %, different sample). Blind audit reproduced +1.17 % [1.03, 1.39] on 420/130. Both counters rest on the same wheel-speed scale, so this checks logging completeness, not distance accuracy. Never use accurate/accuracy, error, correction, true/reference/measured distance.",
+ "conditions": [
+  "state the Rev 2.1 rule change and that the smoke run (+1.13 %) was seen before it; verdict unchanged under both rules",
+  "disclose 17 (tool) vs 7 (auditor) jump-excluded drives and 418 vs 420 n; both give the same verdict",
+  "disclose availability selection by month and by length; selection effect not excluded",
+  "disclose 17 level excursions (max 101.35 km) and 17 negative steps in the cloud stream",
+  "anchor is n=1, one-sided plausibility (-0.41 km), not a known answer",
+  "cause wording: consistent with logger edge losses (a hypothesis); per-sample speed quantisation in the app integral is an untested alternative; the positive E_int sign argues against a parked-edge interpolation artefact"
+ ],
+ "risks": [
+  "common wheel-scale error undetectable",
+  "month and length selection may shift the aggregate",
+  "E_int and E_br do not form the expected bracket (both positive), so the edge model of 9.1 is not confirmed"
+ ],
+ "x1_follow_up": "may be proposed only as a separate spec addendum with its own Director ruling: wording difference, no absolute cloud ODO (M749), carry the selection and same-scale caveats; resolve or document the jump-rule difference first; not part of M752",
+ "needs_andrii_signoff": false
+}

@@ -1,0 +1,1024 @@
+{
+ "milestone": "M752",
+ "spec": "analyses/M752_spec.md Rev 2",
+ "role": "report-only; cloud-reported, interpolated odometer at drive ends; differences to the logged distance",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "registeredMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "storeManifestSha256": "7cbab168a882a561f55005e27a6fe484b91eb450c7e1bc2a2b6e0a37b25b3a96",
+ "seed": 42,
+ "nBoot": 4000,
+ "toolSha256": "741bc24b8ac4eeed7bbdf98f93658a9ff66f6487e01f59418aa8b6ade7ae9037",
+ "control_V0": {
+  "cloudGainKm": 13285.0390625,
+  "registeredGainKm": 13285.0390625,
+  "status": "reproduced"
+ },
+ "P4_integrity": {
+  "rows": 39641,
+  "conflict": 4,
+  "nonnumeric": 0,
+  "accepted": 39637,
+  "negativeSteps": 17,
+  "levelExcursions": 17,
+  "maxExcursionKm": 101.35
+ },
+ "P0_coverage": {
+  "drives": 717,
+  "E_int": {
+   "available": 584,
+   "unavailableByReason": {
+    "no_row_within_cap": 100,
+    "odometer_jump": 17,
+    "hole": 12,
+    "outside_span": 4
+   }
+  },
+  "E_br": {
+   "available": 584,
+   "unavailableByReason": {
+    "no_row_within_cap": 100,
+    "odometer_jump": 17,
+    "hole": 12,
+    "outside_span": 4
+   }
+  },
+  "E_near": {
+   "available": 584,
+   "unavailableByReason": {
+    "no_row_within_cap": 112,
+    "odometer_jump": 17,
+    "outside_span": 4
+   }
+  },
+  "E_near60": {
+   "available": 602,
+   "unavailableByReason": {
+    "no_row_within_cap": 94,
+    "odometer_jump": 17,
+    "outside_span": 4
+   }
+  },
+  "E_int_shift16": {
+   "available": 591,
+   "unavailableByReason": {
+    "no_row_within_cap": 93,
+    "odometer_jump": 17,
+    "hole": 12,
+    "outside_span": 4
+   }
+  }
+ },
+ "P0_selection_check": {
+  "byStratum": {
+   "below2km": {
+    "drives": 184,
+    "available": 161
+   },
+   "2to10km": {
+    "drives": 344,
+    "available": 283
+   },
+   "10kmplus": {
+    "drives": 189,
+    "available": 140
+   }
+  },
+  "byMonth": {
+   "2026-05": {
+    "drives": 38,
+    "available": 34
+   },
+   "2026-06": {
+    "drives": 63,
+    "available": 52
+   },
+   "2026-07": {
+    "drives": 93,
+    "available": 90
+   },
+   "2026-08": {
+    "drives": 111,
+    "available": 77
+   },
+   "2026-09": {
+    "drives": 186,
+    "available": 173
+   },
+   "2026-10": {
+    "drives": 115,
+    "available": 64
+   },
+   "2026-11": {
+    "drives": 111,
+    "available": 94
+   }
+  }
+ },
+ "P1_agreement": {
+  "E_int": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 573,
+     "nDays": 132,
+     "median": {
+      "est": 0.08047,
+      "ci95": [
+       0.06953,
+       0.09063
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08203,
+      "ci95": [
+       0.07344,
+       0.09141
+      ]
+     },
+     "p90Abs": {
+      "est": 0.38016,
+      "ci95": [
+       0.30922,
+       0.52891
+      ]
+     },
+     "relative": {
+      "est": 0.01235,
+      "ci95": [
+       0.0108,
+       0.01459
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 155,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 281,
+     "nDays": 108,
+     "median": {
+      "est": 0.06875,
+      "ci95": [
+       0.06016,
+       0.08125
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07734,
+      "ci95": [
+       0.06094,
+       0.08281
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17109,
+      "ci95": [
+       0.15,
+       0.20156
+      ]
+     },
+     "relative": {
+      "est": 0.02281,
+      "ci95": [
+       0.01969,
+       0.02624
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 137,
+     "nDays": 74,
+     "median": {
+      "est": 0.31719,
+      "ci95": [
+       0.27812,
+       0.35781
+      ]
+     },
+     "medianAbs": {
+      "est": 0.31719,
+      "ci95": [
+       0.27812,
+       0.35781
+      ]
+     },
+     "p90Abs": {
+      "est": 1.10281,
+      "ci95": [
+       0.75267,
+       1.34766
+      ]
+     },
+     "relative": {
+      "est": 0.01031,
+      "ci95": [
+       0.00893,
+       0.01232
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 418,
+    "nDays": 130,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09766,
+      0.12969
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11224,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47281,
+     "ci95": [
+      0.36523,
+      0.70026
+     ]
+    },
+    "relative": {
+     "est": 0.01195,
+     "ci95": [
+      0.01044,
+      0.01414
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 418,
+    "nDays": 130,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09766,
+      0.12969
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11224,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47281,
+     "ci95": [
+      0.36523,
+      0.70026
+     ]
+    },
+    "relative": {
+     "est": 0.01195,
+     "ci95": [
+      0.01044,
+      0.01414
+     ]
+    }
+   }
+  },
+  "E_br": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 573,
+     "nDays": 132,
+     "median": {
+      "est": 0.08203,
+      "ci95": [
+       0.07539,
+       0.09219
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08281,
+      "ci95": [
+       0.07734,
+       0.09297
+      ]
+     },
+     "p90Abs": {
+      "est": 0.38859,
+      "ci95": [
+       0.31016,
+       0.52891
+      ]
+     },
+     "relative": {
+      "est": 0.01277,
+      "ci95": [
+       0.01115,
+       0.01509
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 155,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 281,
+     "nDays": 108,
+     "median": {
+      "est": 0.07344,
+      "ci95": [
+       0.06484,
+       0.0875
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07734,
+      "ci95": [
+       0.06836,
+       0.08867
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17188,
+      "ci95": [
+       0.15,
+       0.20156
+      ]
+     },
+     "relative": {
+      "est": 0.02442,
+      "ci95": [
+       0.02152,
+       0.02775
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 137,
+     "nDays": 74,
+     "median": {
+      "est": 0.31875,
+      "ci95": [
+       0.28047,
+       0.36016
+      ]
+     },
+     "medianAbs": {
+      "est": 0.31875,
+      "ci95": [
+       0.28047,
+       0.36016
+      ]
+     },
+     "p90Abs": {
+      "est": 1.11547,
+      "ci95": [
+       0.75273,
+       1.34766
+      ]
+     },
+     "relative": {
+      "est": 0.01043,
+      "ci95": [
+       0.00904,
+       0.01246
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 418,
+    "nDays": 130,
+    "median": {
+     "est": 0.11875,
+     "ci95": [
+      0.09922,
+      0.1332
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11914,
+     "ci95": [
+      0.1,
+      0.13828
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47281,
+     "ci95": [
+      0.36684,
+      0.71016
+     ]
+    },
+    "relative": {
+     "est": 0.01226,
+     "ci95": [
+      0.0107,
+      0.01454
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 418,
+    "nDays": 130,
+    "median": {
+     "est": 0.11875,
+     "ci95": [
+      0.09922,
+      0.1332
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11914,
+     "ci95": [
+      0.1,
+      0.13828
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47281,
+     "ci95": [
+      0.36684,
+      0.71016
+     ]
+    },
+    "relative": {
+     "est": 0.01226,
+     "ci95": [
+      0.0107,
+      0.01454
+     ]
+    }
+   }
+  },
+  "E_near": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 573,
+     "nDays": 132,
+     "median": {
+      "est": 0.07891,
+      "ci95": [
+       0.06953,
+       0.08984
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08047,
+      "ci95": [
+       0.07227,
+       0.09141
+      ]
+     },
+     "p90Abs": {
+      "est": 0.36234,
+      "ci95": [
+       0.29844,
+       0.46205
+      ]
+     },
+     "relative": {
+      "est": 0.01255,
+      "ci95": [
+       0.01102,
+       0.01479
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 156,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 284,
+     "nDays": 109,
+     "median": {
+      "est": 0.06914,
+      "ci95": [
+       0.05938,
+       0.07969
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07539,
+      "ci95": [
+       0.06094,
+       0.08281
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17109,
+      "ci95": [
+       0.14945,
+       0.19922
+      ]
+     },
+     "relative": {
+      "est": 0.02248,
+      "ci95": [
+       0.01945,
+       0.02588
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 133,
+     "nDays": 74,
+     "median": {
+      "est": 0.30937,
+      "ci95": [
+       0.27539,
+       0.35781
+      ]
+     },
+     "medianAbs": {
+      "est": 0.30937,
+      "ci95": [
+       0.27539,
+       0.35781
+      ]
+     },
+     "p90Abs": {
+      "est": 1.13531,
+      "ci95": [
+       0.71483,
+       1.34766
+      ]
+     },
+     "relative": {
+      "est": 0.01052,
+      "ci95": [
+       0.00907,
+       0.01251
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 417,
+    "nDays": 131,
+    "median": {
+     "est": 0.10938,
+     "ci95": [
+      0.09219,
+      0.12617
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11016,
+     "ci95": [
+      0.09843,
+      0.12969
+     ]
+    },
+    "p90Abs": {
+     "est": 0.45453,
+     "ci95": [
+      0.36172,
+      0.58141
+     ]
+    },
+    "relative": {
+     "est": 0.01216,
+     "ci95": [
+      0.01065,
+      0.01431
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 417,
+    "nDays": 131,
+    "median": {
+     "est": 0.10938,
+     "ci95": [
+      0.09219,
+      0.12617
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11016,
+     "ci95": [
+      0.09843,
+      0.12969
+     ]
+    },
+    "p90Abs": {
+     "est": 0.45453,
+     "ci95": [
+      0.36172,
+      0.58141
+     ]
+    },
+    "relative": {
+     "est": 0.01216,
+     "ci95": [
+      0.01065,
+      0.01431
+     ]
+    }
+   }
+  },
+  "E_near60": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 591,
+     "nDays": 132,
+     "median": {
+      "est": 0.07891,
+      "ci95": [
+       0.06953,
+       0.09023
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08125,
+      "ci95": [
+       0.07734,
+       0.09219
+      ]
+     },
+     "p90Abs": {
+      "est": 0.37031,
+      "ci95": [
+       0.30859,
+       0.48594
+      ]
+     },
+     "relative": {
+      "est": 0.01223,
+      "ci95": [
+       0.01074,
+       0.01429
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 156,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 294,
+     "nDays": 110,
+     "median": {
+      "est": 0.06914,
+      "ci95": [
+       0.05938,
+       0.07891
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07305,
+      "ci95": [
+       0.06133,
+       0.08203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17109,
+      "ci95": [
+       0.14969,
+       0.19922
+      ]
+     },
+     "relative": {
+      "est": 0.02234,
+      "ci95": [
+       0.01944,
+       0.02553
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 141,
+     "nDays": 76,
+     "median": {
+      "est": 0.3125,
+      "ci95": [
+       0.27812,
+       0.35781
+      ]
+     },
+     "medianAbs": {
+      "est": 0.3125,
+      "ci95": [
+       0.27812,
+       0.35781
+      ]
+     },
+     "p90Abs": {
+      "est": 1.07031,
+      "ci95": [
+       0.78052,
+       1.34766
+      ]
+     },
+     "relative": {
+      "est": 0.01026,
+      "ci95": [
+       0.00894,
+       0.01221
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 435,
+    "nDays": 131,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09766,
+      0.12969
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11328,
+     "ci95": [
+      0.09844,
+      0.13086
+     ]
+    },
+    "p90Abs": {
+     "est": 0.45922,
+     "ci95": [
+      0.36219,
+      0.69689
+     ]
+    },
+    "relative": {
+     "est": 0.01186,
+     "ci95": [
+      0.01042,
+      0.01392
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 435,
+    "nDays": 131,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09766,
+      0.12969
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11328,
+     "ci95": [
+      0.09844,
+      0.13086
+     ]
+    },
+    "p90Abs": {
+     "est": 0.45922,
+     "ci95": [
+      0.36219,
+      0.69689
+     ]
+    },
+    "relative": {
+     "est": 0.01186,
+     "ci95": [
+      0.01042,
+      0.01392
+     ]
+    }
+   }
+  },
+  "E_int_shift16": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 580,
+     "nDays": 132,
+     "median": {
+      "est": 0.08047,
+      "ci95": [
+       0.07109,
+       0.09062
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08086,
+      "ci95": [
+       0.07109,
+       0.09063
+      ]
+     },
+     "p90Abs": {
+      "est": 0.37117,
+      "ci95": [
+       0.31155,
+       0.50297
+      ]
+     },
+     "relative": {
+      "est": 0.0126,
+      "ci95": [
+       0.01103,
+       0.01487
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 155,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 288,
+     "nDays": 109,
+     "median": {
+      "est": 0.07109,
+      "ci95": [
+       0.06094,
+       0.08203
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07227,
+      "ci95": [
+       0.06094,
+       0.08277
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17109,
+      "ci95": [
+       0.14965,
+       0.20031
+      ]
+     },
+     "relative": {
+      "est": 0.02363,
+      "ci95": [
+       0.02074,
+       0.02692
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 137,
+     "nDays": 74,
+     "median": {
+      "est": 0.31953,
+      "ci95": [
+       0.27969,
+       0.36016
+      ]
+     },
+     "medianAbs": {
+      "est": 0.31953,
+      "ci95": [
+       0.27969,
+       0.36016
+      ]
+     },
+     "p90Abs": {
+      "est": 1.10813,
+      "ci95": [
+       0.75273,
+       1.34766
+      ]
+     },
+     "relative": {
+      "est": 0.0104,
+      "ci95": [
+       0.00902,
+       0.01242
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 425,
+    "nDays": 131,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09805,
+      0.13087
+     ]
+    },
+    "medianAbs": {
+     "est": 0.1125,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.46422,
+     "ci95": [
+      0.36812,
+      0.68562
+     ]
+    },
+    "relative": {
+     "est": 0.01216,
+     "ci95": [
+      0.01064,
+      0.01443
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 425,
+    "nDays": 131,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09805,
+      0.13087
+     ]
+    },
+    "medianAbs": {
+     "est": 0.1125,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.46422,
+     "ci95": [
+      0.36812,
+      0.68562
+     ]
+    },
+    "relative": {
+     "est": 0.01216,
+     "ci95": [
+      0.01064,
+      0.01443
+     ]
+    }
+   }
+  }
+ },
+ "P1_verdict_wording": {
+  "primary_E_int_identity_ge2km": {
+   "within1pct": "aggregate relative difference 1.20 % [1.04, 1.41] reaches beyond +-1 %",
+   "within3pct": "consistent within +-3 %"
+  }
+ },
+ "P2_resolution": {
+  "smallestPositiveCloudIncrementKm": 0.00781,
+  "loggedResolutionKm": 0.1,
+  "note": "a per-drive difference below the combined resolution is not read as disagreement"
+ },
+ "P3_anchor": {
+  "dashOdoKm": 48110.0,
+  "cloudLastOdoKm": 48104.809,
+  "loggedKmAfterLastRow": 5.6,
+  "cloudPlusLogged": 48110.409,
+  "differenceKm": -0.409,
+  "withinTolerance": true,
+  "n": 1,
+  "note": "single-point, one-sided plausibility check (no interval): the dash reading is an integer, probably truncated, and unlogged driving after the last row cannot be ruled out",
+  "odometerAsOf": "2026-11-20"
+ },
+ "reading": "consistent with the cloud-reported odometer; both counters rest on the same wheel-speed scale so a common scale error is undetectable; E_int is a lower and E_br an upper bracket; not distance accuracy",
+ "scope": "report-only: no master column, payload or dashboard change; never substituted into distance_km or the logged-share KPI",
+ "seconds": 13.9
+}
