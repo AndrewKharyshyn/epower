@@ -1,0 +1,31 @@
+{
+ "milestone": "M754",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M754_spec.md Rev 1",
+ "decision": "revise",
+ "rulings_adopted_in": "section 9 (Rev 2)",
+ "required_changes": [
+  "t_a definition per set; same for the K1 age",
+  "one D anchor definition for K2 and K3, the other as sensitivity",
+  "report exclusions of e_a > 10 and e_b > 1 per set and parked-time bin; e_b > 3 C and ambient-of-a sensitivities",
+  "D1 sensitivity",
+  "clean rule for drives a and b",
+  "state and check the local-to-UTC conversion in V0",
+  "list drives lost because _battery_temp_traj skips files without pack-sensor columns",
+  "move the M753 owner-decision note out of the M754 spec"
+ ],
+ "answers": {
+  "a": "S_cloud vs S_obd is the only true pair; D vs S_cloud is a joint day-bootstrap; rename the 'unlogged effect'",
+  "b": "parked range 0.25-6 h primary and 0.25-24 h sensitivity for all sets; through-origin primary, intercept fit as sensitivity",
+  "c": "floors fine; K1 keeps the rule but reports the mean and states a stable offset as an offset",
+  "d": "K2 descriptive; cloud vs cloud primary; fixed tercile basis",
+  "e": "no anchor-outcome leakage; ambient is shared; the e_b filter selects on the outcome; D selection by snapshot existence needs K4"
+ },
+ "risks": [
+  "pack wording: only engine coolant",
+  "unlogged effect reads as causal without the rename",
+  "D_cloud likely below the floor: counts only",
+  "key-off snapshot is a hypothesis label"
+ ],
+ "needs_andrii_signoff": false
+}
