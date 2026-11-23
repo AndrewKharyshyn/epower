@@ -1,0 +1,29 @@
+{
+ "milestone": "M751",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M751_spec.md Rev 1",
+ "decision": "revise",
+ "rulings_adopted_in": "section 9 (Rev 2)",
+ "answers": {
+  "a": "exclusion-only; B and C are lower bounds, not a bracket",
+  "b": "keep 20 pairs / 10 days; 5 pp is a judgement threshold; tau band [0.80,1.25] on the decay-rate scale",
+  "c": "arrival day primary; departure-day and ISO-week sensitivities",
+  "d": "Sonnet blind audit is enough",
+  "e": "join on ordered (prev,next); assert unique names and |gap_h diff| <= 0.01 h; reason codes; reconcile 716 vs 706"
+ },
+ "required_changes": [
+  "lower-bound wording; fewer than 3 supported bins is not established",
+  "D1 sub-sensitivity with moved_km >= 1",
+  "tau truncation reporting; E2 medians primary",
+  "E2 sensitivity with initExcess > 3 C",
+  "S-vs-D contrast with day interval, labelled confounded",
+  "report U and X shares and month mix of B vs A"
+ ],
+ "risks": [
+  "undetected contamination remains in S",
+  "B selects on cloud coverage",
+  "tau truncation interacts with exclusion",
+  "ambient-reference artefact dominates 12 h+ bins",
+  "24 h+ bin not estimable"
+ ]
+}
