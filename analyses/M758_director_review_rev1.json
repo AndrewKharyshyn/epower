@@ -1,0 +1,26 @@
+{
+ "milestone": "M758",
+ "spec": "analyses/M758_spec.md Rev 1",
+ "decision": "revise",
+ "rulings": {
+  "a": "carried block acceptable; registered-corpus label always shown; M746 not a prerequisite",
+  "b": "show B and C, C first, C1 out",
+  "c": "owner paragraph byte-identical; pointer in the table lead-in",
+  "d": "not sufficient; add forbidden/required terms, 12-24 h verbatim wording",
+  "e": "Sonnet blind audit enough for display"
+ },
+ "limits": [
+  "M756 audit not leaf-exact (6-12 h A-C 6.52 vs 7.19; tauB 9.79 vs 9.53)",
+  "B and C are lower bounds, B selects on cloud coverage",
+  "tau fit conditions on the outcome",
+  "small cells (B 32, C 46 at 6-12 h)"
+ ],
+ "spec_changes": [
+  "single basis M756/M755",
+  "R1 add medA(6-12h)==heatSoakCarryover at registered MD5",
+  "12-24 h clause and audit-residual footnote",
+  "days per cell only if in the result"
+ ],
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session from the research-director hand-back (no Write tool)"
+}
