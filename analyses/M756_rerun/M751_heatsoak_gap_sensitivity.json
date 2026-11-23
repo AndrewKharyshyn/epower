@@ -1,0 +1,1284 @@
+{
+ "milestone": "M751",
+ "spec": "analyses/M751_spec.md Rev 2",
+ "role": "report-only sensitivity of the published heat-soak carryover to unlogged driving (lower bounds; exclusion only)",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "registeredMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "m729GapsSha256": "d1d3f8e9da732e7c58212c3bcf5718e05304a186df4f45e567d8799c704d159f",
+ "seed": 42,
+ "nBoot": 4000,
+ "toolSha256": "7535aa14f3dc622f0e9d638efbf0ff7bcc7c585be7434af84f9b56ea70fddef3",
+ "control_V0": {
+  "differences": [],
+  "status": "reproduced"
+ },
+ "reconciliation": {
+  "pairs": 706,
+  "m729_gaps": 716,
+  "matched": 705,
+  "no_m729_row": 0,
+  "gap_mismatch": 1,
+  "m729_gaps_without_a_pair": 10
+ },
+ "unlogged_shares": {
+  "S": 504,
+  "D": 93,
+  "U": 103,
+  "X": 6
+ },
+ "d1PairsMovedKmAtLeast1": 68,
+ "E1_composition_by_gap_bin": {
+  "0-1": {
+   "n": 376,
+   "S": 302,
+   "D": 20,
+   "U": 51,
+   "X": 3,
+   "dGapHoursShare": 0.055,
+   "dMedianHoursSinceLastMove": 0.12,
+   "dMedianNominalGapH": 0.13
+  },
+  "1-3": {
+   "n": 109,
+   "S": 76,
+   "D": 13,
+   "U": 20,
+   "X": 0,
+   "dGapHoursShare": 0.113,
+   "dMedianHoursSinceLastMove": 0.71,
+   "dMedianNominalGapH": 1.62
+  },
+  "3-6": {
+   "n": 47,
+   "S": 35,
+   "D": 7,
+   "U": 5,
+   "X": 0,
+   "dGapHoursShare": 0.135,
+   "dMedianHoursSinceLastMove": 1.29,
+   "dMedianNominalGapH": 3.7
+  },
+  "6-12": {
+   "n": 73,
+   "S": 37,
+   "D": 22,
+   "U": 14,
+   "X": 0,
+   "dGapHoursShare": 0.298,
+   "dMedianHoursSinceLastMove": 1.47,
+   "dMedianNominalGapH": 10.25
+  },
+  "12-24": {
+   "n": 76,
+   "S": 44,
+   "D": 20,
+   "U": 12,
+   "X": 0,
+   "dGapHoursShare": 0.281,
+   "dMedianHoursSinceLastMove": 11.75,
+   "dMedianNominalGapH": 18.26
+  },
+  "24-": {
+   "n": 25,
+   "S": 10,
+   "D": 11,
+   "U": 1,
+   "X": 3,
+   "dGapHoursShare": 0.427,
+   "dMedianHoursSinceLastMove": 16.83,
+   "dMedianNominalGapH": 41.39
+  }
+ },
+ "E2_retained_fraction_shift": {
+  "primaryArrivalDay": [
+   {
+    "gapLoH": 0,
+    "gapHiH": 1,
+    "nAmbA": 350,
+    "medA": 1.0,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 279,
+     "days": 105,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 331,
+     "days": 112,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 345,
+     "days": 113,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 1,
+    "gapHiH": 3,
+    "nAmbA": 96,
+    "medA": 0.8824,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 64,
+     "days": 47,
+     "supported": true,
+     "med": 0.8824,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      -1.83,
+      1.79
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 2.36,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 84,
+     "days": 61,
+     "supported": true,
+     "med": 0.8824,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      -1.02,
+      1.44
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 1.56,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 91,
+     "days": 64,
+     "supported": true,
+     "med": 0.875,
+     "shiftPp": 0.74,
+     "ci95Pp": [
+      0.0,
+      2.48
+     ],
+     "relativeShift": 0.008,
+     "mdePp": 1.77,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 3,
+    "gapHiH": 6,
+    "nAmbA": 41,
+    "medA": 0.7222,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 29,
+     "days": 25,
+     "supported": true,
+     "med": 0.7,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      -0.18,
+      10.0
+     ],
+     "relativeShift": 0.031,
+     "mdePp": 8.04,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 34,
+     "days": 30,
+     "supported": true,
+     "med": 0.7,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      0.0,
+      7.66
+     ],
+     "relativeShift": 0.031,
+     "mdePp": 6.02,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 35,
+     "days": 31,
+     "supported": true,
+     "med": 0.7,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      0.0,
+      8.66
+     ],
+     "relativeShift": 0.031,
+     "mdePp": 6.58,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 6,
+    "gapHiH": 12,
+    "nAmbA": 66,
+    "medA": 0.3537,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 32,
+     "days": 29,
+     "supported": true,
+     "med": 0.2727,
+     "shiftPp": 8.1,
+     "ci95Pp": [
+      2.85,
+      17.97
+     ],
+     "relativeShift": 0.229,
+     "mdePp": 10.48,
+     "verdict": "material"
+    },
+    "C": {
+     "nAmb": 46,
+     "days": 42,
+     "supported": true,
+     "med": 0.2817,
+     "shiftPp": 7.19,
+     "ci95Pp": [
+      2.45,
+      12.98
+     ],
+     "relativeShift": 0.203,
+     "mdePp": 7.46,
+     "verdict": "material"
+    },
+    "C1": {
+     "nAmb": 47,
+     "days": 43,
+     "supported": true,
+     "med": 0.2857,
+     "shiftPp": 6.8,
+     "ci95Pp": [
+      2.23,
+      12.49
+     ],
+     "relativeShift": 0.192,
+     "mdePp": 7.23,
+     "verdict": "material"
+    }
+   },
+   {
+    "gapLoH": 12,
+    "gapHiH": 24,
+    "nAmbA": 73,
+    "medA": 0.0625,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 41,
+     "days": 41,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      14.31
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 11.32,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 53,
+     "days": 53,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      15.95
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 11.36,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 53,
+     "days": 53,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      15.95
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 11.36,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 24,
+    "gapHiH": null,
+    "nAmbA": 24,
+    "medA": -0.0109,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 10,
+     "days": 10,
+     "supported": false,
+     "med": -0.1409,
+     "verdict": "not estimable at this support"
+    },
+    "C": {
+     "nAmb": 14,
+     "days": 14,
+     "supported": false,
+     "med": -0.0976,
+     "verdict": "not estimable at this support"
+    },
+    "C1": {
+     "nAmb": 14,
+     "days": 14,
+     "supported": false,
+     "med": -0.0976,
+     "verdict": "not estimable at this support"
+    }
+   }
+  ],
+  "sensitivityDepartureDay": [
+   {
+    "gapLoH": 0,
+    "gapHiH": 1,
+    "nAmbA": 350,
+    "medA": 1.0,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 279,
+     "days": 105,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 331,
+     "days": 112,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 345,
+     "days": 113,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 1,
+    "gapHiH": 3,
+    "nAmbA": 96,
+    "medA": 0.8824,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 64,
+     "days": 47,
+     "supported": true,
+     "med": 0.8824,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      -1.83,
+      1.79
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 2.36,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 84,
+     "days": 61,
+     "supported": true,
+     "med": 0.8824,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      -1.02,
+      1.44
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 1.56,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 91,
+     "days": 64,
+     "supported": true,
+     "med": 0.875,
+     "shiftPp": 0.74,
+     "ci95Pp": [
+      0.0,
+      2.48
+     ],
+     "relativeShift": 0.008,
+     "mdePp": 1.77,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 3,
+    "gapHiH": 6,
+    "nAmbA": 41,
+    "medA": 0.7222,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 29,
+     "days": 25,
+     "supported": true,
+     "med": 0.7,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      -0.18,
+      10.0
+     ],
+     "relativeShift": 0.031,
+     "mdePp": 8.04,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 34,
+     "days": 30,
+     "supported": true,
+     "med": 0.7,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      0.0,
+      7.66
+     ],
+     "relativeShift": 0.031,
+     "mdePp": 6.02,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 35,
+     "days": 31,
+     "supported": true,
+     "med": 0.7,
+     "shiftPp": 2.22,
+     "ci95Pp": [
+      0.0,
+      8.66
+     ],
+     "relativeShift": 0.031,
+     "mdePp": 6.58,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 6,
+    "gapHiH": 12,
+    "nAmbA": 66,
+    "medA": 0.3537,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 32,
+     "days": 31,
+     "supported": true,
+     "med": 0.2727,
+     "shiftPp": 8.1,
+     "ci95Pp": [
+      2.81,
+      17.97
+     ],
+     "relativeShift": 0.229,
+     "mdePp": 10.89,
+     "verdict": "material"
+    },
+    "C": {
+     "nAmb": 46,
+     "days": 41,
+     "supported": true,
+     "med": 0.2817,
+     "shiftPp": 7.19,
+     "ci95Pp": [
+      2.17,
+      13.33
+     ],
+     "relativeShift": 0.203,
+     "mdePp": 8.06,
+     "verdict": "material"
+    },
+    "C1": {
+     "nAmb": 47,
+     "days": 42,
+     "supported": true,
+     "med": 0.2857,
+     "shiftPp": 6.8,
+     "ci95Pp": [
+      1.94,
+      12.73
+     ],
+     "relativeShift": 0.192,
+     "mdePp": 7.85,
+     "verdict": "material"
+    }
+   },
+   {
+    "gapLoH": 12,
+    "gapHiH": 24,
+    "nAmbA": 73,
+    "medA": 0.0625,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 41,
+     "days": 41,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      14.29
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 11.14,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 53,
+     "days": 53,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      15.55
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 11.21,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 53,
+     "days": 53,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.25,
+     "ci95Pp": [
+      0.0,
+      15.55
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 11.21,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 24,
+    "gapHiH": null,
+    "nAmbA": 24,
+    "medA": -0.0109,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 10,
+     "days": 10,
+     "supported": false,
+     "med": -0.1409,
+     "verdict": "not estimable at this support"
+    },
+    "C": {
+     "nAmb": 14,
+     "days": 14,
+     "supported": false,
+     "med": -0.0976,
+     "verdict": "not estimable at this support"
+    },
+    "C1": {
+     "nAmb": 14,
+     "days": 14,
+     "supported": false,
+     "med": -0.0976,
+     "verdict": "not estimable at this support"
+    }
+   }
+  ],
+  "sensitivityInitExcessAbove3C": [
+   {
+    "gapLoH": 0,
+    "gapHiH": 1,
+    "nAmbA": 306,
+    "medA": 1.0,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 243,
+     "days": 99,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 289,
+     "days": 106,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 301,
+     "days": 107,
+     "supported": true,
+     "med": 1.0,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      0.0,
+      0.0
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 0.0,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 1,
+    "gapHiH": 3,
+    "nAmbA": 85,
+    "medA": 0.875,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 59,
+     "days": 44,
+     "supported": true,
+     "med": 0.8824,
+     "shiftPp": -0.74,
+     "ci95Pp": [
+      -2.52,
+      0.94
+     ],
+     "relativeShift": -0.008,
+     "mdePp": 2.38,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 74,
+     "days": 57,
+     "supported": true,
+     "med": 0.875,
+     "shiftPp": 0.0,
+     "ci95Pp": [
+      -0.74,
+      1.93
+     ],
+     "relativeShift": 0.0,
+     "mdePp": 1.94,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 80,
+     "days": 59,
+     "supported": true,
+     "med": 0.873,
+     "shiftPp": 0.2,
+     "ci95Pp": [
+      0.0,
+      2.52
+     ],
+     "relativeShift": 0.002,
+     "mdePp": 2.03,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 3,
+    "gapHiH": 6,
+    "nAmbA": 37,
+    "medA": 0.7273,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 27,
+     "days": 23,
+     "supported": true,
+     "med": 0.7,
+     "shiftPp": 2.73,
+     "ci95Pp": [
+      -0.12,
+      8.98
+     ],
+     "relativeShift": 0.037,
+     "mdePp": 7.12,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 31,
+     "days": 27,
+     "supported": true,
+     "med": 0.7143,
+     "shiftPp": 1.3,
+     "ci95Pp": [
+      0.0,
+      6.36
+     ],
+     "relativeShift": 0.018,
+     "mdePp": 4.95,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 32,
+     "days": 28,
+     "supported": true,
+     "med": 0.7071,
+     "shiftPp": 2.01,
+     "ci95Pp": [
+      0.0,
+      7.02
+     ],
+     "relativeShift": 0.028,
+     "mdePp": 5.41,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 6,
+    "gapHiH": 12,
+    "nAmbA": 63,
+    "medA": 0.3462,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 32,
+     "days": 29,
+     "supported": true,
+     "med": 0.2727,
+     "shiftPp": 7.34,
+     "ci95Pp": [
+      2.2,
+      16.67
+     ],
+     "relativeShift": 0.212,
+     "mdePp": 10.47,
+     "verdict": "material"
+    },
+    "C": {
+     "nAmb": 46,
+     "days": 42,
+     "supported": true,
+     "med": 0.2817,
+     "shiftPp": 6.44,
+     "ci95Pp": [
+      1.38,
+      10.96
+     ],
+     "relativeShift": 0.186,
+     "mdePp": 6.89,
+     "verdict": "material"
+    },
+    "C1": {
+     "nAmb": 47,
+     "days": 43,
+     "supported": true,
+     "med": 0.2857,
+     "shiftPp": 6.04,
+     "ci95Pp": [
+      1.3,
+      10.18
+     ],
+     "relativeShift": 0.175,
+     "mdePp": 6.6,
+     "verdict": "material"
+    }
+   },
+   {
+    "gapLoH": 12,
+    "gapHiH": 24,
+    "nAmbA": 70,
+    "medA": 0.0697,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 40,
+     "days": 40,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.97,
+     "ci95Pp": [
+      0.0,
+      13.85
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 10.84,
+     "verdict": "not distinguishable"
+    },
+    "C": {
+     "nAmb": 51,
+     "days": 51,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.97,
+     "ci95Pp": [
+      0.0,
+      14.31
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 10.36,
+     "verdict": "not distinguishable"
+    },
+    "C1": {
+     "nAmb": 51,
+     "days": 51,
+     "supported": true,
+     "med": 0.0,
+     "shiftPp": 6.97,
+     "ci95Pp": [
+      0.0,
+      14.31
+     ],
+     "relativeShift": 1.0,
+     "mdePp": 10.36,
+     "verdict": "not distinguishable"
+    }
+   },
+   {
+    "gapLoH": 24,
+    "gapHiH": null,
+    "nAmbA": 22,
+    "medA": -0.0109,
+    "skippedDraws": 0,
+    "B": {
+     "nAmb": 9,
+     "days": 9,
+     "supported": false,
+     "med": -0.1,
+     "verdict": "not estimable at this support"
+    },
+    "C": {
+     "nAmb": 13,
+     "days": 13,
+     "supported": false,
+     "med": -0.0952,
+     "verdict": "not estimable at this support"
+    },
+    "C1": {
+     "nAmb": 13,
+     "days": 13,
+     "supported": false,
+     "med": -0.0952,
+     "verdict": "not estimable at this support"
+    }
+   }
+  ]
+ },
+ "E3_tau": {
+  "A": {
+   "nAmbBeforeFilter": 706,
+   "nFit": 531,
+   "slope": -0.090122,
+   "decayRateK": 0.09012,
+   "decayRateKCI": [
+    0.07798,
+    0.10321
+   ],
+   "tauH": 11.1,
+   "tauCI": [
+    9.69,
+    12.82
+   ],
+   "clusteringTable": [
+    {
+     "id": "iidPairsB4000",
+     "nClusters": null,
+     "tauCI": [
+      9.78,
+      12.65
+     ],
+     "decayRateKCI": [
+      0.07903,
+      0.10221
+     ]
+    },
+    {
+     "id": "arrivalDay",
+     "nClusters": 125,
+     "tauCI": [
+      9.69,
+      12.82
+     ],
+     "decayRateKCI": [
+      0.07798,
+      0.10321
+     ]
+    },
+    {
+     "id": "departureDay",
+     "nClusters": 125,
+     "tauCI": [
+      9.82,
+      12.62
+     ],
+     "decayRateKCI": [
+      0.07922,
+      0.10186
+     ]
+    },
+    {
+     "id": "isoWeek",
+     "nClusters": 26,
+     "tauCI": [
+      9.7,
+      12.56
+     ],
+     "decayRateKCI": [
+      0.07961,
+      0.10313
+     ]
+    }
+   ]
+  },
+  "B": {
+   "nAmbBeforeFilter": 504,
+   "nFit": 375,
+   "slope": -0.104902,
+   "decayRateK": 0.1049,
+   "decayRateKCI": [
+    0.09134,
+    0.11714
+   ],
+   "tauH": 9.53,
+   "tauCI": [
+    8.54,
+    10.95
+   ],
+   "clusteringTable": [
+    {
+     "id": "iidPairsB4000",
+     "nClusters": null,
+     "tauCI": [
+      8.61,
+      10.84
+     ],
+     "decayRateKCI": [
+      0.09228,
+      0.1162
+     ]
+    },
+    {
+     "id": "arrivalDay",
+     "nClusters": 116,
+     "tauCI": [
+      8.54,
+      10.95
+     ],
+     "decayRateKCI": [
+      0.09134,
+      0.11714
+     ]
+    },
+    {
+     "id": "departureDay",
+     "nClusters": 115,
+     "tauCI": [
+      8.62,
+      10.83
+     ],
+     "decayRateKCI": [
+      0.09235,
+      0.11605
+     ]
+    },
+    {
+     "id": "isoWeek",
+     "nClusters": 25,
+     "tauCI": [
+      8.47,
+      10.69
+     ],
+     "decayRateKCI": [
+      0.09356,
+      0.11802
+     ]
+    }
+   ],
+   "kShiftVsA": 0.01478,
+   "kShiftCI95": [
+    0.0059,
+    0.02383
+   ],
+   "kRatioAOverSet": 0.859,
+   "verdictK": "small"
+  },
+  "C": {
+   "nAmbBeforeFilter": 613,
+   "nFit": 460,
+   "slope": -0.107051,
+   "decayRateK": 0.10705,
+   "decayRateKCI": [
+    0.096,
+    0.11731
+   ],
+   "tauH": 9.34,
+   "tauCI": [
+    8.52,
+    10.42
+   ],
+   "clusteringTable": [
+    {
+     "id": "iidPairsB4000",
+     "nClusters": null,
+     "tauCI": [
+      8.57,
+      10.34
+     ],
+     "decayRateKCI": [
+      0.09675,
+      0.11674
+     ]
+    },
+    {
+     "id": "arrivalDay",
+     "nClusters": 123,
+     "tauCI": [
+      8.52,
+      10.42
+     ],
+     "decayRateKCI": [
+      0.096,
+      0.11731
+     ]
+    },
+    {
+     "id": "departureDay",
+     "nClusters": 121,
+     "tauCI": [
+      8.6,
+      10.31
+     ],
+     "decayRateKCI": [
+      0.097,
+      0.11635
+     ]
+    },
+    {
+     "id": "isoWeek",
+     "nClusters": 25,
+     "tauCI": [
+      8.5,
+      10.24
+     ],
+     "decayRateKCI": [
+      0.09765,
+      0.11758
+     ]
+    }
+   ],
+   "kShiftVsA": 0.01693,
+   "kShiftCI95": [
+    0.01054,
+    0.02386
+   ],
+   "kRatioAOverSet": 0.842,
+   "verdictK": "small"
+  },
+  "C1": {
+   "nAmbBeforeFilter": 638,
+   "nFit": 480,
+   "slope": -0.108361,
+   "decayRateK": 0.10836,
+   "decayRateKCI": [
+    0.0974,
+    0.11838
+   ],
+   "tauH": 9.23,
+   "tauCI": [
+    8.45,
+    10.27
+   ],
+   "clusteringTable": [
+    {
+     "id": "iidPairsB4000",
+     "nClusters": null,
+     "tauCI": [
+      8.49,
+      10.18
+     ],
+     "decayRateKCI": [
+      0.09825,
+      0.11774
+     ]
+    },
+    {
+     "id": "arrivalDay",
+     "nClusters": 124,
+     "tauCI": [
+      8.45,
+      10.27
+     ],
+     "decayRateKCI": [
+      0.0974,
+      0.11838
+     ]
+    },
+    {
+     "id": "departureDay",
+     "nClusters": 122,
+     "tauCI": [
+      8.53,
+      10.17
+     ],
+     "decayRateKCI": [
+      0.09832,
+      0.11717
+     ]
+    },
+    {
+     "id": "isoWeek",
+     "nClusters": 26,
+     "tauCI": [
+      8.45,
+      10.07
+     ],
+     "decayRateKCI": [
+      0.09935,
+      0.11832
+     ]
+    }
+   ],
+   "kShiftVsA": 0.01824,
+   "kShiftCI95": [
+    0.01163,
+    0.02526
+   ],
+   "kRatioAOverSet": 0.832,
+   "verdictK": "small"
+  }
+ },
+ "E4_S_versus_D": [
+  {
+   "gapLoH": 0,
+   "gapHiH": 1,
+   "nS": 279,
+   "nD": 19,
+   "status": "not estimable at this support"
+  },
+  {
+   "gapLoH": 1,
+   "gapHiH": 3,
+   "nS": 64,
+   "nD": 12,
+   "status": "not estimable at this support"
+  },
+  {
+   "gapLoH": 3,
+   "gapHiH": 6,
+   "nS": 29,
+   "nD": 7,
+   "status": "not estimable at this support"
+  },
+  {
+   "gapLoH": 6,
+   "gapHiH": 12,
+   "nS": 32,
+   "nD": 20,
+   "medianS": 0.2727,
+   "medianD": 1.375,
+   "diffDminusSPp": 110.23,
+   "ci95Pp": [
+    53.25,
+    210.85
+   ],
+   "label": "a class difference confounded by season, time of day and end temperature; not a contamination effect and not a correction"
+  },
+  {
+   "gapLoH": 12,
+   "gapHiH": 24,
+   "nS": 41,
+   "nD": 20,
+   "medianS": 0.0,
+   "medianD": 0.2899,
+   "diffDminusSPp": 28.99,
+   "ci95Pp": [
+    17.53,
+    44.17
+   ],
+   "label": "a class difference confounded by season, time of day and end temperature; not a contamination effect and not a correction"
+  },
+  {
+   "gapLoH": 24,
+   "gapHiH": null,
+   "nS": 10,
+   "nD": 10,
+   "status": "not estimable at this support"
+  }
+ ],
+ "monthMixArrival": {
+  "A": {
+   "2026-05": 30,
+   "2026-06": 63,
+   "2026-07": 93,
+   "2026-08": 108,
+   "2026-09": 186,
+   "2026-10": 115,
+   "2026-11": 111
+  },
+  "B": {
+   "2026-05": 20,
+   "2026-06": 40,
+   "2026-07": 81,
+   "2026-08": 72,
+   "2026-09": 152,
+   "2026-10": 63,
+   "2026-11": 76
+  }
+ },
+ "overall": "sensitive to unlogged driving (lower bound): a supported bin or tau is material under B and under C",
+ "language": "estimated cloud-derived classes; lower bounds, not corrections; unlogged means no OBD record, not no driving",
+ "scope": "report-only: no payload, dashboard or published figure changes",
+ "seconds": 751.7
+}
