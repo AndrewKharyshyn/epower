@@ -72,8 +72,10 @@ assert M.mass_bias(t2, pd.Series(np.full(120, 1900.0)), days, 50)["est"] == 0.0
 def rowd(sp, p, l, c, r):
     return {"SpeedDisplayedValueinkmh": str(sp), "SeatBeltFirstRowPassenger": str(p), "SeatBeltSecondRowLeft": str(l), "SeatBeltSecondRowCenter": str(c), "SeatBeltSecondRowRight": str(r)}
 trip = [(1000.0 + 30 * k, rowd(50, 2, 1, 1, 2)) for k in range(5)] + [(5000.0 + 30 * k, rowd(50, 2, 1, 1, 2)) for k in range(2)] + [(9000.0 + 30 * k, {**rowd(50, 2, 1, 1, 2), "SeatBeltSecondRowRight": ""}) for k in range(5)]
-pt = M.belt_patterns(trip, [("a", 1000.0, 1100.0), ("short", 5000.0, 5020.0), ("missing", 9000.0, 9100.0)])
-assert pt["a"] == {"P": 1, "L": 0, "C": 0, "R": 1} and pt["short"] is None and pt["missing"] is None
+# rows with a missing seat reading are skipped, not a reason to drop the drive: 5 moving rows, 2 of them without the rear-right reading, still give a pattern from the other 3
+trip += [(13000.0 + 30 * k_, rowd(50, 2, 1, 1, 2)) for k_ in range(3)] + [(13090.0 + 30 * k_, {**rowd(50, 2, 1, 1, 2), "SeatBeltSecondRowRight": ""}) for k_ in range(2)]
+pt = M.belt_patterns(trip, [("a", 1000.0, 1100.0), ("short", 5000.0, 5020.0), ("missing", 9000.0, 9100.0), ("partial", 13000.0, 13150.0)])
+assert pt["a"] == {"P": 1, "L": 0, "C": 0, "R": 1} and pt["short"] is None and pt["missing"] is None and pt["partial"] == {"P": 1, "L": 0, "C": 0, "R": 1}
 
 # cell comparison: published mass range, day interval and the unsupported cells
 pub = {"cohorts": {"all": {"strata": {"fast": [{"eff": 60.0, "massRange": [58.0, 62.0], "ci95": [57.0, 63.0], "status": "supported"}, {"eff": 50.0, "massRange": [49.0, 51.0], "ci95": [48.0, 52.0], "status": "thin"}]}}}}

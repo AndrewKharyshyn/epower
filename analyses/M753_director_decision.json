@@ -1,0 +1,25 @@
+{
+ "milestone": "M753",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M753_spec.md Rev 2, 2.1, 2.2, 2.3",
+ "audit": "analyses/M753_audit.json",
+ "result": "analyses/M753_mass_sensitivity.json",
+ "decision": "accept (report-only; no displayed figure changes)",
+ "allowed_wording": "Occupant-informed assumed mass (owner-estimated seat weights and luggage, an assumed mixed-highway luggage share f, belt-state proxy); the class mass is not replaced. Central S2c (within-class load deviation): median +0.02 % [p05 -0.74, p95 +1.36]; 93 of 671 comparable cells lie outside their own published mass range, so under the pre-registered rule those cells are 'sensitive' and the insensitivity claim is falsified for them; 0 lie outside their day interval. The level depends on the unknown load allowance in the class masses: S1c -2.84 % (663 outside the range, 17 outside the interval), S3 +2.83 % (647 / 24). The data cannot identify the allowance. Never: measured mass, true recovery, corrected, validated, or 'insensitive'.",
+ "conditions": [
+  "state the Rev 2.3 rule change made after the audit, with 586/131 superseded by 609/108 and the unchanged first-run conclusions",
+  "report S2c central with S2 pooled (210 outside) and the 59/199 bracket beside it",
+  "disclose that 51 ranges are narrower than 0.3 pp, so the own-range test is strict there",
+  "descent -0.01 is at the two-decimal rounding resolution: say 'no change resolvable'",
+  "implied highway class about 2,053 vs 2,000 kg (+2.6 %, 22 drives): an allowance-dependent implication, not a mass bias finding",
+  "M3: 'not informative at this support', no sign wording",
+  "carry the selection comparison of the 108 drives without a pattern, the unobserved fuel mass, the driver weight and the modal belt state"
+ ],
+ "risks": [
+  "S1c mixes re-basing the class with the occupant effect",
+  "f and the urban/mixed luggage spreads are spec assumptions",
+  "cloud-to-OBD matching"
+ ],
+ "dashboard_follow_up": "may be queued only as a separate milestone (spec, blind audit, new Director ruling); a labelled sensitivity beside the published bars, never a replacement; it must show S2c together with the S1c/S3 allowance bracket, never S1c or S3 alone; article use needs an Opus audit and the owner sign-off",
+ "needs_andrii_signoff": false
+}

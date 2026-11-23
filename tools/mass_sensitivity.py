@@ -110,17 +110,18 @@ def mass_bias(tab, mass, days, nb, seed=SEED):
 
 # ---------------------------------------------------------------------------- belt patterns from the cloud
 def belt_patterns(trip_rows, windows):
-    """trip_rows: [(t, dict)] sorted; windows: [(file, t0, t1)]. Modal latched state (code 2) over the moving rows (displayed speed above 20 km/h) inside the padded window, per seat; None without 3 moving rows with all four readings."""
+    """trip_rows: [(t, dict)] sorted; windows: [(file, t0, t1)]. Modal latched state (code 2) over the moving rows (displayed speed above 20 km/h) that carry all four seat readings inside the padded window, per seat; None with fewer than 3 such rows."""
     ts = np.array([t for t, _ in trip_rows], float)
     sp = np.array([mc.speed_kmh(x.get("SpeedDisplayedValueinkmh", "")) if x.get("SpeedDisplayedValueinkmh", "") != "" else np.nan for _, x in trip_rows], dtype=float)
     seat = {s: np.array([mc.fnum(x.get(col, "")) if x.get(col, "") != "" else np.nan for _, x in trip_rows], dtype=float) for s, col in SEATS.items()}
-    mv = np.isfinite(sp) & (sp > 20)
+    # Rev 2.3 (spec 12): the moving rows that carry all four seat readings; at least 3 such rows (rows with a missing reading are skipped, not a reason to drop the drive)
+    mv = np.isfinite(sp) & (sp > 20) & np.all([np.isfinite(seat[s_]) for s_ in SEATS], axis=0)
     out = {}
     for f, t0, t1 in windows:
         i0, i1 = int(np.searchsorted(ts, t0 - 60)), int(np.searchsorted(ts, t1 + 60))
         sel = np.arange(i0, i1)
         sel = sel[mv[sel]] if len(sel) else sel
-        if len(sel) < 3 or not all(np.isfinite(seat[s][sel]).all() for s in SEATS):
+        if len(sel) < 3:
             out[f] = None
             continue
         out[f] = {s: int(np.round(np.median((seat[s][sel] == 2).astype(float)))) for s in SEATS}
