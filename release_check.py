@@ -155,6 +155,14 @@ def payload_checks(arrays_path):
         newest and sla and all(newest not in ((sla.get(k) or {}).get("datesUncovered") or []) and (sla.get(k) or {}).get("nMismatched") == 0
                                for k in ("sessions", "sessionGroups")))
 
+    # (5b) M749: the additive cloud cross-check block (tools/cloud_payload.py, ingestion stage cloud_payload) is present, carries its status, basis and the three note items, X1 stays held back, and no
+    #      cloud kilometre, hour or odometer value is in it (a whole-file arrays rewrite with the stage skipped would otherwise drop the key silently).
+    cc = sa.get("cloudCrossChecks") or {}
+    checks["cloud cross-check block present with status, basis and notes X2-X4, X1 held back (M749)"] = bool(
+        cc and cc.get("status") == "auxiliary; not an article figure" and "not recomputed with later drives" in str(cc.get("basis"))
+        and all(cc.get(k) for k in ("x2BetweenDriveLogging", "x3Ambient", "x4Timestamps", "sourceSha256")) and cc.get("x1LoggedDistance") is None
+        and not any(w in json.dumps(cc) for w in ("total_km_cloud", "netCloudOdometerGainKm", "lowerBiasedCloudTotal")))
+
     # (6) M314: the Thermal-tab ambient table lists EVERY drive (count == corpus), each with a valid [start, *interim, end] list, and reaches the newest date.
     at = sa.get("ambientTable") or {}
     arows = at.get("rows") or []

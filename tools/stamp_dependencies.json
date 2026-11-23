@@ -473,6 +473,21 @@
     "tools/engine_state_machine_stage.py",
     "--check"
    ]
+  },
+  "cloudCrossChecks": {
+   "producer": "tools/cloud_payload.py",
+   "producerStages": [
+    "cloud_payload"
+   ],
+   "readsRaw": false,
+   "readsRawManifest": false,
+   "rawNote": "no raw read; copies registered cloud-export results (MyNISSAN, auxiliary) pinned by file sha256 in tools/cloud_payload.py",
+   "configSections": [],
+   "inputFiles": [
+    "analyses/M730_clock_offset.json",
+    "analyses/M734_thermal_forcing.json",
+    "analyses/M739_unlogged_exposure.json"
+   ]
   }
  }
 }

@@ -1,0 +1,21 @@
+{
+ "milestone": "M749",
+ "reviewer": "research-director (Opus)",
+ "decision": "accept",
+ "spec": "analyses/M749_spec.md Rev 4",
+ "audit": "analyses/M749_audit.json",
+ "conditions": [
+  "rerun release_check.py on the final build; it asserts cloudCrossChecks (the Rev 2 7.7 text names cloudAuxiliary, renamed in 8.2/9.5)",
+  "release-gate green on the PR head; cloud_payload byte-identical on a rerun; drive_master.csv and analyses/M717_* hashes unchanged; file sha256 pins in the CHANGELOG entry",
+  "X2 interval phrase generated from the derived directions ('day intervals exclude zero' only when all three exclude zero), done in the JSX",
+  "known-answer test covers the direction words (derived, never typed) and the x1 null plus heldBack item (done)"
+ ],
+ "risks": [
+  "X3 median 0 C [0, 0] is display rounding (mitigated by 0.21 C and 1.72 C beside it; consider one decimal at the next touch)",
+  "one shared basis/status line after X3 and X4 in the thermal tab; separate notes would each need their own",
+  "X1 held back until an addendum supplies n_days and a day-bootstrap interval",
+  "the 717-drive snapshot basis ages with ingestions; never compute uncovered as live n minus 717",
+  "'independent' means a separate export path, not a separate sensor; keep the caveat wherever it appears"
+ ],
+ "needs_andrii_signoff": false
+}

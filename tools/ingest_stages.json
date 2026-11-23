@@ -1426,6 +1426,19 @@
    ]
   },
   {
+   "id": "cloud_payload",
+   "title": "M749 (spec analyses/M749_spec.md Rev 4): additive payload block cloudCrossChecks (cross-check notes X2 between-drive logging, X3 ambient, X4 timestamps from the registered MyNISSAN cloud-export results, auxiliary, pinned by file sha256; X1 held back); copies registered values only, never the M746 retests; fails closed (exit 3, nothing written) on a pin mismatch or a missing source; byte-identical on unchanged sources; its stamp is derived by the stamp_dependencies stage",
+   "cmd": [
+    "python3",
+    "tools/cloud_payload.py",
+    "--splice"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "stamp_basis",
    "title": "M422: artifact-stamp basis fields (includedInReleaseAt / computedAt / inputBasis, carried-block status) derived from the blocks' own fields; must run BEFORE leaf_guard (the arrays build recreates every stamp, so the M419 fields would otherwise be reported as 743 lost leaves); idempotent, writes only /_artifactStamps; restamp_ingest runs it again after re-issuing stamps",
    "cmd": [

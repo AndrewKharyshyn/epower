@@ -71112,6 +71112,58 @@
     "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    }
+  },
+  "cloudCrossChecks": {
+   "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-23T07:13:15.046286+00:00",
+   "pipelineVersion": 6,
+   "computationStatus": "computed",
+   "computationStatusNote": "M749: copied by tools/cloud_payload.py from the registered MyNISSAN cloud-export results (auxiliary; spec analyses/M749_spec.md Rev 2)",
+   "includedInReleaseAt": "2026-11-23T07:13:15.046286+00:00",
+   "computedAt": "2026-11-23T07:13:15.046286+00:00",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M749"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "inputBasis": {
+    "nDrives": 717,
+    "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "declaredIdentity": {
+    "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M730_clock_offset.json": "607686272c05896f5a62c3b214dba1f3",
+     "analyses/M734_thermal_forcing.json": "de6c5625200232481711d5481ea7964b",
+     "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff"
+    }
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+      "generatedAt": "2026-11-23T07:13:15.046286+00:00"
+     },
+     "supersededAtMilestone": "M749",
+     "supersededAt": "2026-11-23T07:13:15.963867+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "upstreamHashes": {
+    "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M730_clock_offset.json": "607686272c05896f5a62c3b214dba1f3",
+     "analyses/M734_thermal_forcing.json": "de6c5625200232481711d5481ea7964b",
+     "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff"
+    }
+   }
   }
  },
  "ambientTable": {
@@ -479129,5 +479181,64 @@
    "the strata are not comparable (cadence invariance fails); no pooled value is given",
    "a verdict of not supported is not evidence against buffer use and consistent with buffer use is not a proof; no capacity, depth-of-discharge or state-of-health quantity is estimated here"
   ]
+ },
+ "cloudCrossChecks": {
+  "basis": "snapshot registered on 717 drives (master d514d600, export span 2026-05-10 to 2026-11-19); not recomputed with later drives",
+  "registeredMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+  "sourceSha256": {
+   "M730_clock_offset.json": "930a54ee4a18e8577322d209086cad80cdf2aaca76e47a89dbd43b3fa761b3bf",
+   "M734_thermal_forcing.json": "3df29a57a5246d029cb6d7778ce1bd0bcaac9080fade286ae8ee4aa8372fb6b6",
+   "M739_unlogged_exposure.json": "9bd34b87e06fe053f267d92ea7cb988db822814b54e650a73b95c1645f5fb07f"
+  },
+  "status": "auxiliary; not an article figure",
+  "x1LoggedDistance": null,
+  "x1HeldBack": "not shown: the registered source has 431 drives and no day count or day-bootstrap interval; shown only after a registered addendum supplies them",
+  "x2BetweenDriveLogging": {
+   "label": "Independent cross-check (auxiliary): the cloud export shows 331 strict movement units on 85 days outside logged drives (units are odometer-step bursts, not trips).",
+   "strictUnits": 331,
+   "days": 85,
+   "direction": {
+    "timeBelow30": "larger",
+    "timeAbove80": "smaller",
+    "longUnits": "smaller"
+   },
+   "exportReconstructionErrorTimeShares": {
+    "medianTotalVariation": 0.065,
+    "ci95Day": [
+     0.0596,
+     0.0695
+    ],
+    "validationDrives": 641,
+    "validationDays": 135
+   },
+   "note": "Descriptive; not an effect. The cloud export comes from the same vehicle, so this checks what was recorded, not sensor accuracy. The gap kilometres above are not replaced or corrected, and no cloud kilometres or hours are shown here"
+  },
+  "x3Ambient": {
+   "label": "Independent cross-check (auxiliary): screened cloud ambient minus driver-recorded ambient",
+   "nDrives": 506,
+   "nDays": 133,
+   "median": 0.0,
+   "ci95Day": [
+    0.0,
+    0.0
+   ],
+   "medianAbs": 0.21,
+   "p90Abs": 1.72,
+   "caveat": "In-sample: the screening was tuned on these drives; likely the same vehicle sensor, so it checks recording, not sensor accuracy; no ambient value is replaced"
+  },
+  "x4Timestamps": {
+   "label": "Estimated cloud-to-OBD clock offset (auxiliary)",
+   "medianPerDriveBestS": 17.0,
+   "pooledS": 16,
+   "dayBootstrapCi95S": [
+    16.0,
+    17.0
+   ],
+   "nDrives": 517,
+   "nDays": 137,
+   "adoptGlobalOffset": false,
+   "convention": "a positive offset compares a cloud value at time t with the OBD value at t + offset",
+   "note": "Not adopted as a correction (held-out rule not met); no displayed figure uses it"
+  }
  }
 }
