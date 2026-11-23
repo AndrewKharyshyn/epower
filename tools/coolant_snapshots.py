@@ -136,6 +136,13 @@ def sen_slope(x, y):
     return float(np.median((y[j] - y[i])[ok] / dx[ok])) if ok.any() else float("nan")
 
 
+def ratio_origin_slope(x, y):
+    """Through-origin slope as the median of y / x (the Sen-through-origin of the registered spec text; the auditor's estimator): k = -median(y / x)."""
+    x, y = np.asarray(x, float), np.asarray(y, float)
+    ok = x != 0
+    return float(np.median(y[ok] / x[ok])) if ok.any() else float("nan")
+
+
 def ls_origin_slope(x, y):
     """Least-squares slope through the origin (sensitivity)."""
     x, y = np.asarray(x, float), np.asarray(y, float)
@@ -170,7 +177,7 @@ def fit_k(tab):
         return res
     x, y = tab["parkedH"].to_numpy(float), tab["y"].to_numpy(float)
     s = sen_slope(x, y)
-    res.update({"kSen": round(-s, 5), "interceptSen": round(float(np.median(y - s * x)), 4), "kThroughOriginLS": round(-ls_origin_slope(x, y), 5), "tauSenH": round(-1.0 / s, 2) if s < 0 else None})
+    res.update({"kSen": round(-s, 5), "interceptSen": round(float(np.median(y - s * x)), 4), "kThroughOriginLS": round(-ls_origin_slope(x, y), 5), "kMedianRatioOrigin": round(-ratio_origin_slope(x, y), 5), "tauSenH": round(-1.0 / s, 2) if s < 0 else None})
     return res
 
 
@@ -178,7 +185,7 @@ def supported(tab):
     return len(tab) >= N_MIN and tab["day"].nunique() >= DAYS_MIN
 
 
-def joint_boot(sets, nb, seed=SEED):
+def joint_boot(sets, nb, seed=SEED, est="sen"):
     """Joint day-clustered bootstrap: days are resampled from the union of the days of all sets; each set's pairs of the resampled days enter its own fit. sets: {name: table with day, parkedH, y}.
     Returns per-set k draws (k = -Sen slope) so differences are computed within the same resample (a true pair for sets that share gaps, a joint resample for disjoint sets)."""
     days = sorted(set().union(*[set(t["day"]) for t in sets.values() if len(t)]))
@@ -194,7 +201,8 @@ def joint_boot(sets, nb, seed=SEED):
                 out[n].append(np.nan)
                 continue
             ii = np.concatenate(idx)
-            out[n].append(-sen_slope(arr[n][0][ii], arr[n][1][ii]) if len(ii) >= 8 else np.nan)
+            slope_fn = sen_slope if est == "sen" else ratio_origin_slope
+            out[n].append(-slope_fn(arr[n][0][ii], arr[n][1][ii]) if len(ii) >= 8 else np.nan)
     return {n: np.array(v) for n, v in out.items()}
 
 
@@ -392,20 +400,25 @@ def main(argv=None):
                                 "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"}
         main_sets = {n: tabs[n] for n in ("S_obd", "S_cloud", "D_cloud") if len(tabs[n]) >= 8}
         if len(main_sets) >= 2:
-            dr = joint_boot(main_sets, a.nb)
-            for n, v in dr.items():
-                k3["sets"][n]["primary"]["kCI95"] = [round(float(np.nanpercentile(v, 2.5)), 5), round(float(np.nanpercentile(v, 97.5)), 5)]
-            comp = {}
-            for lab, (x, y) in {"S_cloud_minus_S_obd": ("S_cloud", "S_obd"), "D_cloud_minus_S_cloud": ("D_cloud", "S_cloud")}.items():
-                if x in dr and y in dr:
-                    dd = dr[x] - dr[y]
-                    lo, hi = float(np.nanpercentile(dd, 2.5)), float(np.nanpercentile(dd, 97.5))
-                    kx, ky = k3["sets"][x]["primary"].get("kSen"), k3["sets"][y]["primary"].get("kSen")
-                    sup = k3["sets"][x]["primary"].get("supported") and k3["sets"][y]["primary"].get("supported")
-                    comp[lab] = {"difference": round((kx or 0) - (ky or 0), 5), "ci95": [round(lo, 5), round(hi, 5)], "mde": round(2.8016 * float(np.nanstd(dd, ddof=1)), 5), "wording": diff_wording(kx, ky, lo, hi, bool(sup)),
-                                 "bootstrap": "paired (same gaps)" if lab.startswith("S_cloud_minus") else "joint day-clustered resample of disjoint gap sets",
-                                 "label": "difference between the sets, confounded by driver, time of day, parking place and a possibly two-time-constant engine; not an unlogged effect"}
-            k3["comparisons"] = comp
+            for est, key, field, lab_est in (("sen", "comparisons", "kSen", "pairwise Sen slope (headline)"), ("ratio", "comparisonsMedianRatioOrigin", "kMedianRatioOrigin", "median of ratios through the origin (registered spec text; the auditor's estimator)")):
+                dr = joint_boot(main_sets, a.nb, est=est)
+                if est == "sen":
+                    for n, v in dr.items():
+                        k3["sets"][n]["primary"]["kCI95"] = [round(float(np.nanpercentile(v, 2.5)), 5), round(float(np.nanpercentile(v, 97.5)), 5)]
+                else:
+                    for n, v in dr.items():
+                        k3["sets"][n]["primary"]["kMedianRatioOriginCI95"] = [round(float(np.nanpercentile(v, 2.5)), 5), round(float(np.nanpercentile(v, 97.5)), 5)]
+                comp = {}
+                for lab, (x, y) in {"S_cloud_minus_S_obd": ("S_cloud", "S_obd"), "D_cloud_minus_S_cloud": ("D_cloud", "S_cloud")}.items():
+                    if x in dr and y in dr:
+                        dd = dr[x] - dr[y]
+                        lo, hi = float(np.nanpercentile(dd, 2.5)), float(np.nanpercentile(dd, 97.5))
+                        kx, ky = k3["sets"][x]["primary"].get(field), k3["sets"][y]["primary"].get(field)
+                        sup = k3["sets"][x]["primary"].get("supported") and k3["sets"][y]["primary"].get("supported")
+                        comp[lab] = {"estimator": lab_est, "difference": round((kx or 0) - (ky or 0), 5), "ci95": [round(lo, 5), round(hi, 5)], "mde": round(2.8016 * float(np.nanstd(dd, ddof=1)), 5), "wording": diff_wording(kx, ky, lo, hi, bool(sup)),
+                                     "bootstrap": "paired (same gaps)" if lab.startswith("S_cloud_minus") else "joint day-clustered resample of disjoint gap sets",
+                                     "label": "difference between the sets, confounded by driver, time of day, parking place and a possibly two-time-constant engine; not an unlogged effect"}
+                k3[key] = comp
         res["K3_cooling"] = k3
         # ---- K4 coverage
         cov = {"loggedDrivesWithSnapshotNearEnd": int(sum(1 for v in info.values() if snapshot_near(ct, cv, v["m"]["t1"]) is not None)), "loggedDrives": len(info),

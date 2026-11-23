@@ -112,6 +112,11 @@ assert md0["ci95"][0] < 0 < md0["ci95"][1]
 # difference wording per the decision rule
 assert K.diff_wording(0.5, 0.8, 0.1, 0.5, True) == "material" and K.diff_wording(0.5, 0.52, 0.001, 0.04, True) == "small"
 assert K.diff_wording(0.5, 0.8, -0.1, 0.5, True) == "not distinguishable" and K.diff_wording(0.5, 0.8, 0.1, 0.5, False).startswith("not estimable") and K.diff_wording(None, 0.8, 0, 1, True).startswith("not estimable")
+# the median-of-ratios through-origin estimator and the joint bootstrap per estimator
+assert abs(K.ratio_origin_slope([1, 2, 4], [2, 4, 8]) - 2.0) < 1e-12 and abs(K.fit_k(tab_s)["kMedianRatioOrigin"] - 0.5) < 0.06
+drr = K.joint_boot({"A": tab_a, "B": tab_b}, 120, est="ratio")
+ddr = drr["B"] - drr["A"]
+assert np.nanpercentile(ddr, 2.5) > 0 and abs(np.nanmedian(ddr) - 0.3) < 0.08
 # sen slope on exact data
 assert abs(K.sen_slope([0, 1, 2, 3], [1, 3, 5, 7]) - 2.0) < 1e-12 and abs(K.ls_origin_slope([1, 2, 3], [2, 4, 6]) - 2.0) < 1e-12
 print("test_coolant_snapshots: OK")
