@@ -64,6 +64,7 @@ function buildS(config, arrays) {
     windowCaveat: A.windowCaveat || null,
     powerFadeEquivalence: A.powerFadeEquivalence || null,
     powerFadeTemperatureSpecs: A.powerFadeTemperatureSpecs || null,
+    cloudCrossChecks: A.cloudCrossChecks || null,                       // M749
     powerFadeTemperatureControls: A.powerFadeTemperatureControls || null,   // M634 (spec analyses/M622_spec.md Rev 1)
     resistanceJointSensitivity: A.resistanceJointSensitivity || null,   // M514
     signalResolution: A.signalResolution || null,
@@ -4116,6 +4117,28 @@ function BmsVcmChart() {
   );
 }
 
+// M749 (spec analyses/M749_spec.md Rev 4, Director rulings): independent cross-check notes from the MyNISSAN cloud export (auxiliary), bound to S.cloudCrossChecks only; each sits beside the OBD figure it checks and replaces no OBD value
+function CloudCrossCheckLogging(){
+  const C=S.cloudCrossChecks, X=C&&C.x2BetweenDriveLogging; if(!X) return null;
+  const d=X.direction||{}, e=X.exportReconstructionErrorTimeShares||{};
+  const dir=(k,w)=>d[k]==="larger"?"a larger "+w:d[k]==="smaller"?"a smaller "+w:"no distinguishable difference in "+w;
+  return (
+    <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6,paddingTop:6,borderTop:"1px dashed #cbd5e1"}} data-cloud-xcheck="logging">
+      {X.label} Compared with logged drives they have {dir("timeBelow30","time share below 30 km/h")}, {dir("timeAbove80","share above 80 km/h")} and {d.longUnits==="smaller"?"fewer long units":d.longUnits==="larger"?"more long units":"no distinguishable difference in long units"} (descriptive; {["timeBelow30","timeAbove80","longUnits"].every(k=>d[k]==="larger"||d[k]==="smaller")?"day intervals exclude zero":"day-clustered intervals"}; not an effect). Export reconstruction error of the speed-class time shares on {e.validationDrives} logged drives over {e.validationDays} days: median total-variation distance {e.medianTotalVariation} [{(e.ci95Day||[]).join(", ")}]. {X.note}. {C.basis}; {C.status}.
+    </div>
+  );
+}
+function CloudCrossCheckThermal(){
+  const C=S.cloudCrossChecks; if(!C||!C.x3Ambient||!C.x4Timestamps) return null;
+  const A=C.x3Ambient, T=C.x4Timestamps;
+  return (
+    <div style={{fontSize:9,color:"#64748b",margin:"0 0 10px 0",lineHeight:1.6}} data-cloud-xcheck="thermal">
+      <div>{A.label}: median {A.median} C [{A.ci95Day.join(", ")}], median absolute difference {A.medianAbs} C, 90th percentile {A.p90Abs} C ({A.nDrives} drives, {A.nDays} days). {A.caveat}.</div>
+      <div>{T.label}: median per-drive best {T.medianPerDriveBestS} s, day-bootstrap 95 % interval [{T.dayBootstrapCi95S.join(", ")}] s, pooled {T.pooledS} s ({T.nDrives} drives, {T.nDays} days). Offset convention of the registered source: {T.convention}. {T.note}.</div>
+      <div>{C.basis}; {C.status}.</div>
+    </div>
+  );
+}
 function ThermalProvenanceLine(){
   const B=S.thermalProvenance;
   if(!B||!B.channels) return null;
@@ -4125,9 +4148,12 @@ function ThermalProvenanceLine(){
   const nm={fast:"fast-polled",slow:"slow-polled",unknown:"without a cadence label"};
   const grp=(st)=>strata.map(s=>`${okOf(st,s)} ${nm[s]||s}`).join(", ");
   return (
+    <>
     <div style={{fontSize:9,color:"#64748b",margin:"6px 0 10px 0"}} data-tprov-line="1">
       HV-battery intake air logged on {ia.nValid} drives ({ia.firstValidDate} to {ia.lastValidDate}); empty on the {ia.nAfterLastValid} drives since (logging fact; the owner reports a battery software update as the cause, which the logs cannot confirm). Engine coolant logged continuously enough (flag ok) in {grp(ec)} drives; HV coolant in {grp(hv)} drives. Manual ambient: driver-recorded dash readings; reading times inferred, freshness not observable.
     </div>
+    <CloudCrossCheckThermal/>
+    </>
   );
 }
 // M361 (spec analyses/M361_spec.md Rev 2): availability of the HV battery intake-air channel, bound to S.meta.intakeAir (tools/intake_air_block.py). Counts only; no cause language.
@@ -5751,6 +5777,7 @@ function BetweenDriveLoggingView(){
       <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-bdl-reading="1">
         {(B.reading||[]).map((t,i)=><p key={i} style={{margin:"2px 0"}}>{t}</p>)}
       </div>
+      <CloudCrossCheckLogging/>
     </Section>
   );
 }
