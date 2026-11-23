@@ -1,0 +1,23 @@
+{
+ "milestone": "M754",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M754_spec.md Rev 2 and 2.1",
+ "audit": "analyses/M754_audit.json",
+ "result": "analyses/M754_coolant_snapshots.json",
+ "decision": "accept (report-only; minor revision C1 met: the tool also reports the registered through-origin estimator, values equal the audit)",
+ "allowed_wording": "Engine coolant only, cloud-reported, estimated. K1: 'offset of -2.0 C between the cloud snapshot within +-120 s of drive end and the last OBD coolant sample (mean -1.89 C [-2.02, -1.77]); not consistent under the registered rule; offset grows with snapshot age'. K2: 'cloud-reported engine coolant shortly after the estimated end of unlogged trips (different driver; descriptive; not a driving-style effect)'. K3: 'difference between the unlogged-anchored and logged-anchored sets: not distinguishable (MDE 0.106/h; not equivalence)'; S_cloud minus S_obd 'small, estimator-dependent'. 'Key-off snapshot' is a hypothesis label. Never: pack temperature, tau, heat soak, unlogged effect, measured, corrected.",
+ "conditions": [
+  "C1 tool also writes the K3 k and both differences under the registered through-origin estimator; values equal the audit (0.502 / 0.465 / 0.447); state the Rev 2 9.3 primary swap as a deviation (done)",
+  "C2 every k carries fit, intercept, 6 h vs 24 h range and the e_b > 1 C selection bias",
+  "C3 disclose two D anchor definitions (up to 2.8 h apart), 31 of 93 D gaps without a snapshot, 7 drives without OBD coolant, D_cloud 29 pairs / 28 days near the floor",
+  "C4 K1 age slope confounded by OBD clock anchoring; no cooling-rate reading",
+  "C5 report-only; no payload, dashboard or article use"
+ ],
+ "risks": [
+  "S_cloud minus S_obd sign reverses under the median of ratios",
+  "degenerate K1 median interval",
+  "K2 tercile cell one degree dependent on the boundary rule"
+ ],
+ "ambient_defect_follow_up": "record as a pre-existing omission (not an error or correction) in the CHANGELOG and docs/open_items.md: four sites in compute_summary_arrays.py drop 66 scalar ambient entries (11-22 Sep 2026); own milestone: spec, fix, guard test, blind audit, Director; the published heat-soak block is unchanged until then; M751: its registered conclusions stand on the published basis, carry this omission and get a scalar-ambient rerun in the fix milestone; no verdict change before it",
+ "needs_andrii_signoff": false
+}
