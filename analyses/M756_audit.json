@@ -1,0 +1,21 @@
+{
+ "milestone": "M756",
+ "auditor": "analytical-auditor (blind, Sonnet)",
+ "brief": "claim + data paths; pack-mean construction stated (1 s grid, mean-in-second, ffill 3, integer rounded)",
+ "reproduced": {
+  "pairs": 706,
+  "bin6to12_nAmbA": 66,
+  "bin6to12_A_minus_B_pp": "8.1, interval [2.5,17.6] excludes 0, material",
+  "tauA": "nFit 531, 11.19 h (payload 11.10)",
+  "kRatioAoverB": "0.874 (0.859), small, inside [0.80,1.25]",
+  "verdictsAgree": "all supported-bin and tau verdicts agree"
+ },
+ "notReproduced": {
+  "bin6to12_A_minus_C_pp": "6.52 vs 7.19",
+  "bin3to6_A_minus_B_pp": "0.87 vs 2.22",
+  "bin12to24_A_minus_B_pp": "7.69 vs 6.25 (lower bound 0.0 in both runs)",
+  "tauB": "nFit 376 vs 375, 9.79 vs 9.53 h"
+ },
+ "cause": "point medians of integer-quantised temperature differences are sensitive to the pack-mean construction (8 variants tried, none matched all leaves); mean-in-second vs last-sample-in-second differs on 167 of 717 drives (M755 analyses/M755_pair_diff.json)",
+ "verdict": "revise (numeric residuals); Director ruled accept with the residual disclosed"
+}
