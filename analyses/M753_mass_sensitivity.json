@@ -1,0 +1,470 @@
+{
+ "milestone": "M753",
+ "spec": "analyses/M753_spec.md Rev 2.2",
+ "role": "report-only; occupant-informed assumed mass (owner-estimated seat weights, belt-state proxy); the class mass is not replaced",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "seed": 42,
+ "nBoot": 4000,
+ "toolSha256": "42656094ece782663594ebf24e6881372bed1d5a6204a799ac4427b5ecbbd8c1",
+ "weights": {
+  "P": [
+   52.0,
+   55.075,
+   90.0
+  ],
+  "L": [
+   30.0,
+   35.0,
+   40.0
+  ],
+  "C": [
+   20.0,
+   27.5,
+   35.0
+  ],
+  "R": [
+   8.0,
+   17.25,
+   27.0
+  ]
+ },
+ "luggage": {
+  "highway": [
+   40.0,
+   52.5,
+   65.0
+  ],
+  "mixed_highway": [
+   20.0,
+   39.375,
+   65.0
+  ],
+  "urban": [
+   5.0,
+   10.0,
+   15.0
+  ],
+  "mixed": [
+   5.0,
+   10.0,
+   15.0
+  ],
+  "unknown": [
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "inputsNote": "seat weights and luggage are owner-estimated usual values (mixed-highway share f = 0.5 / 0.75 / 1.0 is an assumption); a latched belt is a proxy; fuel mass unobserved",
+ "M0": {
+  "drives": 717,
+  "withPattern": 586,
+  "withoutPattern": 131,
+  "patternsPLCR": {
+   "1001": 198,
+   "1101": 152,
+   "0001": 76,
+   "0000": 56,
+   "1111": 37,
+   "1000": 34,
+   "1100": 11,
+   "1011": 7,
+   "0101": 5,
+   "0111": 4
+  },
+  "loadByClass": {
+   "highway": {
+    "n": 20,
+    "low": 132.2,
+    "central": 162.8,
+    "high": 225.8,
+    "sdCentral": 22.7
+   },
+   "mixed": {
+    "n": 27,
+    "low": 63.6,
+    "central": 80.1,
+    "high": 118.1,
+    "sdCentral": 50.6
+   },
+   "mixed_highway": {
+    "n": 34,
+    "low": 94.1,
+    "central": 128.5,
+    "high": 196.8,
+    "sdCentral": 35.9
+   },
+   "unknown": {
+    "n": 1,
+    "low": 38.0,
+    "central": 52.2,
+    "high": 67.0,
+    "sdCentral": null
+   },
+   "urban": {
+    "n": 504,
+    "low": 60.7,
+    "central": 77.7,
+    "high": 118.7,
+    "sdCentral": 37.6
+   }
+  },
+  "payloadCentralMeanAll": 70.5
+ },
+ "M1_massBias": {
+  "S2c_central": {
+   "est": -0.0,
+   "ci95": [
+    -0.00232,
+    0.00217
+   ],
+   "meanMassKg": 1899.8
+  },
+  "S2c_low": {
+   "est": -0.0,
+   "ci95": [
+    -0.00198,
+    0.00181
+   ],
+   "meanMassKg": 1899.8
+  },
+  "S2c_high": {
+   "est": -0.0,
+   "ci95": [
+    -0.00336,
+    0.0031
+   ],
+   "meanMassKg": 1899.8
+  },
+  "S1c_central": {
+   "est": 0.03159,
+   "ci95": [
+    0.02873,
+    0.03437
+   ],
+   "meanMassKg": 1959.8
+  },
+  "S2_central": {
+   "est": 0.0,
+   "ci95": [
+    -0.00252,
+    0.00241
+   ],
+   "meanMassKg": 1899.8
+  },
+  "S3_central": {
+   "est": -0.02712,
+   "ci95": [
+    -0.03021,
+    -0.02427
+   ],
+   "meanMassKg": 1848.2
+  },
+  "classMeanMassKg": 1899.8
+ },
+ "S1c_highwayImpliedClassBias": {
+  "n": 20,
+  "impliedMeanKg": 2052.8,
+  "assumedKg": 2000.0,
+  "relative": 0.0264,
+  "note": ""
+ },
+ "control_V0_regen": {
+  "status": "reproduced (byte-equal)",
+  "chars": 965539,
+  "gateDetail": {
+   "strataReconcileOk": true,
+   "socSumReconcileOk": true,
+   "pooledMatchesM441": true,
+   "observedMatchesM444": true
+  }
+ },
+ "M2_regen": {
+  "S2c_central": {
+   "cells": 671,
+   "medianRelChangePct": 0.067,
+   "p05RelChangePct": -0.723,
+   "p95RelChangePct": 1.328,
+   "minRelChangePct": -1.133,
+   "maxRelChangePct": 2.238,
+   "cellsOutsidePublishedMassRange": 87,
+   "shareOutsideRange": 0.1297,
+   "cellsOutsideDayInterval": 0,
+   "medianShiftOverCiHalfWidth": 0.008,
+   "gatesPass": false,
+   "gateDetail": {
+    "strataReconcileOk": true,
+    "socSumReconcileOk": true,
+    "pooledMatchesM441": false,
+    "observedMatchesM444": false
+   }
+  },
+  "S2c_low": {
+   "cells": 671,
+   "medianRelChangePct": 0.015,
+   "p05RelChangePct": -0.612,
+   "p95RelChangePct": 1.068,
+   "minRelChangePct": -0.941,
+   "maxRelChangePct": 1.851,
+   "cellsOutsidePublishedMassRange": 58,
+   "shareOutsideRange": 0.0864,
+   "cellsOutsideDayInterval": 0,
+   "medianShiftOverCiHalfWidth": 0.002,
+   "gatesPass": false,
+   "gateDetail": {
+    "strataReconcileOk": true,
+    "socSumReconcileOk": true,
+    "pooledMatchesM441": false,
+    "observedMatchesM444": false
+   }
+  },
+  "S2c_high": {
+   "cells": 671,
+   "medianRelChangePct": 0.027,
+   "p05RelChangePct": -0.991,
+   "p95RelChangePct": 2.049,
+   "minRelChangePct": -1.517,
+   "maxRelChangePct": 3.365,
+   "cellsOutsidePublishedMassRange": 196,
+   "shareOutsideRange": 0.2921,
+   "cellsOutsideDayInterval": 0,
+   "medianShiftOverCiHalfWidth": 0.003,
+   "gatesPass": false,
+   "gateDetail": {
+    "strataReconcileOk": true,
+    "socSumReconcileOk": true,
+    "pooledMatchesM441": false,
+    "observedMatchesM444": false
+   }
+  },
+  "S1c_central": {
+   "cells": 671,
+   "medianRelChangePct": -2.633,
+   "p05RelChangePct": -3.79,
+   "p95RelChangePct": -1.445,
+   "minRelChangePct": -4.306,
+   "maxRelChangePct": -0.611,
+   "cellsOutsidePublishedMassRange": 655,
+   "shareOutsideRange": 0.9762,
+   "cellsOutsideDayInterval": 14,
+   "medianShiftOverCiHalfWidth": -0.351,
+   "gatesPass": false,
+   "gateDetail": {
+    "strataReconcileOk": true,
+    "socSumReconcileOk": true,
+    "pooledMatchesM441": false,
+    "observedMatchesM444": false
+   }
+  },
+  "S2_central": {
+   "cells": 671,
+   "medianRelChangePct": -0.123,
+   "p05RelChangePct": -2.472,
+   "p95RelChangePct": 1.389,
+   "minRelChangePct": -3.088,
+   "maxRelChangePct": 2.54,
+   "cellsOutsidePublishedMassRange": 195,
+   "shareOutsideRange": 0.2906,
+   "cellsOutsideDayInterval": 0,
+   "medianShiftOverCiHalfWidth": -0.012,
+   "gatesPass": false,
+   "gateDetail": {
+    "strataReconcileOk": true,
+    "socSumReconcileOk": true,
+    "pooledMatchesM441": false,
+    "observedMatchesM444": false
+   }
+  },
+  "S3_central": {
+   "cells": 671,
+   "medianRelChangePct": 2.666,
+   "p05RelChangePct": 0.31,
+   "p95RelChangePct": 4.303,
+   "minRelChangePct": -0.225,
+   "maxRelChangePct": 5.956,
+   "cellsOutsidePublishedMassRange": 643,
+   "shareOutsideRange": 0.9583,
+   "cellsOutsideDayInterval": 17,
+   "medianShiftOverCiHalfWidth": 0.321,
+   "gatesPass": false,
+   "gateDetail": {
+    "strataReconcileOk": true,
+    "socSumReconcileOk": true,
+    "pooledMatchesM441": false,
+    "observedMatchesM444": false
+   }
+  }
+ },
+ "control_V0_descent": {
+  "status": "reproduced (byte-equal)"
+ },
+ "M2_descent": {
+  "published": {
+   "captureFraction": 0.4,
+   "n": 1555,
+   "assumedMassKg": 2000.0,
+   "captureFractionRangeMassUncertainty": [
+    0.4005,
+    0.4005
+   ],
+   "urbanMixedRowShare": 0.0
+  },
+  "S2c_central": {
+   "captureFraction": 0.4,
+   "n": 1555,
+   "assumedMassKg": 2010.2,
+   "captureFractionRangeMassUncertainty": [
+    0.3973,
+    0.3973
+   ],
+   "relChangeCaptureFractionPct": 0.0,
+   "rowsChanged": false,
+   "netDropToSaturateM": [
+    193,
+    145,
+    96,
+    48
+   ],
+   "publishedNetDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ]
+  },
+  "S2c_low": {
+   "captureFraction": 0.4,
+   "n": 1555,
+   "assumedMassKg": 2009.1,
+   "captureFractionRangeMassUncertainty": [
+    0.3978,
+    0.3978
+   ],
+   "relChangeCaptureFractionPct": 0.0,
+   "rowsChanged": false,
+   "netDropToSaturateM": [
+    193,
+    145,
+    96,
+    48
+   ],
+   "publishedNetDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ]
+  },
+  "S2c_high": {
+   "captureFraction": 0.4,
+   "n": 1555,
+   "assumedMassKg": 2014.3,
+   "captureFractionRangeMassUncertainty": [
+    0.3959,
+    0.3959
+   ],
+   "relChangeCaptureFractionPct": 0.0,
+   "rowsChanged": false,
+   "netDropToSaturateM": [
+    193,
+    145,
+    97,
+    48
+   ],
+   "publishedNetDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ]
+  },
+  "S1c_central": {
+   "captureFraction": 0.39,
+   "n": 1555,
+   "assumedMassKg": 2041.7,
+   "captureFractionRangeMassUncertainty": [
+    0.3924,
+    0.3924
+   ],
+   "relChangeCaptureFractionPct": -2.5,
+   "rowsChanged": false,
+   "netDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ],
+   "publishedNetDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ]
+  },
+  "S2_central": {
+   "captureFraction": 0.39,
+   "n": 1555,
+   "assumedMassKg": 2068.0,
+   "captureFractionRangeMassUncertainty": [
+    0.3874,
+    0.3874
+   ],
+   "relChangeCaptureFractionPct": -2.5,
+   "rowsChanged": false,
+   "netDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ],
+   "publishedNetDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ]
+  },
+  "S3_central": {
+   "captureFraction": 0.4,
+   "n": 1555,
+   "assumedMassKg": 2005.0,
+   "captureFractionRangeMassUncertainty": [
+    0.3996,
+    0.3996
+   ],
+   "relChangeCaptureFractionPct": 0.0,
+   "rowsChanged": false,
+   "netDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ],
+   "publishedNetDropToSaturateM": [
+    192,
+    144,
+    96,
+    48
+   ]
+  },
+  "maskNote": "the mass-dependent potential-energy mask moves with the patched mass; rowsChanged reports whether the row population differs from the published one (the mask-held variant coincides when it does not)"
+ },
+ "M3_association": {
+  "nDrives": 519,
+  "nDays": 135,
+  "slopePctPerPer100kg": 4.0537,
+  "ci95": [
+   0.7271,
+   7.3802
+  ],
+  "mdeSlope": 4.755,
+  "predictedSlope": 3.2586,
+  "predictionNote": "apparent ratio = charge / (m_class dv2) and charge scales with the true mass: slope about +100/m of the mean ratio per 100 kg",
+  "confounding": "occupancy goes with trip type, weekend and season; the battery charge-power limit makes the expected slope smaller",
+  "verdict": "not informative at this support (minimum detectable slope 4.755 above the predicted 3.259)",
+  "definition": "per-drive apparent KE recovery (percent, assumed class mass; drives with at least 0.05 kWh of kinetic energy and a belt pattern) on the within-class deviation of the central load per 100 kg, class dummies, day-clustered robust standard errors; exploratory"
+ },
+ "deviations_from_spec": [],
+ "scope": "report-only: no payload, dashboard, master or published figure changes; the class mass is not replaced",
+ "seconds": 896.5
+}
