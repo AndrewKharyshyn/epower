@@ -1,0 +1,29 @@
+{
+ "milestone": "M746",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M746_spec.md Rev 1",
+ "decision": "revise",
+ "answers": {
+  "a": "run last, after release_check, before state; release_identity hashes only the core files",
+  "b": "pinned tools (grade, thermal, unlogged) not invoked while pinned; slow ones gated",
+  "c": "exit 0 for tool failures, timeouts, missing inputs; a protected-file change must exit non-zero; wrapper exception recorded as wrapper_error",
+  "d": "fingerprint-skip unsafe: raw_manifest sha256 does not track raw content; fingerprint must cover tool/spec sha, upstream CSVs, seasonal inputs, raw content, nb, and output hash"
+ },
+ "required_changes": [
+  "scratch out-dir with atomic promotion on success",
+  "pinned tools skipped_pinned_master until a spec revision re-pins; reconcile open_items",
+  "one fingerprint per tool over all inputs, skip only if output sha256 matches",
+  "order dependencies; skipped_upstream_failed",
+  "protected-hash check around each tool",
+  "lock file; kill process tree on timeout",
+  "clock_offset --raw honours XT_RAW_DIR",
+  "declare outputs in the stage entry"
+ ],
+ "risks": [
+  "stop stubs overwrite committed M737/M734/M739 JSONs",
+  "thermal writes the shared seasonal_fits_cache",
+  "parallel ingestion conflict in ingest_stages.json",
+  "no path to published figures while nothing reads analyses/M7xx"
+ ],
+ "note": "summarised from the Director's hand-back; owner then chose option A (rerun the pinned tools as labelled retests), recorded in Rev 2"
+}

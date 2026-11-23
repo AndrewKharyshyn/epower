@@ -1,0 +1,27 @@
+{
+ "milestone": "M749",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M749_spec.md Rev 1",
+ "decision": "revise",
+ "rulings_adopted_in": "section 7 (Rev 2)",
+ "a": "collapsed section in an existing data/provenance tab, no new tab",
+ "b": "C1-C4 show with labels, C5 and C6 status line only",
+ "c": "snapshot label, not stale",
+ "d": "lower-biased cloud total wording, no V1 bracket, no absolute cloud odometer",
+ "e": "blind audit plus known-answer test plus Director decision; not article use",
+ "required_changes": [
+  "pin M729/M730/M733 by file sha256",
+  "no source strings copied; 'export reconstruction error'",
+  "language_gate rule M749-cloud-wording",
+  "C2 carries n_days or is dropped",
+  "no M734 R2 Q1/Q2 values",
+  "stage byte-identical, after every arrays writer, excluded from delta/headline CI",
+  "Rev 2 section before code"
+ ],
+ "risks": [
+  "cloud odometer misread against vehicle.odometerKm",
+  "M734 F2 beside winter content",
+  "dashboard quoted as an article source",
+  "arrays rewrite drops the key if stage skipped"
+ ]
+}

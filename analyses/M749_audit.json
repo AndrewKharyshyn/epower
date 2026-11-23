@@ -1,0 +1,17 @@
+{"numbers":[
+{"note":"X2","value":"331 strict units","source_field":"M739.U1_unlogged.strict_units","ok":true},
+{"note":"X2","value":"85 days","source_field":"M739.U1_unlogged.days","ok":true},
+{"note":"X2","value":"641 drives","source_field":"M739.V1_n.validation_drives","ok":true},
+{"note":"X2","value":"135 days","source_field":"M739.V1_n.days","ok":true},
+{"note":"X2","value":"0.065 [0.0596,0.0695]","source_field":"M739.V1_reconstruction_error.time_shares.median_tv / ci95_day (0.06496; 0.05959-0.06949)","ok":true},
+{"note":"X3","value":"median 0 C [0,0]","source_field":"M734.T1_ambient.screened_minus_manual.median / ci95_day_bootstrap","ok":true},
+{"note":"X3","value":"0.21 C","source_field":"median_abs 0.2105","ok":true},
+{"note":"X3","value":"1.72 C","source_field":"p90_abs 1.72","ok":true},
+{"note":"X3","value":"506 drives, 133 days","source_field":"n_drives, n_days","ok":true},
+{"note":"X4","value":"17 s [16,17] pooled 16 s","source_field":"M730.per_drive_best.median, median_best_offset_ci95_day_bootstrap, pooled_best_offset_s","ok":true},
+{"note":"X4","value":"517 drives, 137 days","source_field":"M730.n_drives, n_days","ok":true}],
+"direction_check":"Verified from M739 U2.km_weighted_primary: below30 +0.158 [0.070,0.266] (larger), above80 -0.198 [-0.295,-0.095] (smaller), length_t3 -0.278 [-0.448,-0.156] (fewer long). All day intervals exclude zero; time-weighted sensitivity same signs. Sign convention (unlogged minus logged) inferred from the reading, not re-derived; 30to80 interval spans zero and is correctly not mentioned.",
+"misreadings":["'Independent' appears in X2 and X3. X3 carries the shared-sensor caveat. X2 has no caveat beside it (cloud odometer and OBD speeds may share vehicle sources), so rule 9.6 is not met there; reword or add the caveat.","X3 'median 0 C [0, 0]' is a rounded display of a continuous value; fine, but it could read as an exact match. The median absolute difference 0.21 C is shown beside it, which mitigates this.","X2 omits 'MDE' and the km-weighted basis; the intervals are called 'day-clustered' rather than 'exclude zero'. Acceptable.","No sentence reads as a corrected OBD figure, extra km, validated accuracy or article figure. X4 says not adopted as a correction."],
+"basis_check":"X2 carries 'snapshot registered on 717 drives (master d514d600 ...) ... auxiliary; not an article figure'. In the thermal text the single snapshot sentence follows the X3 and X4 notes (shared line), so it covers both.",
+"kpi_check":"No cloud km, hours or odometer next to the logged-share KPI (23.0%) or the 83.7 km gap. The cloud km (1917.9) and hours (59.45) appear nowhere in the rendered overview or thermal text; X2 states they are not shown.",
+"verdict":"revise"}
