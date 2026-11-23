@@ -1,0 +1,871 @@
+{
+ "milestone": "M757",
+ "spec": "analyses/M757_spec.md Rev 2",
+ "role": "auxiliary, report-only",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "pinnedMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "seed": 42,
+ "nBoot": 4000,
+ "tool_sha256": "69edc468af40c9b8b33ef218e33496b79d68f52adc3010e72b7c6ca58530c3cf",
+ "dem": {
+  "source": "https://data.bris.ac.uk/datasets/s5hqmjcdj8yo2ibzi9b4ew3sn/",
+  "dataset": "FABDEM v1.2 (University of Bristol)",
+  "licence": "FABDEM v1.2, University of Bristol; non-commercial use",
+  "tiles_sha256": [
+   {
+    "tile": "N48E023",
+    "sha256": "275745863a9da928831ebdfe77d19331297ed78455ba8f8c6452d2b9b3c49d2c"
+   },
+   {
+    "tile": "N48E024",
+    "sha256": "3bdc9e1ecce31d65dc690846cb378b30007ac2d238f70bc4782c0389bb0ed91c"
+   },
+   {
+    "tile": "N49E023",
+    "sha256": "cd34a0a5a92ec62985472e99488db166d32f6aa25969a5b86d1ddb8e6211dcc7"
+   },
+   {
+    "tile": "N49E024",
+    "sha256": "e1e3fbd18708006376e49223a1769dd0a6c4ed8e4d26962a895201074b41477b"
+   },
+   {
+    "tile": "N49E025",
+    "sha256": "7c6e956c30049248ae3ff9187e8a7a7d72b501b4b90bdbe92e7bbbda90527e31"
+   },
+   {
+    "tile": "N49E026",
+    "sha256": "9a118f618e04051aecd629869b58b5b017cc4e9de92733ad08d386b3ee1c313a"
+   },
+   {
+    "tile": "N49E027",
+    "sha256": "464d2ac48a6415f14eb738992b5d5ff0664f2006341d1ba5c7c74d6b91787cf4"
+   },
+   {
+    "tile": "N49E028",
+    "sha256": "7bffb6f62fb333e4f5479e10f541c5cb766878927e9840f6b7caa312ba8fe9f8"
+   },
+   {
+    "tile": "N49E030",
+    "sha256": "cccdc18128f2a130a71954302522b9418f6271c1479149f20a7f8fd1da923870"
+   },
+   {
+    "tile": "N49E031",
+    "sha256": "0b2c72b0f79f3fdc990401d6f8e2bde044f994d3e8ea72963b848fc6d163a3d9"
+   },
+   {
+    "tile": "N49E032",
+    "sha256": "c711735ac1d5e16a0ae5db1c1783d51b77570cb10d35ff9c4f4a6300a9adb50a"
+   },
+   {
+    "tile": "N50E025",
+    "sha256": "52ecc8294dc12786d5a58c6fce8bfe49932773ab6cb426d4edb88300a967d652"
+   },
+   {
+    "tile": "N50E026",
+    "sha256": "c782a413fcc5def315909629648a94c1c1050ffb00a026155252a12ee3d50e1c"
+   },
+   {
+    "tile": "N50E027",
+    "sha256": "380b86b3c57b5e7852f126e477b9c9e7a7b705002a2533d548247a37dd08bfb0"
+   },
+   {
+    "tile": "N50E028",
+    "sha256": "cc6c550d5cf1ce357dc85119de82713b92069138ba1d8cd161128c1880b41cc5"
+   },
+   {
+    "tile": "N50E029",
+    "sha256": "eccdb4aaa5319bd93045f108f49b2f2117487ee24b5d7afcc182d53ce6ef371c"
+   },
+   {
+    "tile": "N50E030",
+    "sha256": "03bac534810a7139a7f1f3399227d8fcee852f16e2bbdf0f8c1024c76be2a68b"
+   }
+  ],
+  "tiles_used": [
+   "N48E023",
+   "N48E024",
+   "N49E023",
+   "N49E024",
+   "N49E025",
+   "N49E026",
+   "N49E027",
+   "N49E030",
+   "N49E031",
+   "N49E032",
+   "N50E025",
+   "N50E026",
+   "N50E027",
+   "N50E028",
+   "N50E029",
+   "N50E030"
+  ],
+  "raster_type": "point",
+  "heights": "above EGM2008; only differences used"
+ },
+ "assumed_mass_kg": 1950.0,
+ "mass_label": "assumed class mass, never measured",
+ "privacy": "aggregates only; no coordinates, tracks or per-drive geometry",
+ "F0": {
+  "screened_fixes_total": 40295,
+  "fixes_in_drive_windows": 28411,
+  "share_fixes_with_dem": 1.0,
+  "share_step_km_with_dem": 1.0,
+  "drives": 717,
+  "drives_ge3_fixes": 662,
+  "drives_ge1km_track": 307,
+  "fuel_instrumented_drives_with_steps_analysis": 451,
+  "unique_km_approx_100m_cells": 1101.6000000000001,
+  "R1": "passed"
+ },
+ "steps": {
+  "all_built": 11890,
+  "primary": 3615,
+  "primary_km": 1935.5628244578452,
+  "primary_days": 82,
+  "primary_drives": 289,
+  "excluded_first_last": 47,
+  "excluded_vmin_below_8": 166,
+  "excluded_abs_grade_above_8pp": 29,
+  "chord_over_obd_distance_median": 1.0070516411414312,
+  "share_chord_outside_0p5_to_1p1": 0.03423044575273339,
+  "step_length_m": {
+   "p10": 347.6371938915547,
+   "median": 547.2747224981122,
+   "p90": 859.2103611363336
+  }
+ },
+ "F1": {
+  "secondary_fuel_instrumented_drives_only": {
+   "n_steps": 12,
+   "n_days": 1,
+   "bias_median_pp": -0.12239404159714731,
+   "median_abs_diff_pp": 0.3390226413089198,
+   "p90_abs_diff_pp": 0.6958322382333572,
+   "pearson": 0.9440881812267095,
+   "spearman": 0.965034965034965,
+   "lin_ccc": 0.863765204461008,
+   "interval": "no interval (1 day)",
+   "bias_median_pp_ci95": [
+    null,
+    null
+   ]
+  },
+  "all_speeds": {
+   "n_steps": 409,
+   "n_days": 9,
+   "bias_median_pp": 0.011723187882441533,
+   "bias_median_pp_ci95": [
+    -0.058268281845762326,
+    0.03137553112472552
+   ],
+   "median_abs_diff_pp": 0.2729658887846895,
+   "median_abs_diff_pp_ci95": [
+    0.24525536220887117,
+    0.3193665998778339
+   ],
+   "p90_abs_diff_pp": 0.9475428829296723,
+   "p90_abs_diff_pp_ci95": [
+    0.9184934074139885,
+    1.1948850728488007
+   ],
+   "pearson": 0.9401733520006862,
+   "pearson_ci95": [
+    0.746075188186237,
+    0.9509933713315896
+   ],
+   "spearman": 0.9008676770689288,
+   "spearman_ci95": [
+    0.723766162293985,
+    0.9429373120507605
+   ],
+   "lin_ccc": 0.9387699555449434,
+   "lin_ccc_ci95": [
+    0.7398172331986929,
+    0.94801345850948
+   ],
+   "step_km": 247.00673158787677
+  },
+  "by_speed_class": {
+   "below30": {
+    "n_steps": 0
+   },
+   "30to80": {
+    "n_steps": 254,
+    "n_days": 9,
+    "bias_median_pp": 0.03872098227990611,
+    "bias_median_pp_ci95": [
+     -0.05581541130999425,
+     0.06269636689236413
+    ],
+    "median_abs_diff_pp": 0.29885206199929704,
+    "median_abs_diff_pp_ci95": [
+     0.24554854889744224,
+     0.40171991506219384
+    ],
+    "p90_abs_diff_pp": 1.1935180604787083,
+    "p90_abs_diff_pp_ci95": [
+     0.9797200670720501,
+     1.2304941556745863
+    ],
+    "pearson": 0.9244332272729989,
+    "pearson_ci95": [
+     0.6137399656557576,
+     0.9407355046081013
+    ],
+    "spearman": 0.8731832916562146,
+    "spearman_ci95": [
+     0.6533033408475861,
+     0.939101584384598
+    ],
+    "lin_ccc": 0.9233899136131594,
+    "lin_ccc_ci95": [
+     0.6060516051011053,
+     0.9381237064442334
+    ]
+   },
+   "above80": {
+    "n_steps": 155,
+    "n_days": 5,
+    "bias_median_pp": -0.01023685077510672,
+    "bias_median_pp_ci95": [
+     -0.10538679307463461,
+     0.02807754572980864
+    ],
+    "median_abs_diff_pp": 0.25928575614703586,
+    "median_abs_diff_pp_ci95": [
+     0.18236102904247828,
+     0.27321604794070586
+    ],
+    "p90_abs_diff_pp": 0.7563001653424243,
+    "p90_abs_diff_pp_ci95": [
+     0.3411740716479971,
+     0.812068153016031
+    ],
+    "pearson": 0.9654340472966585,
+    "pearson_ci95": [
+     0.9638052604748987,
+     0.9893473134992867
+    ],
+    "spearman": 0.9409743006789015,
+    "spearman_ci95": [
+     0.9134483657805507,
+     0.9580764488286068
+    ],
+    "lin_ccc": 0.9629547188458738,
+    "lin_ccc_ci95": [
+     0.9612533603357077,
+     0.9882925807264334
+    ]
+   }
+  },
+  "shift_sensitivity": {
+   "+16s": {
+    "n_steps": 409,
+    "n_days": 9,
+    "bias_median_pp": 0.011723187882441533,
+    "bias_median_pp_ci95": [
+     -0.05581541130999425,
+     0.03137553112472552
+    ],
+    "median_abs_diff_pp": 0.2729658887846895,
+    "median_abs_diff_pp_ci95": [
+     0.22984873509115475,
+     0.3172951302131794
+    ],
+    "p90_abs_diff_pp": 0.9475428829296723,
+    "p90_abs_diff_pp_ci95": [
+     0.9184934074139885,
+     1.1963441950886793
+    ],
+    "pearson": 0.9401733520006862,
+    "pearson_ci95": [
+     0.7388430492028147,
+     0.9508663548318075
+    ],
+    "spearman": 0.9008676770689288,
+    "spearman_ci95": [
+     0.72058796648447,
+     0.9428464977427
+    ],
+    "lin_ccc": 0.9387699555449434,
+    "lin_ccc_ci95": [
+     0.7318513933258842,
+     0.9478974413023051
+    ]
+   },
+   "+0s": {
+    "n_steps": 413,
+    "n_days": 9,
+    "bias_median_pp": 0.01791403581125256,
+    "bias_median_pp_ci95": [
+     -0.07328117986358025,
+     0.1268174055078803
+    ],
+    "median_abs_diff_pp": 0.6919653250638543,
+    "median_abs_diff_pp_ci95": [
+     0.5171597662551205,
+     0.8882290841832559
+    ],
+    "p90_abs_diff_pp": 2.6299151109137457,
+    "p90_abs_diff_pp_ci95": [
+     1.7098449183314737,
+     3.0068377923059733
+    ],
+    "pearson": 0.61619290888324,
+    "pearson_ci95": [
+     0.36092272248927776,
+     0.789425867890895
+    ],
+    "spearman": 0.550929290748742,
+    "spearman_ci95": [
+     0.3709094501930712,
+     0.6229946854532563
+    ],
+    "lin_ccc": 0.6141877674577331,
+    "lin_ccc_ci95": [
+     0.35419553337590953,
+     0.7887292990143526
+    ]
+   },
+   "-16s": {
+    "n_steps": 413,
+    "n_days": 9,
+    "bias_median_pp": -0.10601778455809452,
+    "bias_median_pp_ci95": [
+     -0.3836777998921879,
+     -0.0364874722652721
+    ],
+    "median_abs_diff_pp": 1.0093760994998213,
+    "median_abs_diff_pp_ci95": [
+     0.5259928846784342,
+     1.3119652958525587
+    ],
+    "p90_abs_diff_pp": 3.713299507228742,
+    "p90_abs_diff_pp_ci95": [
+     1.9448287689704788,
+     4.166439874406604
+    ],
+    "pearson": 0.1777229442824091,
+    "pearson_ci95": [
+     0.041320460567568856,
+     0.5021105422258659
+    ],
+    "spearman": 0.2077262147169239,
+    "spearman_ci95": [
+     0.008793163995368471,
+     0.42344754654487954
+    ],
+    "lin_ccc": 0.17714177543800716,
+    "lin_ccc_ci95": [
+     0.040982353667577145,
+     0.5019061670392584
+    ]
+   }
+  },
+  "support": {
+   "days": 9,
+   "step_km": 247.00673158787677,
+   "descriptive_only_below_floor": true
+  },
+  "R4": "not testable (support below 30 days / 100 unique km)"
+ },
+ "F2": {
+  "primary": {
+   "n_steps": 3615,
+   "n_drives": 289,
+   "n_days": 82,
+   "km": 1935.5628244578452,
+   "b": 0.8432342610529302,
+   "b_ci95": [
+    0.7919619487383001,
+    0.8760304715164844
+   ],
+   "b_se": 0.02186258343562063,
+   "mde_b": 0.06121523361973776,
+   "coefficients": {
+    "F0_kJ_per_km": -1341.309647854618,
+    "F1_kJ_per_m2s": 0.08467239480445547,
+    "F2_kJ_per_m3s2": -0.000960666501965506,
+    "c_kJ_per_s": 9.781946580348405,
+    "b": 0.8432342610529302
+   }
+  },
+  "placebo_left_2km": {
+   "n_steps": 3615,
+   "n_drives": 289,
+   "n_days": 82,
+   "km": 1935.5628244578452,
+   "b": 0.08622730570946531,
+   "b_ci95": [
+    0.052829396627631246,
+    0.11806263295734316
+   ],
+   "b_se": 0.01688312134976438,
+   "mde_b": 0.04727273977934027,
+   "coefficients": {
+    "F0_kJ_per_km": -1346.5395804582156,
+    "F1_kJ_per_m2s": 0.08607653886734659,
+    "F2_kJ_per_m3s2": -0.0009989667917468864,
+    "c_kJ_per_s": 9.7347788138629,
+    "b": 0.08622730570946531
+   }
+  },
+  "placebo_right_2km": {
+   "n_steps": 3615,
+   "n_drives": 289,
+   "n_days": 82,
+   "km": 1935.5628244578452,
+   "b": 0.0713887199682407,
+   "b_ci95": [
+    0.031073991190293256,
+    0.11196274671057206
+   ],
+   "b_se": 0.020929883062139467,
+   "mde_b": 0.0586036725739905,
+   "coefficients": {
+    "F0_kJ_per_km": -1335.656216093999,
+    "F1_kJ_per_m2s": 0.08653280097886187,
+    "F2_kJ_per_m3s2": -0.0010201297645986238,
+    "c_kJ_per_s": 9.548460470548074,
+    "b": 0.0713887199682407
+   }
+  },
+  "cross_validation": {
+   "n_days": 82,
+   "b_fold": {
+    "train_parity_0": 0.8239711123475848,
+    "train_parity_1": 0.8591322807580546
+   },
+   "partial_r2": 0.6725359928294052,
+   "partial_r2_ci95": [
+    0.5566170779003807,
+    0.7496520595230995
+   ],
+   "delta_r2": 0.29809134785816355,
+   "delta_r2_ci95": [
+    0.20189442146162107,
+    0.38341797621859125
+   ],
+   "posthoc_flat_road_load_null": {
+    "partial_r2": 0.6707769906649542,
+    "delta_r2": 0.29572319335972225,
+    "label": "post hoc sensitivity, not pre-registered"
+   },
+   "incremental_r2": 0.6725359928294052,
+   "incremental_r2_ci95": [
+    0.5566170779003807,
+    0.7496520595230995
+   ]
+  },
+  "support": {
+   "days": 82,
+   "unique_km": 1935.5628244578452,
+   "n_above2pp": 278,
+   "days_pos": 26,
+   "days_neg": 32,
+   "note": "unique km is approximated by the summed step length of the fitted steps (an upper bound on unique road)"
+  },
+  "b_obd_logged_altitude_days": {
+   "b": null,
+   "b_ci95": [
+    null,
+    null
+   ]
+  },
+  "b_dem_on_same_steps_as_b_obd": {
+   "b": null
+  },
+  "attenuation": {
+   "b_over_b_obd": null
+  },
+  "b_obd_testable": false,
+  "R2": {
+   "reading": "not testable",
+   "reasons": [
+    "support below the floors: {\"days\": 82, \"unique_km\": 1935.5628244578452, \"n_above2pp\": 278, \"days_pos\": 26, \"days_neg\": 32, \"note\": \"unique km is approximated by the summed step length of the fitted steps (an upper bound on unique road)\"}",
+    "negative control failed: displaced-DEM placebo interval excludes zero"
+   ]
+  },
+  "R3": "not testable (logged-altitude days 1 < 30)",
+  "note": "validation CONDITIONAL on the traction reconstruction (Rev 2 9.3); fuel-instrumented drives only",
+  "sensitivities": {
+   "road_load_on_flat_steps_first": {
+    "n_steps": 3615,
+    "n_drives": 289,
+    "n_days": 82,
+    "km": 1935.5628244578452,
+    "b": 0.8428831956009069,
+    "b_ci95": [
+     0.7907481431716884,
+     0.8754173255110739
+    ],
+    "b_se": 0.021921973285149787,
+    "mde_b": 0.0613815251984194
+   },
+   "sign_split": {
+    "n_steps": 3615,
+    "n_drives": 289,
+    "n_days": 82,
+    "km": 1935.5628244578452,
+    "b_pos": 0.8141487296293378,
+    "b_pos_ci95": [
+     0.7459259800844444,
+     0.8556549028283138
+    ],
+    "b_neg": 0.8753068831166153,
+    "b_neg_ci95": [
+     0.817947071206714,
+     0.9186713292454738
+    ]
+   },
+   "abs_grade_above_8pp_kept": {
+    "n_steps": 11682,
+    "n_drives": 475,
+    "n_days": 134,
+    "km": 6707.058226079658,
+    "b": 0.10012448014080567,
+    "b_ci95": [
+     0.021508351129502924,
+     0.213198229893864
+    ],
+    "b_se": 0.049089940614109207,
+    "mde_b": 0.13745183371950576,
+    "coefficients": {
+     "F0_kJ_per_km": -1152.485145478679,
+     "F1_kJ_per_m2s": 0.061669253518768875,
+     "F2_kJ_per_m3s2": -0.0009322080345298827,
+     "c_kJ_per_s": 8.409661433314696,
+     "b": 0.10012448014080567
+    }
+   },
+   "no_first_last_or_speed_exclusion": {
+    "n_steps": 11861,
+    "n_drives": 479,
+    "n_days": 134,
+    "km": 6776.117169420424,
+    "b": 0.10261861945200287,
+    "b_ci95": [
+     0.021687239176753033,
+     0.22181442794339767
+    ],
+    "b_se": 0.05078769822520911,
+    "mde_b": 0.1422055550305855,
+    "coefficients": {
+     "F0_kJ_per_km": -269.8761568744132,
+     "F1_kJ_per_m2s": 0.015602612360998452,
+     "F2_kJ_per_m3s2": -0.00017740275715385842,
+     "c_kJ_per_s": 3.1538656638920783,
+     "b": 0.10261861945200287
+    }
+   },
+   "low_power_steps_excluded_below_2kW": {
+    "n_steps": 3610,
+    "n_drives": 289,
+    "n_days": 82,
+    "km": 1933.4466900097314,
+    "b": 0.8438950453691401,
+    "b_ci95": [
+     0.792068920099412,
+     0.8767232879227685
+    ],
+    "b_se": 0.021885146616844726,
+    "mde_b": 0.06127841052716523,
+    "coefficients": {
+     "F0_kJ_per_km": -1327.8930494208598,
+     "F1_kJ_per_m2s": 0.08382790515762902,
+     "F2_kJ_per_m3s2": -0.000945496119453304,
+     "c_kJ_per_s": 9.732517643991534,
+     "b": 0.8438950453691401
+    }
+   },
+   "chord_screen_0p5_to_1p1": {
+    "n_steps": 11304,
+    "n_drives": 460,
+    "n_days": 130,
+    "km": 6544.822156326705,
+    "b": 0.10532876423631139,
+    "b_ci95": [
+     0.022998320758407253,
+     0.2236544460423997
+    ],
+    "b_se": 0.052115524360366296,
+    "mde_b": 0.14592346820902563,
+    "coefficients": {
+     "F0_kJ_per_km": -1490.1052084494434,
+     "F1_kJ_per_m2s": 0.0806801931555752,
+     "F2_kJ_per_m3s2": -0.0012624085629179549,
+     "c_kJ_per_s": 10.230847501631663,
+     "b": 0.10532876423631139
+    }
+   },
+   "shift_+0s": {
+    "n_steps": 11646,
+    "n_drives": 470,
+    "n_days": 133,
+    "km": 6705.629350927502,
+    "b": 0.05450304022717156,
+    "b_ci95": [
+     -0.027857978477584908,
+     0.1691246326971794
+    ],
+    "b_se": 0.05057913310668606,
+    "mde_b": 0.14162157269872097,
+    "coefficients": {
+     "F0_kJ_per_km": -1231.4139745362786,
+     "F1_kJ_per_m2s": 0.06378478127234997,
+     "F2_kJ_per_m3s2": -0.0009390328037832236,
+     "c_kJ_per_s": 9.134576968830858,
+     "b": 0.05450304022717156
+    }
+   },
+   "shift_-16s": {
+    "n_steps": 11655,
+    "n_drives": 473,
+    "n_days": 133,
+    "km": 6697.399025760513,
+    "b": -0.0011657295282016297,
+    "b_ci95": [
+     -0.048978581498779934,
+     0.0623329827940805
+    ],
+    "b_se": 0.02877294240615033,
+    "mde_b": 0.08056423873722092,
+    "coefficients": {
+     "F0_kJ_per_km": -852.4959227275522,
+     "F1_kJ_per_m2s": 0.04645084088639804,
+     "F2_kJ_per_m3s2": -0.0006894661913145553,
+     "c_kJ_per_s": 6.579627137347807,
+     "b": -0.0011657295282016297
+    }
+   },
+   "energy_variant_bsfc_optimistic": {
+    "n_steps": 3615,
+    "n_drives": 289,
+    "n_days": 82,
+    "km": 1935.5628244578452,
+    "b": 0.8745111210893635,
+    "b_ci95": [
+     0.8225163345410889,
+     0.9076476008468458
+    ],
+    "b_se": 0.022120007124866125,
+    "mde_b": 0.061936019949625144,
+    "coefficients": {
+     "F0_kJ_per_km": -1320.1832193919793,
+     "F1_kJ_per_m2s": 0.08418529080677657,
+     "F2_kJ_per_m3s2": -0.0009266724056122969,
+     "c_kJ_per_s": 9.862153076493891,
+     "b": 0.8745111210893635
+    }
+   },
+   "energy_variant_bsfc_conservative": {
+    "n_steps": 3615,
+    "n_drives": 289,
+    "n_days": 82,
+    "km": 1935.5628244578452,
+    "b": 0.7999712603482311,
+    "b_ci95": [
+     0.7482804229453143,
+     0.8326360717840173
+    ],
+    "b_se": 0.02175294943371122,
+    "mde_b": 0.06090825841439141,
+    "coefficients": {
+     "F0_kJ_per_km": -1364.7284480762173,
+     "F1_kJ_per_m2s": 0.08424907381148937,
+     "F2_kJ_per_m3s2": -0.0009788746562113396,
+     "c_kJ_per_s": 9.641257001094507,
+     "b": 0.7999712603482311
+    }
+   },
+   "energy_variant_paux_low": {
+    "n_steps": 3615,
+    "n_drives": 289,
+    "n_days": 82,
+    "km": 1935.5628244578452,
+    "b": 0.8432335314936618,
+    "b_ci95": [
+     0.7919617094912451,
+     0.876030392666378
+    ],
+    "b_se": 0.021863003166835697,
+    "mde_b": 0.06121640886713995,
+    "coefficients": {
+     "F0_kJ_per_km": -1340.1608595013658,
+     "F1_kJ_per_m2s": 0.08461048632030936,
+     "F2_kJ_per_m3s2": -0.0009596245032897857,
+     "c_kJ_per_s": 10.075348719967623,
+     "b": 0.8432335314936618
+    }
+   },
+   "energy_variant_paux_high": {
+    "n_steps": 3615,
+    "n_drives": 289,
+    "n_days": 82,
+    "km": 1935.5628244578452,
+    "b": 0.8432359633578795,
+    "b_ci95": [
+     0.7919625069814341,
+     0.8760306555000649
+    ],
+    "b_se": 0.021861604788505972,
+    "mde_b": 0.06121249340781672,
+    "coefficients": {
+     "F0_kJ_per_km": -1343.9901540243623,
+     "F1_kJ_per_m2s": 0.08481684793494695,
+     "F2_kJ_per_m3s2": -0.0009630978322202571,
+     "c_kJ_per_s": 9.097341587950124,
+     "b": 0.8432359633578795
+    }
+   },
+   "by_thermal_cohort": {
+    "cold": {
+     "n_steps": 567,
+     "n_drives": 47,
+     "n_days": 15,
+     "km": 328.2741252717628,
+     "b": 0.7812266040576559,
+     "b_ci95": [
+      0.5676411400551219,
+      0.9107623071365575
+     ],
+     "b_se": 0.11609796792744248,
+     "mde_b": 0.3250743101968389,
+     "coefficients": {
+      "F0_kJ_per_km": -2538.4288477390687,
+      "F1_kJ_per_m2s": 0.16079670988511469,
+      "F2_kJ_per_m3s2": -0.002409660314689974,
+      "c_kJ_per_s": 15.884571601740635,
+      "b": 0.7812266040576559
+     }
+    },
+    "shoulder": {
+     "n_steps": 1327,
+     "n_drives": 98,
+     "n_days": 47,
+     "km": 717.4081965354262,
+     "b": 0.8606555696426337,
+     "b_ci95": [
+      0.7730999484478538,
+      0.8880133029228415
+     ],
+     "b_se": 0.03089299206743072,
+     "mde_b": 0.08650037778880601,
+     "coefficients": {
+      "F0_kJ_per_km": -834.2078626305146,
+      "F1_kJ_per_m2s": 0.05226894567128125,
+      "F2_kJ_per_m3s2": -0.00033320884530556945,
+      "c_kJ_per_s": 7.372087509594972,
+      "b": 0.8606555696426337
+     }
+    },
+    "warm": {
+     "n_steps": 1721,
+     "n_drives": 144,
+     "n_days": 44,
+     "km": 889.8805026506559,
+     "b": 0.8464157528683113,
+     "b_ci95": [
+      0.7960787898202166,
+      0.8879005279546752
+     ],
+     "b_se": 0.023601244526349766,
+     "mde_b": 0.06608348467377934,
+     "coefficients": {
+      "F0_kJ_per_km": -901.3026967815449,
+      "F1_kJ_per_m2s": 0.05957757246894562,
+      "F2_kJ_per_m3s2": -0.0005349585035610307,
+      "c_kJ_per_s": 7.3578325176848285,
+      "b": 0.8464157528683113
+     }
+    }
+   },
+   "spread_energy_variants": {
+    "min": 0.7999712603482311,
+    "max": 0.8745111210893635,
+    "n": 4,
+    "note": "BSFC scalar and auxiliary power only; reported apart from the alignment spread"
+   },
+   "spread_alignment_shift": {
+    "min": -0.0011657295282016297,
+    "max": 0.8432342610529302,
+    "n": 3,
+    "note": "+16 s was frozen before any DEM value; 0 and -16 s are sensitivities, none selects"
+   }
+  }
+ },
+ "F3": {
+  "class_names": [
+   "below-3",
+   "-3to-1",
+   "-1to1",
+   "1to3",
+   "above3"
+  ],
+  "edges_pp": [
+   -3.0,
+   -1.0,
+   1.0,
+   3.0
+  ],
+  "step_scale_caveat": "mean grade over a 300 to 900 m step, not a road profile",
+  "step_share": [
+   0.013831258644536652,
+   0.08852005532503458,
+   0.7925311203319502,
+   0.08464730290456432,
+   0.020470262793914246
+  ],
+  "km_share": [
+   0.0125205297587785,
+   0.09094990884667153,
+   0.7878798455041237,
+   0.09012984730122127,
+   0.018519868589204975
+  ],
+  "by_cohort": {
+   "cold": {
+    "n_steps": 567,
+    "n_days": 15,
+    "km_share": [
+     0.004689789864912136,
+     0.06332098118352215,
+     0.8615912329909898,
+     0.06579910403987158,
+     0.0045988919207043625
+    ]
+   },
+   "shoulder": {
+    "n_steps": 1327,
+    "n_days": 47,
+    "km_share": [
+     0.010808045668184642,
+     0.11555564933316739,
+     0.7525949187174268,
+     0.10341468032941657,
+     0.017626705951804576
+    ]
+   },
+   "warm": {
+    "n_steps": 1721,
+    "n_days": 44,
+    "km_share": [
+     0.016789843897701367,
+     0.08130535789802826,
+     0.7891341200250119,
+     0.08839535077263916,
+     0.02437532740661933
+    ]
+   }
+  },
+  "regen_bus_energy_share_by_class": "not computed (R2 not testable or not informative, Rev 1 section 3)"
+ },
+ "deviations_from_spec": [
+  "Rev 2 registered changes: shift +16 s primary; |grade| above 8 pp excluded; duration term in the primary fit; displaced-DEM placebo; first and last step and vmin below 8 km/h excluded; R2/R3 rewritten.",
+  "F2 covers fuel-instrumented drives only: the traction reconstruction (recon_engine, central_estimate_v2_persample) needs the fuel-flow channel. The spec text said 'all drives with cloud fixes'; the effect is a smaller step set, reported in steps and F0.",
+  "Energy-variant sensitivities cover the BSFC scenario scalar (optimistic, conservative) and the auxiliary power (low, high) of model_constants only; the ten-axis GTR sensitivity block was not rerun.",
+  "Unique-km support is approximated by the summed step length of the fitted steps (no coordinates are kept); F1 support likewise by the step km on logged-altitude days.",
+  "The mass in the kinetic and potential terms is the assumed class mass 1950 kg (compute_summary_arrays.VEHICLE_MASS_KG basis); b scales with it and is read through b / b_obd.",
+  "Step length is limited to 300 to 900 m (Rev 2 9.1 estimand); longer steps are counted, not used. The chord/odometer ratio is a reported diagnostic and a sensitivity, not a primary screen."
+ ]
+}
