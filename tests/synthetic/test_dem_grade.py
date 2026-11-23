@@ -181,8 +181,8 @@ assert list(D.grade_class(np.array([-5.0, -2.0, 0.0, 2.0, 5.0]))) == [0, 1, 2, 3
 empty = tempfile.mkdtemp()
 assert D.main(["--dem-dir", empty, "--store", empty, "--raw-dir", empty, "--out-dir", empty]) == 0
 store, raw, dd = tempfile.mkdtemp(), tempfile.mkdtemp(), tempfile.mkdtemp()
-open(os.path.join(store, "manifest.json"), "w").write("{}")
+open(os.path.join(store, "manifest.json"), "w", encoding="utf-8").write("{}")
 open(os.path.join(dd, "N49E030_FABDEM_V1-2.tif"), "wb").write(b"not a tile")
-json.dump({"source": "x", "tiles": {"N49E030": {"file": "N49E030_FABDEM_V1-2.tif", "sha256": "0" * 64}}}, open(os.path.join(dd, "fabdem_tiles_manifest.json"), "w"))
+json.dump({"source": "x", "tiles": {"N49E030": {"file": "N49E030_FABDEM_V1-2.tif", "sha256": "0" * 64}}}, open(os.path.join(dd, "fabdem_tiles_manifest.json"), "w", encoding="utf-8"))
 assert D.main(["--dem-dir", dd, "--store", store, "--raw-dir", raw, "--out-dir", empty]) == 3
 print("test_dem_grade: OK")
