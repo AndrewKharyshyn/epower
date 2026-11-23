@@ -57,7 +57,7 @@ def main(argv=None):
     if not os.path.exists(os.path.join(a.store, "manifest.json")):
         print("mynissan_clock_offset: no cloud store, skipped (optional)"); return 0
     trip = mi.load_stream(a.store, "Trip_Information")
-    cspd = [(t, mc.fnum(x["SpeedDisplayedValueinkmh"])) for t, x in trip if x["SpeedDisplayedValueinkmh"] != ""]
+    cspd = [(t, mc.speed_kmh(x["SpeedDisplayedValueinkmh"])) for t, x in trip if mc.speed_kmh(x["SpeedDisplayedValueinkmh"]) is not None]
     cped = [(t, mc.fnum(x["AcceleratorPedalOpeningRatio"])) for t, x in trip if x["AcceleratorPedalOpeningRatio"] != ""]
     ct, cv = np.array([p[0] for p in cspd]), np.array([p[1] for p in cspd])
     pt, pv = np.array([p[0] for p in cped]), np.array([p[1] for p in cped])
