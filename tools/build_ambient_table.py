@@ -15,6 +15,8 @@ import copy, datetime, hashlib, json, os, sys
 import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import ambient_protocol as AP                      # M755: the shared ambientByDrive reader
 os.chdir(ROOT)
 cfg = json.load(open("summary_config.json", encoding="utf-8"))
 amb = cfg["ambientByDrive"]
@@ -69,13 +71,14 @@ for _c, _f in _cohort_frames().items():
     mean_kind_by_cohort[_c] = {"trapezoidal": int(_k.get("trapezoidal", 0)), "endpointPair": int(_k.get("interpolated_start_end", 0)),
                                "singleValue": int(_k.get("arithmetic_fallback", 0))}
     assert sum(mean_kind_by_cohort[_c].values()) == _n
-# auxLoadAmbient reads only list entries (bare-scalar legacy entries are dropped): count the drives with a standstill draw that it excludes
+# auxLoadAmbient reads the start reading through the shared reader (M755): a bare-number legacy entry is read as its single reading (it was dropped before M755); count the drives with a standstill draw that use one
 _aux = dm[dm["standstill_draw_kw"].notna()]
-aux_excluded = int(sum(1 for f in _aux["file"] if not (isinstance(amb[f], list) and len(amb[f]) > 0)))
+aux_single = int(sum(1 for f in _aux["file"] if not isinstance(amb[f], list)))
+aux_excluded = int(sum(1 for f in _aux["file"] if AP.first_reading(amb[f]) is None))
 definitions = [
     {"use": "Thermal class (warm / shoulder / cold) and the cohort views", "definition": "the ambient mean m: trapezoidal over >= 3 readings placed at equal intervals across the drive (reading times are not recorded), the mean of the start and end readings for 2 readings, the single reading for 1 reading"},
     {"use": "Battery vs Driver-Recorded Ambient (batteryVsAmbient) and belowAmbient", "definition": "pack-mean temperature at the start minus the start reading; pack-mean peak minus the END reading; belowAmbient counts drives whose start delta is negative (start reading only)"},
-    {"use": "HV aux/climate load vs ambient (auxLoadAmbient)", "definition": "the start reading only, list entries only; bare-number legacy entries are dropped (" + str(aux_excluded) + " drives with a standstill draw are excluded for that reason)"},
+    {"use": "HV aux/climate load vs ambient (auxLoadAmbient)", "definition": "the start reading only; a bare-number legacy entry is read as its single reading (" + str(aux_single) + " drives with a standstill draw use one; " + str(aux_excluded) + " drives have no readable entry)"},
     {"use": "Scope", "definition": "this list covers the charts named above; batteryTempRanges, heatSoakCarryover, dailyFingerprints and linkedAdjacentDriveTable also read ambientByDrive and are not covered here"},
 ]
 _ovs = json.load(open("seasonal_config.json", encoding="utf-8"))["cohorts"].get("regimeOverrides") or {}

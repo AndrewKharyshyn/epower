@@ -1,0 +1,47 @@
+{
+ "builder_listOnly": {
+  "nPairs": 706,
+  "nPairsAmbient": 593,
+  "tauFitN": 484,
+  "tauSenH": 10.957
+ },
+ "builder_plainRead": {
+  "nPairs": 706,
+  "nPairsAmbient": 650,
+  "tauFitN": 532,
+  "tauSenH": 11.029
+ },
+ "auditor_listOnly": {
+  "nPairs": 706,
+  "nPairsAmbient": 594,
+  "tauFitN": 483,
+  "tauSenH": 11.101
+ },
+ "auditor_plainRead": {
+  "nPairs": 706,
+  "nPairsAmbient": 651,
+  "tauFitN": 532,
+  "tauSenH": 11.137
+ },
+ "driveLevel": {
+  "nDrives": 717,
+  "nPackMeanDiffers": 167,
+  "maxAbsDiffStart": 5,
+  "maxAbsDiffEnd": 4
+ },
+ "pairLevelDiff": {
+  "listOnly": {
+   "ambientPairsOnlyBuilder": 0,
+   "ambientPairsOnlyAuditor": 1,
+   "fitOnlyBuilder": 1,
+   "fitOnlyAuditor": 0
+  },
+  "plainRead": {
+   "ambientPairsOnlyBuilder": 0,
+   "ambientPairsOnlyAuditor": 1,
+   "fitOnlyBuilder": 1,
+   "fitOnlyAuditor": 1
+  }
+ },
+ "note": "builder = mean-in-second 1 s grid (compute_summary_arrays._battery_temp_traj); auditor = last-sample-in-second 1 s grid. Same pairing, filters (init excess > 0 for the ambient count, > 3.0 and resid > 0 for the fit) and Sen slope through the origin."
+}

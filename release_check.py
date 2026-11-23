@@ -163,6 +163,20 @@ def payload_checks(arrays_path):
         and all(cc.get(k) for k in ("x2BetweenDriveLogging", "x3Ambient", "x4Timestamps", "sourceSha256")) and cc.get("x1LoggedDistance") is None
         and not any(w in json.dumps(cc) for w in ("total_km_cloud", "netCloudOdometerGainKm", "lowerBiasedCloudTotal")))
 
+    # (5c) M755: every ambientByDrive entry is readable by the shared reader (tools/ambient_protocol.readings) and the non-canonical ones are exactly the frozen legacy keys: a new bare number or one-reading list
+    #      fails here instead of being skipped silently by a block that parses it list-only (the 66 drives of 11-22 Sep 2026 were).
+    try:
+        _root = Path(SRC)
+        import sys as _sys
+        _sys.path.insert(0, str(_root / "tools"))
+        import ambient_protocol as _ap
+        _amb = (json.load(open(_root / "summary_config.json", encoding="utf-8")).get("ambientByDrive")) or {}
+        _legacy = set(json.load(open(_root / "tools" / "ambient_legacy_keys.json", encoding="utf-8"))["keys"])
+        _ok = bool(_amb) and all(_ap.readings(v) is not None for v in _amb.values()) and {k for k, v in _amb.items() if not _ap.is_canonical(v)} <= _legacy
+    except Exception:
+        _ok = False
+    checks["ambientByDrive entries readable by the shared reader; non-canonical only the frozen legacy keys (M755)"] = bool(_ok)
+
     # (6) M314: the Thermal-tab ambient table lists EVERY drive (count == corpus), each with a valid [start, *interim, end] list, and reaches the newest date.
     at = sa.get("ambientTable") or {}
     arows = at.get("rows") or []

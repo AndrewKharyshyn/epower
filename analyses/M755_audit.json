@@ -1,0 +1,19 @@
+{
+ "milestone": "M755",
+ "auditor": "analytical-auditor (blind, Sonnet)",
+ "round1": {
+  "claim": "66 plain-number ambient entries read as one reading",
+  "auxLoadAmbient": "reproduced exactly (nDrives 628->692, nDays 133->137, bins 5-10 C 96->100, 10-15 C 96->121 and median 0.87->0.86, Spearman 0.3989->0.3943 as 0.399->0.394, OLS slope 0.0251->0.0254, intercept 0.781->0.762); the payload slope is OLS (Theil-Sen 0.0271/0.0275 matches neither)",
+  "heatSoak": "nPairs 706 reproduced; nPairsAmbient not reproduced (the positive-initial-excess filter was not in the brief; verified in code: retainedFrac notna); verdict revise"
+ },
+ "round2_scoped": {
+  "disclosed": "nPairsAmbient filter, tau-fit filter, pack-mean definition (1 s grid, ffill limit 3, integer rounded)",
+  "nPairs": 706,
+  "nPairsAmbient": "594 -> 651 (payload 593 -> 650; delta +57 exact)",
+  "tauFitN": "483 -> 532 (payload 483 -> 531)",
+  "soakTauH_Sen": "11.10 -> 11.14 (payload 11.03 -> 11.10)",
+  "verdict": "plausible, within 1 pair and 0.07 h, not exact"
+ },
+ "residualExplained": "analyses/M755_pair_diff.py / M755_pair_diff.json: on the builder pack-mean basis (mean of the samples in each second) the same pairing reproduces nPairsAmbient 593 -> 650 exactly; the auditor basis (last sample in the second) differs in the integer pack mean on 167 of 717 drives (max 5 C start, 4 C end) and moves exactly 1 ambient pair and 1 fit pair; the +57 delta is identical on both bases",
+ "notDone": "dailyFingerprints.nDaysComplete (optional)"
+}

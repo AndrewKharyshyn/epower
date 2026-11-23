@@ -7590,6 +7590,16 @@ def _regime_transition_hardening(dm, min_cell=5, n_perm=4000, seed=42):
 
 
 
+def _ambient_reader():
+    """M755: the shared ambientByDrive reader (tools/ambient_protocol.py); every site reads the entries through it, so a plain-number entry is never skipped silently."""
+    import sys as _sys_ar
+    _tools_ar = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), 'tools')
+    if _tools_ar not in _sys_ar.path:
+        _sys_ar.path.insert(0, _tools_ar)
+    import ambient_protocol as _ap
+    return _ap
+
+
 def _soak_tau_mod():
     """M429 (audit F06): the shared interval rule for the parked-soak time constants (tools/soak_tau.py)."""
     import sys as _sys_st
@@ -7658,10 +7668,9 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
     amb = {}
     if ambient_by_drive:
         for fn, pair in ambient_by_drive.items():
-            try:
-                amb[fn] = sum(float(x) for x in pair) / len(pair)
-            except Exception:
-                pass
+            _m_amb = _ambient_reader().mean_reading(pair)
+            if _m_amb is not None:
+                amb[fn] = _m_amb
     pairs = []
     for k in range(len(d) - 1):
         a = d.iloc[k]
@@ -11916,10 +11925,9 @@ def _daily_fingerprints(dm, ambient_by_drive=None, frame_loader=None,
     amb = {}
     if ambient_by_drive:
         for fn, pair in ambient_by_drive.items():
-            try:
-                amb[fn] = sum(float(x) for x in pair) / len(pair)
-            except Exception:
-                pass
+            _m_amb = _ambient_reader().mean_reading(pair)
+            if _m_amb is not None:
+                amb[fn] = _m_amb
     d['ambientC'] = d['file'].map(amb)
 
     spd_col = ('speed_mean_moving' if 'speed_mean_moving' in d.columns
@@ -14358,10 +14366,8 @@ def _aux_load_ambient(dm, ambient_by_drive=None):
     ss = dm.dropna(subset=['standstill_draw_kw']).copy()
     if len(ss) < 20:
         return None
-    amb = ss['file'].map(lambda f: (ambient_by_drive[f][0]
-                                    if f in ambient_by_drive
-                                    and isinstance(ambient_by_drive[f], list)
-                                    and len(ambient_by_drive[f]) > 0 else None))
+    amb = ss['file'].map(lambda f: (_ambient_reader().first_reading(ambient_by_drive[f])
+                                    if f in ambient_by_drive else None))
     ss = ss.assign(_amb=amb).dropna(subset=['_amb'])
     if len(ss) < 20:
         return None
@@ -15217,10 +15223,9 @@ def _linked_adjacent_drive_table(dm, traj, ambient_by_drive=None,
     amb = {}
     if ambient_by_drive:
         for fn, pair in ambient_by_drive.items():
-            try:
-                amb[fn] = sum(float(x) for x in pair) / len(pair)
-            except Exception:
-                pass
+            _m_amb = _ambient_reader().mean_reading(pair)
+            if _m_amb is not None:
+                amb[fn] = _m_amb
     rows = []
     for k in range(len(d) - 1):
         a, b = d.iloc[k], d.iloc[k + 1]
@@ -15657,9 +15662,8 @@ def _battery_temp_ranges(dm, traj, ambient_by_drive):
         for label, lo_a, hi_a, color in amb_bins:
             files = []
             for fn, pair in ambient_by_drive.items():
-                try:
-                    a = sum(float(x) for x in pair) / len(pair)
-                except Exception:
+                a = _ambient_reader().mean_reading(pair)
+                if a is None:
                     continue
                 if lo_a <= a < hi_a:
                     files.append(fn)
