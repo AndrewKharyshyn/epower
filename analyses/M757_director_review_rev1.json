@@ -1,0 +1,15 @@
+{
+ "milestone": "M757",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M757_spec.md Rev 1 (sha256 03b5a972a003015f65f30141211c8741984bf27f64e88264dda3c9973f51b37a)",
+ "verdict": "revise",
+ "rulings": {
+  "a": "accept as primary design; state scale (step-mean 300-900 m, not a road profile); freeze primary shift +16 s (best M737 G0 P1 agreement, chosen before any DEM value), 0 and -16 s sensitivities, neither F1 nor F2 may select the shift; d_step = OBD distance over the aligned window, cloud odometer only if resolution 0.1 km or finer (F0 reports it); bare-earth bridges/cuttings: covariate-side flag |DEM step grade| > 8 pp excluded in primary, kept as sensitivity",
+  "b": "defensible as validation conditional on the traction reconstruction, not independent; b absorbs drivetrain and regen efficiency and scales with assumed mass; b/b_obd is the like-for-like quantity; primary joint fit with duration term c*duration (aux/HVAC); sensitivities: road-load fitted on DEM-flat steps (|g|<1 pp) first, separate b+ / b- by sign of dh, by thermal cohort, every energy variant in the GTR sensitivity block with spread; no outcome-based exclusion in primary (low-power exclusion moves to a sensitivity); frozen negative control: dh sampled at fixes displaced 2 km perpendicular to heading, b_placebo interval must contain 0 or R2 is downgraded",
+  "c": "keep 30 days / 100 unique km / 1,000 steps above 2 pp, add at least 10 days with such steps of EACH sign; R3: drop 'b interval contains 1'; use b/b_obd interval inside [0.8,1.25] AND b_obd days meet the 30-day floor, else 'not testable' (8 days: not testable); R2 'not informative' is a falsification only if the b upper bound < 0.25 * b_obd point estimate (or < 0.2 if b_obd not testable), otherwise 'inconclusive' with MDE",
+  "d": "agreed: below the floor F1 is descriptive only and must not tune smoothing, shift or screens",
+  "e": "no gear channel: primary excludes first and last step of each drive and steps with minimum OBD speed < 8 km/h, excluded km share reported; sensitivity without exclusion; never call negative torque in low-speed steps regeneration",
+  "f": "Sonnet high blind audit suffices; before any binding (M737 R3), dashboard or article use: Opus audit plus Andrii sign-off"
+ },
+ "needsAndriiSignoff": false
+}
