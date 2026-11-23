@@ -1,0 +1,696 @@
+{
+ "milestone": "M754",
+ "spec": "analyses/M754_spec.md Rev 2",
+ "role": "report-only; ENGINE coolant, cloud-reported, estimated; no pack-temperature channel in the cloud",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "registeredMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "m729GapsSha256": "d1d3f8e9da732e7c58212c3bcf5718e05304a186df4f45e567d8799c704d159f",
+ "storeManifestSha256": "7cbab168a882a561f55005e27a6fe484b91eb450c7e1bc2a2b6e0a37b25b3a96",
+ "seed": 42,
+ "nBoot": 4000,
+ "toolSha256": "260fde3076915402a651eebe630954107ce6cdeca98ac4dd0241ae0a3199ee70",
+ "control_V0": {
+  "unloggedStrictUnits": 331,
+  "dGaps": 98,
+  "kyivUtcOffsetsS": {
+   "2026-07-15": 10800.0,
+   "2026-11-15": 7200.0
+  },
+  "status": "reproduced"
+ },
+ "cloudCoolantRows": 1169,
+ "drivesWithoutObdCoolant": 7,
+ "K1_keyoff_crosscheck": {
+  "primary_pm120s": {
+   "nDrives": 614,
+   "nDays": 133,
+   "median": {
+    "est": -2.0,
+    "ci95": [
+     -2.0,
+     -2.0
+    ]
+   },
+   "mean": {
+    "est": -1.891,
+    "ci95": [
+     -2.018,
+     -1.771
+    ]
+   },
+   "medianAbs": {
+    "est": 2.0,
+    "ci95": [
+     2.0,
+     2.0
+    ]
+   },
+   "p90Abs": {
+    "est": 3.0,
+    "ci95": [
+     3.0,
+     3.0
+    ]
+   },
+   "wording": "offset of -2.0 C [-2.0, -2.0] (median |d| 2.0 C, 90th percentile 3.0 C); mean -1.89 C"
+  },
+  "ageSlope": {
+   "slopeCPerMin": -1.9064,
+   "ci95": [
+    -2.471,
+    -1.3417
+   ],
+   "nDrives": 614,
+   "nDays": 133
+  },
+  "obdEndBelow60C": {
+   "nDrives": 149,
+   "nDays": 67,
+   "median": {
+    "est": -2.0,
+    "ci95": [
+     -2.0,
+     -2.0
+    ]
+   },
+   "mean": {
+    "est": -1.49,
+    "ci95": [
+     -1.779,
+     -1.168
+    ]
+   },
+   "medianAbs": {
+    "est": 2.0,
+    "ci95": [
+     2.0,
+     2.0
+    ]
+   },
+   "p90Abs": {
+    "est": 3.0,
+    "ci95": [
+     3.0,
+     4.0
+    ]
+   },
+   "wording": "offset of -2.0 C [-2.0, -2.0] (median |d| 2.0 C, 90th percentile 3.0 C); mean -1.49 C"
+  },
+  "obdEnd60CAndAbove": {
+   "nDrives": 465,
+   "nDays": 127,
+   "median": {
+    "est": -2.0,
+    "ci95": [
+     -2.0,
+     -2.0
+    ]
+   },
+   "mean": {
+    "est": -2.019,
+    "ci95": [
+     -2.157,
+     -1.885
+    ]
+   },
+   "medianAbs": {
+    "est": 2.0,
+    "ci95": [
+     2.0,
+     2.0
+    ]
+   },
+   "p90Abs": {
+    "est": 3.0,
+    "ci95": [
+     3.0,
+     3.0
+    ]
+   },
+   "wording": "offset of -2.0 C [-2.0, -2.0] (median |d| 2.0 C, 90th percentile 3.0 C); mean -2.02 C"
+  },
+  "snapshotAfterEnd0to60s": {
+   "nDrives": 183,
+   "nDays": 93,
+   "median": {
+    "est": -3.0,
+    "ci95": [
+     -3.0,
+     -3.0
+    ]
+   },
+   "mean": {
+    "est": -2.497,
+    "ci95": [
+     -2.726,
+     -2.249
+    ]
+   },
+   "medianAbs": {
+    "est": 3.0,
+    "ci95": [
+     3.0,
+     3.0
+    ]
+   },
+   "p90Abs": {
+    "est": 4.0,
+    "ci95": [
+     4.0,
+     5.0
+    ]
+   },
+   "wording": "offset of -3.0 C [-3.0, -3.0] (median |d| 3.0 C, 90th percentile 4.0 C); mean -2.50 C"
+  },
+  "snapshotAfterEnd60to120s": {
+   "nDrives": 14,
+   "nDays": 13,
+   "status": "not estimable at this support (counts only)",
+   "wording": "not estimable at this support"
+  },
+  "snapshotBeforeEnd": {
+   "nDrives": 417,
+   "nDays": 124,
+   "median": {
+    "est": -2.0,
+    "ci95": [
+     -2.0,
+     -2.0
+    ]
+   },
+   "mean": {
+    "est": -1.559,
+    "ci95": [
+     -1.683,
+     -1.432
+    ]
+   },
+   "medianAbs": {
+    "est": 2.0,
+    "ci95": [
+     2.0,
+     2.0
+    ]
+   },
+   "p90Abs": {
+    "est": 3.0,
+    "ci95": [
+     3.0,
+     3.0
+    ]
+   },
+   "wording": "offset of -2.0 C [-2.0, -2.0] (median |d| 2.0 C, 90th percentile 3.0 C); mean -1.56 C"
+  },
+  "sensitivity_window_to_600s": {
+   "nDrives": 627,
+   "nDays": 134,
+   "median": {
+    "est": -2.0,
+    "ci95": [
+     -2.0,
+     -2.0
+    ]
+   },
+   "mean": {
+    "est": -1.93,
+    "ci95": [
+     -2.076,
+     -1.784
+    ]
+   },
+   "medianAbs": {
+    "est": 2.0,
+    "ci95": [
+     2.0,
+     2.0
+    ]
+   },
+   "p90Abs": {
+    "est": 3.0,
+    "ci95": [
+     3.0,
+     4.0
+    ]
+   },
+   "wording": "offset of -2.0 C [-2.0, -2.0] (median |d| 2.0 C, 90th percentile 3.0 C); mean -1.93 C"
+  },
+  "sensitivity_shift16s": {
+   "nDrives": 611,
+   "nDays": 132,
+   "median": {
+    "est": -2.0,
+    "ci95": [
+     -2.0,
+     -2.0
+    ]
+   },
+   "mean": {
+    "est": -1.885,
+    "ci95": [
+     -2.015,
+     -1.756
+    ]
+   },
+   "medianAbs": {
+    "est": 2.0,
+    "ci95": [
+     2.0,
+     2.0
+    ]
+   },
+   "p90Abs": {
+    "est": 3.0,
+    "ci95": [
+     3.0,
+     3.0
+    ]
+   },
+   "wording": "offset of -2.0 C [-2.0, -2.0] (median |d| 2.0 C, 90th percentile 3.0 C); mean -1.89 C"
+  },
+  "definition": "difference = cloud snapshot nearest the drive end (within +-120 s) minus the last valid OBD coolant sample; age = snapshot time minus the time of that sample"
+ },
+ "K2_unlogged_end_of_trip": {
+  "unlogged": {
+   "units": 331,
+   "withSnapshot": 311,
+   "cloudCoolant": {
+    "nDrives": 311,
+    "nDays": 83,
+    "median": {
+     "est": 70.0,
+     "ci95": [
+      67.0,
+      73.0
+     ]
+    },
+    "mean": {
+     "est": 69.129,
+     "ci95": [
+      67.335,
+      70.841
+     ]
+    },
+    "medianAbs": {
+     "est": 70.0,
+     "ci95": [
+      67.0,
+      73.0
+     ]
+    },
+    "p90Abs": {
+     "est": 82.0,
+     "ci95": [
+      81.0,
+      83.0
+     ]
+    }
+   }
+  },
+  "logged": {
+   "drives": 614,
+   "cloudCoolant": {
+    "nDrives": 614,
+    "nDays": 133,
+    "median": {
+     "est": 69.0,
+     "ci95": [
+      64.0,
+      72.0
+     ]
+    },
+    "mean": {
+     "est": 67.888,
+     "ci95": [
+      65.9,
+      69.964
+     ]
+    },
+    "medianAbs": {
+     "est": 69.0,
+     "ci95": [
+      64.0,
+      72.0
+     ]
+    },
+    "p90Abs": {
+     "est": 84.0,
+     "ci95": [
+      83.0,
+      86.0
+     ]
+    }
+   }
+  },
+  "tercileCutsCloudKm": [
+   2.27,
+   5.1
+  ],
+  "byTercile": {
+   "shortest": {
+    "unloggedUnits": 121,
+    "loggedDrives": 205,
+    "medianUnlogged": 69.0,
+    "medianLogged": 61.0,
+    "medianDifferenceUnloggedMinusLogged": {
+     "difference": 8.0,
+     "ci95": [
+      4.0,
+      11.0
+     ],
+     "nDays": 117
+    }
+   },
+   "middle": {
+    "unloggedUnits": 147,
+    "loggedDrives": 203,
+    "medianUnlogged": 68.0,
+    "medianLogged": 63.0,
+    "medianDifferenceUnloggedMinusLogged": {
+     "difference": 5.0,
+     "ci95": [
+      1.0,
+      8.0
+     ],
+     "nDays": 119
+    }
+   },
+   "longest": {
+    "unloggedUnits": 43,
+    "loggedDrives": 206,
+    "medianUnlogged": 81.0,
+    "medianLogged": 81.0,
+    "medianDifferenceUnloggedMinusLogged": {
+     "difference": 0.0,
+     "ci95": [
+      -3.0,
+      2.0
+     ],
+     "nDays": 117
+    }
+   }
+  },
+  "wording": "cloud-reported engine coolant shortly after the estimated end of unlogged trips (different driver; not comparable as a driving-style effect)"
+ },
+ "K3_cooling": {
+  "anchorDiagnostics": {
+   "D_anchor_time_diff_s_max": 10237.644000053406,
+   "gapsWithoutSnapshotD": 29,
+   "gapsWithSnapshotD": 55
+  },
+  "sets": {
+   "S_obd": {
+    "primary": {
+     "nPairs": 198,
+     "nDays": 92,
+     "kSen": 0.36739,
+     "interceptSen": -0.1254,
+     "kThroughOriginLS": 0.39645,
+     "tauSenH": 2.72,
+     "exclusions": {
+      "input": 446,
+      "outsideParkedRange": 246,
+      "eaNotAbove10": 2,
+      "ebNotAbove1": 0,
+      "kept": 198
+     },
+     "supported": true,
+     "kCI95": [
+      0.34092,
+      0.39875
+     ]
+    },
+    "sensitivity_eb_above_3C": {
+     "nPairs": 196,
+     "nDays": 92,
+     "kSen": 0.36339,
+     "interceptSen": -0.1275,
+     "kThroughOriginLS": 0.38617,
+     "tauSenH": 2.75,
+     "exclusions": {
+      "input": 446,
+      "outsideParkedRange": 246,
+      "eaNotAbove10": 2,
+      "ebNotAbove3": 2,
+      "kept": 196
+     }
+    },
+    "sensitivity_parked_to_24h": {
+     "nPairs": 243,
+     "nDays": 104,
+     "kSen": 0.2666,
+     "interceptSen": -0.2138,
+     "kThroughOriginLS": 0.20486,
+     "tauSenH": 3.75,
+     "exclusions": {
+      "input": 446,
+      "outsideParkedRange": 177,
+      "eaNotAbove10": 2,
+      "ebNotAbove1": 24,
+      "kept": 243
+     }
+    },
+    "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
+   },
+   "S_cloud": {
+    "primary": {
+     "nPairs": 191,
+     "nDays": 93,
+     "kSen": 0.37387,
+     "interceptSen": -0.0839,
+     "kThroughOriginLS": 0.38046,
+     "tauSenH": 2.67,
+     "exclusions": {
+      "input": 433,
+      "outsideParkedRange": 240,
+      "eaNotAbove10": 2,
+      "ebNotAbove1": 0,
+      "kept": 191
+     },
+     "supported": true,
+     "kCI95": [
+      0.34618,
+      0.40252
+     ]
+    },
+    "sensitivity_eb_above_3C": {
+     "nPairs": 189,
+     "nDays": 93,
+     "kSen": 0.37028,
+     "interceptSen": -0.0897,
+     "kThroughOriginLS": 0.37091,
+     "tauSenH": 2.7,
+     "exclusions": {
+      "input": 433,
+      "outsideParkedRange": 240,
+      "eaNotAbove10": 2,
+      "ebNotAbove3": 2,
+      "kept": 189
+     }
+    },
+    "sensitivity_parked_to_24h": {
+     "nPairs": 235,
+     "nDays": 104,
+     "kSen": 0.26956,
+     "interceptSen": -0.165,
+     "kThroughOriginLS": 0.19901,
+     "tauSenH": 3.71,
+     "exclusions": {
+      "input": 433,
+      "outsideParkedRange": 172,
+      "eaNotAbove10": 2,
+      "ebNotAbove1": 24,
+      "kept": 235
+     }
+    },
+    "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
+   },
+   "D_cloud": {
+    "primary": {
+     "nPairs": 26,
+     "nDays": 25,
+     "kSen": 0.31384,
+     "interceptSen": -0.1745,
+     "kThroughOriginLS": 0.35912,
+     "tauSenH": 3.19,
+     "exclusions": {
+      "input": 55,
+      "outsideParkedRange": 29,
+      "eaNotAbove10": 0,
+      "ebNotAbove1": 0,
+      "kept": 26
+     },
+     "supported": true,
+     "kCI95": [
+      0.24807,
+      0.40853
+     ]
+    },
+    "sensitivity_eb_above_3C": {
+     "nPairs": 26,
+     "nDays": 25,
+     "kSen": 0.31384,
+     "interceptSen": -0.1745,
+     "kThroughOriginLS": 0.35912,
+     "tauSenH": 3.19,
+     "exclusions": {
+      "input": 55,
+      "outsideParkedRange": 29,
+      "eaNotAbove10": 0,
+      "ebNotAbove3": 0,
+      "kept": 26
+     }
+    },
+    "sensitivity_parked_to_24h": {
+     "nPairs": 41,
+     "nDays": 35,
+     "kSen": 0.18875,
+     "interceptSen": -0.3438,
+     "kThroughOriginLS": 0.18985,
+     "tauSenH": 5.3,
+     "exclusions": {
+      "input": 55,
+      "outsideParkedRange": 10,
+      "eaNotAbove10": 0,
+      "ebNotAbove1": 4,
+      "kept": 41
+     }
+    },
+    "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
+   },
+   "D_cloud_m729": {
+    "primary": {
+     "nPairs": 28,
+     "nDays": 26,
+     "kSen": 0.30858,
+     "interceptSen": -0.1665,
+     "kThroughOriginLS": 0.35811,
+     "tauSenH": 3.24,
+     "exclusions": {
+      "input": 57,
+      "outsideParkedRange": 29,
+      "eaNotAbove10": 0,
+      "ebNotAbove1": 0,
+      "kept": 28
+     },
+     "supported": true
+    },
+    "sensitivity_eb_above_3C": {
+     "nPairs": 28,
+     "nDays": 26,
+     "kSen": 0.30858,
+     "interceptSen": -0.1665,
+     "kThroughOriginLS": 0.35811,
+     "tauSenH": 3.24,
+     "exclusions": {
+      "input": 57,
+      "outsideParkedRange": 29,
+      "eaNotAbove10": 0,
+      "ebNotAbove3": 0,
+      "kept": 28
+     }
+    },
+    "sensitivity_parked_to_24h": {
+     "nPairs": 43,
+     "nDays": 36,
+     "kSen": 0.19358,
+     "interceptSen": -0.3295,
+     "kThroughOriginLS": 0.19024,
+     "tauSenH": 5.17,
+     "exclusions": {
+      "input": 57,
+      "outsideParkedRange": 10,
+      "eaNotAbove10": 0,
+      "ebNotAbove1": 4,
+      "kept": 43
+     }
+    },
+    "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
+   },
+   "D1_cloud": {
+    "primary": {
+     "nPairs": 24,
+     "nDays": 23,
+     "kSen": 0.30653,
+     "interceptSen": -0.2099,
+     "kThroughOriginLS": 0.3572,
+     "tauSenH": 3.26,
+     "exclusions": {
+      "input": 48,
+      "outsideParkedRange": 24,
+      "eaNotAbove10": 0,
+      "ebNotAbove1": 0,
+      "kept": 24
+     },
+     "supported": true
+    },
+    "sensitivity_eb_above_3C": {
+     "nPairs": 24,
+     "nDays": 23,
+     "kSen": 0.30653,
+     "interceptSen": -0.2099,
+     "kThroughOriginLS": 0.3572,
+     "tauSenH": 3.26,
+     "exclusions": {
+      "input": 48,
+      "outsideParkedRange": 24,
+      "eaNotAbove10": 0,
+      "ebNotAbove3": 0,
+      "kept": 24
+     }
+    },
+    "sensitivity_parked_to_24h": {
+     "nPairs": 39,
+     "nDays": 33,
+     "kSen": 0.1857,
+     "interceptSen": -0.3948,
+     "kThroughOriginLS": 0.1896,
+     "tauSenH": 5.38,
+     "exclusions": {
+      "input": 48,
+      "outsideParkedRange": 5,
+      "eaNotAbove10": 0,
+      "ebNotAbove1": 4,
+      "kept": 39
+     }
+    },
+    "note": "the e_b > 1 C filter keeps the slow coolers and biases k downward, differently in sets with different parked-time mixes"
+   }
+  },
+  "comparisons": {
+   "S_cloud_minus_S_obd": {
+    "difference": 0.00648,
+    "ci95": [
+     -0.00167,
+     0.01336
+    ],
+    "mde": 0.0106,
+    "wording": "not distinguishable",
+    "bootstrap": "paired (same gaps)",
+    "label": "difference between the sets, confounded by driver, time of day, parking place and a possibly two-time-constant engine; not an unlogged effect"
+   },
+   "D_cloud_minus_S_cloud": {
+    "difference": -0.06003,
+    "ci95": [
+     -0.13268,
+     0.0427
+    ],
+    "mde": 0.13246,
+    "wording": "not distinguishable",
+    "bootstrap": "joint day-clustered resample of disjoint gap sets",
+    "label": "difference between the sets, confounded by driver, time of day, parking place and a possibly two-time-constant engine; not an unlogged effect"
+   }
+  }
+ },
+ "K4_coverage": {
+  "loggedDrivesWithSnapshotNearEnd": 625,
+  "loggedDrives": 717,
+  "unloggedUnitsWithSnapshotNearEnd": 311,
+  "unloggedUnits": 331
+ },
+ "deviations_from_spec": [
+  "the primary fit is the published pairwise Sen slope (with the through-origin check reported as the intercept) and the least-squares through-origin slope is the sensitivity, because the published estimator family (M242) is the Sen slope; the Theil-Sen-with-intercept of 9.3 coincides with it for the slope",
+  "OBD coolant is read directly from the raw files (thermal.obd_coolant), not through _battery_temp_traj, so drives without pack-sensor columns are kept; drives without an OBD coolant channel are counted"
+ ],
+ "scope": "report-only: no payload, dashboard or master change; never a pack-temperature statement",
+ "seconds": 394.1
+}
