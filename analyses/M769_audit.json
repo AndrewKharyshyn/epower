@@ -1,0 +1,18 @@
+{
+ "milestone": "M769",
+ "spec": "analyses/M769_spec.md Rev 2",
+ "auditor": "analytical-auditor (Sonnet, blind: claim and data paths only; the tool and the result were not read)",
+ "verdict": "accept (with a corrected threshold label and a caveat on the placebo ratio)",
+ "reproduced": {"drives": 121, "days": 58, "slope_per100kg_payload": -0.0097, "ci95": [-0.4602, 0.4923], "bootstrap_sd": 0.2399, "mde": 0.672, "draws": "4000, seed 42, day resampling", "abs_diff": "slope 0.0003; interval ends and MDE under 0.003"},
+ "funnel": {"fuel_basis_rows": 489, "clean_ens_outlier_v2_false": 487, "with_belt_pattern": 401, "distance_at_least_5_km": 121, "dropped_for_missing_covariates": 0, "classes": {"urban": 89, "mixed": 17, "mixed_highway": 11, "highway": 4}, "thermal": {"warm": 62, "shoulder": 44, "cold": 15}},
+ "concerns": [
+  "eligibility uses the pattern flag, distance, clean flag and covariate completeness only (no outcome or payload value): no leakage found; the 5 km floor removes most short urban drives (median 2.5 km)",
+  "payload varies within a day on 12 of 58 days (35 days have more than one drive): the slope is identified mostly between days, so confounding by day, route and occupants is not separable",
+  "highway has 4 eligible drives: the class adjustment is nearly saturated",
+  "displaced-day placebo: 92 of 121 drives match; placebo slope -0.168 [-0.786, 0.559] against a primary of about -0.014 on the subset: the ratio 12 to 13 against a primary near zero is unstable and not interpretable; the placebo interval includes zero",
+  "the reading-rule threshold depends on the mean fuel used (eligible mean 5.59 versus the corpus mean 7.46 L/100 km): 0.030 versus 0.040; the verdict does not change (MDE 0.672)",
+  "the first-drive-of-day flag is defined over all drives of the date in the payload file (15.7 % of eligible drives flagged); this detail was not pre-registered"
+ ],
+ "reading_rule_check": "0.2 x 0.0526 x 5.59 = 0.059 is the LOWER end of the expectation; half of it is 0.030 (0.040 on the corpus mean); the realised MDE 0.672 exceeds every version by more than 15 times: 'not informative at this support' is applied correctly",
+ "not_done": "no code-level comparison (blind reproduction only)"
+}

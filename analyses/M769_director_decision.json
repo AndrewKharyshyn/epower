@@ -1,0 +1,27 @@
+{
+ "milestone": "M769",
+ "spec": "analyses/M769_spec.md Rev 2",
+ "result": "analyses/M769_payload_energy.json",
+ "audit": "analyses/M769_audit.json",
+ "reviewer": "research-director (Opus); recorded by the main session (Sonnet)",
+ "decision": "accept as report-only; A1 reading 'not informative at this support'; no dashboard use, no article use",
+ "scientific_meaning": "At 121 fuel-basis drives on 58 days (5 km or longer) the slope of logged / app-calculated fuel on estimated occupant payload is -0.010 L/100 km per 100 kg [-0.460, 0.492]. The realised MDE 0.672 is about 20 times the pre-registered resolution threshold of about 0.03 (half of the 0.059 lower end), so the design cannot resolve the expected +1 to +3 % per 100 kg. Payload is identified mostly between days (ICC 0.71).",
+ "allowed_wording": [
+  "Fuel use (logged / app-calculated) per 100 kg of estimated occupant payload: not informative at this support (MDE about 20 times the pre-registered resolution threshold); an association design, not an effect of mass.",
+  "Regeneration-to-battery energy (from logged current) and generator and gross traction energy (model-derived): exploratory, no verdict.",
+  "B1: kinematic reference with an assumed rolling coefficient: 0.37 to 0.43 kWh per 100 km of payload work at the mean estimated payload (59 kg) for C_rr 0.008 to 0.012, with a day-clustered interval."
+ ],
+ "forbidden": ["no mass effect, mass does not matter, insensitive to payload, equivalence", "payload 'measured' or 'weighed'; traction or generator 'measured'", "effect, causes, increases for any slope", "placebo 'passed' or 'confirms'", "'about 2 % of traction' as a figure (it was computed by hand; its denominator is model-derived gross traction; if wanted, the tool must write it as a B1 field)"],
+ "quotable_now": "only script-written numbers in analyses/M769_payload_energy.json (slope, interval, MDE, n, design_mde, B1 kWh values with the C_rr label)",
+ "deviations_to_state": [
+  "the rule was applied with the eligible-mean fuel 5.59 L/100 km, not the corpus mean 7.46: threshold 0.03 versus 0.04, verdict unchanged",
+  "the placebo ratio rule (above 0.5) degenerates when the primary is near zero (ratio 13.6): the read is mechanical and not interpretable; the placebo interval includes zero",
+  "B1 is reported only at the mean payload (allowance A = mean); spec 7.7 also asked for A = 0 and the 95th percentile and a relative change: not delivered in this milestone",
+  "pattern count 607 here versus 609 in the spec text (the clean-drive filter); the within-day share 0.343 is 12 of 35 days with more than one drive",
+  "the 2 and 10 km sensitivities are point estimates without intervals",
+  "the first-drive-of-day flag was defined by the main session and is not pre-registered"
+ ],
+ "dashboard": "not allowed",
+ "needs_andrii_signoff": false,
+ "follow_ups": ["rerun when the drives of 5 km or more with a belt pattern reach a size pre-computed from design_mde (park until then)", "longer-trip and highway logging (4 highway drives now)", "a 2 km floor only under a new pre-registered design (warm-up and cold start dominate; not a post-hoc swap)", "optional: a within-day contrast design if the days with varying payload grow", "add the B1 relative change at A = 0 and the 95th percentile, and a script-written share of model-derived gross traction, if the owner wants them"]
+}
