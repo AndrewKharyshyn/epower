@@ -237,7 +237,11 @@ def main(argv=None):
             if old:
                 d = delta(old, block, build(load()) if old.get("sourceFile") != SRC_REL else old)
                 print("grade_shares_payload: delta " + json.dumps(d)[:1500])
-                if d["escalate"] and "--accept-escalated" not in argv and "--splice" in argv:
+                acc = argv[argv.index("--accept-escalated") + 1] if "--accept-escalated" in argv and argv.index("--accept-escalated") + 1 < len(argv) else None
+                if acc and not os.path.isfile(os.path.join(ROOT, acc)):
+                    print("grade_shares_payload: --accept-escalated needs the path of the audit or Director decision file (not found); nothing written")
+                    return 4
+                if d["escalate"] and not acc and "--splice" in argv:
                     print("grade_shares_payload: ESCALATED (a class left the previous displayed interval, changed support or changed its source flag): blind audit and Director before replacement; nothing written")
                     return 4
         if "--splice" in argv:

@@ -161,7 +161,12 @@ def promote(scratch, dest, outs):
     shutil.rmtree(old, ignore_errors=True)
     if os.path.isdir(dest):
         os.rename(dest, old)
-    os.rename(tmp, dest)
+    try:
+        os.rename(tmp, dest)
+    except OSError:
+        if os.path.isdir(old) and not os.path.isdir(dest):
+            os.rename(old, dest)                                                                 # restore the previous outputs
+        raise
     shutil.rmtree(old, ignore_errors=True)
     return {o: sha256_file(os.path.join(dest, o)) for o in outs}
 

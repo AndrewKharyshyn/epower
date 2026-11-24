@@ -103,4 +103,22 @@ assert st4["after_fabdem_grade_8pp_exclusion"] == 4 and S.RETEST_RESULT == "grad
 src = open(os.path.join(ROOT, "tools", "dem_grade_shares.py"), encoding="utf-8").read()
 assert src.index("master pin failed") < src.index("json.dump(res") and src.count("json.dump(res") == 1        # registered mode: a pin stop returns before the only write
 assert "never writes into analyses" in src
+
+# 8.1 behavioural: registered mode with a foreign master stops (non-zero) and writes nothing into the out-dir
+import tempfile, shutil
+td = tempfile.mkdtemp()
+try:
+    for sub in ("fabdem", "nasadem", "aw3d30", "glo30"):
+        os.makedirs(os.path.join(td, "dem", sub))
+    os.makedirs(os.path.join(td, "store"))
+    open(os.path.join(td, "store", "manifest.json"), "w").write("{}")
+    os.makedirs(os.path.join(td, "raw"))
+    open(os.path.join(td, "master.csv"), "w").write("file\nx.csv\n")
+    outd = os.path.join(td, "out")
+    rc = S.main(["--run", "--dem-dir", os.path.join(td, "dem"), "--store", os.path.join(td, "store"), "--raw-dir", os.path.join(td, "raw"), "--master", os.path.join(td, "master.csv"), "--out-dir", outd])
+    assert rc != 0 and not os.path.exists(outd)
+    rc = S.main(["--run", "--retest", "--dem-dir", os.path.join(td, "dem"), "--store", os.path.join(td, "store"), "--raw-dir", os.path.join(td, "raw"), "--master", os.path.join(td, "master.csv"), "--out-dir", os.path.join(ROOT, "analyses")])
+    assert rc != 0
+finally:
+    shutil.rmtree(td, ignore_errors=True)
 print("test_dem_grade_shares: OK")

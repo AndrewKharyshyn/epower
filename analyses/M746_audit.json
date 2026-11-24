@@ -1,0 +1,92 @@
+{
+ "milestone": "M746",
+ "spec": "analyses/M746_spec.md Rev 5",
+ "auditor": "analytical-auditor (Sonnet, contract review plus unit tests run as scripts)",
+ "round1": {
+  "verdict": "revise",
+  "contract_ok": [
+   "registered results never written (promotion only under the out-root; protected set hashed before and after every tool)",
+   "integrity breach aborts the rest, exit 2, scratch deleted",
+   "tool failure, timeout and wrapper exception exit 0",
+   "no summary_arrays write in the stage",
+   "registered mode of dem_grade_shares writes only at the very end",
+   "payload delta escalates on leaving the previous interval, support change, source-flag change"
+  ],
+  "defects_and_fixes": [
+   {
+    "sev": "high",
+    "defect": "os.replace from the scratch directory fails across filesystems; promotion per file not atomic",
+    "fix": "promote() copies into <dest>.tmp and swaps the directory in; a failure keeps the previous outputs (test)"
+   },
+   {
+    "sev": "medium",
+    "defect": "skipped_up_to_date record dropped outputs, so the skip worked every other run",
+    "fix": "outputs and promotedTo carried forward (test: three consecutive runs)"
+   },
+   {
+    "sev": "medium",
+    "defect": "an --only run overwrote the other tools' records",
+    "fix": "records kept (test)"
+   },
+   {
+    "sev": "medium",
+    "defect": "store sha computed before import",
+    "fix": "recomputed after a successful import"
+   },
+   {
+    "sev": "medium",
+    "defect": "lock was exists-then-write, no stale takeover",
+    "fix": "O_EXCL lock, takeover after 6 h (test); a locked run keeps previousTools"
+   },
+   {
+    "sev": "medium",
+    "defect": "retest result wrote control_R1 all true for a full-corpus run",
+    "fix": "control_R1_scope states the registered 717-drive nested control only"
+   },
+   {
+    "sev": "low",
+    "defect": "tyre fingerprint ignored the coverage output; import could not create the store; grade_shares was not given --raw-dir",
+    "fix": "coverage sha in the fingerprint; import runs without a store; --raw-dir passed"
+   }
+  ],
+  "tests_added": [
+   "three consecutive runs",
+   "--only keeps records",
+   "upstream failure",
+   "stale lock takeover",
+   "failed promotion keeps old outputs",
+   "dem_grade_shares: registered_files mismatch, control R1 failure, single write after the pin stop, no analyses/ target for a retest"
+  ],
+  "not_fixed": [
+   "language rule does not cover 'refreshed', 're-run', 'latest' shares (the payload text is written by one tool and tested; flagged low)",
+   "Windows tree-kill with a grandchild not tested"
+  ]
+ },
+ "known_answer": {
+  "retest_on_pinned_master": "grade_shares_retest.json equals the registered M767 result in every key except the label keys (milestone, spec, toolSha256, seconds, retest, control_R1_scope, registered*, drives, nestedControl, retestLabel, scopeNote); 5 min 9 s"
+ },
+ "dry_run_pre_fix": "full stage on the real store, scratch out-root: import skipped_no_new_input, coverage ok, clock_offset ok, tyre ok, thermal/grade/unlogged skipped_pinned_master, grade_shares ok; 5 min 35 s; the working tree stayed clean",
+ "round2": {
+  "auditor": "analytical-auditor (Sonnet)",
+  "verdict": "revise (minor, test gaps only; no code defect found), then the two points were addressed",
+  "scripts_run": "test_cloud_stage, test_dem_grade_shares, test_grade_shares_payload: OK",
+  "per_fix": {
+   "promotion": "pass; after the audit the swap restores the previous outputs when the final rename fails",
+   "skipped_up_to_date carry": "pass",
+   "--only keeps records": "pass",
+   "store sha after import": "pass in code; no test (the import tool is not planted)",
+   "lock O_EXCL and 6 h takeover": "pass",
+   "control_R1 scope": "pass",
+   "low items (raw-dir, tyre coverage sha)": "pass in code; not tested",
+   "--accept-escalated needs a file path": "pass in code; no unit test"
+  },
+  "addressed_after_round2": [
+   "8.1 test made behavioural: registered mode with a foreign master and a retest with out-dir analyses/ both return non-zero and write nothing (the first stops at the DEM manifest check, so the pin return itself stays covered by the source-order assertion)",
+   "promote() restores the previous outputs when the final rename fails"
+  ],
+  "not_fixed": [
+   "no test plants the import tool or the --accept-escalated path",
+   "Windows grandchild tree-kill untested"
+  ]
+ }
+}
