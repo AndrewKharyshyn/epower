@@ -1,0 +1,1300 @@
+{
+ "C1_step_stages": {
+  "all_steps_before_exclusions": 11890,
+  "after_first_last_speed": 11682,
+  "common_support_F_N_A_finite": 11682,
+  "after_nasadem_num_srtm_mask": 11606,
+  "after_glo30_unflagged_mask": 11115,
+  "after_fabdem_grade_8pp_exclusion": 11088
+ },
+ "C0_support": {
+  "primary": {
+   "days": 134,
+   "km": 6373.175790534543,
+   "steps_total": 11088,
+   "steps_above_2pp": 1438,
+   "met": true,
+   "met_m757_criterion_steps_above_2pp": true
+  },
+  "no_glo_flag_exclusion": {
+   "days": 134,
+   "km": 6659.050984131563,
+   "steps_total": 11577,
+   "steps_above_2pp": 1515,
+   "met": true,
+   "met_m757_criterion_steps_above_2pp": true
+  },
+  "outlier_screened": {
+   "days": 134,
+   "km": 6373.175790534543,
+   "steps_total": 11088,
+   "steps_above_2pp": 1438,
+   "met": true,
+   "met_m757_criterion_steps_above_2pp": true
+  },
+  "untouched_stratum": {
+   "days": 131,
+   "km": 4129.562773902078,
+   "steps_total": 6950,
+   "steps_above_2pp": 784,
+   "met": true,
+   "met_m757_criterion_steps_above_2pp": false
+  },
+  "grade_exclusion_on_cross_source_median": {
+   "days": 134,
+   "km": 6370.396470812305,
+   "steps_total": 11080,
+   "steps_above_2pp": 1430,
+   "met": true,
+   "met_m757_criterion_steps_above_2pp": true
+  }
+ },
+ "C3_hat": {
+  "primary": {
+   "all": {
+    "n_steps": 11088,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.33154831841599924,
+     "F-A": 0.3636923555145392,
+     "N-A": 0.4304688570727024
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.13238590842891804,
+     "sd_pp": 0.36384874388805855,
+     "ci95_pp": [
+      0.32896913037708686,
+      0.4063264395298556
+     ],
+     "se_pp": 0.02006527842159479,
+     "mde_pp": 0.05618277958046541,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.1991624099870812,
+     "sd_pp": 0.4462761588826824,
+     "ci95_pp": [
+      0.4022448747922273,
+      0.4963881794275869
+     ],
+     "se_pp": 0.024000595162437504,
+     "mde_pp": 0.067201666454825,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.23130644708562118,
+     "sd_pp": 0.4809432888455989,
+     "ci95_pp": [
+      0.4271155537982894,
+      0.5371165349249639
+     ],
+     "se_pp": 0.028148405053444053,
+     "mde_pp": 0.07881553414964335,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.941020778114604
+   },
+   "300_500m": {
+    "n_steps": 4199,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.5416780424498289,
+     "F-A": 0.5321519632787475,
+     "N-A": 0.6213780819439728
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.22622596189230176,
+     "sd_pp": 0.47563217079199105,
+     "ci95_pp": [
+      0.4325974724083667,
+      0.5221228567085945
+     ],
+     "se_pp": 0.023022784629919316,
+     "mde_pp": 0.06446379696377408,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.31545208055752705,
+     "sd_pp": 0.561651208987862,
+     "ci95_pp": [
+      0.5018131696188558,
+      0.6178747516670287
+     ],
+     "se_pp": 0.0297893863440926,
+     "mde_pp": 0.08341028176345927,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.30592600138644566,
+     "sd_pp": 0.5531057777554359,
+     "ci95_pp": [
+      0.48617483858122795,
+      0.6245559861912704
+     ],
+     "se_pp": 0.03563285021030602,
+     "mde_pp": 0.09977198058885686,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9209241666862027
+   },
+   "500_900m": {
+    "n_steps": 6889,
+    "n_days": 94,
+    "var_diff_pp2": {
+     "F-N": 0.20342926867876018,
+     "F-A": 0.26069689867324497,
+     "N-A": 0.3139750374051446
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.07507556497343029,
+     "sd_pp": 0.2739992061547447,
+     "ci95_pp": [
+      0.24580489622527243,
+      0.3085613374001752
+     ],
+     "se_pp": 0.015827083481581083,
+     "mde_pp": 0.04431583374842703,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.1283537037053299,
+     "sd_pp": 0.35826485133952213,
+     "ci95_pp": [
+      0.33474512296004494,
+      0.3922043332286052
+     ],
+     "se_pp": 0.014387595265409977,
+     "mde_pp": 0.04028526674314793,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.1856213336998147,
+     "sd_pp": 0.4308379436630608,
+     "ci95_pp": [
+      0.36193574884415497,
+      0.5018362751487079
+     ],
+     "se_pp": 0.03594268138452744,
+     "mde_pp": 0.10063950787667683,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9598310588370352
+   }
+  },
+  "no_glo_flag_exclusion": {
+   "all": {
+    "n_steps": 11577,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.35366561914926736,
+     "F-A": 0.40682908381219585,
+     "N-A": 0.4563986226399083
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.15204804016077747,
+     "sd_pp": 0.3899333791313299,
+     "ci95_pp": [
+      0.3532589148808236,
+      0.43312302637139577
+     ],
+     "se_pp": 0.020631235739687857,
+     "mde_pp": 0.057767460071125994,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.20161757898848992,
+     "sd_pp": 0.449018461745717,
+     "ci95_pp": [
+      0.40443906053546513,
+      0.49946928922040856
+     ],
+     "se_pp": 0.024189177458085298,
+     "mde_pp": 0.06772969688263883,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.2547810436514184,
+     "sd_pp": 0.5047584012687837,
+     "ci95_pp": [
+      0.45269169167114076,
+      0.5562525120452612
+     ],
+     "se_pp": 0.02671638553401716,
+     "mde_pp": 0.07480587949524804,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9335192305229667
+   },
+   "300_500m": {
+    "n_steps": 4370,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.5772901119514839,
+     "F-A": 0.6214973819947102,
+     "N-A": 0.677103415511154
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.26084203921751997,
+     "sd_pp": 0.5107269713041597,
+     "ci95_pp": [
+      0.46428673460576797,
+      0.5588631678708351
+     ],
+     "se_pp": 0.02393609602496277,
+     "mde_pp": 0.06702106886989574,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.31644807273396386,
+     "sd_pp": 0.562537174535127,
+     "ci95_pp": [
+      0.5003190137574689,
+      0.6193150939546449
+     ],
+     "se_pp": 0.030839201762005625,
+     "mde_pp": 0.08634976493361575,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.36065534277719014,
+     "sd_pp": 0.6005458706686694,
+     "ci95_pp": [
+      0.5332817007167882,
+      0.6678009042920671
+     ],
+     "se_pp": 0.034421079957695395,
+     "mde_pp": 0.09637902388154711,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9133442986155743
+   },
+   "500_900m": {
+    "n_steps": 7207,
+    "n_days": 94,
+    "var_diff_pp2": {
+     "F-N": 0.21795483121375134,
+     "F-A": 0.276188081576838,
+     "N-A": 0.3224501783220712
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.08584636723425906,
+     "sd_pp": 0.2929955071912521,
+     "ci95_pp": [
+      0.2641415685934706,
+      0.3263515918363781
+     ],
+     "se_pp": 0.015728784787506906,
+     "mde_pp": 0.04404059740501933,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.13210846397949225,
+     "sd_pp": 0.3634672804799522,
+     "ci95_pp": [
+      0.3391627751675484,
+      0.39747324858439564
+     ],
+     "se_pp": 0.014580813119429518,
+     "mde_pp": 0.04082627673440265,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.1903417143425789,
+     "sd_pp": 0.4362816915051317,
+     "ci95_pp": [
+      0.3689766305622389,
+      0.5041227206634649
+     ],
+     "se_pp": 0.03481847364436061,
+     "mde_pp": 0.0974917262042097,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9535640349818496
+   }
+  },
+  "outlier_screened": {
+   "all": {
+    "n_steps": 11088,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.33154831841599924,
+     "F-A": 0.3636923555145392,
+     "N-A": 0.4304688570727024
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.13238590842891804,
+     "sd_pp": 0.36384874388805855,
+     "ci95_pp": [
+      0.32896913037708686,
+      0.4063264395298556
+     ],
+     "se_pp": 0.02006527842159479,
+     "mde_pp": 0.05618277958046541,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.1991624099870812,
+     "sd_pp": 0.4462761588826824,
+     "ci95_pp": [
+      0.4022448747922273,
+      0.4963881794275869
+     ],
+     "se_pp": 0.024000595162437504,
+     "mde_pp": 0.067201666454825,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.23130644708562118,
+     "sd_pp": 0.4809432888455989,
+     "ci95_pp": [
+      0.4271155537982894,
+      0.5371165349249639
+     ],
+     "se_pp": 0.028148405053444053,
+     "mde_pp": 0.07881553414964335,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.941020778114604
+   },
+   "300_500m": {
+    "n_steps": 4199,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.5416780424498289,
+     "F-A": 0.5321519632787475,
+     "N-A": 0.6213780819439728
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.22622596189230176,
+     "sd_pp": 0.47563217079199105,
+     "ci95_pp": [
+      0.4325974724083667,
+      0.5221228567085945
+     ],
+     "se_pp": 0.023022784629919316,
+     "mde_pp": 0.06446379696377408,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.31545208055752705,
+     "sd_pp": 0.561651208987862,
+     "ci95_pp": [
+      0.5018131696188558,
+      0.6178747516670287
+     ],
+     "se_pp": 0.0297893863440926,
+     "mde_pp": 0.08341028176345927,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.30592600138644566,
+     "sd_pp": 0.5531057777554359,
+     "ci95_pp": [
+      0.48617483858122795,
+      0.6245559861912704
+     ],
+     "se_pp": 0.03563285021030602,
+     "mde_pp": 0.09977198058885686,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9209241666862027
+   },
+   "500_900m": {
+    "n_steps": 6889,
+    "n_days": 94,
+    "var_diff_pp2": {
+     "F-N": 0.20342926867876018,
+     "F-A": 0.26069689867324497,
+     "N-A": 0.3139750374051446
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.07507556497343029,
+     "sd_pp": 0.2739992061547447,
+     "ci95_pp": [
+      0.24580489622527243,
+      0.3085613374001752
+     ],
+     "se_pp": 0.015827083481581083,
+     "mde_pp": 0.04431583374842703,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.1283537037053299,
+     "sd_pp": 0.35826485133952213,
+     "ci95_pp": [
+      0.33474512296004494,
+      0.3922043332286052
+     ],
+     "se_pp": 0.014387595265409977,
+     "mde_pp": 0.04028526674314793,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.1856213336998147,
+     "sd_pp": 0.4308379436630608,
+     "ci95_pp": [
+      0.36193574884415497,
+      0.5018362751487079
+     ],
+     "se_pp": 0.03594268138452744,
+     "mde_pp": 0.10063950787667683,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9598310588370352
+   }
+  },
+  "untouched_stratum": {
+   "all": {
+    "n_steps": 6950,
+    "n_days": 131,
+    "var_diff_pp2": {
+     "F-N": 0.24730300848507905,
+     "F-A": 0.2900891726537838,
+     "N-A": 0.3668458149103818
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.08527318311424054,
+     "sd_pp": 0.29201572408731785,
+     "ci95_pp": [
+      0.2571008383883491,
+      0.3341249743331523
+     ],
+     "se_pp": 0.019589805651958753,
+     "mde_pp": 0.0548514558254845,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.16202982537083851,
+     "sd_pp": 0.40252928510959113,
+     "ci95_pp": [
+      0.3691418722801571,
+      0.44004883984225607
+     ],
+     "se_pp": 0.01801721558070727,
+     "mde_pp": 0.050448203625980355,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.20481598953954333,
+     "sd_pp": 0.45256600572683686,
+     "ci95_pp": [
+      0.38926521516835366,
+      0.5104966893365684
+     ],
+     "se_pp": 0.031079287861023444,
+     "mde_pp": 0.08702200601086564,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9546723838683233
+   },
+   "300_500m": {
+    "n_steps": 2374,
+    "n_days": 131,
+    "var_diff_pp2": {
+     "F-N": 0.4332362750636814,
+     "F-A": 0.4517360742526461,
+     "N-A": 0.5332240991510623
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.17587412508263262,
+     "sd_pp": 0.4193734911539267,
+     "ci95_pp": [
+      0.3673531678932877,
+      0.47612129710784185
+     ],
+     "se_pp": 0.02759565106600209,
+     "mde_pp": 0.07726782298480585,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.2573621499810488,
+     "sd_pp": 0.5073087324115846,
+     "ci95_pp": [
+      0.45063366225736784,
+      0.5599660422319126
+     ],
+     "se_pp": 0.028192335426318493,
+     "mde_pp": 0.07893853919369177,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.2758619491700135,
+     "sd_pp": 0.525225617396956,
+     "ci95_pp": [
+      0.4175547995271604,
+      0.6397517683923509
+     ],
+     "se_pp": 0.05815877768786032,
+     "mde_pp": 0.1628445775260089,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9215929784924176
+   },
+   "500_900m": {
+    "n_steps": 4576,
+    "n_days": 85,
+    "var_diff_pp2": {
+     "F-N": 0.15083638869546293,
+     "F-A": 0.20620989753662472,
+     "N-A": 0.28052634989065606
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.03825996817071581,
+     "sd_pp": 0.1956015546224411,
+     "ci95_pp": [
+      0.17602617455793446,
+      0.21810356385121846
+     ],
+     "se_pp": 0.010869295792082394,
+     "mde_pp": 0.0304340282178307,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.11257642052474712,
+     "sd_pp": 0.33552409827722823,
+     "ci95_pp": [
+      0.3184051836642526,
+      0.3585108049416761
+     ],
+     "se_pp": 0.010299412868781246,
+     "mde_pp": 0.028838356032587487,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.1679499293659089,
+     "sd_pp": 0.40981694616732106,
+     "ci95_pp": [
+      0.3498186788014009,
+      0.46156772096511767
+     ],
+     "se_pp": 0.028976721439193973,
+     "mde_pp": 0.08113482002974312,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9774081548619356
+   }
+  },
+  "grade_exclusion_on_cross_source_median": {
+   "all": {
+    "n_steps": 11080,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.3240144004092529,
+     "F-A": 0.3591012593498262,
+     "N-A": 0.4302337890120302
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.12644093537352444,
+     "sd_pp": 0.3555853418991346,
+     "ci95_pp": [
+      0.32278332332240556,
+      0.3941460872034077
+     ],
+     "se_pp": 0.018436559252873408,
+     "mde_pp": 0.05162236590804554,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.19757346503572848,
+     "sd_pp": 0.44449236780368734,
+     "ci95_pp": [
+      0.4001905123868077,
+      0.4948964752065445
+     ],
+     "se_pp": 0.024132276681582337,
+     "mde_pp": 0.06757037470843054,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.23266032397630176,
+     "sd_pp": 0.4823487576186983,
+     "ci95_pp": [
+      0.4287497581681336,
+      0.5381387910883415
+     ],
+     "se_pp": 0.028069414934750153,
+     "mde_pp": 0.07859436181730042,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9428123556251989
+   },
+   "300_500m": {
+    "n_steps": 4191,
+    "n_days": 134,
+    "var_diff_pp2": {
+     "F-N": 0.5221531678084554,
+     "F-A": 0.52032807795304,
+     "N-A": 0.6211301757000427
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.21067553503072645,
+     "sd_pp": 0.45899404683582384,
+     "ci95_pp": [
+      0.42323220629700925,
+      0.49649453263463833
+     ],
+     "se_pp": 0.018573390667984635,
+     "mde_pp": 0.052005493870356974,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.31147763277772905,
+     "sd_pp": 0.5581018121971376,
+     "ci95_pp": [
+      0.4976619674369953,
+      0.614933947349675
+     ],
+     "se_pp": 0.030308460055978335,
+     "mde_pp": 0.08486368815673934,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.3096525429223136,
+     "sd_pp": 0.5564643231351976,
+     "ci95_pp": [
+      0.49035376041773343,
+      0.6277350689808653
+     ],
+     "se_pp": 0.03536849829741649,
+     "mde_pp": 0.09903179523276617,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9240288785630147
+   },
+   "500_900m": {
+    "n_steps": 6889,
+    "n_days": 94,
+    "var_diff_pp2": {
+     "F-N": 0.20342926867876018,
+     "F-A": 0.26069689867324497,
+     "N-A": 0.3139750374051446
+    },
+    "identified": true,
+    "s_F": {
+     "var_pp2": 0.07507556497343029,
+     "sd_pp": 0.2739992061547447,
+     "ci95_pp": [
+      0.24580489622527243,
+      0.3085613374001752
+     ],
+     "se_pp": 0.015827083481581083,
+     "mde_pp": 0.04431583374842703,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_N": {
+     "var_pp2": 0.1283537037053299,
+     "sd_pp": 0.35826485133952213,
+     "ci95_pp": [
+      0.33474512296004494,
+      0.3922043332286052
+     ],
+     "se_pp": 0.014387595265409977,
+     "mde_pp": 0.04028526674314793,
+     "share_draws_nonpositive": 0.0
+    },
+    "s_A": {
+     "var_pp2": 0.1856213336998147,
+     "sd_pp": 0.4308379436630608,
+     "ci95_pp": [
+      0.36193574884415497,
+      0.5018362751487079
+     ],
+     "se_pp": 0.03594268138452744,
+     "mde_pp": 0.10063950787667683,
+     "share_draws_nonpositive": 0.0
+    },
+    "lambda_F": 0.9598310588370352
+   }
+  }
+ },
+ "C3_verdict_words": {
+  "primary": {
+   "all": "adequate",
+   "300_500m": "adequate",
+   "500_900m": "adequate"
+  },
+  "no_glo_flag_exclusion": {
+   "all": "adequate",
+   "300_500m": "adequate",
+   "500_900m": "adequate"
+  },
+  "outlier_screened": {
+   "all": "adequate",
+   "300_500m": "adequate",
+   "500_900m": "adequate"
+  },
+  "untouched_stratum": {
+   "all": "adequate",
+   "300_500m": "adequate",
+   "500_900m": "adequate"
+  },
+  "grade_exclusion_on_cross_source_median": {
+   "all": "adequate",
+   "300_500m": "adequate",
+   "500_900m": "adequate"
+  }
+ },
+ "R3": {
+  "components": [
+   "adequate",
+   "adequate",
+   "adequate",
+   "adequate",
+   "adequate",
+   "adequate"
+  ],
+  "worst": "adequate",
+  "checks_complete": true,
+  "final_wording": "adequate",
+  "allowed_wording": "FABDEM v1.2 step grade: adequate for corpus-level grade-class SHARES (2 pp classes) at cloud-step scale (spec R3, worse of primary / screened / untouched; s_F with interval and n from C3_hat)",
+  "required_beside_it": [
+   "s_F is the inter-product DEM error only, assumption-conditional (uncorrelated errors), common-mode error not identified, not the error against the road grade",
+   "not per-step labels: the 2 pp class of a step differs from FABDEM on C6_misclassification_vs_fabdem of the steps (NASADEM, AW3D30) and the class shares differ between sources (C6_class_shares)",
+   "the NASADEM NUM mask removed water only (the PRISM guard was not exercised); FABDEM fill cells are masked only through the GLO-30 EDM and FLM of its base DEM, FABDEM's own building and forest removals are not masked",
+   "AW3D30 has no mask layer and its portal licence is 'not provided' (internal use only)",
+   "the M757 displaced-DEM negative control failure stands: the placebo coefficient is nonzero for every source (C4_b_per_source), so it is not specific to FABDEM and its cause is not identified; no M757 verdict changes and the regeneration-by-grade-class quantity stays locked (spec 8.8)",
+   "b and b_IV are model-derived, descriptive, conditional on the traction reconstruction and the assumed mass; J rejects the overidentifying restriction, so b_IV is not attenuation-corrected",
+   "never 'validated', 'measured' or 'proven'"
+  ],
+  "missing_checks": [],
+  "limits": [
+   "common-mode errors are not identified (position error, embankments, bridges, shared smoothing); s_F is the inter-product DEM error only",
+   "correlation between NASADEM and AW3D30 (AW3D30 has no mask; fills from SRTM or other products) inflates s_F and can give a spurious 'not adequate'",
+   "correlation between FABDEM and a corner, and FABDEM fill cells not covered by the GLO-30 mask rule, bias s_F downwards",
+   "NASADEM and AW3D30 heights are whole metres (quantisation about 0.08 pp of grade on a 500 m step), FABDEM is metric floats",
+   "the three-cornered hat assumes uncorrelated errors between sources"
+  ]
+ },
+ "C2_pairwise_primary": {
+  "F-N": {
+   "n_steps": 11088,
+   "n_days": 134,
+   "bias_median_pp": -0.0006951654631783266,
+   "bias_median_pp_ci95": [
+    -0.007952256111566358,
+    0.002039541767423706
+   ],
+   "median_abs_diff_pp": 0.29732536360871153,
+   "median_abs_diff_pp_ci95": [
+    0.27698330851894126,
+    0.32709315159370156
+   ],
+   "p90_abs_diff_pp": 0.8923752639706394,
+   "p90_abs_diff_pp_ci95": [
+    0.8207107924190402,
+    0.9785258721467706
+   ],
+   "pearson": 0.9340648111786021,
+   "pearson_ci95": [
+    0.9217153378168385,
+    0.9433246893076116
+   ],
+   "spearman": 0.8576037151204253,
+   "spearman_ci95": [
+    0.8301902130794138,
+    0.8775867970173356
+   ],
+   "lin_ccc": 0.9315530829697347,
+   "lin_ccc_ci95": [
+    0.9181511669276274,
+    0.941393996330806
+   ]
+  },
+  "F-A": {
+   "n_steps": 11088,
+   "n_days": 134,
+   "bias_median_pp": 0.0,
+   "bias_median_pp_ci95": [
+    -0.004637342263656086,
+    0.002146982980181289
+   ],
+   "median_abs_diff_pp": 0.25456346954044085,
+   "median_abs_diff_pp_ci95": [
+    0.23937516031660322,
+    0.2741930803181175
+   ],
+   "p90_abs_diff_pp": 0.8403215763252135,
+   "p90_abs_diff_pp_ci95": [
+    0.7958965194878272,
+    0.8980120348464987
+   ],
+   "pearson": 0.9248831570548377,
+   "pearson_ci95": [
+    0.9100999755316479,
+    0.9362086819336318
+   ],
+   "spearman": 0.8632168548160206,
+   "spearman_ci95": [
+    0.8371280632063738,
+    0.8820397532793821
+   ],
+   "lin_ccc": 0.9234583320739069,
+   "lin_ccc_ci95": [
+    0.9078217239799173,
+    0.935110632258163
+   ]
+  },
+  "N-A": {
+   "n_steps": 11088,
+   "n_days": 134,
+   "bias_median_pp": -0.0002487603678896777,
+   "bias_median_pp_ci95": [
+    -0.005622902457027235,
+    0.0024768816477610534
+   ],
+   "median_abs_diff_pp": 0.2842657076362668,
+   "median_abs_diff_pp_ci95": [
+    0.26484304995383834,
+    0.30671454257507513
+   ],
+   "p90_abs_diff_pp": 0.9621201505982484,
+   "p90_abs_diff_pp_ci95": [
+    0.9091340734430418,
+    1.0346178261512333
+   ],
+   "pearson": 0.9158572400208742,
+   "pearson_ci95": [
+    0.9031382431447129,
+    0.9267591022129849
+   ],
+   "spearman": 0.8455303380785548,
+   "spearman_ci95": [
+    0.8207067296869032,
+    0.8648420299746469
+   ],
+   "lin_ccc": 0.915707098470039,
+   "lin_ccc_ci95": [
+    0.9029814255674973,
+    0.9265712795393216
+   ]
+  }
+ },
+ "C4_fuel_instrumented_steps": {
+  "n_steps": 3436,
+  "n_drives": 288,
+  "n_days": 82,
+  "km": 1841.3216041897717
+ },
+ "C4_b_per_source": {
+  "F": {
+   "b": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.8661095106470807,
+    "b_ci95": [
+     0.8266397689137266,
+     0.8944075162950925
+    ],
+    "b_se": 0.017260867908889036,
+    "mde_b": 0.048330430144889296,
+    "coefficients": {
+     "F0_kJ_per_km": -1487.990700204369,
+     "F1_kJ_per_m2s": 0.09248260514159187,
+     "F2_kJ_per_m3s2": -0.0010923460429329542,
+     "c_kJ_per_s": 10.624226572875143,
+     "b": 0.8661095106470807
+    }
+   },
+   "placebo_left": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.08605732617362527,
+    "b_ci95": [
+     0.05226122391526716,
+     0.11822837201028995
+    ],
+    "b_se": 0.017042086321133625,
+    "mde_b": 0.047717841699174146,
+    "coefficients": {
+     "F0_kJ_per_km": -1482.477125851817,
+     "F1_kJ_per_m2s": 0.09335638557000354,
+     "F2_kJ_per_m3s2": -0.0011219890416710608,
+     "c_kJ_per_s": 10.521901638719065,
+     "b": 0.08605732617362527
+    }
+   },
+   "placebo_right": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.07161665037087026,
+    "b_ci95": [
+     0.031089462492211842,
+     0.11089862007432542
+    ],
+    "b_se": 0.0205975819216134,
+    "mde_b": 0.05767322938051752,
+    "coefficients": {
+     "F0_kJ_per_km": -1474.3630541632606,
+     "F1_kJ_per_m2s": 0.0940681496841737,
+     "F2_kJ_per_m3s2": -0.0011486994786142411,
+     "c_kJ_per_s": 10.3367129935598,
+     "b": 0.07161665037087026
+    }
+   }
+  },
+  "N": {
+   "b": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.7100639320896379,
+    "b_ci95": [
+     0.6346500163601805,
+     0.7507746672301641
+    ],
+    "b_se": 0.030237929333606896,
+    "mde_b": 0.0846662021340993,
+    "coefficients": {
+     "F0_kJ_per_km": -1360.8542681599847,
+     "F1_kJ_per_m2s": 0.08631655438984095,
+     "F2_kJ_per_m3s2": -0.0009950233489046175,
+     "c_kJ_per_s": 9.791010383305439,
+     "b": 0.7100639320896379
+    }
+   },
+   "placebo_left": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.06911490815535094,
+    "b_ci95": [
+     0.03821300134679492,
+     0.09754581653292378
+    ],
+    "b_se": 0.015391740686916802,
+    "mde_b": 0.04309687392336704,
+    "coefficients": {
+     "F0_kJ_per_km": -1502.385799042539,
+     "F1_kJ_per_m2s": 0.09477466411421963,
+     "F2_kJ_per_m3s2": -0.0011494686840254316,
+     "c_kJ_per_s": 10.573817755394897,
+     "b": 0.06911490815535094
+    }
+   },
+   "placebo_right": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.05477000452615379,
+    "b_ci95": [
+     0.02111914280512433,
+     0.08629227516339986
+    ],
+    "b_se": 0.016646625961133598,
+    "mde_b": 0.04661055269117407,
+    "coefficients": {
+     "F0_kJ_per_km": -1491.7653742798586,
+     "F1_kJ_per_m2s": 0.09469788429472666,
+     "F2_kJ_per_m3s2": -0.0011557328093054569,
+     "c_kJ_per_s": 10.484967562029974,
+     "b": 0.05477000452615379
+    }
+   }
+  },
+  "A": {
+   "b": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.7444621669654605,
+    "b_ci95": [
+     0.667293451099702,
+     0.7875735396402148
+    ],
+    "b_se": 0.031527995210675536,
+    "mde_b": 0.0882783865898915,
+    "coefficients": {
+     "F0_kJ_per_km": -1603.4656078647738,
+     "F1_kJ_per_m2s": 0.10041851014877153,
+     "F2_kJ_per_m3s2": -0.0012432327563429888,
+     "c_kJ_per_s": 11.016611379827735,
+     "b": 0.7444621669654605
+    }
+   },
+   "placebo_left": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.06428116572010628,
+    "b_ci95": [
+     0.03570145592791968,
+     0.09054969347570987
+    ],
+    "b_se": 0.014106986983283786,
+    "mde_b": 0.039499563553194596,
+    "coefficients": {
+     "F0_kJ_per_km": -1501.3685151872462,
+     "F1_kJ_per_m2s": 0.0949113230833794,
+     "F2_kJ_per_m3s2": -0.00115498724663239,
+     "c_kJ_per_s": 10.55351509003334,
+     "b": 0.06428116572010628
+    }
+   },
+   "placebo_right": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.05412493133422988,
+    "b_ci95": [
+     0.024537245333798696,
+     0.08262292257905546
+    ],
+    "b_se": 0.0150046922962036,
+    "mde_b": 0.04201313842937008,
+    "coefficients": {
+     "F0_kJ_per_km": -1485.9613765193858,
+     "F1_kJ_per_m2s": 0.09436933854465519,
+     "F2_kJ_per_m3s2": -0.0011500431194790054,
+     "c_kJ_per_s": 10.453287809959233,
+     "b": 0.05412493133422988
+    }
+   }
+  },
+  "G": {
+   "b": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.8190196547820455,
+    "b_ci95": [
+     0.7641649814484005,
+     0.8514958426608534
+    ],
+    "b_se": 0.022402559043218147,
+    "mde_b": 0.0627271653210108,
+    "coefficients": {
+     "F0_kJ_per_km": -1530.984775159202,
+     "F1_kJ_per_m2s": 0.09526576708275158,
+     "F2_kJ_per_m3s2": -0.0011433127681020074,
+     "c_kJ_per_s": 10.781723663499907,
+     "b": 0.8190196547820455
+    }
+   },
+   "placebo_left": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.05339448513701996,
+    "b_ci95": [
+     0.02788284814073827,
+     0.07796434268999249
+    ],
+    "b_se": 0.01309706475691476,
+    "mde_b": 0.03667178131936133,
+    "coefficients": {
+     "F0_kJ_per_km": -1489.3377007706035,
+     "F1_kJ_per_m2s": 0.09406645832922485,
+     "F2_kJ_per_m3s2": -0.0011375149019311494,
+     "c_kJ_per_s": 10.508255844887403,
+     "b": 0.05339448513701996
+    }
+   },
+   "placebo_right": {
+    "n_steps": 3436,
+    "n_drives": 288,
+    "n_days": 82,
+    "km": 1841.3216041897717,
+    "b": 0.04559690385082035,
+    "b_ci95": [
+     0.015688733075357775,
+     0.0746742944593901
+    ],
+    "b_se": 0.015118237221513819,
+    "mde_b": 0.04233106422023869,
+    "coefficients": {
+     "F0_kJ_per_km": -1468.797791284605,
+     "F1_kJ_per_m2s": 0.09357399271123759,
+     "F2_kJ_per_m3s2": -0.00113832442066894,
+     "c_kJ_per_s": 10.336805810007982,
+     "b": 0.04559690385082035
+    }
+   }
+  }
+ },
+ "C4_2sls": {
+  "n_steps": 3436,
+  "n_days": 82,
+  "b_iv": 0.8899217305388978,
+  "b_iv_ci95": [
+   0.861803876656863,
+   0.9159135578819467
+  ],
+  "first_stage_F": 889.8127257672754,
+  "J_overid": 15.530614180923536,
+  "overid_df": 1,
+  "reported": true,
+  "label": "descriptive; conditional on the traction reconstruction and the assumed mass; never 'validated' or 'corrected'"
+ },
+ "C5_untouched_share_of_primary": 0.6268037518037518,
+ "C5_fill_signature_share_aw3d30_vs_nasadem_both_fixes_within_0.5m": 0.012445887445887446,
+ "C6_class_shares": {
+  "F": {
+   "step_share": [
+    0.03373015873015873,
+    0.1148088023088023,
+    0.7068001443001443,
+    0.11129148629148629,
+    0.03336940836940837
+   ],
+   "n": 11088
+  },
+  "N": {
+   "step_share": [
+    0.03607503607503607,
+    0.13663419913419914,
+    0.6541305916305916,
+    0.1359126984126984,
+    0.037247474747474744
+   ],
+   "n": 11088
+  },
+  "A": {
+   "step_share": [
+    0.03634559884559885,
+    0.13203463203463203,
+    0.6642316017316018,
+    0.13131313131313133,
+    0.03607503607503607
+   ],
+   "n": 11088
+  },
+  "G": {
+   "step_share": [
+    0.03454184704184704,
+    0.12707431457431456,
+    0.6763167388167388,
+    0.12716450216450217,
+    0.0349025974025974
+   ],
+   "n": 11088
+  }
+ },
+ "C6_misclassification_vs_fabdem": {
+  "N": 0.15674603174603174,
+  "A": 0.14637445887445888
+ },
+ "milestone": "M762",
+ "spec": "analyses/M762_spec.md Rev 9 (sections 9 to 15 amend 1 to 8)",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "m757_tool_sha256": "69edc468af40c9b8b33ef218e33496b79d68f52adc3010e72b7c6ca58530c3cf",
+ "tool_sha256": "1756cfd8143f177eaa5455fbef7b2b63736fef96d8a7960a03378279836b1ddf",
+ "manifest_sha256": "c115d1c3ef83a9bfe941685b6583777cc4a961f946b86fdff5af38ac2873f427",
+ "seed": 42,
+ "nBoot": 4000,
+ "C0_codings": {
+  "nasadem_num_share_by_range": {
+   "water": 0.023729239913024544,
+   "srtm": 0.9762694127963585,
+   "prism": 0.0,
+   "gdem3": 1.3472906169414755e-06,
+   "gdem2": 0.0,
+   "srtm_from_gdem": 0.0,
+   "national_dem": 0.0,
+   "interpolation": 0.0,
+   "quad_edge": 0.0,
+   "error": 0.0,
+   "undocumented": 0.0
+  },
+  "glo30_masks": {
+   "EDM": {
+    "unflagged_code": 1,
+    "share": 0.9655045576131688,
+    "histogram_share": {
+     "1": 0.9655045576131688,
+     "2": 0.0037088374485596707,
+     "3": 0.0009710185185185185,
+     "4": 0.0030305401234567903,
+     "5": 6.955246913580247e-05,
+     "6": 1.02880658436214e-08,
+     "9": 0.024646039094650206,
+     "10": 0.0019049022633744856,
+     "11": 0.00013676440329218106,
+     "13": 2.777777777777778e-05
+    }
+   },
+   "FLM": {
+    "unflagged_code": 2,
+    "share": 0.9655045576131688,
+    "histogram_share": {
+     "1": 0.030786604938271605,
+     "2": 0.9655045576131688,
+     "3": 0.00014512860082304527,
+     "4": 1.5123456790123456e-06,
+     "5": 0.0035024279835390946,
+     "7": 1.54320987654321e-08,
+     "9": 5.975308641975308e-05
+    }
+   }
+  },
+  "glo30_coding_note": "unflagged = EDM 1 ('not edited') and FLM 2 ('not edited / not filled'), the dominant values of the used tiles, confirmed by the Copernicus DEM Product Handbook issue 5.0, Tables 6 and 7 (spec Rev 8); any other value counts as flagged (edited, or filled from another DEM)"
+ },
+ "C0_coverage_fixes": {
+  "F": {
+   "with_value": 25055,
+   "tried": 25055,
+   "share": 1.0
+  },
+  "N": {
+   "with_value": 25055,
+   "tried": 25055,
+   "share": 1.0
+  },
+  "A": {
+   "with_value": 25055,
+   "tried": 25055,
+   "share": 1.0
+  },
+  "G": {
+   "with_value": 25055,
+   "tried": 25055,
+   "share": 1.0
+  }
+ },
+ "privacy": "aggregates only; no coordinates, tracks or per-drive geometry",
+ "conventions": {
+  "first_stage_F": "day-cluster-robust Wald statistic of the two excluded instruments (NASADEM and AW3D30 m g dh), divided by 2, with the G/(G-1) small-sample factor; the blind audit obtained 901 to 913 depending on the small-sample convention (far above 10)",
+  "J": "overidentification statistic from the 2SLS residuals with a day-cluster-robust weight matrix, one degree of freedom; the audit obtained 14.2 to 18.0 across variants; J rejects, so b_IV is descriptive and not attenuation-corrected",
+  "step_grade": "100 times the DEM height difference between the two fixes over the OBD path distance of the step (not the GPS chord)"
+ },
+ "interpolation": "bilinear at the fix position in FABDEM, NASADEM, AW3D30 and GLO-30; mask values are taken from the nearest node (NASADEM NUM, GLO-30 EDM and FLM)",
+ "deviations_from_spec": [
+  "the support floors of the untouched stratum: the first run applied the M757 criterion (1,000 steps above 2 pp; 784, 'met' false) instead of the M762 spec 8.1 R2 floors (days, km and TOTAL steps). The Director ruled AFTER the first result was seen that the literal spec floors govern (the M757 criterion was never pre-registered for M762); the tool was changed and the result regenerated on the saved steps (a deviation fix, not tuning). The stratum has 6,950 steps, 131 days, 4,130 km and its verdicts are the same words as before; the M757 count stays in the result as met_m757_criterion_steps_above_2pp (spec 15)",
+  "GLO-30 EDM and FLM: the first run took the dominant value of each mask as 'unflagged' because the handbook could not be read; the handbook (issue 5.0, Tables 6 and 7) was supplied later and confirms the rule exactly (EDM 1, FLM 2); no value changed (spec 14, 10.8 b)",
+  "AW3D30 has no mask layer (OpenTopography export); the common-support step set uses the NASADEM NUM mask only for that purpose (spec 9.2, 10.8 c)",
+  "AW3D30 provenance recorded from the portal pages (spec 11, 10.8 d); the download date is the file timestamp; the portal licence field is 'not provided' (internal use only)",
+  "the outlier screen is a sensitivity (spec 10.4, 10.8 e); the primary set is the unscreened common support",
+  "the AW3D30 value histogram was inspected after section 9 was written (spec 10.8 f)",
+  "the NASADEM NUM mask removed water only in this area (codes 0 and 3 to 8 occur); no PRISM, GDEM or interpolation codes were present, so the guard against AW3D30-lineage fills in NASADEM was not exercised",
+  "FABDEM edits (buildings, forests removed) are masked only through the GLO-30 EDM and FLM of its base DEM; FABDEM's own removals are not masked",
+  "C4 (grade coefficient per source, 2SLS) and C6 (class shares, misclassification) were reproduced blind in a second audit round (analyses/M762_audit.json); they are descriptive",
+  "negative F0, F1, F2 coefficients, where they occur, are nuisance terms of the energy balance and are never read as road-load estimates (Director)"
+ ]
+}

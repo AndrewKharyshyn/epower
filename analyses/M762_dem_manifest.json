@@ -1,0 +1,550 @@
+{
+ "milestone": "M762",
+ "spec": "analyses/M762_spec.md Rev 6",
+ "provenance": {
+  "fabdem": {
+   "product": "FABDEM v1.2 (University of Bristol)",
+   "licence": "non-commercial use",
+   "source": "https://data.bris.ac.uk/datasets/s5hqmjcdj8yo2ibzi9b4ew3sn/"
+  },
+  "nasadem": {
+   "product": "NASADEM_HGT v001 (NASA LP DAAC), one zip per tile with .hgt, .num, .swb",
+   "licence": "NASA open data",
+   "source": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-nasadem-hgt-001"
+  },
+  "aw3d30": {
+   "product": "ALOS World 3D 30 m (AW3D30) V3.2 Jan 2021, average-downsampled JAXA product as distributed by OpenTopography, single-band GeoTIFF mosaic (output_AW3D30.tif) inside a tar.gz; no mask layer",
+   "licence": "portal licence field 'not provided'; acknowledge OpenTopography and JAXA",
+   "source": "https://portal.opentopography.org/raster?opentopoID=OTALOS.112016.4326.2",
+   "doi": "10.5069/G94M92HB",
+   "downloadDate": "2026-11-24 (file timestamp)"
+  },
+  "glo30": {
+   "product": "Copernicus DEM GLO-30 COG (DEM, EDM, FLM) from the public AWS bucket copernicus-dem-30m",
+   "licence": "Copernicus DEM licence (see ESA)",
+   "source": "https://copernicus-dem-30m.s3.amazonaws.com/"
+  }
+ },
+ "files": [
+  {
+   "group": "fabdem",
+   "file": "fabdem/N48E023_FABDEM_V1-2.tif",
+   "bytes": 27663155,
+   "sha256": "275745863a9da928831ebdfe77d19331297ed78455ba8f8c6452d2b9b3c49d2c"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n48e023.zip",
+   "bytes": 13746746,
+   "sha256": "c1c353d0c5bb5e5e88cb4723018de65404b3f7b6e090866ec0c1338e9b1bc30e"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N48_00_E023_00_DEM.tif",
+   "bytes": 43842765,
+   "sha256": "9dd2a57bd0351bc864e94a579063a6086f427a5b7b1f52f459aec9f3ee189926"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N48_00_E023_00_EDM.tif",
+   "bytes": 381808,
+   "sha256": "e0e6c99fdbf037cad56f0a0293e808e43a60403f72860770d5094c58af7d9585"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N48_00_E023_00_FLM.tif",
+   "bytes": 365598,
+   "sha256": "779c08f5f4d368a849c08d32270274e16eb2deb9bf24fe32439386c002415c11"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N48E024_FABDEM_V1-2.tif",
+   "bytes": 26313730,
+   "sha256": "3bdc9e1ecce31d65dc690846cb378b30007ac2d238f70bc4782c0389bb0ed91c"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n48e024.zip",
+   "bytes": 12143791,
+   "sha256": "a119c20bd235d0366200f0e1b31710283523a89a7464873aa42535f4352cfdbf"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N48_00_E024_00_DEM.tif",
+   "bytes": 42492426,
+   "sha256": "8ddb72793d52f83751ecf797948d3f7393e6f10734ee9f813ac4705eda194e9e"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N48_00_E024_00_EDM.tif",
+   "bytes": 287173,
+   "sha256": "e60277b7c640bf4d34cbb98ac5203c0e51465a8e6821ed2794f5b7162b45b40b"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N48_00_E024_00_FLM.tif",
+   "bytes": 277893,
+   "sha256": "f1a66c4cc8bbcd8a535b17d56850da86116acf74c7928762a2c919c42771113b"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E023_FABDEM_V1-2.tif",
+   "bytes": 22271055,
+   "sha256": "cd34a0a5a92ec62985472e99488db166d32f6aa25969a5b86d1ddb8e6211dcc7"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e023.zip",
+   "bytes": 7609229,
+   "sha256": "4fb018d76d42a4b11d5748d47460e1c2bc3c88c79ee30f599926c647af77cb4d"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E023_00_DEM.tif",
+   "bytes": 41649103,
+   "sha256": "e030442d44792670d568e2491fdeffddaaeaad3abe14c5ddf1d66dc7e2ae977c"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E023_00_EDM.tif",
+   "bytes": 253249,
+   "sha256": "bdc4f370791b395d59a055aa9fe738fec5f9d007133e6e7377e6e8657ba0c009"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E023_00_FLM.tif",
+   "bytes": 243755,
+   "sha256": "171202777cacdbdfb4b7c3d5ad6fb827b227cf3830bffbbc30e87fed6c94ab95"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E024_FABDEM_V1-2.tif",
+   "bytes": 22479397,
+   "sha256": "e1e3fbd18708006376e49223a1769dd0a6c4ed8e4d26962a895201074b41477b"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e024.zip",
+   "bytes": 6722283,
+   "sha256": "532bc0df37bc2584571c1d3a30985623b4738e8ca5016e3041c823d60ec6bac6"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E024_00_DEM.tif",
+   "bytes": 41975884,
+   "sha256": "6809ccab9771d583457b799f230bb8355281a7e7f411acb90054622e91bc95fa"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E024_00_EDM.tif",
+   "bytes": 308365,
+   "sha256": "03be3ed55a594a4d3ae20e1a4e9b9cb2c28e504b60906d4d37addf55ea1fbbad"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E024_00_FLM.tif",
+   "bytes": 295604,
+   "sha256": "b89c8d55d188c17b1011ad9e614682282e7a7fbe0b1b99316023a6f076304082"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E025_FABDEM_V1-2.tif",
+   "bytes": 22442087,
+   "sha256": "7c6e956c30049248ae3ff9187e8a7a7d72b501b4b90bdbe92e7bbbda90527e31"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e025.zip",
+   "bytes": 6139725,
+   "sha256": "c4da94e07791dbba11fc4c1b550126d7c73c31749f94834cd655d6d44cd13567"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E025_00_DEM.tif",
+   "bytes": 40839937,
+   "sha256": "3eae1209fb22f7ba0099464b57f35437404ad4975c3a78cda016b0b51c179687"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E025_00_EDM.tif",
+   "bytes": 129128,
+   "sha256": "2ed3a6449d860c1aa3da40cd5911453dd5263699bbcfdfebd245562ecb9914de"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E025_00_FLM.tif",
+   "bytes": 125571,
+   "sha256": "a46a3fa78c43cdfa190f6770cd2e87d9e914845244de79fe65b5c5156bf4f13e"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E026_FABDEM_V1-2.tif",
+   "bytes": 22090664,
+   "sha256": "9a118f618e04051aecd629869b58b5b017cc4e9de92733ad08d386b3ee1c313a"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e026.zip",
+   "bytes": 5710149,
+   "sha256": "fc8dbb2fc93223021d68291ad0268a05738f53900bac57036092b21543eade92"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E026_00_DEM.tif",
+   "bytes": 40690910,
+   "sha256": "793ec51be9405ed4a496897c3d9e2d46e78354adcbd16287ae0b341ace1d724a"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E026_00_EDM.tif",
+   "bytes": 164632,
+   "sha256": "3b833eeab75348fa0db31af8f4e1138e8571ba3b91c4b83f0df6f473756021be"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E026_00_FLM.tif",
+   "bytes": 157699,
+   "sha256": "9fdda1cb8f49d53e3c8f8340f46024e10a210e01f0bb84a009ad2a34dd61c5f8"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E027_FABDEM_V1-2.tif",
+   "bytes": 22237414,
+   "sha256": "464d2ac48a6415f14eb738992b5d5ff0664f2006341d1ba5c7c74d6b91787cf4"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e027.zip",
+   "bytes": 5882670,
+   "sha256": "35ab46a14142ca82058146e7138daee544115acd72adf2a1ce9083e23c46e056"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E027_00_DEM.tif",
+   "bytes": 40860714,
+   "sha256": "77a68f5c5464ec8788eacddae7ac2643c443f19e8947f57dddf24128aa4bc13f"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E027_00_EDM.tif",
+   "bytes": 191866,
+   "sha256": "5f29af3bd96e173bdc317e43c8fc15827465eb11379dc3263c48c620df1353b5"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E027_00_FLM.tif",
+   "bytes": 184254,
+   "sha256": "190dff2670df78da4e11d07fb6ac12e3608ac096849f2fce4f15a99224b4ffd3"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E028_FABDEM_V1-2.tif",
+   "bytes": 20719525,
+   "sha256": "7bffb6f62fb333e4f5479e10f541c5cb766878927e9840f6b7caa312ba8fe9f8"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e028.zip",
+   "bytes": 5617470,
+   "sha256": "d10a63fa1f1d34f34797122bf6c5fb7c7bf685f93128e6a727978fb7d3368ce3"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E028_00_DEM.tif",
+   "bytes": 40776863,
+   "sha256": "466ad010db2508ce39a5b0b2d6714ec7b356104c22d82fa77f0edbd642e2dae0"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E028_00_EDM.tif",
+   "bytes": 331450,
+   "sha256": "0155760508b33e4fa7bf42c9af4a8780459a3e2c9f2d5709aeef846eb64f941d"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E028_00_FLM.tif",
+   "bytes": 311468,
+   "sha256": "c24468c9b503501138ea2693cf2fb72432e1cd117807cc21890c2ab52f239628"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E030_FABDEM_V1-2.tif",
+   "bytes": 20601678,
+   "sha256": "cccdc18128f2a130a71954302522b9418f6271c1479149f20a7f8fd1da923870"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e030.zip",
+   "bytes": 5813060,
+   "sha256": "268bd636b234039d91a1f35b2e66533d7d4ce25054d8893fcd2e6d6e6c3316d2"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E030_00_DEM.tif",
+   "bytes": 42613202,
+   "sha256": "17f6651d0e2b766d2a7a517f554509423b45095e6233b71c3407f935116e19cf"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E030_00_EDM.tif",
+   "bytes": 286212,
+   "sha256": "0d7f1ed9ae678aa2cf3345ec5f57c2cf3d1e203e4a4f1920581e791bb9d59f3d"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E030_00_FLM.tif",
+   "bytes": 269751,
+   "sha256": "19e1be6cd163d596f16a38ea1ab7743ee2494cf77f13ade24e5ad76de60032b3"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E031_FABDEM_V1-2.tif",
+   "bytes": 20912635,
+   "sha256": "0b2c72b0f79f3fdc990401d6f8e2bde044f994d3e8ea72963b848fc6d163a3d9"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e031.zip",
+   "bytes": 6177257,
+   "sha256": "e21a69a62d81c77547b1f61479d0bf902dde1b4087302fc78581f856b6f2dba7"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E031_00_DEM.tif",
+   "bytes": 43027743,
+   "sha256": "36ff181f1fa05b0b91e9b46fd26d015ab78789e9fb2854717966c930c7ec89a6"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E031_00_EDM.tif",
+   "bytes": 429634,
+   "sha256": "7f64d7a0dbd9742686530cd95baa633118fdc836795372c7d34c914bdc346eb8"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E031_00_FLM.tif",
+   "bytes": 412487,
+   "sha256": "243245ea3ae7b2d99f5060feafd35cd7aeda34fafaab080e0b0abcf6ec41bb09"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N49E032_FABDEM_V1-2.tif",
+   "bytes": 14837137,
+   "sha256": "c711735ac1d5e16a0ae5db1c1783d51b77570cb10d35ff9c4f4a6300a9adb50a"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n49e032.zip",
+   "bytes": 4419844,
+   "sha256": "a27da6a5d3546df710e2e6717549d752a332fbd70f66088b6ac1f9de87059fea"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E032_00_DEM.tif",
+   "bytes": 35769735,
+   "sha256": "170152310c6511fb212c9ba4ca6a93b110dbf33cf740de62c9c703fe8788c862"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E032_00_EDM.tif",
+   "bytes": 260484,
+   "sha256": "2a630e64f77326339cd1b41f2b374c41e76c87efe483e57bf09304b4518494fb"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N49_00_E032_00_FLM.tif",
+   "bytes": 254446,
+   "sha256": "4095a17d84289188b4bad3c2ad1fc5649bf11489cf5c165d107c28881cbabd7d"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N50E025_FABDEM_V1-2.tif",
+   "bytes": 19932484,
+   "sha256": "52ecc8294dc12786d5a58c6fce8bfe49932773ab6cb426d4edb88300a967d652"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n50e025.zip",
+   "bytes": 5532375,
+   "sha256": "8ae9d902b65d793a24d58a90c0ecfd036ab5b7836348ac8c1f69a28b30fe4afa"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E025_00_DEM.tif",
+   "bytes": 29157311,
+   "sha256": "9553bef5a08b72109d10b689cb836471c23c7de6741719365c6e73dc599a1594"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E025_00_EDM.tif",
+   "bytes": 157198,
+   "sha256": "05915041d35ea9ccc99ea7108a4920cbf68471530a7d1badbfe6c425551ea71b"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E025_00_FLM.tif",
+   "bytes": 151774,
+   "sha256": "7c0ea6e4d183f9ad5eef3ff716e5e6ec216e61a2adb1f043c62c194340d6532c"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N50E026_FABDEM_V1-2.tif",
+   "bytes": 19813018,
+   "sha256": "c782a413fcc5def315909629648a94c1c1050ffb00a026155252a12ee3d50e1c"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n50e026.zip",
+   "bytes": 5577577,
+   "sha256": "3c0bc2e0d755b7683de9230486c48c876ac3109a4acc234067301fba7702eb96"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E026_00_DEM.tif",
+   "bytes": 29079658,
+   "sha256": "fd373c04cbb2fe5506f8caf990ae03b2c661241faf6ab7e138df746f7f6a072e"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E026_00_EDM.tif",
+   "bytes": 201639,
+   "sha256": "1c936659f6aa2da5328e388cbc35929b4072e65c72805d81e0a0b63315893b1c"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E026_00_FLM.tif",
+   "bytes": 190995,
+   "sha256": "a586fbce55a528d2d907b6fecd9540966aad696e76b5872b35849773fcf4d549"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N50E027_FABDEM_V1-2.tif",
+   "bytes": 18261693,
+   "sha256": "380b86b3c57b5e7852f126e477b9c9e7a7b705002a2533d548247a37dd08bfb0"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n50e027.zip",
+   "bytes": 5090595,
+   "sha256": "0d3c6fbb6b6d10810708a162454bc47c49a968da2784af4cd3e563478c1f0797"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E027_00_DEM.tif",
+   "bytes": 29208871,
+   "sha256": "146ca667f65f2181a59a2e880bba97efe3554c80176b528fe3de0920f704b10f"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E027_00_EDM.tif",
+   "bytes": 188388,
+   "sha256": "d3f0127bc153785d5d9a2ff6c79fca5fff5ea11d6bac86b915ad4de571070196"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E027_00_FLM.tif",
+   "bytes": 182561,
+   "sha256": "5e26d50aab445a189538a09002b1dce21b79d0113d01e2bbe7556edfba4a117f"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N50E028_FABDEM_V1-2.tif",
+   "bytes": 18689221,
+   "sha256": "cc6c550d5cf1ce357dc85119de82713b92069138ba1d8cd161128c1880b41cc5"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n50e028.zip",
+   "bytes": 4996257,
+   "sha256": "18a5477a26620690cc63c79970363ad5e5a5987f9034a8deaf99495306b5c0b9"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E028_00_DEM.tif",
+   "bytes": 29376661,
+   "sha256": "0593f860814d5998c9fe1a6908339fb2f4c7f7b5918db11e36f83d19e5dfa453"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E028_00_EDM.tif",
+   "bytes": 269426,
+   "sha256": "74b030fc3a1770fdbc40d84f4f4d16b85aa7036c80242af353d775b8b8ec24c6"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E028_00_FLM.tif",
+   "bytes": 259494,
+   "sha256": "6312ac28686a01d4bc5623b431557199e63915e583cfa6bf342e4f3750459582"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N50E029_FABDEM_V1-2.tif",
+   "bytes": 19123072,
+   "sha256": "eccdb4aaa5319bd93045f108f49b2f2117487ee24b5d7afcc182d53ce6ef371c"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n50e029.zip",
+   "bytes": 5306087,
+   "sha256": "f32e5ef7cb11b03594c3de108bdf8ed808812351512fb234a018484773929867"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E029_00_DEM.tif",
+   "bytes": 29633131,
+   "sha256": "60ab94c25d174e35ad5c01437a3341b7879fa9714be6d6be8a31e5236f90234b"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E029_00_EDM.tif",
+   "bytes": 239634,
+   "sha256": "995e2610c0ddf7180451f4e814fe6dc363dca60c805bfa8a4160ea32f82feb17"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E029_00_FLM.tif",
+   "bytes": 232102,
+   "sha256": "6503d307b7b2f17621cb69df52630335cf66940827a777f57f2ffbad8fbc9946"
+  },
+  {
+   "group": "fabdem",
+   "file": "fabdem/N50E030_FABDEM_V1-2.tif",
+   "bytes": 18158677,
+   "sha256": "03bac534810a7139a7f1f3399227d8fcee852f16e2bbdf0f8c1024c76be2a68b"
+  },
+  {
+   "group": "nasadem",
+   "file": "nasadem/NASADEM_HGT_n50e030.zip",
+   "bytes": 5401781,
+   "sha256": "255f744f76751676bfd9307ce6b2f28f59c989085687f0421d5218164ef01da5"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E030_00_DEM.tif",
+   "bytes": 28897860,
+   "sha256": "708af136b20beb2eb7916a5a635fda6a3f87cbf74fdf315a4efec875642b411b"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E030_00_EDM.tif",
+   "bytes": 490789,
+   "sha256": "3893a9882850f85601933c3c1044196d8386169d4cb00b94ec053d346f2d50f1"
+  },
+  {
+   "group": "glo30",
+   "file": "glo30/Copernicus_DSM_COG_10_N50_00_E030_00_FLM.tif",
+   "bytes": 466050,
+   "sha256": "e6ecde39cd67b90ab4a5599e3bc5ece377829bd7b6f4e5d82ae61b8e9832b18a"
+  },
+  {
+   "group": "aw3d30",
+   "file": "aw3d30/rasters_AW3D30.tar.gz",
+   "bytes": 385302388,
+   "sha256": "7703001465421fccf5735d2119e03a63109622478aa3c6d1a332747bf453f38b"
+  }
+ ],
+ "aw3d30_member": {
+  "name": "output_AW3D30.tif",
+  "sha256": "62f435a7c56053f588b98cf6848216cdd7dd2f8410d1ff6e07fd823ceb30d7f6"
+ }
+}
