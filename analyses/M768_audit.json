@@ -1,0 +1,52 @@
+{
+ "milestone": "M768",
+ "auditor": "analytical-auditor (blind, Sonnet)",
+ "task": "energy flows and fuel by estimated grade class: own battery-charge integration, class means, contrasts, slopes, placebo, reconciliation",
+ "verdict": "accept",
+ "reproduced": {
+  "G0": "downhill 1,647 (88 days, 913.3 km), flat 7,837 (134 days, 4,565.2 km), uphill 1,604 (90 days, 894.6 km); fuel basis 339 / 2,741 / 356 (3,436 steps, 82 days)",
+  "Q1a": "10,871 steps / 131 days; 11.73 / 8.11 / 6.52 kWh per 100 km; downhill minus flat +3.63 [2.86, 4.26] (claimed [2.87, 4.25]); uphill minus flat -1.59 [-2.47, -0.85] (claimed [-2.43, -0.89]); placebo downhill minus flat +1.56 [0.86, 2.15] (claimed [0.87, 2.16]; placebo steps with undefined heading excluded); slope -1.18 per pp [-1.31, -1.06]",
+  "Q1b_300rpm": "6.56 / 2.15 / 1.29; downhill minus flat +4.41 [4.03, 4.76]",
+  "Q5_fuel": "3.49 / 5.49 / 7.83 L per 100 km; slope +1.03 [0.92, 1.18]; placebo slope +0.095 [0.01, 0.17]",
+  "Q3": "positive traction slope +3.62 [3.38, 3.85]; negative traction slope magnitude 1.20 (sign convention only)",
+  "R1": "full-drive gross charge equals the master gross_charge_kwh on 703 of 703 drives (max difference 5e-5 kWh); engine-off (400 rpm) charge equals charge_eng_off_kwh on 703 of 703"
+ },
+ "disagreements": [
+  "point estimates agree to 0.01; interval ends differ by 0.01 to 0.04 (the uphill-minus-flat interval is wider in the audit: [-2.47, -0.85] against [-2.43, -0.89]) with the same seed and draw convention: a resampling or rounding detail; fuel and traction slope upper ends differ by 0.01 to 0.02"
+ ],
+ "checks": [
+  "no step counted twice; the three class contributions sum to the total charge (524.6238 kWh both ways)",
+  "offset convention: the claimed Q1a values match the raw current with no i_off (with i_off the audit gets 11.61 / 8.01 / 6.44); the result states the convention and the deviation",
+  "1 of 10,871 steps lies partly outside the I and V time base (interpolated edge)",
+  "privacy: no drive names, dates or odometer fields (the result has no 'privacy' field; the scan passes)"
+ ],
+ "not_covered": [
+  "Q2 exploratory ratios, Q4 SOC and net battery energy, the consensus-class and per-source blocks were not reproduced in this round"
+ ],
+ "recorded_by": "main session from the auditor's returned brief",
+ "round2": {
+  "auditor": "analytical-auditor (blind, Sonnet), second narrow task",
+  "verdict": "accept",
+  "reproduced": {
+   "consensus_class": "n 8,690; Q1a 11.863 / 7.841 / 6.269 kWh per 100 km; downhill minus flat +4.022 [3.115, 4.727] (claimed [3.145, 4.740]); uphill minus flat -1.572 [-2.526, -0.782] (claimed [-2.514, -0.802]): sign and interval agree, so the consensus check of the R3 reading holds",
+   "speed_standardised": "+3.251 [2.799, 3.649] with the band km-shares held fixed at the overall values (resampling the shares gives [2.68, 3.72]); the result states the fixed-share convention",
+   "per_source_downhill_minus_flat": {
+    "NASADEM": "+3.409 [2.667, 3.958] (claimed [2.723, 3.951])",
+    "AW3D30": "+3.559 [2.787, 4.167]",
+    "GLO30": "+3.628 [2.920, 4.228]"
+   },
+   "three_class_misclassification": {
+    "NASADEM": 13.4,
+    "AW3D30": 12.5,
+    "GLO30": 8.0
+   },
+   "Q4": "net battery energy 5.750 / 1.479 / -3.040 kWh per 100 km (charge minus discharge); SOC change 286.19 / 66.27 / -176.69 pp per 100 km (raw SOC channel, interpolated at the window ends, without the pipeline spike filter); share of the charge energy with engine speed above 400 rpm (the master's engine-on threshold) 41.34 / 69.96 / 75.76 %"
+  },
+  "disagreements": [
+   "point estimates agree to the third decimal; interval ends differ by up to 0.03 (consensus), 0.056 on the NASADEM lower end: rounding or bootstrap-stream differences"
+  ],
+  "not_covered": [
+   "Q2 exploratory ratios; fuel class means (below the floors, counts only)"
+  ]
+ }
+}

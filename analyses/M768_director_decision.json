@@ -1,0 +1,37 @@
+{
+ "milestone": "M768",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M768_spec.md Rev 3",
+ "result": "analyses/M768_grade_energy_flows.json",
+ "audit": "analyses/M768_audit.json",
+ "decision": "accept (report-only), with conditions before merge",
+ "allowed_wording": "Q1a: 'In the estimated FABDEM grade class, battery charge energy per 100 km is associated with grade: downhill 11.73, flat 8.11, uphill 6.52; downhill minus flat +3.63 [2.87, 4.25] (day-clustered), minimum detectable difference 0.99; reading under the pre-registered rule: differs from flat; R4 not falsified.' Placebo: 'the displaced-DEM placebo contrast also excludes zero (+1.56 [0.87, 2.16], 43 % of the primary); it is below the pre-registered 0.5 inconclusive threshold, but part of the class contrast is not specific to grade (route and speed structure are shared).' Slope beside the class contrast, never instead of it: -1.18 [-1.31, -1.06] kWh per 100 km per pp; placebo slope 0.006, interval contains zero. Fuel (app-calculated): slope +1.03 [0.92, 1.17] L per 100 km per pp, placebo slope +0.10 [0.005, 0.175] (about 10 % of the primary); fuel-basis class contrasts not testable (339 and 356 outer steps, as pre-stated). Traction: model-derived; 4.8 against 5.3 kWh per 100 km per pp is of the same order as the assumed-mass potential-energy reference (descriptive, no interval; not a validation; the M757 placebo failure stands). Charge is 'estimated' or 'integrated from logged current', never 'measured'. Never effect, caused, due to grade, regeneration (for Q1a), HV bus, validated or proven.",
+ "quotable_now": [
+  "Q1a class means, contrasts, mdd, placebo contrast, slope and placebo slope",
+  "Q1a speed-standardised contrast +3.25 beside the raw contrast",
+  "Q1b (300 rpm engine-off proxy) means and contrast +4.41 [4.03, 4.76], labelled regeneration-classified charge via the proxy",
+  "Q5 fuel slope and placebo slope; Q3 slopes (model-derived)",
+  "R1: 703 of 703 drives reconcile",
+  "after the second audit round: the consensus-class, per-source, Q4 net battery energy and SOC and engine-on share (naming the 400 rpm threshold: 41 / 70 / 76 %; the 300 rpm complement of Q1b gives about 44 / 73 / 80 %)"
+ ],
+ "not_quotable": [
+  "Q2 exploratory ratios (exploratory even after reproduction; uphill counts only)",
+  "fuel class means 3.49 / 5.49 / 7.83 (below the floors, counts only)"
+ ],
+ "deviations": [
+  "i_off not applied to Q1a against spec 7.9, to match the master (with i_off the audit gets 11.61 / 8.01 / 6.44; the contrast is about 3.6 either way)",
+  "the engine-off reconciliation was run against the master charge_eng_off_kwh (400 rpm) AND charge_pure_regen_kwh (703 drives each, 0 outside the tolerances), while the primary Q1b classifier is the 300 rpm proxy",
+  "the Q2 mass bracket is a global +-100 kg, not per-drive M753 scenarios",
+  "the speed-standardised interval holds the band km-shares fixed at the overall values (resampling them gives [2.68, 3.72])",
+  "bootstrap interval ends differ from the blind audit by 0.01 to 0.056 (rounding or resampling stream), no reading changes"
+ ],
+ "conditions": [
+  "C1 consensus-class reproduction before the R3 reading is final (done in audit round 2)",
+  "C2 resolve the 41 / 70 / 76 source (400 rpm threshold)",
+  "C3 CHANGELOG and open_items list the deviations and the not-reproduced blocks verbatim",
+  "C4 master MD5 asserted before and after, no M726 file touched, aggregates only, release_check green, six green CI",
+  "C5 display or article use needs its own spec, an Opus audit and Andrii's sign-off (locked); no M757 verdict changes"
+ ],
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session from the Director's returned brief"
+}
