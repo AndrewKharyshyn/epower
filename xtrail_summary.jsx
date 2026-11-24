@@ -1758,6 +1758,65 @@ function EngineCyclingChart() {
   );
 }
 
+/* ─── M767 (spec analyses/M767_spec.md Rev 2): grade-class SHARES of the covered driving (estimated DEM step grade, cloud-step scale); every figure binds to S.gradeClassShares; no energy quantity by class ─── */
+function GradeClassShares(){
+  const B=S.gradeClassShares; if(!B) return null;
+  const f1=(v)=>typeof v==="number"?v.toFixed(1):"n/a";
+  const f2=(v)=>typeof v==="number"?v.toFixed(2):"n/a";
+  const iv=(o,show)=>show&&o.ci95[0]!=null?`${f2(o.est)} [${f2(o.ci95[0])}, ${f2(o.ci95[1])}]`:`${f2(o.est)} (${B.notes.unsupported})`;
+  const P=["FABDEM","NASADEM","AW3D30","GLO-30"];
+  const col=["#1d4ed8","#60a5fa","#cbd5e1","#fdba74","#c2410c"];
+  const N=B.notes.plain, W=640, H=44;
+  const xs=[]; let acc=0; B.classes.forEach(c=>{const w=c.stepSharePct.est/100*W; xs.push([acc,w]); acc+=w;});
+  return (
+    <div data-grade-class-shares="1" style={{fontSize:11,color:"#475569",lineHeight:1.6}}>
+      <div style={{marginBottom:6}}>{N.what}</div>
+      <div style={{marginBottom:8}}>{N.slope}</div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H+18}`} role="img" aria-label="Share of mapped stretches by slope group, one bar">
+        {B.classes.map((c,i)=>{const [x0,w]=xs[i]; return (
+          <g key={i}><rect x={x0} y={0} width={w} height={H} fill={col[i]} stroke="#fff" strokeWidth={1}/>
+            {w>34?<text x={x0+w/2} y={H/2+4} textAnchor="middle" fontSize={11} fontWeight={700} fill={i===0||i===4?"#fff":"#0f172a"}>{f1(c.stepSharePct.est)}%</text>:<text x={Math.min(Math.max(x0+w/2,20),W-20)} y={H+13} textAnchor="middle" fontSize={10} fill="#334155">{f1(c.stepSharePct.est)}%</text>}</g>);})}
+      </svg>
+      <div style={{display:"flex",flexWrap:"wrap",gap:"4px 14px",marginTop:2}}>
+        {B.classes.map((c,i)=>(<span key={i} style={{display:"inline-flex",alignItems:"center",gap:5}}><span style={{width:11,height:11,background:col[i],display:"inline-block",borderRadius:2}}/>{c.plainLabel}</span>))}
+      </div>
+      <div style={{overflowX:"auto"}}><table style={{borderCollapse:"collapse",fontSize:11,width:"100%",marginTop:8}}>
+        <thead><tr style={{textAlign:"left",color:"#334155"}}><th style={{padding:"3px 6px"}}>Slope group</th><th style={{padding:"3px 6px"}}>What it means</th><th style={{padding:"3px 6px"}}>Share of stretches, % [95% range]</th><th style={{padding:"3px 6px"}}>Stretches</th><th style={{padding:"3px 6px"}}>Days</th></tr></thead>
+        <tbody>{B.classes.map((c,i)=>(<tr key={i} style={{borderTop:"1px solid #e2e8f0"}}>
+          <td style={{padding:"3px 6px",fontWeight:700,color:"#0f172a"}}>{c.plainLabel}</td>
+          <td style={{padding:"3px 6px"}}>{c.plainRange}</td>
+          <td style={{padding:"3px 6px"}}>{iv(c.stepSharePct,c.intervalShown)}</td>
+          <td style={{padding:"3px 6px"}}>{c.steps.toLocaleString("en-US")}</td>
+          <td style={{padding:"3px 6px"}}>{c.days}</td>
+        </tr>))}</tbody></table></div>
+      <div style={{marginTop:8}}>{N.coverage}</div>
+      <div style={{marginTop:4}}>{N.uncertainty}</div>
+      <div style={{marginTop:4}}>{N.use}</div>
+      <details data-grade-class-shares-limits="1" style={{marginTop:6}}><summary style={{cursor:"pointer",color:"#334155"}}>Technical detail (four elevation maps, kilometre shares, limits)</summary>
+        <div style={{marginTop:4}}>{B.notes.lead}</div>
+        <div style={{overflowX:"auto"}}><table style={{borderCollapse:"collapse",fontSize:10,minWidth:640,width:"100%",marginTop:6}}>
+          <thead><tr style={{textAlign:"left",color:"#334155"}}><th style={{padding:"3px 6px"}}>Class</th><th style={{padding:"3px 6px"}}>Km share, % (secondary)</th><th style={{padding:"3px 6px"}}>Step share by product, % ({P.join(" / ")})</th><th style={{padding:"3px 6px"}}>Bracket, %</th><th style={{padding:"3px 6px"}}>Product dependence</th></tr></thead>
+          <tbody>{B.classes.map((c,i)=>(<tr key={i} style={{borderTop:"1px solid #e2e8f0"}}>
+            <td style={{padding:"3px 6px",fontWeight:700,color:"#0f172a"}}>{c.label}</td>
+            <td style={{padding:"3px 6px"}}>{iv(c.kmSharePct,c.intervalShown)}</td>
+            <td style={{padding:"3px 6px"}}>{P.map(p=>f2(c.products[p])).join(" / ")}</td>
+            <td style={{padding:"3px 6px"}}>{f2(c.bracketMinPct)} to {f2(c.bracketMaxPct)}</td>
+            <td style={{padding:"3px 6px"}}>{c.sourceDependent===true?"source-dependent (another product lies outside the FABDEM interval)":c.sourceDependent===false?"inside the FABDEM interval":"not assessed"}</td>
+          </tr>))}</tbody></table></div>
+        <div style={{marginTop:4}}>{B.notes.coverage}</div>
+        <div style={{marginTop:4}}>{B.notes.products}</div>
+        <div style={{marginTop:4}}>{B.notes.labels}</div>
+        <div style={{marginTop:4}}>{B.notes.excluded}</div>
+        <div style={{marginTop:4}}>FABDEM step shares (%, in the class order of the bar) on other step sets: before the DEM masks ({Object.keys(B.fabdemSensitivityStepSharePct)[0].replace(/\D+/g," ").trim()} steps) {(B.fabdemSensitivityStepSharePct[Object.keys(B.fabdemSensitivityStepSharePct)[0]]||[]).map(f2).join(" / ")}; without the GLO-30 flag ({Object.keys(B.fabdemSensitivityStepSharePct)[1].replace(/\D+/g," ").trim()} steps) {(B.fabdemSensitivityStepSharePct[Object.keys(B.fabdemSensitivityStepSharePct)[1]]||[]).map(f2).join(" / ")}; primary set {(B.fabdemSensitivityStepSharePct[Object.keys(B.fabdemSensitivityStepSharePct)[2]]||[]).map(f2).join(" / ")}.</div>
+        <ul style={{margin:"2px 0 0 14px",padding:0}}>{(B.limits||[]).map((l,i)=><li key={i}>{l}</li>)}</ul>
+        <div>Drive-level speed mix of the logged kilometres (urban / mixed / highway, % of km): all logged {B.coverage.speedMix.all_logged.urban_pct} / {B.coverage.speedMix.all_logged.mixed_pct} / {B.coverage.speedMix.all_logged.highway_pct}; covered {B.coverage.speedMix.covered.urban_pct} / {B.coverage.speedMix.covered.mixed_pct} / {B.coverage.speedMix.covered.highway_pct}; uncovered remainder {B.coverage.speedMix.uncovered_remainder.urban_pct} / {B.coverage.speedMix.uncovered_remainder.mixed_pct} / {B.coverage.speedMix.uncovered_remainder.highway_pct} (an approximation from the master's time-weighted drive fractions).</div>
+        <div>{B.notes.locked}</div>
+      </details>
+      <div style={{marginTop:4}}>Registered 717-drive corpus (master MD5 {B.registeredMasterMd5.slice(0,8)}...); {B.status}.</div>
+    </div>
+  );
+}
+
 /* ─── M57: Mountain-Road Pattern (grade vs buffer-saturation dissipation) ─── */
 /* Re-definition requested 2026-07-27. The prior reading -- descent produces
    regen, regen saturates the buffer, therefore descent produces dissipation --
@@ -13179,6 +13238,7 @@ export default function App() {
         <EngineContextFieldsView/>
         <ColdNeutralContextLine/>
         <Section title="Mountain-Road Pattern — Grade, Buffer State and Dissipation" accent="#7c3aed"><MountainPattern/></Section>
+        {S.gradeClassShares && <Section title={S.gradeClassShares.title} accent="#7c3aed"><GradeClassShares/></Section>}
         <Section seasonAware title="Engine-Off Travel — Distance Share &amp; Longest Engine-Off Run" accent="#059669"><EvTraction/></Section>
         {S.regimeTransition && (()=>{const RT=S.regimeTransition;
           const LBL={urban:"Urban",mixed:"Mixed",mixed_highway:"Mixed-Hwy",highway:"Highway"};

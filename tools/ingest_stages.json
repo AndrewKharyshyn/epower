@@ -1452,6 +1452,19 @@
    ]
   },
   {
+   "id": "grade_shares_payload",
+   "title": "M767 (spec analyses/M767_spec.md Rev 2): additive CARRIED payload block gradeClassShares (grade-class shares of the covered driving, copied from the registered result pinned by sha256); not refreshed by ingestion; fails closed (exit 3, nothing written) on a pin mismatch or a missing source; byte-identical on unchanged sources; its stamp is derived by the stamp_dependencies stage",
+   "cmd": [
+    "python3",
+    "tools/grade_shares_payload.py",
+    "--splice"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "stamp_basis",
    "title": "M422: artifact-stamp basis fields (includedInReleaseAt / computedAt / inputBasis, carried-block status) derived from the blocks' own fields; must run BEFORE leaf_guard (the arrays build recreates every stamp, so the M419 fields would otherwise be reported as 743 lost leaves); idempotent, writes only /_artifactStamps; restamp_ingest runs it again after re-issuing stamps",
    "cmd": [

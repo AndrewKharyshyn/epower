@@ -1,0 +1,638 @@
+{
+ "milestone": "M767",
+ "spec": "analyses/M767_spec.md Rev 2",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "m762ResultSha256": "b5ae97d6a88aa0fd9be3e911a3525ebb15b4fc857939a19d75d2a8a48d3ef6c1",
+ "m762ManifestSha256": "c115d1c3ef83a9bfe941685b6583777cc4a961f946b86fdff5af38ac2873f427",
+ "toolSha256": "1d86c907df4e6efae0889fb2332fadff300f24d9d22141178bf147d3099e22d9",
+ "seed": 42,
+ "nBoot": 4000,
+ "control_R1": {
+  "stages_equal_M762": true,
+  "fabdem_step_shares_equal_M762_C6": true,
+  "misclassification_equal_M762": true
+ },
+ "C1_step_stages": {
+  "all_steps_before_exclusions": 11890,
+  "after_first_last_speed": 11682,
+  "common_support_F_N_A_finite": 11682,
+  "after_nasadem_num_srtm_mask": 11606,
+  "after_glo30_unflagged_mask": 11115,
+  "after_fabdem_grade_8pp_exclusion": 11088
+ },
+ "E1_shares_primary_steps_secondary_km": {
+  "n_steps": 11088,
+  "n_days": 134,
+  "km": 6373.175790534543,
+  "rows": [
+   {
+    "class": "below -3 pp",
+    "support": {
+     "steps": 374,
+     "days": 49,
+     "drives": 93,
+     "km": 192.9573719457361,
+     "interval_shown": true
+    },
+    "step_share_pct": {
+     "est": 3.373015873015873,
+     "ci95": [
+      2.6773727859359253,
+      4.076442512305349
+     ]
+    },
+    "km_share_pct": {
+     "est": 3.027648668224669,
+     "ci95": [
+      2.4042625510638844,
+      3.661597273509709
+     ]
+    }
+   },
+   {
+    "class": "-3 to -1 pp",
+    "support": {
+     "steps": 1273,
+     "days": 88,
+     "drives": 195,
+     "km": 720.3766128596442,
+     "interval_shown": true
+    },
+    "step_share_pct": {
+     "est": 11.480880230880231,
+     "ci95": [
+      10.060038264168204,
+      12.85330363513692
+     ]
+    },
+    "km_share_pct": {
+     "est": 11.303259733232988,
+     "ci95": [
+      9.9401818233082,
+      12.682668404015956
+     ]
+    }
+   },
+   {
+    "class": "-1 to 1 pp",
+    "support": {
+     "steps": 7837,
+     "days": 134,
+     "drives": 466,
+     "km": 4565.227274927313,
+     "interval_shown": true
+    },
+    "step_share_pct": {
+     "est": 70.68001443001442,
+     "ci95": [
+      67.21987677934142,
+      74.25339690342561
+     ]
+    },
+    "km_share_pct": {
+     "est": 71.63190574011156,
+     "ci95": [
+      68.13193611051874,
+      75.01232247754079
+     ]
+    }
+   },
+   {
+    "class": "1 to 3 pp",
+    "support": {
+     "steps": 1234,
+     "days": 90,
+     "drives": 201,
+     "km": 699.3238892011989,
+     "interval_shown": true
+    },
+    "step_share_pct": {
+     "est": 11.129148629148629,
+     "ci95": [
+      9.856181609383972,
+      12.317489359298039
+     ]
+    },
+    "km_share_pct": {
+     "est": 10.972926405699281,
+     "ci95": [
+      9.771064105828774,
+      12.186718354121007
+     ]
+    }
+   },
+   {
+    "class": "above 3 pp",
+    "support": {
+     "steps": 370,
+     "days": 54,
+     "drives": 103,
+     "km": 195.290641600651,
+     "interval_shown": true
+    },
+    "step_share_pct": {
+     "est": 3.336940836940837,
+     "ci95": [
+      2.703396317521668,
+      3.957257018095601
+     ]
+    },
+    "km_share_pct": {
+     "est": 3.064259452731513,
+     "ci95": [
+      2.4247722752214886,
+      3.694858350614849
+     ]
+    }
+   }
+  ]
+ },
+ "E2_cohorts_result_only": {
+  "cold": {
+   "counts_only": true,
+   "n_steps": 543,
+   "n_days": 15,
+   "km": 313.67890249582484,
+   "step_counts_by_class": [
+    3,
+    31,
+    469,
+    37,
+    3
+   ]
+  },
+  "shoulder": {
+   "n_steps": 1616,
+   "n_days": 56,
+   "km": 846.9038285579634,
+   "rows": [
+    {
+     "class": "below -3 pp",
+     "support": {
+      "steps": 38,
+      "days": 8,
+      "drives": 11,
+      "km": 18.637445548833405,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 2.3514851485148514,
+      "ci95": [
+       0.6487288245855994,
+       3.9380700412462972
+      ]
+     },
+     "km_share_pct": {
+      "est": 2.200656664944788,
+      "ci95": [
+       0.6532275006911307,
+       3.5982314309439336
+      ]
+     }
+    },
+    {
+     "class": "-3 to -1 pp",
+     "support": {
+      "steps": 208,
+      "days": 26,
+      "drives": 37,
+      "km": 113.39550721914503,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 12.871287128712872,
+      "ci95": [
+       8.802935299643618,
+       16.234434683931628
+      ]
+     },
+     "km_share_pct": {
+      "est": 13.389419600596847,
+      "ci95": [
+       9.217239326468157,
+       16.426990236906935
+      ]
+     }
+    },
+    {
+     "class": "-1 to 1 pp",
+     "support": {
+      "steps": 1143,
+      "days": 56,
+      "drives": 112,
+      "km": 592.991257046868,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 70.73019801980197,
+      "ci95": [
+       61.930370948053714,
+       82.14466308637624
+      ]
+     },
+     "km_share_pct": {
+      "est": 70.01872432866001,
+      "ci95": [
+       62.25313452750726,
+       81.49501017670322
+      ]
+     }
+    },
+    {
+     "class": "1 to 3 pp",
+     "support": {
+      "steps": 185,
+      "days": 22,
+      "drives": 32,
+      "km": 101.55839735975997,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 11.448019801980198,
+      "ci95": [
+       7.012085913937121,
+       14.442871754886797
+      ]
+     },
+     "km_share_pct": {
+      "est": 11.99172726998826,
+      "ci95": [
+       7.451353876443055,
+       14.771539914428319
+      ]
+     }
+    },
+    {
+     "class": "above 3 pp",
+     "support": {
+      "steps": 42,
+      "days": 7,
+      "drives": 12,
+      "km": 20.321221383356942,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 2.599009900990099,
+      "ci95": [
+       0.8879650763003994,
+       3.9476101573889504
+      ]
+     },
+     "km_share_pct": {
+      "est": 2.3994721358100612,
+      "ci95": [
+       0.8865327672823649,
+       3.4604116642140035
+      ]
+     }
+    }
+   ]
+  },
+  "warm": {
+   "n_steps": 8929,
+   "n_days": 92,
+   "km": 5212.593059480756,
+   "rows": [
+    {
+     "class": "below -3 pp",
+     "support": {
+      "steps": 333,
+      "days": 44,
+      "drives": 81,
+      "km": 172.78038973129026,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 3.7294209877925857,
+      "ci95": [
+       2.9614665156918423,
+       4.535024193605023
+      ]
+     },
+     "km_share_pct": {
+      "est": 3.3146725201775395,
+      "ci95": [
+       2.619463853527746,
+       4.059002940167734
+      ]
+     }
+    },
+    {
+     "class": "-3 to -1 pp",
+     "support": {
+      "steps": 1034,
+      "days": 63,
+      "drives": 150,
+      "km": 589.758627875435,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 11.580244148280883,
+      "ci95": [
+       10.164733397853546,
+       13.085664106071004
+      ]
+     },
+     "km_share_pct": {
+      "est": 11.31411221144094,
+      "ci95": [
+       9.938603438791148,
+       12.776859017679493
+      ]
+     }
+    },
+    {
+     "class": "-1 to 1 pp",
+     "support": {
+      "steps": 6225,
+      "days": 91,
+      "drives": 307,
+      "km": 3697.862753975918,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 69.71665360062717,
+      "ci95": [
+       65.99409142577089,
+       73.20354742511745
+      ]
+     },
+     "km_share_pct": {
+      "est": 70.94094458899264,
+      "ci95": [
+       67.2055498696901,
+       74.29497380743169
+      ]
+     }
+    },
+    {
+     "class": "1 to 3 pp",
+     "support": {
+      "steps": 1012,
+      "days": 67,
+      "drives": 160,
+      "km": 578.731564903306,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 11.333855974913204,
+      "ci95": [
+       10.084700588561446,
+       12.571987710656332
+      ]
+     },
+     "km_share_pct": {
+      "est": 11.102565619441537,
+      "ci95": [
+       9.952669926684496,
+       12.331132266786422
+      ]
+     }
+    },
+    {
+     "class": "above 3 pp",
+     "support": {
+      "steps": 325,
+      "days": 49,
+      "drives": 90,
+      "km": 173.45972299480547,
+      "interval_shown": true
+     },
+     "step_share_pct": {
+      "est": 3.6398252883861573,
+      "ci95": [
+       2.9516181406308597,
+       4.398607190694391
+      ]
+     },
+     "km_share_pct": {
+      "est": 3.327705059947351,
+      "ci95": [
+       2.602304660810954,
+       4.104530754259967
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "E3_products": [
+  {
+   "class": "below -3 pp",
+   "by_product_step_share_pct": {
+    "F": 3.373015873015873,
+    "N": 3.6075036075036073,
+    "A": 3.6345598845598848,
+    "G": 3.454184704184704
+   },
+   "bracket_min": 3.373015873015873,
+   "bracket_max": 3.6345598845598848,
+   "source_dependent": false
+  },
+  {
+   "class": "-3 to -1 pp",
+   "by_product_step_share_pct": {
+    "F": 11.480880230880231,
+    "N": 13.663419913419913,
+    "A": 13.203463203463203,
+    "G": 12.707431457431456
+   },
+   "bracket_min": 11.480880230880231,
+   "bracket_max": 13.663419913419913,
+   "source_dependent": true
+  },
+  {
+   "class": "-1 to 1 pp",
+   "by_product_step_share_pct": {
+    "F": 70.68001443001442,
+    "N": 65.41305916305916,
+    "A": 66.42316017316018,
+    "G": 67.63167388167388
+   },
+   "bracket_min": 65.41305916305916,
+   "bracket_max": 70.68001443001442,
+   "source_dependent": true
+  },
+  {
+   "class": "1 to 3 pp",
+   "by_product_step_share_pct": {
+    "F": 11.129148629148629,
+    "N": 13.59126984126984,
+    "A": 13.131313131313133,
+    "G": 12.716450216450218
+   },
+   "bracket_min": 11.129148629148629,
+   "bracket_max": 13.59126984126984,
+   "source_dependent": true
+  },
+  {
+   "class": "above 3 pp",
+   "by_product_step_share_pct": {
+    "F": 3.336940836940837,
+    "N": 3.7247474747474745,
+    "A": 3.6075036075036073,
+    "G": 3.49025974025974
+   },
+   "bracket_min": 3.336940836940837,
+   "bracket_max": 3.7247474747474745,
+   "source_dependent": false
+  }
+ ],
+ "E4_coverage_and_selection": {
+  "logged_km": 11062.24,
+  "covered_km": 6373.175790534543,
+  "covered_share_of_logged_km_pct": 57.61198265933973,
+  "drives": 717,
+  "drives_with_a_covered_step": 474,
+  "by_month": {
+   "2026-05": {
+    "drives": 38,
+    "logged_km": 358.3,
+    "covered_km": 205.68223051187044,
+    "covered_share_pct": 57.40503223886979
+   },
+   "2026-06": {
+    "drives": 63,
+    "logged_km": 2594.9,
+    "covered_km": 1572.019031392202,
+    "covered_share_pct": 60.581102600955795
+   },
+   "2026-07": {
+    "drives": 93,
+    "logged_km": 2870.3,
+    "covered_km": 2218.4751652779155,
+    "covered_share_pct": 77.29070707862994
+   },
+   "2026-08": {
+    "drives": 111,
+    "logged_km": 2130.5,
+    "covered_km": 1117.9697851825017,
+    "covered_share_pct": 52.47452641081913
+   },
+   "2026-09": {
+    "drives": 186,
+    "logged_km": 799.84,
+    "covered_km": 335.4614569154826,
+    "covered_share_pct": 41.94107032850102
+   },
+   "2026-10": {
+    "drives": 115,
+    "logged_km": 1707.0,
+    "covered_km": 648.1837863794822,
+    "covered_share_pct": 37.97210230694096
+   },
+   "2026-11": {
+    "drives": 111,
+    "logged_km": 601.4,
+    "covered_km": 275.3843348750891,
+    "covered_share_pct": 45.79054454191705
+   }
+  },
+  "by_stratum": {
+   "10 km and longer": {
+    "drives": 189,
+    "logged_km": 9578.4,
+    "covered_km": 5983.863171624462,
+    "covered_share_pct": 62.4724710977247
+   },
+   "2 to 10 km": {
+    "drives": 344,
+    "logged_km": 1261.5,
+    "covered_km": 365.2847892470769,
+    "covered_share_pct": 28.956384403256195
+   },
+   "below 2 km": {
+    "drives": 184,
+    "logged_km": 222.34,
+    "covered_km": 24.027829663005246,
+    "covered_share_pct": 10.806795746606658
+   }
+  },
+  "by_cohort": {
+   "cold": {
+    "drives": 77,
+    "logged_km": 555.2,
+    "covered_km": 313.67890249582484,
+    "covered_share_pct": 56.498361400544816
+   },
+   "shoulder": {
+    "drives": 217,
+    "logged_km": 2227.64,
+    "covered_km": 846.9038285579634,
+    "covered_share_pct": 38.01798443904596
+   },
+   "warm": {
+    "drives": 423,
+    "logged_km": 8279.4,
+    "covered_km": 5212.593059480755,
+    "covered_share_pct": 62.95858467377775
+   }
+  },
+  "drive_level_speed_class_mix_km_weighted": {
+   "all_logged": {
+    "urban_pct": 46.32010786242208,
+    "highway_pct": 23.810007738034976,
+    "mixed_pct": 29.869884399542947
+   },
+   "covered": {
+    "urban_pct": 40.81576135004283,
+    "highway_pct": 25.28107986514032,
+    "mixed_pct": 33.90315878481685
+   },
+   "uncovered_remainder": {
+    "urban_pct": 53.8013805361029,
+    "highway_pct": 21.810589336454434,
+    "mixed_pct": 24.38803012744267
+   },
+   "note": "drive-level: the master's time-weighted urban and highway fractions of each drive weighted by its kilometres; an approximation of the speed mix of the covered and uncovered kilometres"
+  },
+  "steps_excluded_above_8pp": {
+   "n_steps": 27,
+   "share_of_steps_after_masks_pct": 0.242914979757085,
+   "below_minus_8": 15,
+   "above_8": 12
+  },
+  "fabdem_sensitivities_step_share_pct": {
+   "pre_mask_set_11682_steps": [
+    3.535353535353535,
+    11.70176339667865,
+    70.03937681903784,
+    11.273754494093478,
+    3.4497517548365004
+   ],
+   "no_glo_flag_set_11577_steps": [
+    3.420575278569578,
+    11.704241167832771,
+    70.22544700699663,
+    11.28962598255161,
+    3.360110564049408
+   ],
+   "primary_set_11088_steps": [
+    3.373015873015873,
+    11.480880230880231,
+    70.68001443001442,
+    11.129148629148629,
+    3.336940836940837
+   ]
+  }
+ },
+ "three_class_and_five_class_misclassification_vs_fabdem_pct": {
+  "five_class": {
+   "N": 15.674603174603174,
+   "A": 14.637445887445889,
+   "G": 9.37049062049062
+  }
+ },
+ "limits": [
+  "inter-product DEM error only, assumption-conditional (uncorrelated errors); common-mode error is not identified; not the error against the road grade",
+  "shares describe the COVERED driving (cloud-step scale, steps of 300 to 900 m at 8 km/h or more with a cloud position pair), not all driving",
+  "not per-step labels: the class of a step differs between FABDEM and NASADEM or AW3D30 on the shown share of steps",
+  "GLO-30 is FABDEM's base (not independent); FABDEM is the most central product, so random DEM noise moves share out of the -1 to 1 class and the bracket is not symmetric",
+  "the NASADEM mask removed water only; FABDEM's own building and forest removals are not masked; AW3D30 has no mask and its portal licence is 'not provided' (internal use only)",
+  "the M757 placebo failure stands; regeneration, apparent KE recovery, fuel and traction energy by grade class stay locked (M762 8.8 and R4)"
+ ],
+ "deviations_from_spec": [
+  "the speed mix of the covered versus the uncovered kilometres is a DRIVE-LEVEL approximation (the master's time-weighted urban and highway fractions weighted by drive kilometres), because the step windows of the uncovered parts are not available"
+ ],
+ "seconds": 18.0
+}

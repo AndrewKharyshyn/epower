@@ -1,0 +1,15 @@
+{
+ "milestone": "M767",
+ "spec": "analyses/M767_spec.md Rev 2",
+ "result": "analyses/M767_grade_class_shares.json",
+ "audit": "analyses/M767_audit.json",
+ "recorded_by": "main session (Sonnet), from the Opus display audit (decision revise, conditions applied) and the Sonnet blind audit (accept); the Opus audit is the Director review of the display",
+ "decision": "accept the result; display accepted as a carried, auxiliary block with the audit conditions applied",
+ "owner_signoff": {"who": "Andrii", "when": "2026-11-24", "channel": "chat", "verbatim": "Sign off", "scope": "the revised plain-wording grade-class shares chart (stacked bar, plain slope groups, technical detail folded), shipped as a carried block until a refresh stage exists"},
+ "owner_decisions": ["2026-11-24 (Andrii, chat): the shares are refreshed at ingestion whenever a cloud export is available at that ingestion (verbatim: 'Should be reshreshed in case when the cloud data export is available at ingestion stage.'); otherwise they stay carried and labelled with the 717-drive basis. The refresh stage is a separate milestone (cloud refresh M746 plus a shares stage)."],
+ "allowed_wording": "Estimated grade-class shares of the mapped driving (FABDEM step grade, cloud-step scale); the mapped stretches are 57.6 % of the logged kilometres; level 70.68 [67.22, 74.25] % of stretches (steps primary, day-clustered); other maps differ (up to 5.3 points in level); not all driving; not per-stretch labels.",
+ "forbidden": ["all driving", "representative of all driving", "measured, true or actual grade", "flat or hilly route", "terrain profile", "error bars on the shares", "energy, regeneration or fuel by class on this chart"],
+ "not_an_article_figure": true,
+ "article_use": "needs an Opus audit of the article text and Andrii's explicit sign-off",
+ "open": ["refresh stage (cloud export at ingestion)", "regeneration by grade class: M768 is report-only, no display"]
+}

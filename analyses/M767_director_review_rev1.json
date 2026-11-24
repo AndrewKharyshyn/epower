@@ -1,0 +1,24 @@
+{
+ "milestone": "M767",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M767_spec.md Rev 1",
+ "decision": "revise, all rulings adopted in Rev 2 section 6",
+ "rulings": [
+  "R1 scope: shares of covered driving only; regen/KE/fuel/traction by class, b, 2SLS locked; no threshold changed; master pre/post",
+  "R2 step-count share primary; km-weighted secondary, labelled new",
+  "R3 four source shares plus min-max bracket; no hat-derived interval; GLO-30 is FABDEM's base; spread asymmetric",
+  "R4 replace the 5 pp / 25 % rule (never fires): source-dependent if another source lies outside FABDEM's day interval; always show coverage numbers",
+  "R5 caption states coverage and selection by month, length, speed, urban mix, excluded count above 8 pp; sensitivities on 11,682 and 11,577 sets",
+  "R6 cohorts in the result only",
+  "R7 placement beside mountain-pattern; carried basis OK; label registered corpus always",
+  "R8 language additions; misclassification figures from the payload",
+  "R9 Sonnet blind reproduction OK for the result; Opus audit and Andrii sign-off before dashboard use"
+ ],
+ "conditions": [
+  "Rev 2 before code",
+  "Opus audit before SendUserFile",
+  "Andrii sign-off verbatim in the CHANGELOG"
+ ],
+ "needs_andrii_signoff": true,
+ "recorded_by": "main session from the Director's returned brief"
+}
