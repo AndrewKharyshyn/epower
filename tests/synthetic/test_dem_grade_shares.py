@@ -111,9 +111,9 @@ try:
     for sub in ("fabdem", "nasadem", "aw3d30", "glo30"):
         os.makedirs(os.path.join(td, "dem", sub))
     os.makedirs(os.path.join(td, "store"))
-    open(os.path.join(td, "store", "manifest.json"), "w").write("{}")
+    open(os.path.join(td, "store", "manifest.json"), "w", encoding="utf-8").write("{}")
     os.makedirs(os.path.join(td, "raw"))
-    open(os.path.join(td, "master.csv"), "w").write("file\nx.csv\n")
+    open(os.path.join(td, "master.csv"), "w", encoding="utf-8").write("file\nx.csv\n")
     outd = os.path.join(td, "out")
     rc = S.main(["--run", "--dem-dir", os.path.join(td, "dem"), "--store", os.path.join(td, "store"), "--raw-dir", os.path.join(td, "raw"), "--master", os.path.join(td, "master.csv"), "--out-dir", outd])
     assert rc != 0 and not os.path.exists(outd)

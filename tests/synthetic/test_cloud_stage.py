@@ -14,8 +14,8 @@ try:
         r = os.path.join(work, name)
         os.makedirs(os.path.join(r, "tools"))
         os.makedirs(os.path.join(r, "analyses"))
-        open(os.path.join(r, "drive_master.csv"), "w").write("file\na\n")
-        open(os.path.join(r, "summary_arrays.json"), "w").write("{}")
+        open(os.path.join(r, "drive_master.csv"), "w", encoding="utf-8").write("file\na\n")
+        open(os.path.join(r, "summary_arrays.json"), "w", encoding="utf-8").write("{}")
         return r
 
     def planted(r, mode_for):
@@ -29,7 +29,7 @@ try:
         tools = []
         for tid, mode, needs, pinned in mode_for:
             script = "t_%s.py" % tid
-            open(os.path.join(r, "tools", script), "w").write(src[mode])
+            open(os.path.join(r, "tools", script), "w", encoding="utf-8").write(src[mode])
             tools.append((tid, script, needs, ["o.txt"], pinned))
         return tools
 
@@ -45,13 +45,13 @@ try:
     configure(r, planted(r, [("coverage", "ok", [], False), ("clock_offset", "ok", [], False)]))
     os.environ["XT_CLOUD_STORE"] = os.path.join(r, "nostore")
     assert C.main(["--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")]) == 0
-    st = json.load(open(os.path.join(r, "st.json")))
+    st = json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))
     assert all(v["status"] == "skipped_no_store" for v in st["tools"].values()) and not os.path.exists(os.path.join(r, "ret"))
 
     # store present
     store = os.path.join(work, "store")
     os.makedirs(store)
-    open(os.path.join(store, "manifest.json"), "w").write('{"n":1}')
+    open(os.path.join(store, "manifest.json"), "w", encoding="utf-8").write('{"n":1}')
     os.environ["XT_CLOUD_STORE"] = store
     os.environ.pop("XT_CLOUD_EXPORTS", None)
 
@@ -60,43 +60,43 @@ try:
     tools = planted(r, [("coverage", "ok", [], False), ("clock_offset", "fail", [], False), ("tyre", "hang", [], False), ("thermal", "ok", [], True), ("grade_shares", "ok", [], False)])
     configure(r, tools)
     rc = C.main(["--timeout", "3", "--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
-    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    st = json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]
     assert rc == 0 and st["coverage"]["status"] == "ok" and st["clock_offset"]["status"] == "failed" and st["tyre"]["status"] == "timeout"
     assert st["thermal"]["status"] == "skipped_pinned_master" and st["grade_shares"]["status"] == "skipped_no_dem"
     # (g) with a DEM dir the shares tool runs
     os.makedirs(os.path.join(r, "dem"))
     rc = C.main(["--timeout", "3", "--only", "grade_shares", "--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st2.json")])
-    assert json.load(open(os.path.join(r, "st2.json")))["tools"]["grade_shares"]["status"] == "ok"
+    assert json.load(open(os.path.join(r, "st2.json"), encoding="utf-8"))["tools"]["grade_shares"]["status"] == "ok"
 
     # (c) unchanged rerun: skipped_up_to_date, outputs untouched
     cov_out = os.path.join(r, "ret", [d for d in os.listdir(os.path.join(r, "ret")) if d.startswith("coverage_")][0], "o.txt")
     m0 = os.path.getmtime(cov_out)
     C.main(["--timeout", "3", "--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
-    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    st = json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]
     assert st["coverage"]["status"] == "skipped_up_to_date" and os.path.getmtime(cov_out) == m0
 
     # (d) integrity breach
     r = mk_root("d")
     configure(r, planted(r, [("coverage", "ok", [], False), ("clock_offset", "breach", [], False), ("tyre", "ok", [], False)]))
     rc = C.main(["--timeout", "5", "--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
-    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    st = json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]
     assert rc == 2 and st["clock_offset"]["status"] == "integrity_breach" and st["tyre"]["status"] == "integrity_breach"
     assert not [d for d in os.listdir(os.path.join(r, "ret")) if d.startswith("clock_offset_")]
 
     # (j) summary_arrays and registered results untouched in a normal run
     r = mk_root("j")
-    open(os.path.join(r, "analyses", "M767_grade_class_shares.json"), "w").write("{}")
+    open(os.path.join(r, "analyses", "M767_grade_class_shares.json"), "w", encoding="utf-8").write("{}")
     configure(r, planted(r, [("coverage", "ok", [], False)]))
-    before = (open(os.path.join(r, "summary_arrays.json")).read(), open(os.path.join(r, "analyses", "M767_grade_class_shares.json")).read())
+    before = (open(os.path.join(r, "summary_arrays.json"), encoding="utf-8").read(), open(os.path.join(r, "analyses", "M767_grade_class_shares.json"), encoding="utf-8").read())
     C.main(["--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
-    assert before == (open(os.path.join(r, "summary_arrays.json")).read(), open(os.path.join(r, "analyses", "M767_grade_class_shares.json")).read())
+    assert before == (open(os.path.join(r, "summary_arrays.json"), encoding="utf-8").read(), open(os.path.join(r, "analyses", "M767_grade_class_shares.json"), encoding="utf-8").read())
 
     # (h) stale lock
     r = mk_root("h")
     configure(r, planted(r, [("coverage", "ok", [], False)]))
-    open(os.path.join(store, ".cloud_stage.lock"), "w").write("1")
+    open(os.path.join(store, ".cloud_stage.lock"), "w", encoding="utf-8").write("1")
     assert C.main(["--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")]) == 0
-    assert json.load(open(os.path.join(r, "st.json")))["tools"]["coverage"]["status"] == "skipped_locked"
+    assert json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]["coverage"]["status"] == "skipped_locked"
     os.remove(os.path.join(store, ".cloud_stage.lock"))
 
     # audit M746: skipped_up_to_date twice in a row; --only keeps the other tools' records; upstream failure; stale lock takeover; failed promotion keeps the previous outputs
@@ -106,28 +106,28 @@ try:
     C.main(args)
     C.main(args)
     C.main(args)
-    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    st = json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]
     assert st["coverage"]["status"] == "skipped_up_to_date" and st["tyre"]["status"] == "skipped_up_to_date" and st["coverage"]["outputs"]
     C.main(args + ["--only", "tyre"])
-    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    st = json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]
     assert st["coverage"]["status"] == "skipped_up_to_date" and st["coverage"]["fingerprint"]
     r = mk_root("m")
     configure(r, planted(r, [("coverage", "fail", [], False), ("tyre", "ok", ["coverage"], False)]))
     C.main(["--timeout", "5", "--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
-    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    st = json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]
     assert st["coverage"]["status"] == "failed" and st["tyre"]["status"] == "skipped_upstream_failed"
     lk = os.path.join(store, ".cloud_stage.lock")
-    open(lk, "w").write("1")
+    open(lk, "w", encoding="utf-8").write("1")
     old = os.path.getmtime(lk) - 7 * 3600
     os.utime(lk, (old, old))
     r = mk_root("n")
     configure(r, planted(r, [("coverage", "ok", [], False)]))
     C.main(["--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
-    assert json.load(open(os.path.join(r, "st.json")))["tools"]["coverage"]["status"] == "ok" and not os.path.exists(lk)
+    assert json.load(open(os.path.join(r, "st.json"), encoding="utf-8"))["tools"]["coverage"]["status"] == "ok" and not os.path.exists(lk)
     # promotion keeps the old destination when copying fails
     d0 = os.path.join(work, "dest")
     os.makedirs(d0)
-    open(os.path.join(d0, "o.txt"), "w").write("old")
+    open(os.path.join(d0, "o.txt"), "w", encoding="utf-8").write("old")
     sc = os.path.join(work, "sc")
     os.makedirs(sc)
     try:
@@ -135,7 +135,7 @@ try:
         raise SystemExit("promotion of a missing output must fail")
     except OSError:
         pass
-    assert open(os.path.join(d0, "o.txt")).read() == "old"
+    assert open(os.path.join(d0, "o.txt"), encoding="utf-8").read() == "old"
 
     # (i) status vocabulary has no 'gap' wording; (real tool list) order and pinned flags
     assert not any("gap" in x for x in C.STATUSES)
