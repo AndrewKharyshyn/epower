@@ -1,0 +1,415 @@
+{
+ "milestone": "M773",
+ "spec": "analyses/M773_spec.md Rev 2",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "toolSha256": "3674301b6e34831ccc0e1cb798f1ed0d3a4c9747680d3dbb258c001490188268",
+ "seed": 42,
+ "nBoot": 4000,
+ "inputs": {
+  "m733_snapshots_sha256": "13599a3cd7592ceb34f66bb0240224ce853a86f26709e07cece865943173deae",
+  "m733_result_sha256": "818b3412e75ecd7040f2f9798024a0aa011782ca0ee5a5c5c45046ae6f28ca31"
+ },
+ "scaleDecision": {
+  "quote": "You may trust the data since it is plausible and according to my manual control. So the pressure is assumed to be correct.",
+  "date": "24 Nov 2026",
+  "source": "chat",
+  "independentlyVerified": false
+ },
+ "step": "the all-corner top-up (relative day 0); windows are given in days around it",
+ "expectation": {
+  "relative_pct": [
+   -0.7,
+   -5.3
+  ],
+  "corpus_wide_mean_kwh_per100km": 12.10134831460674,
+  "half_mde_threshold_kwh_per100km": 0.04235471910112359,
+  "assumed": "Crr 0.010, mass 1900 kg, eta 0.75; pressure exponent -0.2 to -0.5; pressure rise 10 to 16 %; rolling share of the outcome 0.35 to 0.55; pass-through 1.0 to 1.2",
+  "expected_sign": "negative",
+  "near_certain": "not informative at this support"
+ },
+ "design_mde": {
+  "outcome_sd": 7.800615279619273,
+  "days_before": 19,
+  "days_after": 18,
+  "expected_se": 2.5657637699915896,
+  "expected_mde": 7.184138555976451,
+  "note": "outcome SD and days per side; the adjusted residual SD cannot be known outcome-blind"
+ },
+ "A1_primary_28d_unweighted": {
+  "days_before": 19,
+  "days_after": 18,
+  "drives_before": 60,
+  "drives_after": 56,
+  "parameters": 11,
+  "thermal_levels_in_window": 2,
+  "difference_after_minus_before": 1.1566967142231621,
+  "ci95": [
+   -0.8759522938066678,
+   3.248284022071241
+  ],
+  "mde": 2.9464425210344234,
+  "mean_before": 9.335666666666667,
+  "difference_pct_of_before_mean": 12.390081560572309,
+  "bootstrap_rank_deficient_resamples": {
+   "draws": 4000,
+   "deficient": 0
+  },
+  "reading": "not informative at this support",
+  "sign_note": "interval includes zero"
+ },
+ "A1_sensitivities_nothing_picked": {
+  "with_ev_dist_pct": {
+   "days_before": 19,
+   "days_after": 18,
+   "drives_before": 60,
+   "drives_after": 56,
+   "parameters": 12,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 1.140737269807447,
+   "ci95": [
+    -0.9126201649432367,
+    3.0854836522822717
+   ],
+   "mde": 2.8732459116962166,
+   "mean_before": 9.335666666666667,
+   "difference_pct_of_before_mean": 12.219130251088446,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  },
+  "km_weighted": {
+   "days_before": 19,
+   "days_after": 18,
+   "drives_before": 60,
+   "drives_after": 56,
+   "parameters": 11,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 1.3295813811567636,
+   "ci95": [
+    -0.5999006730609822,
+    3.5738449497575573
+   ],
+   "mde": 3.0470148310006553,
+   "mean_before": 9.335666666666667,
+   "difference_pct_of_before_mean": 14.241954309530797,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  },
+  "offset_covariate": {
+   "days_before": 19,
+   "days_after": 18,
+   "drives_before": 60,
+   "drives_after": 56,
+   "parameters": 12,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 1.1566967142230689,
+   "ci95": [
+    -0.8490393623963268,
+    3.1986838506441373
+   ],
+   "mde": 2.90803080453225,
+   "mean_before": 9.335666666666667,
+   "difference_pct_of_before_mean": 12.39008156057131,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 2000
+   }
+  },
+  "ev_nr_regen_poor_subset": {
+   "days_before": 19,
+   "days_after": 18,
+   "drives_before": 52,
+   "drives_after": 47,
+   "parameters": 11,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": -0.6516437268313235,
+   "ci95": [
+    -4.180922581928132,
+    2.1790871760260258
+   ],
+   "mde": 4.4806523529454765,
+   "mean_before": 19.681426725857076,
+   "difference_pct_of_before_mean": -3.310957766975332,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  },
+  "exclude_puncture_days_14_to_16": {
+   "days_before": 17,
+   "days_after": 18,
+   "drives_before": 51,
+   "drives_after": 56,
+   "parameters": 11,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 1.6822004179610985,
+   "ci95": [
+    -0.8050249382828911,
+    3.9474558605672256
+   ],
+   "mde": 3.318717965574353,
+   "mean_before": 9.266666666666667,
+   "difference_pct_of_before_mean": 18.15324192044351,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  },
+  "ev_distance_floor_0.5_km": {
+   "days_before": 19,
+   "days_after": 18,
+   "drives_before": 62,
+   "drives_after": 60,
+   "parameters": 11,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 0.27822396784091585,
+   "ci95": [
+    -2.162449632175439,
+    2.3442796916275537
+   ],
+   "mde": 3.1722305211673305,
+   "mean_before": 9.763709677419351,
+   "difference_pct_of_before_mean": 2.8495723145513816,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  },
+  "ev_distance_floor_2_km": {
+   "days_before": 19,
+   "days_after": 15,
+   "drives_before": 56,
+   "drives_after": 44,
+   "parameters": 11,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 0.7978754437272081,
+   "ci95": [
+    -1.0575030224746185,
+    2.959233803603826
+   ],
+   "mde": 2.8972253966141865,
+   "mean_before": 8.643035714285714,
+   "difference_pct_of_before_mean": 9.231425972340169,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  },
+  "window_14d_reduced_covariates": {
+   "days_before": 13,
+   "days_after": 7,
+   "drives_before": 50,
+   "drives_after": 23,
+   "parameters": 9,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 1.6361168145391105,
+   "ci95": [
+    -2.2599584319601504,
+    5.223212117236768
+   ],
+   "mde": 5.8202505696252125,
+   "mean_before": 9.882,
+   "difference_pct_of_before_mean": 16.55653526147653,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 2
+   }
+  },
+  "window_42d": {
+   "days_before": 30,
+   "days_after": 31,
+   "drives_before": 84,
+   "drives_after": 98,
+   "parameters": 11,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 1.5353163395662057,
+   "ci95": [
+    0.09206390452213888,
+    3.031145485617732
+   ],
+   "mde": 2.1233126297479874,
+   "mean_before": 8.9825,
+   "difference_pct_of_before_mean": 17.092305478054058,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  }
+ },
+ "A2_exploratory_pressure_slope": {
+  "drives": 48,
+  "days": 23,
+  "slope_kwh_per100km_per10pct": 1.7006011814225435,
+  "ci95": [
+   -3.2329954136077403,
+   7.216920968573982
+  ],
+  "mde": 7.612280752829829,
+  "label": "exploratory: the within-window pressure is almost collinear with the step; bootstrap rank-deficient resamples {\"draws\": 2000, \"deficient\": 7}"
+ },
+ "pressure_dose_per_week": {
+  "week_-4": {
+   "drives": 0,
+   "median_kpa": "suppressed (fewer than 3 drives)"
+  },
+  "week_-3": {
+   "drives": 1,
+   "median_kpa": "suppressed (fewer than 3 drives)"
+  },
+  "week_-2": {
+   "drives": 13,
+   "median_kpa": 238.79169013294944
+  },
+  "week_-1": {
+   "drives": 12,
+   "median_kpa": 234.6369307400696
+  },
+  "week_+1": {
+   "drives": 4,
+   "median_kpa": 261.0070391502848
+  },
+  "week_+2": {
+   "drives": 5,
+   "median_kpa": 248.80122298575202
+  },
+  "week_+3": {
+   "drives": 6,
+   "median_kpa": 247.43790889602138
+  },
+  "week_+4": {
+   "drives": 19,
+   "median_kpa": 247.61949767637236
+  }
+ },
+ "A3_what_else_moved": {
+  "ev_dist_pct": {
+   "mean_before": 48.24616666666666,
+   "mean_after": 47.115,
+   "drives_before": 60,
+   "drives_after": 56
+  },
+  "ev_speed": {
+   "mean_before": 34.928438967421684,
+   "mean_after": 32.17606270429144,
+   "drives_before": 60,
+   "drives_after": 56
+  }
+ },
+ "placebo_windows_guarded": {
+  "note": "the placebo differences are a scale of confounding (season, route, load, period), not a calibration",
+  "windows": {
+   "half28_offset-84": {
+    "days_before": 0,
+    "days_after": 6,
+    "drives_before": 0,
+    "drives_after": 16,
+    "counts_only": true
+   },
+   "half28_offset-56": {
+    "days_before": 5,
+    "days_after": 17,
+    "drives_before": 15,
+    "drives_after": 38,
+    "counts_only": true
+   },
+   "half28_offset-42": {
+    "days_before": 10,
+    "days_after": 17,
+    "drives_before": 26,
+    "drives_after": 37,
+    "difference_after_minus_before": -3.079241503140099,
+    "ci95": [
+     -5.977544319910671,
+     0.026973000021690282
+    ],
+    "mde": 4.305918581879725
+   },
+   "half28_offset+42": {
+    "days_before": 24,
+    "days_after": 28,
+    "drives_before": 74,
+    "drives_after": 98,
+    "difference_after_minus_before": 1.0179921395766434,
+    "ci95": [
+     -0.8584581605163036,
+     2.3410397629115898
+    ],
+    "mde": 2.2868127258616426
+   },
+   "half28_offset+56": {
+    "skipped": "window contains a protected date"
+   },
+   "half28_offset+84": {
+    "skipped": "window contains a protected date"
+   },
+   "half14_offset-84": {
+    "days_before": 0,
+    "days_after": 3,
+    "drives_before": 0,
+    "drives_after": 7,
+    "counts_only": true
+   },
+   "half14_offset-56": {
+    "days_before": 3,
+    "days_after": 7,
+    "drives_before": 11,
+    "drives_after": 15,
+    "counts_only": true
+   },
+   "half14_offset-42": {
+    "days_before": 7,
+    "days_after": 10,
+    "drives_before": 15,
+    "drives_after": 23,
+    "counts_only": true
+   },
+   "half14_offset+42": {
+    "days_before": 13,
+    "days_after": 14,
+    "drives_before": 42,
+    "drives_after": 58,
+    "difference_after_minus_before": 1.1789248064294258,
+    "ci95": [
+     -0.757702160425105,
+     3.02472985868392
+    ],
+    "mde": 2.6948812407065885
+   },
+   "half14_offset+56": {
+    "days_before": 14,
+    "days_after": 14,
+    "drives_before": 57,
+    "drives_after": 40,
+    "difference_after_minus_before": 1.4854561295389948,
+    "ci95": [
+     -0.1744147736507214,
+     3.5475331319791623
+    ],
+    "mde": 2.681382929688286
+   },
+   "half14_offset+84": {
+    "skipped": "window contains a protected date"
+   }
+  }
+ },
+ "B_before_window_drift_per_day": 0.0431604884701216,
+ "C_integrity": {
+  "eligible_drives": 445,
+  "channel_drives_in_master": 645,
+  "ens_outlier_v2_missing_treated_as_clean": 12,
+  "window_28d_drives": 116,
+  "window_28d_days": 37,
+  "long_soak_first_drive_unknown_dropped": 1
+ },
+ "limits": [
+  "a before/after look at one top-up: season, route, load, HVAC and period are confounded; not a pressure effect; not rolling resistance measured",
+  "ev_kwh_per100km is the battery-side energy while electrically propelled (engine-speed proxy at most 400 rpm, moving samples, regeneration netted, raw current basis); time-proportional terms scale as 1 / v_ev; air conditioning at EV speeds dwarfs the expected change; EV runs are selected by the SoC controller (biases toward the null)",
+  "pressure scale accepted by the owner from manual gauge control (24 Nov 2026), not independently re-measured",
+  "a null is not 'no pressure effect' (no equivalence test); the placebo windows are a scale of confounding, not a calibration; nothing is picked among the sensitivities",
+  "not an article figure"
+ ],
+ "seconds": 94.3
+}
