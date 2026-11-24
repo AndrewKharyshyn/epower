@@ -1,0 +1,241 @@
+{
+ "milestone": "M769",
+ "spec": "analyses/M769_spec.md Rev 2",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "toolSha256": "3568e374809fcd15e4ea63016d17a73373eaf462145cafd7d38889e443cb97ec",
+ "seed": 42,
+ "nBoot": 4000,
+ "inputs": {
+  "fuel_recon_master_sha256": "508d1c34ebe4a498b64fde1918f8528bdac23c43274e3ff2714900b07eb64259",
+  "payload_table_sha256": "f178651e3374e2fd876a06bbe7e5084f3a49389aa2e853f0575a2d586874cec9"
+ },
+ "design_mde": {
+  "drives": 121,
+  "days": 58,
+  "payload_sd_per100kg": 0.4498800503173637,
+  "payload_icc_by_day": 0.7111045634962481,
+  "design_effect": 1.772406681039028,
+  "n_eff": 68.26875642844387,
+  "outcome_sd": 1.510335150443989,
+  "expected_se_per100kg": 0.40631756669400043,
+  "expected_mde_per100kg": 1.137689186743201,
+  "note": "outcome SD, not the adjusted residual SD, because the latter cannot be known outcome-blind"
+ },
+ "expectation_fuel_per100kg": {
+  "low": 0.05886028708133972,
+  "high": 0.17658086124401912,
+  "relative_low_pct": 1.0526315789473684,
+  "relative_high_pct": 3.1578947368421053,
+  "mean_fuel_L_per_100km": 5.591727272727273,
+  "elasticity_bracket": [
+   0.2,
+   0.6
+  ]
+ },
+ "A1": {
+  "outcome": "fuel_L_per_100km (logged / app-calculated)",
+  "drives": 121,
+  "days": 58,
+  "slope_per100kg_payload": -0.009686679038465082,
+  "ci95": [
+   -0.4602145758453476,
+   0.49229106057269395
+  ],
+  "bootstrap_sd": 0.23985239883830925,
+  "mde": 0.6715867167472659,
+  "reading": "not informative at this support",
+  "covariates": [
+   "drive class",
+   "thermal class",
+   "ambient",
+   "logdist",
+   "speed_mean_moving",
+   "v2",
+   "dsoc100",
+   "first_of_day"
+  ],
+  "placebo_displaced_day": {
+   "drives": 92,
+   "days": 53,
+   "slope_per100kg": -0.13177505622231342,
+   "ci95": [
+    -0.7260999675224207,
+    0.597112720546319
+   ],
+   "ratio_to_primary": 13.603739289703363,
+   "interval_excludes_zero": false,
+   "read": "association not separable from route and day structure"
+  },
+  "within_day_payload_varies_share": 0.34285714285714286,
+  "bracket_slope_low_high": [
+   0.01314029546982942,
+   -0.012952006166468116
+  ],
+  "sensitivities": {
+   "distance_floor_2_km": {
+    "drives": 303,
+    "days": 84,
+    "slope_per100kg_payload": 0.14089397234182302
+   },
+   "distance_floor_10_km": {
+    "drives": 82,
+    "days": 49,
+    "slope_per100kg_payload": 0.19457044287085187
+   }
+  }
+ },
+ "A2_exploratory": {
+  "generator_kWh_100": {
+   "drives": 121,
+   "days": 58,
+   "mean": 15.644495867768596,
+   "slope_per100kg_payload": -0.07430439226785153,
+   "ci95": [
+    -1.4561466966532524,
+    1.5299249860787065
+   ],
+   "mde": 2.0891226394407845,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)"
+  },
+  "traction_gross_kWh_100": {
+   "drives": 121,
+   "days": 58,
+   "mean": 18.921305785123966,
+   "slope_per100kg_payload": 0.16500758779188654,
+   "ci95": [
+    -1.4073528345335382,
+    1.9792831607723074
+   ],
+   "mde": 2.376072274881544,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)"
+  },
+  "batt_to_traction_kWh_100": {
+   "drives": 121,
+   "days": 58,
+   "mean": 10.562958677685952,
+   "slope_per100kg_payload": -0.39569649127582157,
+   "ci95": [
+    -1.2866655850452224,
+    0.36273803477874816
+   ],
+   "mde": 1.1642664499913433,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)"
+  },
+  "regen_to_batt_kWh_100": {
+   "drives": 121,
+   "days": 58,
+   "mean": 3.476677685950414,
+   "slope_per100kg_payload": 0.2508811499152426,
+   "ci95": [
+    -0.4023181830621793,
+    0.8675112518485584
+   ],
+   "mde": 0.9333861839091323,
+   "label": "from logged current"
+  },
+  "gen_to_batt_kWh_100": {
+   "drives": 121,
+   "days": 58,
+   "mean": 8.333190082644627,
+   "slope_per100kg_payload": -0.8344080698691846,
+   "ci95": [
+    -1.7395780504404776,
+    0.028294390753292577
+   ],
+   "mde": 1.2586942270920092,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)"
+  },
+  "gen_to_traction_kWh_100": {
+   "drives": 121,
+   "days": 58,
+   "mean": 8.358305785123967,
+   "slope_per100kg_payload": 0.5607127432337154,
+   "ci95": [
+    -0.7522508237032428,
+    2.06851786137141
+   ],
+   "mde": 1.9889366012650451,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)"
+  }
+ },
+ "A3_exploratory": {
+  "urban": {
+   "counts_only": true,
+   "drives": 89,
+   "days": 52
+  },
+  "mixed": {
+   "counts_only": true,
+   "drives": 17,
+   "days": 15
+  },
+  "mixed_highway": {
+   "counts_only": true,
+   "drives": 11,
+   "days": 7
+  },
+  "highway": {
+   "counts_only": true,
+   "drives": 4,
+   "days": 2
+  }
+ },
+ "C_integrity": {
+  "drives_with_pattern": 607,
+  "drives_without_pattern": 108,
+  "fuel_basis_drives_eligible": 121,
+  "mean_distance_km": {
+   "with_pattern": 16.683525535420102,
+   "without_pattern": 8.460555555555556
+  },
+  "class_counts_with_pattern": {
+   "urban": 516,
+   "mixed": 31,
+   "mixed_highway": 37,
+   "highway": 22
+  },
+  "class_counts_without_pattern": {
+   "urban": 100,
+   "mixed": 3,
+   "mixed_highway": 2,
+   "highway": 1,
+   "unknown": 2
+  },
+  "payload_mean_kg": 59.30537190082644,
+  "payload_sd_kg": 44.98800503173637
+ },
+ "B1_kinematic_reference": {
+  "drives": 121,
+  "days": 58,
+  "label": "kinematic reference (kinetic-energy throughput of the logged speed plus assumed rolling work); not a measured or reconstructed traction energy; aerodynamic work excluded",
+  "C_rr_0.008": {
+   "payload_work_kWh_per_100km_at_mean_payload": 0.36956001196948607,
+   "ci95": [
+    0.28522541732503104,
+    0.45854588469241786
+   ]
+  },
+  "C_rr_0.01": {
+   "payload_work_kWh_per_100km_at_mean_payload": 0.40187040226677717,
+   "ci95": [
+    0.31387765599418715,
+    0.4938334785873713
+   ]
+  },
+  "C_rr_0.012": {
+   "payload_work_kWh_per_100km_at_mean_payload": 0.43418079256406816,
+   "ci95": [
+    0.33291360246110696,
+    0.5346067747829909
+   ]
+  }
+ },
+ "limits": [
+  "payload is estimated from latched seatbelts with owner-estimated seat weights; a latched belt is not a weight; proxy error attenuates the slope",
+  "association, not an effect of mass: occupants coincide with leisure, weekend and highway trips and HVAC use; fuel mass (0 to 40 kg) is unobserved",
+  "a null result is not 'no mass sensitivity' (no equivalence test); the reading rule uses the lower end of the pre-registered elasticity bracket 0.2 to 0.6",
+  "gross traction, generator and generator-to-traction energy are model-derived; regeneration-to-battery energy is from logged current; fuel is logged / app-calculated",
+  "B1 is a kinematic reference with an assumed rolling coefficient, not a measured mass effect; the class mass is not replaced; not an article figure"
+ ],
+ "seconds": 97.7
+}
