@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""M749 (spec analyses/M749_spec.md Rev 4): additive payload block `cloudCrossChecks`: short cross-check notes (X2 between-drive logging, X3 ambient, X4 timestamps) shown beside the OBD figures they verify (AUXILIARY; OBD stays primary; not an article figure). X1 (logged distance) is held back.
+"""M749 (spec analyses/M749_spec.md Rev 4): additive payload block `cloudCrossChecks`: short cross-check notes (X1 logged distance, X2 between-drive logging, X3 ambient, X4 timestamps) shown beside the OBD figures they verify (AUXILIARY; OBD stays primary; not an article figure). X1 (M760) reads the registered M752 result and the counts of its blind audit.
 
 Reads ONLY the registered results (never the M746 retests): analyses/M730_clock_offset.json, M734_thermal_forcing.json, M739_unlogged_exposure.json.
 Each file is pinned by its sha256 (PINS below, recorded in the CHANGELOG entry of M749); a mismatch or a missing file writes nothing and exits 3 (fails closed). Every number is copied from a registered field,
@@ -8,6 +8,7 @@ M734 numbers (status line only), tyre values (status line only), per-drive or co
 Writes only /cloudAuxiliary in summary_arrays.json (deep-diff guarded); the stamp comes from the declared-dependency stage (tools/stamp_dependencies.json). Idempotent: a second run is byte-identical.
 Usage: python tools/cloud_payload.py [--splice] [--dry-run] [--check]   (no flag = print the block)"""
 import copy, hashlib, json, os, sys
+from decimal import Decimal, ROUND_HALF_UP
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 A_DIR = os.path.join(ROOT, "analyses")
@@ -15,6 +16,8 @@ PINS = {
     "M730_clock_offset.json": "930a54ee4a18e8577322d209086cad80cdf2aaca76e47a89dbd43b3fa761b3bf",
     "M734_thermal_forcing.json": "3df29a57a5246d029cb6d7778ce1bd0bcaac9080fade286ae8ee4aa8372fb6b6",
     "M739_unlogged_exposure.json": "9bd34b87e06fe053f267d92ea7cb988db822814b54e650a73b95c1645f5fb07f",
+    "M752_odometer_agreement.json": "60c2a3277af28eca113c7e26ac349b2eb3dd6a7c2d389df3042601ca187b6967",
+    "M752_audit.json": "519facdd188218f9b9089c58396b72e241626e2e932afbcc5f882e62fbc01ddc",
 }
 REGISTERED_MASTER = "d514d6009d6d9a0a168ad4fb09b9bb98"
 KEY = "cloudCrossChecks"
@@ -55,6 +58,68 @@ def direction(c):
     return "not distinguishable"
 
 
+def pct2(x):
+    """M760 frozen rounding rule (spec Rev 2 7.8a): the fraction x as a percent with two decimals, round half up on the decimal repr of the registered float (0.01195 -> 1.20)."""
+    return float((Decimal(repr(float(x))) * 100).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+
+
+def km2(x):
+    return float(Decimal(repr(float(x))).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+
+
+def build_x1(m52, aud):
+    """Note X1 (spec analyses/M760_spec.md Rev 2): logged distance versus the cloud-reported, interpolated odometer. Copies registered M752 fields; carries NO absolute cloud odometer, no cloud km, no 'reading' string."""
+    if m52["masterMd5"] != REGISTERED_MASTER or m52["registeredMasterMd5"] != REGISTERED_MASTER:
+        raise Stop("the registered M752 result was not computed on the registered master")
+    P = m52["P1_agreement"]
+    prim = P["E_int"]["primary_identity_ge2km"]
+    for k in ("nDrives", "nDays"):
+        if not prim.get(k):
+            raise Stop("X1 source carries no %s" % k)
+    lo, hi = prim["relative"]["ci95"]
+    within1 = "consistent within +-1 %" if (lo >= -0.01 and hi <= 0.01) else "not consistent within +-1 %"
+    within3 = "consistent within +-3 %" if (lo >= -0.03 and hi <= 0.03) else "not consistent within +-3 %"
+
+    def rel(c):
+        return {"est": pct2(c["relative"]["est"]), "ci95": [pct2(c["relative"]["ci95"][0]), pct2(c["relative"]["ci95"][1])], "nDrives": c["nDrives"], "nDays": c["nDays"],
+                "rawFraction": {"est": c["relative"]["est"], "ci95": list(c["relative"]["ci95"])}}
+
+    strata = {}
+    for k in ("2to10km", "10kmplus"):
+        strata[k] = rel(P["E_int"]["strata"][k])
+    cov = m52["P0_coverage"]["E_int"]
+    sel = m52["P0_selection_check"]
+    an = m52["P3_anchor"]
+    ap = aud["p1"]["E_int"]
+    x1 = {
+        "label": "Independent cross-check (auxiliary): cloud-reported, interpolated odometer at both ends of a drive compared with the logged (app-calculated) drive distance",
+        "nDrives": int(prim["nDrives"]), "nDays": int(prim["nDays"]), "available": int(cov["available"]), "drivesInCorpus": int(m52["P0_coverage"]["drives"]),
+        "medianDifferenceKm": {"est": km2(prim["median"]["est"]), "ci95": [km2(prim["median"]["ci95"][0]), km2(prim["median"]["ci95"][1])], "raw": {"est": prim["median"]["est"], "ci95": list(prim["median"]["ci95"])}},
+        "relativeDifferencePercent": rel(prim),
+        "verdict": {"within1pct": within1, "within3pct": within3, "size": "small difference, cloud larger" if prim["relative"]["est"] > 0 else "small difference"},
+        "aggregateDefinition": "aggregate = sum of per-drive differences over the sum of logged kilometres (km-weighted), so long drives dominate; day-clustered bootstrap, seed %d, %d draws" % (m52["seed"], m52["nBoot"]),
+        "strata": strata,
+        "sensitivity": {"bracketedEndpoints": rel(P["E_br"]["primary_identity_ge2km"]), "shift16s": rel(P["E_int_shift16"]["primary_identity_ge2km"]),
+                        "note": "the +16 s shift changes the sample (more drives have a bracket inside the cap), not only the offset"},
+        "coverage": {"unavailableByReason": dict(cov["unavailableByReason"]), "auditorAvailable": int(aud["coverage"]["E_int_available"]), "byStratum": sel["byStratum"], "byMonth": sel["byMonth"]},
+        "integrity": {"negativeSteps": int(m52["P4_integrity"]["negativeSteps"]), "levelExcursions": int(m52["P4_integrity"]["levelExcursions"]), "maxExcursionKm": m52["P4_integrity"]["maxExcursionKm"],
+                      "jumpExcludedTool": int(cov["unavailableByReason"]["odometer_jump"]), "jumpExcludedAuditor": int(aud["coverage"]["odometer_jump"]), "nTool": int(prim["nDrives"]), "nAuditor": int(ap["n"])},
+        "anchor": {"differenceKm": km2(an["differenceKm"]), "rawDifferenceKm": an["differenceKm"], "n": int(an["n"])},
+        "disclosures": [
+            "Both counters rest on the same wheel-speed scale, so this checks logging completeness, not distance accuracy; a shared scale offset cannot be detected.",
+            "The interpolation rule was changed (Rev 2.1) after a smoke run had been seen; the verdict is the same under both rules.",
+            "Jump-excluded drives: %d (tool) versus %d (independent reproduction); n %d versus %d; available %d versus %d: the verdict is the same under both counts; the difference is documented, not resolved." % (cov["unavailableByReason"]["odometer_jump"], aud["coverage"]["odometer_jump"], prim["nDrives"], ap["n"], cov["available"], aud["coverage"]["E_int_available"]),
+            "Availability is selected by month and by drive length (counts in the payload); a selection effect on the aggregate is not excluded.",
+            "The cloud odometer stream has %d negative steps and %d level excursions (largest %s km); drives with a jump near the drive are excluded." % (m52["P4_integrity"]["negativeSteps"], m52["P4_integrity"]["levelExcursions"], m52["P4_integrity"]["maxExcursionKm"]),
+            "Both interpolation variants (interpolated and bracketed endpoints) give a positive difference, so the parked-edge model of the design is not confirmed.",
+            "The end-of-record anchor is one point (n = %d), one-sided and not a known answer." % an["n"],
+            "Cause wording: consistent with logger edge losses (a hypothesis); per-sample speed quantisation in the app integral is an untested alternative; the positive sign argues against a parked-edge interpolation artefact.",
+            "Nothing is replaced or corrected: no cloud kilometre or odometer value is shown and the logged distance and logged-share KPI are unchanged.",
+        ],
+    }
+    return x1
+
+
 def build(src, pins=PINS):
     m30, m34, m39 = (src[k] for k in ("M730_clock_offset.json", "M734_thermal_forcing.json", "M739_unlogged_exposure.json"))
     if m39["masterMd5"] != REGISTERED_MASTER or m34["masterMd5"] != REGISTERED_MASTER:
@@ -67,10 +132,10 @@ def build(src, pins=PINS):
     t1 = m34["T1_ambient"]["screened_minus_manual"]
     if m30.get("n_days") is None or t1.get("n_days") is None or u1.get("days") is None:
         raise Stop("a note source carries no n_days: that note is dropped by rule")
+    x1 = build_x1(src["M752_odometer_agreement.json"], src["M752_audit.json"])
     block = {
         "basis": basis, "registeredMasterMd5": REGISTERED_MASTER, "sourceSha256": dict(pins), "status": tail,
-        "x1LoggedDistance": None,
-        "x1HeldBack": "not shown: the registered source has 431 drives and no day count or day-bootstrap interval; shown only after a registered addendum supplies them",
+        "x1LoggedDistance": x1,
         "x2BetweenDriveLogging": {
             "label": "Independent cross-check (auxiliary): the cloud export shows %d strict movement units on %d days outside logged drives (units are odometer-step bursts, not trips)." % (int(u1["strict_units"]), int(u1["days"])),
             "strictUnits": int(u1["strict_units"]), "days": int(u1["days"]),

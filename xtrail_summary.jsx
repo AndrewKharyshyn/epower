@@ -4128,6 +4128,25 @@ function CloudCrossCheckLogging(){
     </div>
   );
 }
+// M760 (spec analyses/M760_spec.md Rev 2, Director rulings): note X1, logged distance versus the cloud-reported odometer (auxiliary), bound to S.cloudCrossChecks.x1LoggedDistance only; shows no cloud odometer value and replaces no OBD value
+function CloudCrossCheckDistance(){
+  const C=S.cloudCrossChecks, X=C&&C.x1LoggedDistance; if(!X) return null;
+  const R=X.relativeDifferencePercent, M=X.medianDifferenceKm, st=X.strata||{}, se=X.sensitivity||{};
+  const f2=(v)=>typeof v==="number"?v.toFixed(2):"n/a";
+  const f2s=(v)=>typeof v==="number"?(v>=0?"+":"")+v.toFixed(2):"n/a";
+  const rr=(r)=>`${f2s(r.est)} % [${f2(r.ci95[0])}, ${f2(r.ci95[1])}] (${r.nDrives} drives, ${r.nDays} days)`;
+  return (
+    <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6,paddingTop:6,borderTop:"1px dashed #cbd5e1"}} data-cloud-xcheck="distance">
+      <div>{X.label}. The cloud-reported, interpolated odometer is available at both ends for {X.available} of {X.drivesInCorpus} logged drives. For {X.nDrives} drives of 2 km or more ({X.nDays} days) the cloud-reported distance exceeds the logged distance by a median {f2(M.est)} km [{f2(M.ci95[0])}, {f2(M.ci95[1])}]; the aggregate relative difference is {f2s(R.est)} % [{f2(R.ci95[0])}, {f2(R.ci95[1])}] (day-clustered bootstrap): {X.verdict.size}; {X.verdict.within1pct}, {X.verdict.within3pct}.</div>
+      <div>{X.aggregateDefinition}. By length: 2 to 10 km {f2s(st["2to10km"]?.est)} % [{f2(st["2to10km"]?.ci95[0])}, {f2(st["2to10km"]?.ci95[1])}] ({st["2to10km"]?.nDrives} drives, {st["2to10km"]?.nDays} days); 10 km and longer {f2s(st["10kmplus"]?.est)} % [{f2(st["10kmplus"]?.ci95[0])}, {f2(st["10kmplus"]?.ci95[1])}] ({st["10kmplus"]?.nDrives} drives, {st["10kmplus"]?.nDays} days). Sensitivity: bracketed endpoints {se.bracketedEndpoints&&rr(se.bracketedEndpoints)}; +16 s shift {se.shift16s&&rr(se.shift16s)}, {se.note}.</div>
+      <details data-cloud-xcheck-disclosures="1"><summary style={{cursor:"pointer",color:"#334155"}}>Disclosures</summary>
+        <ul style={{margin:"2px 0 0 14px",padding:0}}>{(X.disclosures||[]).map((d,i)=><li key={i}>{d}</li>)}</ul>
+        <div>Anchor: difference {X.anchor.differenceKm} km (n = {X.anchor.n}). Jump-excluded drives {X.integrity.jumpExcludedTool} (tool) versus {X.integrity.jumpExcludedAuditor} (independent reproduction); drives with a cloud odometer: {X.available} (tool) versus {X.coverage.auditorAvailable} (independent reproduction).</div>
+      </details>
+      <div>{C.basis}; {C.status}.</div>
+    </div>
+  );
+}
 function CloudCrossCheckThermal(){
   const C=S.cloudCrossChecks; if(!C||!C.x3Ambient||!C.x4Timestamps) return null;
   const A=C.x3Ambient, T=C.x4Timestamps;
@@ -5778,6 +5797,7 @@ function BetweenDriveLoggingView(){
         {(B.reading||[]).map((t,i)=><p key={i} style={{margin:"2px 0"}}>{t}</p>)}
       </div>
       <CloudCrossCheckLogging/>
+      <CloudCrossCheckDistance/>
     </Section>
   );
 }

@@ -1,0 +1,20 @@
+{
+ "milestone": "M760",
+ "role": "research-director (Opus)",
+ "decision": "accept",
+ "deviations": [
+  "D1 language rule M760-logged-distance-wording narrower than Rev 2 7.4 (forced by hits on existing text); compensated by a scoped literal scan in the payload test (C1)",
+  "D2 rounding stated as half up on the decimal repr (equals half away from zero with Decimal ROUND_HALF_UP; test pct2(-0.01195) == -1.2)",
+  "D3 jump-rule difference (17 vs 7; n 418 vs 420; coverage 584 vs 586) documented, not resolved (cloud store absent)"
+ ],
+ "conditions": [
+  "C1 scoped literal scan in test_cloud_payload (done)",
+  "C2 record D1-D3 and both audit rounds in CHANGELOG; shift16 bound to file with sample change",
+  "C3 cause hypothesis only in Disclosures; no reading string, cloud odometer or km",
+  "C4 Dashboard change rule, release_check and CI unit list, merge on green",
+  "C5 a later rerun that resolves the jump rule replaces the block under its own milestone",
+  "C6 display only; article use needs Opus audit and Andrii sign-off"
+ ],
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session (subagent has no Write tool)"
+}

@@ -1,0 +1,24 @@
+{
+ "milestone": "M760",
+ "auditor": "analytical-auditor (blind, Sonnet)",
+ "round1": {
+  "verdict": "revise",
+  "points": [
+   "anchor shown with 3 decimals (rule: 2)",
+   "payload held display-rounded values only (raw leaves added)",
+   "'error' in first disclosure (reworded 'shared scale offset')",
+   "stamp change not seen in the diff (stamp re-derived)"
+  ]
+ },
+ "round2": {
+  "verdict": "accept",
+  "checks": "render headline 1.20 % [1.04, 1.41], median 0.11 km [0.10, 0.13], anchor -0.41 km; raw leaves equal M752 result exactly; forbidden words absent; only cloudCrossChecks and its stamp changed; jsx additions only; no 48104/48110 in the block"
+ },
+ "other_checks_round1_pass": [
+  "no absolute cloud odometer, no 'reading'/bracket wording",
+  "cause wording only in Disclosures",
+  "required labels present",
+  "counts 17/7, 418/420, 584/586 match"
+ ],
+ "recorded_by": "main session"
+}
