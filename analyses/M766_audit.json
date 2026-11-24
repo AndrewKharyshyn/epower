@@ -1,0 +1,50 @@
+{
+ "milestone": "M766",
+ "auditor": "analytical-auditor (blind, Sonnet)",
+ "task": "M766 result: the full M752 output set under the revised rule P",
+ "verdict": "accept",
+ "reproduced": {
+  "availability_E_int_br_near_near60_shift16": [
+   588,
+   588,
+   588,
+   606,
+   601
+  ],
+  "E_int_reasons": {
+   "no_row_within_cap": 100,
+   "odometer_jump": 13,
+   "hole": 12,
+   "outside_span": 4
+  },
+  "strata_drives_available": {
+   "below2km": "184/161",
+   "2to10km": "344/285",
+   "10kmplus": "189/142"
+  },
+  "primary_E_int": "n 422 / 130 days, median 0.10977 km [0.09492, 0.12956], relative 1.129 % [0.925, 1.387]",
+  "strata": {
+   "2to10km": "283 / 109 days, 2.275 % [1.962, 2.630]",
+   "10kmplus": "139 / 74 days, 0.960 % [0.761, 1.199]",
+   "below2km": "155 drives, 73 days, counts only"
+  },
+  "other_estimators": {
+   "E_br": "1.165 % [0.965, 1.428] 422/130",
+   "E_int_shift16": "1.149 % [0.927, 1.417] 432/131",
+   "E_near": "1.152 % [0.940, 1.406] 421/131",
+   "E_near60": "1.127 % [0.931, 1.367] 439/131"
+  },
+  "excursion_sensitivity": "S1 22 drives, S2 31 drives; both leave E_int primary n 414 / 129 days, relative 1.127 % [0.912, 1.384]",
+  "anchor": "-0.409 km, n = 1"
+ },
+ "disagreements": [],
+ "max_abs_diff": "0 on every count, relative difference and interval bound at the displayed precision",
+ "checks": [
+  "privacy scan: no cloudLastOdoKm, cloudPlusLogged or dashOdoKm, no full dates, no .csv drive names, no values in the odometer range",
+  "E_near and E_near60 use the bracketing stretch as spec 7.7 a allows"
+ ],
+ "not_checked": [
+  "the P-versus-B side-by-side counts (copied from the M765 result) and the month table in this task"
+ ],
+ "recorded_by": "main session from the auditor's returned brief"
+}
