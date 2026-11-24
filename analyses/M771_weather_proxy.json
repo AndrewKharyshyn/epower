@@ -2,7 +2,7 @@
  "milestone": "M771",
  "spec": "analyses/M771_spec.md Rev 2",
  "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
- "toolSha256": "fe1ca4eb3718244c9f50658705b46a61a10e5ae117dbb3c3dea1e870c186acae",
+ "toolSha256": "30b3b347969b44b3ce98064beb97fb1516339ea4c976d77a86e868ee009850b1",
  "seed": 42,
  "nBoot": 4000,
  "inputs": {
@@ -105,12 +105,15 @@
   "estimate": "counts only"
  },
  "C_integrity": {
-  "drives_eligible": 262,
-  "drives_without_cloud_rows": 0,
+  "drives_eligible": 241,
+  "drives_below_minimum_cloud_rows_or_without": 264,
+  "minimum_moving_cloud_rows": 10,
+  "ens_outlier_v2_missing_treated_as_clean": 12,
+  "first_of_day_flag": "computed over all drives of the master by date, not within the contrast sample",
   "moving_rows_quartiles": [
-   24.0,
-   39.0,
-   75.0
+   27.0,
+   44.0,
+   78.0
   ],
   "wet_proxy_by_month": {
    "2026-05": 2,
@@ -128,5 +131,5 @@
   "a null or a gated 'not supported' is not 'no weather effect' (no equivalence test)",
   "not an article figure"
  ],
- "seconds": 8.1
+ "seconds": 8.6
 }

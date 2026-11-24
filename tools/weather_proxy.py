@@ -122,7 +122,7 @@ def load(master, fuel, payload, seasonal, coverage):
 
 
 def eligible(d, dist_min=PE.DIST_MIN, need_fuel=False):
-    ok = (d["ens_outlier_v2"].astype(str).str.lower() != "true") & (d["distance_km"].astype(float) >= dist_min) & d["cls"].isin(PE.CLASSES) & d["moving_n_veh"].notna()
+    ok = (d["ens_outlier_v2"].astype(str).str.lower() != "true") & (d["distance_km"].astype(float) >= dist_min) & d["cls"].isin(PE.CLASSES) & (d["moving_n_veh"].astype(float) >= MIN_ROWS)
     if need_fuel:
         ok &= d["fuel_L_per_100km"].notna()
     ok &= d[["ambient", "v2", "logdist"]].notna().all(axis=1)
@@ -186,7 +186,8 @@ def analyse(d, nb):
     pl = displaced_labels(e_fuel[e_fuel["wet"].isin([0.0, 1.0])], rng)
     res["P_placebo"] = {"drives_with_donor": int(len(pl)), "wet_labelled": int((pl["wet"] == 1.0).sum()), "estimate": "counts only" if not g["passed"] else boot_diff(pl, "fuel_L_per_100km", max(nb // 4, 200))}
     # C
-    c = {"drives_eligible": int(len(e_all)), "drives_without_cloud_rows": int(d["moving_n_veh"].isna().sum()), "moving_rows_quartiles": [float(x) for x in np.percentile(e_all["moving_n_veh"].astype(float), [25, 50, 75])],
+    c = {"drives_eligible": int(len(e_all)), "drives_below_minimum_cloud_rows_or_without": int((d["moving_n_veh"].astype(float).fillna(0) < MIN_ROWS).sum()), "minimum_moving_cloud_rows": MIN_ROWS,
+         "ens_outlier_v2_missing_treated_as_clean": int(d["ens_outlier_v2"].isna().sum()), "first_of_day_flag": "computed over all drives of the master by date, not within the contrast sample", "moving_rows_quartiles": [float(x) for x in np.percentile(e_all["moving_n_veh"].astype(float), [25, 50, 75])],
          "wet_proxy_by_month": {k: int(v) for k, v in e_all[e_all["wet"] == 1.0].groupby("month").size().items()}}
     res["C_integrity"] = c
     return res
