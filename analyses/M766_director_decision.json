@@ -1,0 +1,22 @@
+{
+ "milestone": "M766",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M766_spec.md Rev 2",
+ "result": "analyses/M766_odometer_agreement_P.json",
+ "audit": "analyses/M766_audit.json",
+ "decision": "accept",
+ "deviations": [
+  "the displayed numbers use the frozen M760 7.8(a) rounding (half up on the decimal repr): the lower bound 0.00925 shows 0.93 while the non-displayed verdict_words strings of M765 and M766 and the M765 allowed_wording show 0.92 (binary float formatting); the verdict word is the same under either rounding; not a stop",
+  "the excursion-sensitivity line prints the same figure for S1 and S2 (identical at displayed precision): accurate, redundant, accepted"
+ ],
+ "conditions": [
+  "do not edit M765_jump_rule.json, M766_odometer_agreement_P.json or M765_director_decision.json to reconcile 0.92 and 0.93; the M766 result sha256 stays pinned",
+  "CHANGELOG states the 0.92/0.93 boundary-rounding difference in one line",
+  "a test ensures no verdict_words or allowed_wording number string reaches the page or payload (done)",
+  "keep the labels 'revised rule P' and 'sensitivity'; never 'measured'; keep TOST, equivalent to and within 1 % forbidden near cloud/odometer words",
+  "C3: no article use without an Opus audit and Andrii's sign-off; C4 met by the display audit",
+  "for any future tool, send display and verdict strings through one frozen formatter"
+ ],
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session from the Director's returned brief"
+}

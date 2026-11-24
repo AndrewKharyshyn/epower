@@ -46,5 +46,15 @@
  "not_checked": [
   "the P-versus-B side-by-side counts (copied from the M765 result) and the month table in this task"
  ],
- "recorded_by": "main session from the auditor's returned brief"
+ "recorded_by": "main session from the auditor's returned brief",
+ "display_audit": {
+  "auditor": "analytical-auditor (blind, Sonnet)",
+  "verdict": "accept",
+  "checks": "7/7 pass: headline median 0.11 km [0.09, 0.13] and +1.13 % [0.93, 1.39] on 422 drives / 130 days, 588 of 717; every number equals the registered fraction x 100 rounded half up to two decimals (boundary cases 0.00925 to 0.93, 0.02275 to 2.28, 0.01165 to 1.17, 0.01199 to 1.20); raw leaves equal the result exactly; verdict phrases 'the interval includes 1 %' and 'consistent within +-3 %' match the intervals; no old-rule number on the page except inside the verbatim Director sentence ('1.20' appears once as the new upper bound of the 10 km and longer stratum, a coincidence); no absolute odometer value; sensitivity line labelled, 22 strict and 31 wide; disclosures present; jsx diff 5 lines; summary_arrays.json changes only cloudCrossChecks and its stamp",
+  "observations": [
+   "S1 and S2 give identical results at the displayed precision, so the sentence prints the same figure twice (accurate, redundant)",
+   "'consistent within +-3 %' also relies on the 0.25 km median criterion (0.112 km here)"
+  ],
+  "recorded_by": "main session from the auditor's returned brief"
+ }
 }
