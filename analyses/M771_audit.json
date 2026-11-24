@@ -1,0 +1,22 @@
+{
+ "milestone": "M771",
+ "spec": "analyses/M771_spec.md Rev 2",
+ "auditor": "analytical-auditor (Sonnet, blind: claim and data paths only; the tool and the result were not read)",
+ "round1": {
+  "verdict": "revise",
+  "reproduced": {"eligible_drives": 241, "eligible_days": 102, "wet_proxy_0.05": {"drives": 8, "days": 7}, "wet_proxy_0.20": 4, "wet_proxy_0.02": {"drives": 20, "days": 17}, "dry_reference": 212,
+                 "fuel_basis_eligible": {"drives": 119, "days": 58}, "fuel_basis_wet_proxy_0.05": {"drives": 2, "days": 2}, "floor_20_drives_10_days": "fails: A1 counts only",
+                 "dark_proxy": {"dark": 78, "reference": 130, "fuel_basis_dark": 53, "contrast_drives": 104, "days": 57, "difference": -0.114, "ci95": [-0.800, 0.390], "mde": 0.839, "draws": 2000}},
+  "defect": "the tool reported 262 eligible drives and 'drives without cloud rows: 0': the eligibility step lacked the 10-moving-row floor and tested missing values while the field holds zeros",
+  "fix": "eligible() now applies the floor (241 eligible drives, matching the auditor); the integrity block carries drives_below_minimum_cloud_rows_or_without (264), the floor and the count of drives with a missing outlier flag; the gate result and every estimate are unchanged",
+  "concerns_and_disclosures": [
+   "12 drives with a missing ens_outlier_v2 are treated as clean (as in M769 and M770); excluding them gives 237 eligible drives and 6 wet-proxy drives",
+   "month fixed effects are nearly collinear with the wet proxy (1 to 3 wet-proxy drives per month; within-month share 0.96)",
+   "the first-drive-of-day flag is computed over the whole master; computed within the contrast sample the dark-proxy difference moves from -0.11 to -0.37 (now written by the tool as a sensitivity)",
+   "a 0.05 wiper threshold means at least one wiper-on row (about 12 rows per drive); the M729 span rule and the source codes 6 and 7 are not applied or separable (deviation, spec 7.5)",
+   "the battery-side wet count of 6 (against 8 eligible) reflects outcome availability"
+  ]
+ },
+ "after_round1": {"a3_draws": "rerun at 4000 draws as the standing rule requires: difference -0.114 [-0.833, 0.389], MDE 0.849, 7 of 4000 resamples rank deficient; sensitivity with the first-of-day flag within the sample -0.373 [-1.170, 0.234], MDE 1.002",
+                  "field_rename": "contrast_positive_drives replaces the mislabelled wet_drives in the generic contrast output (it counts dark-proxy drives in A3)"}
+}

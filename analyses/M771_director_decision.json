@@ -1,0 +1,30 @@
+{
+ "milestone": "M771",
+ "spec": "analyses/M771_spec.md Rev 2",
+ "result": "analyses/M771_weather_proxy.json",
+ "audit": "analyses/M771_audit.json",
+ "reviewer": "research-director (Opus); recorded by the main session (Sonnet)",
+ "decision": "accept as report-only; support gate not passed; A1 counts only; no dashboard, no article",
+ "scientific_meaning": "At the 0.05 primary threshold the cloud wiper proxy marks 8 of 241 eligible drives on 7 days, and only 2 fuel-basis drives on 2 days, far below the floor of 20 drives on 10 days: A1 is not estimable. The A2 battery-side outcomes are counts only (6 drives). The exploratory darkness-proxy fuel difference is unresolved and moves with the definition of the first-drive-of-day flag.",
+ "allowed_wording": [
+  "drives with wiper activity; a precipitation, spray or washing proxy",
+  "support gate not passed: 2 fuel-basis wiper-proxy drives on 2 days against a floor of 20 drives on 10 days; A1 counts only, not supported at this support",
+  "darkness and visibility proxy, mainly marks evening and winter driving: association only, interval includes zero, exploratory, sensitive to the first-of-day definition",
+  "SoC-ledger quantity, not a road-load measure (A2)",
+  "logged / app-calculated fuel"
+ ],
+ "forbidden": ["rain, wet road, precipitation effect, weather effect, effect of darkness or night", "no weather effect, no difference, equivalent (no TOST)", "measured (fuel or battery-side quantities)", "any percentage of net draw", "any dashboard, KPI or article use"],
+ "quotable_now": "only in the CHANGELOG and the analysis JSON; the gate counts; the darkness-proxy contrast only together with its interval, n (drives and days), the MDE, the rank-deficient resample count and the first-of-day sensitivity, labelled exploratory, unresolved, no pre-registered expectation; not a headline, not on the dashboard (no S.* key), not in the article",
+ "deviations_to_state": [
+  "the eligibility was fixed after audit round 1 (10-row floor; zero-field test): 262 to 241 drives; the pre-outcome counts of spec Rev 2 7.1 (21 wet-proxy, 411 dry) used a broader base (no distance or class filter) and differ from the 8 and 212 of the eligible set: both are stated",
+  "12 drives with a missing ens_outlier_v2 are treated as clean (as in M769 and M770); excluding them gives 237 eligible and 6 wet-proxy drives",
+  "the M729 span rule is not applied; a 0.05 threshold means at least one wiper row; the source codes 6 and 7 are not separable",
+  "month fixed effects are nearly collinear with the wet proxy (1 to 3 per month; within-month share 0.96)",
+  "the first-drive-of-day flag is computed over the whole master; the darkness-proxy difference is sensitive to it (-0.114 versus -0.373)",
+  "the darkness-proxy contrast was rerun at the standing 4000 draws after the audit (it was 2000 in the first run)",
+  "the placebo has 2 wet-labelled drives: counts only"
+ ],
+ "dashboard": "not allowed",
+ "needs_andrii_signoff": false,
+ "follow_ups": ["re-read the cloud streams for the M729 span rule and the wiper source codes 6 and 7", "accumulate wiper-proxy drives; rerun A1 only when 20 fuel-basis drives on 10 days are reached", "decide the first-of-day definition in a spec revision before any rerun of the darkness contrast", "optional: an external precipitation record would need its own decision (no weather-service data are imported here)"]
+}

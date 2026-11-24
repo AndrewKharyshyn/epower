@@ -1,0 +1,151 @@
+{
+ "milestone": "M771",
+ "spec": "analyses/M771_spec.md Rev 2",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "toolSha256": "2b886bdc4889788ee333ab144a39ca13e85d5a965ceaadbfe1319d57e66df8eb",
+ "seed": 42,
+ "nBoot": 4000,
+ "inputs": {
+  "coverage_sha256": "415f954964acbcbd1ca55927a7b92f57674498ece17feb4801eed98b470f0bb8",
+  "fuel_recon_master_sha256": "508d1c34ebe4a498b64fde1918f8528bdac23c43274e3ff2714900b07eb64259"
+ },
+ "G_support_gate": {
+  "thresholds": {
+   "0.05": {
+    "wet_proxy_drives": 8,
+    "wet_proxy_days": 7,
+    "fuel_basis_wet_proxy_drives": 2,
+    "fuel_basis_wet_proxy_days": 2,
+    "dry_reference_drives": 212
+   },
+   "0.02": {
+    "wet_proxy_drives": 20,
+    "wet_proxy_days": 17,
+    "fuel_basis_wet_proxy_drives": 7,
+    "fuel_basis_wet_proxy_days": 7,
+    "dry_reference_drives": 212
+   },
+   "0.2": {
+    "wet_proxy_drives": 4,
+    "wet_proxy_days": 4,
+    "fuel_basis_wet_proxy_drives": 2,
+    "fuel_basis_wet_proxy_days": 2,
+    "dry_reference_drives": 212
+   }
+  },
+  "floor": {
+   "drives": 20,
+   "days": 10
+  },
+  "passed": false,
+  "by_class_thermal_month_wet_proxy_counts": {
+   "highway|warm|2026-07": 1,
+   "mixed|warm|2026-06": 1,
+   "urban|shoulder|2026-05": 1,
+   "urban|shoulder|2026-07": 1,
+   "urban|shoulder|2026-09": 1,
+   "urban|shoulder|2026-10": 1,
+   "urban|warm|2026-05": 1,
+   "urban|warm|2026-07": 1
+  },
+  "within_month_share_of_wet_label": 0.9584598970212174,
+  "matched_pair_support_wet_drives": 6,
+  "design_note": "the design MDE of A1 is not written because the gate fails"
+ },
+ "A1": {
+  "counts_only": true,
+  "reason": "below the floor of 20 wet-proxy drives on 10 days on the fuel basis",
+  "fuel_basis_wet_proxy_drives": 2,
+  "fuel_basis_wet_proxy_days": 2,
+  "reading": "not supported at this support"
+ },
+ "A2_exploratory": {
+  "net_draw_per100km_corr2p": {
+   "counts_only": true,
+   "wet_proxy_drives": 6,
+   "wet_proxy_days": 6
+  },
+  "gross_discharge_per100km": {
+   "counts_only": true,
+   "wet_proxy_drives": 6,
+   "wet_proxy_days": 6
+  },
+  "regen_share_of_charge": {
+   "counts_only": true,
+   "wet_proxy_drives": 6,
+   "wet_proxy_days": 6
+  }
+ },
+ "A3_exploratory": {
+  "label": "darkness and visibility proxy (mainly marks evening and winter driving); wet-proxy drives excluded",
+  "dark_proxy_drives": 78,
+  "reference_drives": 130,
+  "fuel_basis": {
+   "dark_proxy_drives": 53
+  },
+  "fuel_L_per_100km": {
+   "difference_after_adjustment": -0.11445888846765147,
+   "ci95": [
+    -0.8328839497375108,
+    0.3886686403679869
+   ],
+   "mde": 0.8490027861059398,
+   "drives": 104,
+   "contrast_positive_drives": 53,
+   "days": 57,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 4000,
+    "deficient": 7
+   }
+  },
+  "sensitivity_first_of_day_within_sample": {
+   "difference_after_adjustment": -0.37277229145826485,
+   "ci95": [
+    -1.170012765578128,
+    0.23407498899275872
+   ],
+   "mde": 1.0023809106022454,
+   "drives": 104,
+   "contrast_positive_drives": 53,
+   "days": 57,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 4000,
+    "deficient": 7
+   }
+  },
+  "note": "exploratory, no pre-registered expectation; the estimate moves with the definition of the first-drive-of-day flag (whole master versus within the contrast sample)"
+ },
+ "P_placebo": {
+  "drives_with_donor": 82,
+  "wet_labelled": 2,
+  "estimate": "counts only"
+ },
+ "C_integrity": {
+  "drives_eligible": 241,
+  "drives_below_minimum_cloud_rows_or_without": 264,
+  "minimum_moving_cloud_rows": 10,
+  "ens_outlier_v2_missing_treated_as_clean": 12,
+  "first_of_day_flag": "computed over all drives of the master by date, not within the contrast sample",
+  "moving_rows_quartiles": [
+   27.0,
+   44.0,
+   78.0
+  ],
+  "wet_proxy_by_month": {
+   "2026-05": 2,
+   "2026-06": 1,
+   "2026-07": 3,
+   "2026-09": 1,
+   "2026-10": 1
+  }
+ },
+ "limits": [
+  "wipers are a precipitation, spray or washing proxy (the channel does not distinguish them; the wiper mode is unknown); lighting is a darkness and visibility proxy; no weather-service data",
+  "a drive's wiper share rests on about 12 moving cloud rows (median); the span rule of M729 is not applied at the sample level here (deviation, spec 7.5)",
+  "misclassification (a wet road without wipers, wipers used for washing) biases toward the null; association only, not an effect of weather; season, HVAC and route confound",
+  "net battery draw and gross discharge are SoC-ledger quantities, not road load; the SoC controller holds the battery near balance",
+  "a null or a gated 'not supported' is not 'no weather effect' (no equivalence test)",
+  "not an article figure"
+ ],
+ "seconds": 30.6
+}
