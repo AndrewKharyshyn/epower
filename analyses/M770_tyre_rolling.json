@@ -1,0 +1,300 @@
+{
+ "milestone": "M770",
+ "spec": "analyses/M770_spec.md Rev 2",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "toolSha256": "548306b450f93079004e30da9f4c7d2ad04ae6019331c7ec32c6e3fa3f0de575",
+ "seed": 42,
+ "nBoot": 4000,
+ "inputs": {
+  "fuel_recon_master_sha256": "508d1c34ebe4a498b64fde1918f8528bdac23c43274e3ff2714900b07eb64259",
+  "m733_result_sha256": "818b3412e75ecd7040f2f9798024a0aa011782ca0ee5a5c5c45046ae6f28ca31",
+  "m733_snapshots_sha256": "13599a3cd7592ceb34f66bb0240224ce853a86f26709e07cece865943173deae"
+ },
+ "scaleDecision": {
+  "quote": "You may trust the data since it is plausible and according to my manual control. So the pressure is assumed to be correct.",
+  "date": "24 Nov 2026",
+  "source": "chat",
+  "independentlyVerified": false
+ },
+ "scale_wording": "scale accepted by the owner from manual gauge control (24 Nov 2026), not independently re-measured here",
+ "expectation_fuel_per10pct": {
+  "relative_pct": [
+   -0.3,
+   -2.3
+  ],
+  "mean_fuel_L_per_100km_eligible": 5.5133382352941185,
+  "lower_magnitude_L_per_100km": 0.016540014705882355,
+  "upper_magnitude_L_per_100km": 0.12680677941176471,
+  "expected_sign": {
+   "fuel": "negative",
+   "traction_gross": "negative",
+   "regen_to_batt": "zero or slightly positive"
+  },
+  "assumed": "exponent -0.2 to -0.5, rolling share of fuel-equivalent wheel energy 0.25 to 0.45, hybrid pass-through 0.6 to 1.0"
+ },
+ "design_mde": {
+  "drives": 68,
+  "days": 44,
+  "regressor_sd_raw_per10pct": 0.30266260126836037,
+  "regressor_sd_residual_per10pct": 0.29275746100137445,
+  "regressor_icc_by_day": 0.6573511756203264,
+  "design_effect": 1.3585551867019963,
+  "n_eff": 50.05317462669703,
+  "between_epoch_variance_share": 0.72108960303192,
+  "outcome_sd": 1.5334592501755886,
+  "expected_se_per10pct": 0.7403693879844535,
+  "expected_mde_per10pct": 2.07303428635647,
+  "note": "residual regressor SD after the covariates; the outcome SD (not the adjusted residual SD) because the latter cannot be known outcome-blind"
+ },
+ "observed_pressure": {
+  "median_cold_equivalent_kpa": 243.3212367404255,
+  "iqr_pct_of_median": [
+   -1.8657804419712014,
+   1.8723844464177752
+  ],
+  "note": "the per +10 % scale extrapolates beyond the observed interquartile range except across the 26 Jul step"
+ },
+ "A1": {
+  "outcome": "fuel_L_per_100km (logged / app-calculated)",
+  "regressor": "cold-equivalent mean four-corner pressure per +10 % of its median",
+  "drives": 68,
+  "days": 44,
+  "slope_L_per_100km_per10pct": 0.11559796944669358,
+  "ci95": [
+   -0.6697013042590684,
+   0.9338244659803427
+  ],
+  "bootstrap_sd": 0.40861306537398867,
+  "mde": 1.1441165830471682,
+  "reading": "not informative at this support",
+  "sign_note": "interval includes zero",
+  "covariates": [
+   "drive class",
+   "thermal class",
+   "ambient",
+   "logdist",
+   "speed_mean_moving",
+   "v2",
+   "dsoc100",
+   "first_of_day",
+   "min_into_drive"
+  ],
+  "epoch_fixed_effect_slope": -0.12158746676520579,
+  "sensitivity_raw_snapshot_per10pct": 0.14213432612610147,
+  "sensitivity_per10kpa": 0.04750837657874263,
+  "sensitivities_distance_floor": {
+   "2_km": {
+    "drives": 204,
+    "days": 78,
+    "slope_L_per_100km_per10pct": 0.7603368942376121
+   },
+   "10_km": {
+    "drives": 48,
+    "days": 37,
+    "slope_L_per_100km_per10pct": 0.6054094745442717
+   }
+  }
+ },
+ "A2_exploratory": {
+  "traction_gross_kWh_100": {
+   "drives": 68,
+   "days": 44,
+   "mean": 18.59788235294118,
+   "slope_per10pct": 0.3606311779208377,
+   "ci95": [
+    -2.3645564695256103,
+    3.2156702431835975
+   ],
+   "mde": 3.9144529203719816,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)",
+   "sign_note": "interval includes zero"
+  },
+  "generator_kWh_100": {
+   "drives": 68,
+   "days": 44,
+   "mean": 15.342838235294119,
+   "slope_per10pct": 0.42889675964364776,
+   "ci95": [
+    -2.0556580923083256,
+    2.8867501818093486
+   ],
+   "mde": 3.490204926099849,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)",
+   "sign_note": "interval includes zero"
+  },
+  "batt_to_traction_kWh_100": {
+   "drives": 68,
+   "days": 44,
+   "mean": 10.638485294117647,
+   "slope_per10pct": 0.2735578551961711,
+   "ci95": [
+    -1.6000558904129267,
+    1.4370981890816155
+   ],
+   "mde": 2.108461839171395,
+   "label": "model-derived (fuel flow x BSFC plus battery power minus auxiliaries)",
+   "sign_note": "interval includes zero"
+  },
+  "regen_to_batt_kWh_100": {
+   "drives": 68,
+   "days": 44,
+   "mean": 3.5166323529411763,
+   "slope_per10pct": -0.15642040421383638,
+   "ci95": [
+    -1.507038637412954,
+    1.1692093810628046
+   ],
+   "mde": 1.887011394879528,
+   "label": "from logged current",
+   "sign_note": "interval includes zero"
+  }
+ },
+ "B1_before_after_look": {
+  "step": "26 Jul 2026 all-corner top-up (relative day 0)",
+  "puncture_window_excluded": true,
+  "windows": {
+   "14": {
+    "half_window_days": 14,
+    "days_before": 0,
+    "days_after": 0,
+    "drives_before": 0,
+    "drives_after": 0,
+    "counts_only": true
+   },
+   "28": {
+    "half_window_days": 28,
+    "days_before": 0,
+    "days_after": 8,
+    "drives_before": 0,
+    "drives_after": 15,
+    "counts_only": true
+   }
+  },
+  "placebo": {
+   "14": {
+    "-84": {
+     "half_window_days": 14,
+     "days_before": 0,
+     "days_after": 0,
+     "drives_before": 0,
+     "drives_after": 0,
+     "counts_only": true
+    },
+    "-56": {
+     "half_window_days": 14,
+     "days_before": 0,
+     "days_after": 0,
+     "drives_before": 0,
+     "drives_after": 0,
+     "counts_only": true
+    },
+    "-42": {
+     "half_window_days": 14,
+     "days_before": 0,
+     "days_after": 0,
+     "drives_before": 0,
+     "drives_after": 0,
+     "counts_only": true
+    },
+    "+42": {
+     "half_window_days": 14,
+     "days_before": 9,
+     "days_after": 5,
+     "drives_before": 14,
+     "drives_after": 11,
+     "difference_after_minus_before": 1.30879534444706,
+     "ci95": [
+      -1.3906110012864434,
+      3.773603512153344
+     ],
+     "mde": 6.959416817492052,
+     "label": "before/after look, season, route and period confounded, not a pressure effect"
+    },
+    "+56": {
+     "half_window_days": 14,
+     "days_before": 5,
+     "days_after": 8,
+     "drives_before": 11,
+     "drives_after": 11,
+     "difference_after_minus_before": 0.8190566917674638,
+     "ci95": [
+      -3.6332236036742938,
+      2.5544925166345034
+     ],
+     "mde": 9.397068393382577,
+     "label": "before/after look, season, route and period confounded, not a pressure effect"
+    },
+    "+84": {
+     "skipped": "window contains a protected date"
+    }
+   },
+   "28": {
+    "-84": {
+     "half_window_days": 28,
+     "days_before": 0,
+     "days_after": 0,
+     "drives_before": 0,
+     "drives_after": 0,
+     "counts_only": true
+    },
+    "-56": {
+     "half_window_days": 28,
+     "days_before": 0,
+     "days_after": 0,
+     "drives_before": 0,
+     "drives_after": 0,
+     "counts_only": true
+    },
+    "-42": {
+     "half_window_days": 28,
+     "days_before": 0,
+     "days_after": 0,
+     "drives_before": 0,
+     "drives_after": 0,
+     "counts_only": true
+    },
+    "+42": {
+     "half_window_days": 28,
+     "days_before": 16,
+     "days_after": 13,
+     "drives_before": 26,
+     "drives_after": 22,
+     "difference_after_minus_before": 1.0038894802791754,
+     "ci95": [
+      0.42190796031347605,
+      1.76483071774252
+     ],
+     "mde": 0.9467763615688704,
+     "label": "before/after look, season, route and period confounded, not a pressure effect"
+    },
+    "+56": {
+     "skipped": "window contains a protected date"
+    },
+    "+84": {
+     "skipped": "window contains a protected date"
+    }
+   }
+  }
+ },
+ "C_integrity": {
+  "snapshot_drives": 338,
+  "eligible_fuel_basis": 68,
+  "steps_in_epochs": 3,
+  "epochs": 3,
+  "min_into_drive_quartiles": [
+   19.6325,
+   29.560000000000002,
+   38.13
+  ],
+  "q_c_coastdown": "not built (spec 7.6)"
+ },
+ "limits": [
+  "pressure is the cloud tyre-pressure channel, scale accepted by the owner from manual gauge control (24 Nov 2026), not independently re-measured; the cold-equivalent level uses the M733 E2 temperature response estimated on the same snapshots",
+  "association, not an effect of pressure: season, route, HVAC and period move with pressure; a settled snapshot is not the pressure during every drive; proxy error attenuates the slope",
+  "a null is not 'no pressure effect' (no equivalence test); the reading rule uses the lower magnitude of the pre-registered bracket",
+  "gross traction, generator and battery-to-traction energy are model-derived; regeneration-to-battery energy is from logged current; fuel is logged / app-calculated",
+  "B1 is a before/after look at one top-up: season, route and period confounded; not a pressure effect; the coast-down question is not built here",
+  "not an article figure"
+ ],
+ "seconds": 30.9
+}

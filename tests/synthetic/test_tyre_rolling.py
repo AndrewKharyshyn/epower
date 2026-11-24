@@ -72,7 +72,7 @@ assert T.window_ok("2026-09-01", 14, prot) and not T.window_ok("2026-07-20", 14,
 assert "2026-07-14" in prot and T.STEP_DATE == "2026-07-26"
 
 # owner scale decision recorded verbatim; no dates or per-drive rows in a result
-assert T.OWNER_DECISION["independentlyVerified"] is False and T.OWNER_DECISION["quote"].startswith("You may trust the data") and T.OWNER_DECISION["date"] == "2026-11-24"
+assert T.OWNER_DECISION["independentlyVerified"] is False and T.OWNER_DECISION["quote"].startswith("You may trust the data") and T.OWNER_DECISION["date"] == "24 Nov 2026"
 assert J.scan_privacy({"A1": {"drives": 100, "days": 50, "slope_L_per_100km_per10pct": -0.1}, "B1": {"windows": {"14": {"days_before": 6}}, "placebo": {"14": {"+42": {"skipped": "x"}}}}}) == []
 assert J.scan_privacy({"f": "20260511_185709.csv"}) and J.scan_privacy({"d": "2026-07-26"})
 

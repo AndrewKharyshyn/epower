@@ -19,7 +19,7 @@ SEED, NB_DEFAULT = 42, 4000
 PINNED_MD5 = PE.PINNED_MD5
 STEP_DATE = "2026-07-26"
 PUNCTURE_DAY = "2026-07-14"
-OWNER_DECISION = {"quote": "You may trust the data since it is plausible and according to my manual control. So the pressure is assumed to be correct.", "date": "2026-11-24", "source": "chat", "independentlyVerified": False}
+OWNER_DECISION = {"quote": "You may trust the data since it is plausible and according to my manual control. So the pressure is assumed to be correct.", "date": "24 Nov 2026", "source": "chat", "independentlyVerified": False}
 EXPECT_PCT = (-0.3, -2.3)                               # per +10 % pressure, % of the mean fuel rate (lower magnitude first)
 COVS = ["ambient", "logdist", "speed_mean_moving", "v2", "dsoc100", "first_of_day", "min_into_drive"]
 OUTCOMES_A2 = ("traction_gross_kWh_100", "generator_kWh_100", "batt_to_traction_kWh_100", "regen_to_batt_kWh_100")
@@ -197,7 +197,7 @@ def set_regressor(e, kind="cold_pct"):
 
 
 def analyse(d, m733, steps, nb):
-    res = {"scaleDecision": OWNER_DECISION, "scale_wording": "scale accepted by the owner from manual gauge control (2026-11-24), not independently re-measured here"}
+    res = {"scaleDecision": OWNER_DECISION, "scale_wording": "scale accepted by the owner from manual gauge control (24 Nov 2026), not independently re-measured here"}
     e = set_regressor(eligible(d), "cold_pct")
     mean_fuel = float(e["fuel_L_per_100km"].mean())
     exp_low, exp_high = abs(EXPECT_PCT[0]) / 100.0 * mean_fuel, abs(EXPECT_PCT[1]) / 100.0 * mean_fuel
@@ -289,7 +289,7 @@ def main(argv=None):
         res = {"milestone": "M770", "spec": "analyses/M770_spec.md Rev 2", "masterMd5": PINNED_MD5, "toolSha256": PE.sha256(os.path.abspath(__file__)), "seed": SEED, "nBoot": a.nb,
                "inputs": {"fuel_recon_master_sha256": PE.sha256(a.fuel), "m733_result_sha256": PE.sha256(a.m733), "m733_snapshots_sha256": PE.sha256(a.snapshots)}}
         res.update(analyse(d, m733, steps, a.nb))
-        res["limits"] = ["pressure is the cloud tyre-pressure channel, scale accepted by the owner from manual gauge control (2026-11-24), not independently re-measured; the cold-equivalent level uses the M733 E2 temperature response estimated on the same snapshots",
+        res["limits"] = ["pressure is the cloud tyre-pressure channel, scale accepted by the owner from manual gauge control (24 Nov 2026), not independently re-measured; the cold-equivalent level uses the M733 E2 temperature response estimated on the same snapshots",
                          "association, not an effect of pressure: season, route, HVAC and period move with pressure; a settled snapshot is not the pressure during every drive; proxy error attenuates the slope",
                          "a null is not 'no pressure effect' (no equivalence test); the reading rule uses the lower magnitude of the pre-registered bracket",
                          "gross traction, generator and battery-to-traction energy are model-derived; regeneration-to-battery energy is from logged current; fuel is logged / app-calculated",
