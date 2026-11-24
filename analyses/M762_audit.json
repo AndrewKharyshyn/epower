@@ -1,0 +1,86 @@
+{
+ "milestone": "M762",
+ "auditor": "analytical-auditor (blind, Sonnet)",
+ "claim": "primary step set and stage counts; s_F, s_N, s_A overall and by step length; pairwise median absolute differences; masks; half-pixel handling; same steps across sources; no coordinates",
+ "reproduced": {
+  "stages": [
+   11890,
+   11682,
+   11606,
+   11115,
+   11088
+  ],
+  "n_steps": 11088,
+  "n_days": 134,
+  "n_drives": 474,
+  "km": 6373.18,
+  "s_F_all": [
+   0.3639,
+   [
+    0.329,
+    0.406
+   ]
+  ],
+  "s_F_500_900": [
+   0.274,
+   [
+    0.246,
+    0.309
+   ],
+   "6889 steps, 94 days"
+  ],
+  "s_F_300_500": [
+   0.4757,
+   [
+    0.433,
+    0.522
+   ]
+  ],
+  "s_N": [
+   0.4463,
+   [
+    0.402,
+    0.496
+   ]
+  ],
+  "s_A": [
+   0.481,
+   [
+    0.427,
+    0.537
+   ]
+  ],
+  "median_abs_diff_pp": {
+   "F-N": 0.2973,
+   "F-A": 0.2546,
+   "N-A": 0.2843
+  }
+ },
+ "disagreements": [],
+ "max_abs_diff_vs_claim": "under 0.0002 pp; stage counts, n, days, km identical; CIs identical to 3 decimals",
+ "checks": [
+  "masks: NUM drops 76 steps (codes 0/3/4/5 at bad fixes; all NUM codes in the data are 0 or 3-8, so the mask removes water only here); GLO-30 drops 491 steps (EDM and FLM flag the same pixels; dominant codes EDM=1, FLM=2)",
+  "half-pixel / conventions OK; FABDEM reader matches the M757 Dem class to 2e-13 m on 25,055 fixes",
+  "one step set and one fix list for every source; coverage 100 %",
+  "aggregates only, no coordinates"
+ ],
+ "not_covered": [
+  "the step set reuses the audited M757 step builder (not independently rebuilt)"
+ ],
+ "verdict": "accept",
+ "recorded_by": "main session from the auditor's returned brief",
+ "round2_C4_C6": {
+  "auditor": "analytical-auditor (blind, Sonnet), narrow reproduction",
+  "verdict": "accept (C4 and C6 reproduce; state the F and J conventions)",
+  "reproduced": {
+   "C4": "n 3,436 fuel steps / 288 drives / 82 days; b FABDEM 0.8661 [0.827, 0.894], GLO-30 0.8190, AW3D30 0.7445, NASADEM 0.7101; all eight displaced-DEM placebo values match and all intervals exclude zero (lowest lower bound 0.016); b_IV 0.8899 [0.8618, 0.9159]; J 15.53 (2SLS residuals, cluster-robust S, df 1); first-stage F 901 to 913 against the claimed about 890 (convention dependent, far above 10)",
+   "C6": "all 20 class shares and both misclassification rates match to 4 decimals (NASADEM 0.1567, AW3D30 0.1464; GLO-30 0.0937); no step sits on a class edge"
+  },
+  "ambiguities": [
+   "step grade denominator is the OBD path distance, not the GPS chord",
+   "placebo steps without a heading or a tile at the displaced fix are dropped per source (40 to 49 of 11,088), so placebo n differs slightly",
+   "F and J depend on conventions (J 14.2 to 18.0 across variants): the report names the convention used",
+   "mass 1950 kg: b stays conditional on the reconstruction"
+  ]
+ }
+}
