@@ -68,6 +68,9 @@ def slope(df, y, covs, extra_cat=()):
     return float(beta[1])
 
 
+RANK_DEFICIENT = {"draws": 0, "deficient": 0}
+
+
 def boot(df, y, covs, nb, extra_cat=(), seed=SEED):
     df = df.reset_index(drop=True)
     ud, inv = np.unique(df["day"].values, return_inverse=True)
@@ -78,7 +81,12 @@ def boot(df, y, covs, nb, extra_cat=(), seed=SEED):
     for _ in range(nb):
         pick = rng.integers(0, len(ud), len(ud))
         try:
-            out.append(slope(df.iloc[np.concatenate([idx[p] for p in pick])], y, covs, extra_cat))
+            sub = df.iloc[np.concatenate([idx[p] for p in pick])]
+            Xs = design(sub, covs, extra_cat=extra_cat)
+            RANK_DEFICIENT["draws"] += 1
+            if np.linalg.matrix_rank(Xs) < Xs.shape[1]:
+                RANK_DEFICIENT["deficient"] += 1
+            out.append(slope(sub, y, covs, extra_cat))
         except np.linalg.LinAlgError:
             continue
     out = np.array(out)
@@ -206,9 +214,11 @@ def analyse(d, m733, steps, nb):
     res["design_mde"] = design_sizing(e, "fuel_L_per_100km", COVS)
     res["observed_pressure"] = {"median_cold_equivalent_kpa": float(e["p_cold"].median()), "iqr_pct_of_median": [float(np.percentile(e["reg"], 25) * 10), float(np.percentile(e["reg"], 75) * 10)],
                                 "note": "the per +10 % scale extrapolates beyond the observed interquartile range except across the 26 Jul step"}
+    RANK_DEFICIENT["draws"] = RANK_DEFICIENT["deficient"] = 0
     est, ci, sd = boot(e, "fuel_L_per_100km", COVS, nb)
     mde = 2.8 * sd
-    a1 = {"outcome": "fuel_L_per_100km (logged / app-calculated)", "regressor": "cold-equivalent mean four-corner pressure per +10 % of its median", "drives": int(len(e)), "days": int(e["day"].nunique()),
+    rank_def = dict(RANK_DEFICIENT)
+    a1 = {"bootstrap_rank_deficient_resamples": rank_def, "outcome": "fuel_L_per_100km (logged / app-calculated)", "regressor": "cold-equivalent mean four-corner pressure per +10 % of its median", "drives": int(len(e)), "days": int(e["day"].nunique()),
           "slope_L_per_100km_per10pct": est, "ci95": ci, "bootstrap_sd": sd, "mde": mde, "reading": reading(mde, exp_low), "sign_note": sign_note(est, ci),
           "covariates": ["drive class", "thermal class"] + COVS}
     ep_est = slope(e, "fuel_L_per_100km", COVS, extra_cat=("epoch",)) if e["epoch"].nunique() > 1 else None

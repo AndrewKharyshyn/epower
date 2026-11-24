@@ -2,7 +2,7 @@
  "milestone": "M770",
  "spec": "analyses/M770_spec.md Rev 2",
  "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
- "toolSha256": "548306b450f93079004e30da9f4c7d2ad04ae6019331c7ec32c6e3fa3f0de575",
+ "toolSha256": "86576781dad8f7760c7b987a6bca2fd2a866c819fcccc78392bfb7bd4c24c1f2",
  "seed": 42,
  "nBoot": 4000,
  "inputs": {
@@ -55,6 +55,10 @@
   "note": "the per +10 % scale extrapolates beyond the observed interquartile range except across the 26 Jul step"
  },
  "A1": {
+  "bootstrap_rank_deficient_resamples": {
+   "draws": 4000,
+   "deficient": 0
+  },
   "outcome": "fuel_L_per_100km (logged / app-calculated)",
   "regressor": "cold-equivalent mean four-corner pressure per +10 % of its median",
   "drives": 68,
@@ -296,5 +300,5 @@
   "B1 is a before/after look at one top-up: season, route and period confounded; not a pressure effect; the coast-down question is not built here",
   "not an article figure"
  ],
- "seconds": 30.9
+ "seconds": 48.4
 }
