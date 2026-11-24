@@ -1,0 +1,30 @@
+{
+ "milestone": "M772",
+ "spec": "analyses/M772_spec.md Rev 2",
+ "result": "analyses/M772_wiper_episodes.json",
+ "audit": "analyses/M772_audit.json",
+ "reviewer": "research-director (Opus); recorded by the main session (Sonnet)",
+ "decision": "accept as report-only; the disclosure fixes below go into the CHANGELOG and the audited tool is not changed after the audit",
+ "scientific_meaning": "Under the adjacent-row episode rule the wet proxy covers 10 drives on 8 days, but only 2 drives on 2 days are on the fuel basis: the floor of 20 drives on 10 days fails and A1 prime is counts only. The exploratory darkness-proxy fuel difference runs from -0.11 to -0.37 L/100 km depending on the start-flag definition; every interval includes zero and the MDE is about 0.85 to 1.0 L/100 km: unresolved.",
+ "owner_decisions": ["2026-11-25 (Andrii, chat): wiper-stream re-read for the span rule: 'Let's do this.'", "2026-11-25 (Andrii, chat): the fixed first-drive-of-day (long-soak) definition: 'OK, let's go with this.'", "2026-11-25 (Andrii, chat): coast-down is not pursued, because e-POWER in B-mode applies heavy regeneration at every slow-down (the open item is closed)", "2026-11-25 (Andrii, chat): a before/after look around the 26 Jul top-up on battery-side channels: 'We can do this.' (separate milestone M773)", "2026-11-25 (Andrii, chat): no owner gauge log is expected; the cloud tyre pressure is accepted as plausible and manually controlled (the open item is dropped)"],
+ "allowed_wording": [
+  "M772 retests the M771 support gate under the span rule and changes two definitions (adjacent on-rows with a step of 35 s or less; the 0.05 share threshold dropped); the registered M771 result stands",
+  "wet-proxy drives (a precipitation, spray or washing proxy), codes unnamed",
+  "the moving test uses the nearest Trip row with a non-missing displayed speed within 20 s; dry and isolated groups count moving rows only (12 dry drives carry on-codes on stopped rows; counting any row gives 201 dry and 30 non-episode drives)",
+  "long-soak start (3 hours or more after the previous logged drive; assumed cooling time), which over-labels long soaks when driving is unlogged",
+  "not supported at this support; association only; fuel logged / app-calculated",
+  "the any-activity set is 29 drives (not the about 49 stated in spec section 7.2)"
+ ],
+ "forbidden": ["cold start (for the soak flag)", "M771 corrected, revised or wrong", "no weather effect; rain does not affect fuel", "measured fuel", "darkness raises or lowers fuel; effect of night driving", "a single dark-contrast value without the others"],
+ "quotable_now": "internal and CHANGELOG only: all five darkness-contrast values with their interval, MDE, n (104 drives, 57 days) and the 7 of 4000 rank-deficient resamples, quoted together as a spread; not the dashboard, not the article",
+ "long_soak_flag": "adopted as the single fixed definition for every milestone after M772, with the 2 h, 6 h and calendar sensitivities always reported; the first drive is unknown; M769 to M771 used the calendar flag (disclosed, not recomputed); 87 drives differ between the two flags",
+ "deviations_to_state": [
+  "the span-rule wet-exclusion sensitivity (spec 7.6) was not run; the audited tool is not changed after the audit",
+  "the long-soak share by month (spec 7.7) is missing; only the share by class was written",
+  "the bound of about 49 drives (spec 7.2) is in fact 29 (drives with any wiper activity under the span definitions among the eligible drives)",
+  "the moving-test wording and the moving-rows-only dry definition as above"
+ ],
+ "dashboard": "not allowed",
+ "needs_andrii_signoff": false,
+ "follow_ups": ["if a later milestone uses the wet proxy: add the span-rule exclusion and the long-soak share by month, with an audit of that block only", "the soak flag cannot repair unlogged driving; cloud trip gaps could bound it", "the cloud-to-drive clock alignment is still unvalidated", "re-evaluate the gate only when the fuel basis reaches 20 drives on 10 days (outcome-blind)"]
+}
