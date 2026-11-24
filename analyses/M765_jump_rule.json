@@ -1,0 +1,689 @@
+{
+ "milestone": "M765",
+ "spec": "analyses/M765_spec.md Rev 2",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "storeManifestSha256": "7cbab168a882a561f55005e27a6fe484b91eb450c7e1bc2a2b6e0a37b25b3a96",
+ "m752ToolSha256": "741bc24b8ac4eeed7bbdf98f93658a9ff66f6487e01f59418aa8b6ade7ae9037",
+ "m752ResultSha256": "60c2a3277af28eca113c7e26ac349b2eb3dd6a7c2d389df3042601ca187b6967",
+ "toolSha256": "dbbb0053ee35f95325b5a18bb06c9606649071a9511ae82f05bc69ce890dd7f1",
+ "seed": 42,
+ "nBoot": 4000,
+ "J0_control": {
+  "reproduced": true,
+  "availability_by_tool_order": {
+   "available": 584,
+   "flat": 29,
+   "no_row_within_cap": 68,
+   "hole": 12,
+   "odometer_jump": 17,
+   "ok": 3,
+   "outside_span": 4
+  },
+  "primary_agreement_equals_registered": true
+ },
+ "J1": {
+  "crosstab": {
+   "drives": 717,
+   "unavailable_by_A": 119,
+   "available_by_A": 598,
+   "rules": {
+    "B": {
+     "flagged": 17,
+     "flagged_and_unavailable_by_A": 3,
+     "flagged_and_available_by_A": 14
+    },
+    "B1": {
+     "flagged": 7,
+     "flagged_and_unavailable_by_A": 1,
+     "flagged_and_available_by_A": 6
+    },
+    "B2": {
+     "flagged": 17,
+     "flagged_and_unavailable_by_A": 3,
+     "flagged_and_available_by_A": 14
+    },
+    "B3": {
+     "flagged": 7,
+     "flagged_and_unavailable_by_A": 1,
+     "flagged_and_available_by_A": 6
+    },
+    "P": {
+     "flagged": 13,
+     "flagged_and_unavailable_by_A": 3,
+     "flagged_and_available_by_A": 10
+    }
+   },
+   "available_by_A_flagged_by_one_rule_only": {
+    "B_not_B3": 8,
+    "B3_not_B": 0,
+    "B_not_P": 4,
+    "P_not_B": 0,
+    "B3_not_P": 2,
+    "P_not_B3": 6,
+    "B_not_B1": 8,
+    "B1_not_B": 0
+   }
+  },
+  "h1": {
+   "predicted": {
+    "unavailable_by_A": 124,
+    "B_and_unavailable_by_A": 8,
+    "B_and_available_by_A": 9,
+    "B3_and_available_by_A": 7
+   },
+   "observed": {
+    "unavailable_by_A": 119,
+    "B_and_unavailable_by_A": 3,
+    "B_and_available_by_A": 14,
+    "B3_and_available_by_A": 6
+   },
+   "h1_confirmed": false,
+   "outside_span_drives": 4,
+   "falsified_by_cross_tab": true
+  },
+  "available_by_A_flagged_location": {
+   "extra_edge_rows_only": 2,
+   "window_not_in_stretch": 2,
+   "endpoint_stretch": 6,
+   "inside_drive_span": 4
+  },
+  "flagged_step_size_class": {
+   "1_to_10km": 12,
+   "below_1km": 2
+  },
+  "flagged_logged_km_stratum": {
+   "2to10km": 6,
+   "10kmplus": 3,
+   "below2km": 5
+  },
+  "diagnostic_drives_with_an_endpoint_inside_a_recorded_excursion": 22,
+  "recorded_excursions": 17,
+  "negative_steps": 17
+ },
+ "J2": {
+  "B": {
+   "E_int": {
+    "available_all_drives": 584,
+    "primary_identity_ge2km": {
+     "nDrives": 418,
+     "nDays": 130,
+     "median": {
+      "est": 0.11016,
+      "ci95": [
+       0.09766,
+       0.12969
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11224,
+      "ci95": [
+       0.09844,
+       0.13203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.47281,
+      "ci95": [
+       0.36523,
+       0.70026
+      ]
+     },
+     "relative": {
+      "est": 0.01195,
+      "ci95": [
+       0.01044,
+       0.01414
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.20 % [1.04, 1.41] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_br": {
+    "available_all_drives": 584,
+    "primary_identity_ge2km": {
+     "nDrives": 418,
+     "nDays": 130,
+     "median": {
+      "est": 0.11875,
+      "ci95": [
+       0.09922,
+       0.1332
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11914,
+      "ci95": [
+       0.1,
+       0.13828
+      ]
+     },
+     "p90Abs": {
+      "est": 0.47281,
+      "ci95": [
+       0.36684,
+       0.71016
+      ]
+     },
+     "relative": {
+      "est": 0.01226,
+      "ci95": [
+       0.0107,
+       0.01454
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.23 % [1.07, 1.45] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_int_shift16": {
+    "available_all_drives": 591,
+    "primary_identity_ge2km": {
+     "nDrives": 425,
+     "nDays": 131,
+     "median": {
+      "est": 0.11016,
+      "ci95": [
+       0.09805,
+       0.13087
+      ]
+     },
+     "medianAbs": {
+      "est": 0.1125,
+      "ci95": [
+       0.09844,
+       0.13203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.46422,
+      "ci95": [
+       0.36812,
+       0.68562
+      ]
+     },
+     "relative": {
+      "est": 0.01216,
+      "ci95": [
+       0.01064,
+       0.01443
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.22 % [1.06, 1.44] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   }
+  },
+  "B1": {
+   "E_int": {
+    "available_all_drives": 592,
+    "primary_identity_ge2km": {
+     "nDrives": 423,
+     "nDays": 130,
+     "median": {
+      "est": 0.11016,
+      "ci95": [
+       0.09629,
+       0.12969
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11016,
+      "ci95": [
+       0.09844,
+       0.13203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.46734,
+      "ci95": [
+       0.36862,
+       0.6846
+      ]
+     },
+     "relative": {
+      "est": 0.012,
+      "ci95": [
+       0.01048,
+       0.01419
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.20 % [1.05, 1.42] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_br": {
+    "available_all_drives": 592,
+    "primary_identity_ge2km": {
+     "nDrives": 423,
+     "nDays": 130,
+     "median": {
+      "est": 0.11797,
+      "ci95": [
+       0.09844,
+       0.13281
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11953,
+      "ci95": [
+       0.1,
+       0.13984
+      ]
+     },
+     "p90Abs": {
+      "est": 0.52141,
+      "ci95": [
+       0.40761,
+       0.73977
+      ]
+     },
+     "relative": {
+      "est": 0.01087,
+      "ci95": [
+       0.0087,
+       0.01334
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.09 % [0.87, 1.33] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_int_shift16": {
+    "available_all_drives": 599,
+    "primary_identity_ge2km": {
+     "nDrives": 430,
+     "nDays": 131,
+     "median": {
+      "est": 0.11016,
+      "ci95": [
+       0.09766,
+       0.13086
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11211,
+      "ci95": [
+       0.09844,
+       0.13165
+      ]
+     },
+     "p90Abs": {
+      "est": 0.45953,
+      "ci95": [
+       0.36921,
+       0.68281
+      ]
+     },
+     "relative": {
+      "est": 0.01222,
+      "ci95": [
+       0.01068,
+       0.01447
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.22 % [1.07, 1.45] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   }
+  },
+  "B3": {
+   "E_int": {
+    "available_all_drives": 592,
+    "primary_identity_ge2km": {
+     "nDrives": 423,
+     "nDays": 130,
+     "median": {
+      "est": 0.11016,
+      "ci95": [
+       0.09629,
+       0.12969
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11016,
+      "ci95": [
+       0.09844,
+       0.13203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.46734,
+      "ci95": [
+       0.36862,
+       0.6846
+      ]
+     },
+     "relative": {
+      "est": 0.012,
+      "ci95": [
+       0.01048,
+       0.01419
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.20 % [1.05, 1.42] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_br": {
+    "available_all_drives": 592,
+    "primary_identity_ge2km": {
+     "nDrives": 423,
+     "nDays": 130,
+     "median": {
+      "est": 0.11797,
+      "ci95": [
+       0.09844,
+       0.13281
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11953,
+      "ci95": [
+       0.1,
+       0.13984
+      ]
+     },
+     "p90Abs": {
+      "est": 0.52141,
+      "ci95": [
+       0.40761,
+       0.73977
+      ]
+     },
+     "relative": {
+      "est": 0.01087,
+      "ci95": [
+       0.0087,
+       0.01334
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.09 % [0.87, 1.33] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_int_shift16": {
+    "available_all_drives": 599,
+    "primary_identity_ge2km": {
+     "nDrives": 430,
+     "nDays": 131,
+     "median": {
+      "est": 0.11016,
+      "ci95": [
+       0.09766,
+       0.13086
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11211,
+      "ci95": [
+       0.09844,
+       0.13165
+      ]
+     },
+     "p90Abs": {
+      "est": 0.45953,
+      "ci95": [
+       0.36921,
+       0.68281
+      ]
+     },
+     "relative": {
+      "est": 0.01222,
+      "ci95": [
+       0.01068,
+       0.01447
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.22 % [1.07, 1.45] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   }
+  },
+  "P": {
+   "E_int": {
+    "available_all_drives": 588,
+    "primary_identity_ge2km": {
+     "nDrives": 422,
+     "nDays": 130,
+     "median": {
+      "est": 0.10977,
+      "ci95": [
+       0.09492,
+       0.12956
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11224,
+      "ci95": [
+       0.09844,
+       0.13203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.47938,
+      "ci95": [
+       0.3686,
+       0.70739
+      ]
+     },
+     "relative": {
+      "est": 0.01129,
+      "ci95": [
+       0.00925,
+       0.01387
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.13 % [0.92, 1.39] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_br": {
+    "available_all_drives": 588,
+    "primary_identity_ge2km": {
+     "nDrives": 422,
+     "nDays": 130,
+     "median": {
+      "est": 0.11836,
+      "ci95": [
+       0.09921,
+       0.13281
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11914,
+      "ci95": [
+       0.1,
+       0.13906
+      ]
+     },
+     "p90Abs": {
+      "est": 0.47938,
+      "ci95": [
+       0.3703,
+       0.71328
+      ]
+     },
+     "relative": {
+      "est": 0.01165,
+      "ci95": [
+       0.00965,
+       0.01428
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.17 % [0.97, 1.43] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   },
+   "E_int_shift16": {
+    "available_all_drives": 601,
+    "primary_identity_ge2km": {
+     "nDrives": 432,
+     "nDays": 131,
+     "median": {
+      "est": 0.10977,
+      "ci95": [
+       0.09766,
+       0.13047
+      ]
+     },
+     "medianAbs": {
+      "est": 0.11211,
+      "ci95": [
+       0.09844,
+       0.13203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.46703,
+      "ci95": [
+       0.37094,
+       0.70195
+      ]
+     },
+     "relative": {
+      "est": 0.01149,
+      "ci95": [
+       0.00927,
+       0.01417
+      ]
+     }
+    },
+    "verdict_words": {
+     "within1pct": "aggregate relative difference 1.15 % [0.93, 1.42] reaches beyond +-1 %",
+     "within3pct": "consistent within +-3 %"
+    }
+   }
+  }
+ },
+ "J2_availability_by_month": {
+  "B": {
+   "2026-05": {
+    "drives": 38,
+    "available": 34
+   },
+   "2026-06": {
+    "drives": 63,
+    "available": 52
+   },
+   "2026-07": {
+    "drives": 93,
+    "available": 90
+   },
+   "2026-08": {
+    "drives": 111,
+    "available": 77
+   },
+   "2026-09": {
+    "drives": 186,
+    "available": 173
+   },
+   "2026-10": {
+    "drives": 115,
+    "available": 64
+   },
+   "2026-11": {
+    "drives": 111,
+    "available": 94
+   }
+  },
+  "P": {
+   "2026-05": {
+    "drives": 38,
+    "available": 34
+   },
+   "2026-06": {
+    "drives": 63,
+    "available": 54
+   },
+   "2026-07": {
+    "drives": 93,
+    "available": 90
+   },
+   "2026-08": {
+    "drives": 111,
+    "available": 78
+   },
+   "2026-09": {
+    "drives": 186,
+    "available": 173
+   },
+   "2026-10": {
+    "drives": 115,
+    "available": 65
+   },
+   "2026-11": {
+    "drives": 111,
+    "available": 94
+   }
+  }
+ },
+ "R2": {
+  "tool_B_excludes_drives_P_keeps": 4,
+  "audit_like_B3_excludes_drives_P_keeps": 2,
+  "P_excludes_drives_both_B_and_B3_keep": 0,
+  "reading": "B over-exclusive"
+ },
+ "R3": {
+  "registered_displayed": [
+   418,
+   130,
+   0.11,
+   [
+    0.1,
+    0.13
+   ],
+   1.2,
+   [
+    1.04,
+    1.41
+   ]
+  ],
+  "P_displayed": [
+   422,
+   130,
+   0.11,
+   [
+    0.09,
+    0.13
+   ],
+   1.13,
+   [
+    0.92,
+    1.39
+   ]
+  ],
+  "replacement_trigger": true,
+  "P_relative_ci_lower_below_1pct": true,
+  "P_estimate_inside_M752_interval": true
+ },
+ "disclosures": [
+  "H1 was derived from the registered totals and the rule texts; P was frozen before any per-drive look; B, B1, B3 and P are reported side by side and P is not chosen because of its result (spec 7.8)",
+  "B3 is a reconstruction of the audit rule from its rules_inferred text, not the auditor's code (spec 7.4)",
+  "the excursion count is a diagnostic, not a rule: P can miss an excursion that starts before the first endpoint row (spec 7.6)"
+ ],
+ "privacy": "counts, rates and size classes only; no drive names, dates, coordinates or absolute cloud odometer values",
+ "seconds": 11.8
+}
