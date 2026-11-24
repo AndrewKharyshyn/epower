@@ -1,3 +1,14 @@
+## M762 (2026-11-24): independent-DEM cross-check of the FABDEM step grade: spec only (Rev 2 after Director review; no download, code or result yet)
+
+**Rationale.** Owner: yes, draft the spec; any auxiliary DEM channel may serve as an independent source. Replaces the logged-altitude validation that M757 could not run (R2, R3, R4 not testable; negative control failed; those verdicts are NOT relaxed). Spec analyses/M762_spec.md Rev 2: three-cornered hat on FABDEM plus two independent products (NASADEM or SRTM, AW3D30; GLO-30 is never a corner because FABDEM derives from it), void masks and common support, frozen adequacy thresholds 0.67 and 1.33 pp on the inter-product step-grade error with the implied misclassification stated before any result (about 21 % of steps change their 2 pp class at 0.67 pp: adequacy means class shares, not per-step labels), 2SLS descriptive only, per-source download approval by Andrii (login-gated data downloaded by him). Director review analyses/M762_director_review_rev1.json: revise, R1-R9 adopted. Spec only: master MD5 d514d6009d6d9a0a168ad4fb09b9bb98 unchanged; nothing downloaded; no payload, dashboard or published figure changes.
+
+**State.** `drive_master.csv` 717 rows, MD5 `d514d6009d6d9a0a168ad4fb09b9bb98`.
+
+**Delta flags.** none.
+
+**Files.** `analyses/M762_spec.md`, `analyses/M762_director_review_rev1.json`, `docs/open_items.md`.
+
+
 ## M761 (2026-11-24): DST-aware join assessed, not built; worktree cleanup (docs only)
 
 **Rationale.** Open item from M751: one pair lost at the 25 Oct clock change. Assessed from analyses/M729_cloud_gaps.csv and tools/heatsoak_gap_sensitivity.py join_classes: the pair is 2026-10-17_23-13-01 to 2026-11-01_14-36-31 (gap 352.245 h, class driving_observed, 505.691 km moved); the naive local-time gap differs from the UTC gap by one hour, above the 0.01 h join tolerance, so it is labelled no_cloud_row (set X, kept in set C where class D would exclude it). It lies in the 24 h and longer bin (not estimable at this support), so no supported bin, shift or verdict moves; the displayed set C median of that unsupported cell could change slightly. Not built: a fix needs a rerun of the tool (about 12 minutes plus audit) and would replace the carried block of M759; it is folded into the rerun at the next ingestion (compare gaps in UTC). No payload, dashboard or published figure changes. Also removed the leftover scratch worktree xtrail-ctrlA (junctions unlinked first; targets intact).

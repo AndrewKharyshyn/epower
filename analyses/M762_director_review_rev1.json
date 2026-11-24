@@ -1,0 +1,25 @@
+{
+ "milestone": "M762",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M762_spec.md Rev 1",
+ "decision": "revise, all rulings adopted in Rev 2 section 8",
+ "rulings": [
+  "R1 independence by lineage; one SRTM-lineage corner; void masks; common support",
+  "R2 limits text; C5 untouched stratum; no antisymmetry check; F1 descriptive",
+  "R3 thresholds frozen; implied misclassification stated; worse of overall and 500-900 m; all variances >0",
+  "R4 lambda overall only; 8 pp sensitivity on cross-source median",
+  "R5 2SLS descriptive; first-stage F>=10; Hansen J; placebo per source",
+  "R6 drop source below 90 % coverage",
+  "R7 Sonnet blind audit incl. lineage and masks; Opus + Andrii before binding/dashboard/article",
+  "R8 R4 text tightened",
+  "R9 acquisition per-source yes; Andrii downloads login-gated data; manifest committed before run"
+ ],
+ "conditions": [
+  "Rev 2 before any download or result",
+  "tests: corner correlation overestimate, void-mask intersection, pixel-is-point vs area offset",
+  "n with every estimate"
+ ],
+ "needs_andrii_signoff": true,
+ "needs_andrii_signoff_note": "main session reading: per-source download approval and later binding use",
+ "recorded_by": "main session (subagent has no Write tool)"
+}
