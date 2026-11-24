@@ -93,7 +93,7 @@ def boot_diff(df, y, nb, month_fe=True):
     T.RANK_DEFICIENT["draws"] = T.RANK_DEFICIENT["deficient"] = 0
     extra = ("month",) if month_fe else ()
     est, ci, sd = T.boot(d, y, COVS, nb, extra_cat=extra)
-    return {"difference_after_adjustment": est, "ci95": ci, "mde": 2.8 * sd, "drives": int(len(d)), "wet_drives": int((d["reg"] == 1).sum()), "days": int(d["day"].nunique()),
+    return {"difference_after_adjustment": est, "ci95": ci, "mde": 2.8 * sd, "drives": int(len(d)), "contrast_positive_drives": int((d["reg"] == 1).sum()), "days": int(d["day"].nunique()),
             "bootstrap_rank_deficient_resamples": dict(T.RANK_DEFICIENT)}
 
 
@@ -177,7 +177,11 @@ def analyse(d, nb):
     a3["fuel_basis"] = {"dark_proxy_drives": int(((dk == 1.0) & ed["fuel_L_per_100km"].notna().values).sum())}
     sub = ed[ed["fuel_L_per_100km"].notna() & ed["wet"].isin([0.0, 1.0])]
     if int((sub["wet"] == 1).sum()) >= FLOOR_DRIVES and sub.loc[sub["wet"] == 1, "day"].nunique() >= FLOOR_DAYS:
-        a3["fuel_L_per_100km"] = boot_diff(sub, "fuel_L_per_100km", max(nb // 2, 500))
+        a3["fuel_L_per_100km"] = boot_diff(sub, "fuel_L_per_100km", nb)
+        s2 = sub.copy()
+        s2["first_of_day"] = (s2.sort_values(["day", "time_start"]).groupby("day").cumcount().reindex(s2.index) == 0).astype(float)
+        a3["sensitivity_first_of_day_within_sample"] = boot_diff(s2, "fuel_L_per_100km", nb)
+        a3["note"] = "exploratory, no pre-registered expectation; the estimate moves with the definition of the first-drive-of-day flag (whole master versus within the contrast sample)"
     else:
         a3["fuel_L_per_100km"] = {"counts_only": True}
     res["A3_exploratory"] = a3

@@ -2,7 +2,7 @@
  "milestone": "M771",
  "spec": "analyses/M771_spec.md Rev 2",
  "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
- "toolSha256": "30b3b347969b44b3ce98064beb97fb1516339ea4c976d77a86e868ee009850b1",
+ "toolSha256": "2b886bdc4889788ee333ab144a39ca13e85d5a965ceaadbfe1319d57e66df8eb",
  "seed": 42,
  "nBoot": 4000,
  "inputs": {
@@ -86,18 +86,34 @@
   "fuel_L_per_100km": {
    "difference_after_adjustment": -0.11445888846765147,
    "ci95": [
-    -0.8004783085255973,
-    0.3900482489998043
+    -0.8328839497375108,
+    0.3886686403679869
    ],
-   "mde": 0.839634925145979,
+   "mde": 0.8490027861059398,
    "drives": 104,
-   "wet_drives": 53,
+   "contrast_positive_drives": 53,
    "days": 57,
    "bootstrap_rank_deficient_resamples": {
-    "draws": 2000,
-    "deficient": 3
+    "draws": 4000,
+    "deficient": 7
    }
-  }
+  },
+  "sensitivity_first_of_day_within_sample": {
+   "difference_after_adjustment": -0.37277229145826485,
+   "ci95": [
+    -1.170012765578128,
+    0.23407498899275872
+   ],
+   "mde": 1.0023809106022454,
+   "drives": 104,
+   "contrast_positive_drives": 53,
+   "days": 57,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 4000,
+    "deficient": 7
+   }
+  },
+  "note": "exploratory, no pre-registered expectation; the estimate moves with the definition of the first-drive-of-day flag (whole master versus within the contrast sample)"
  },
  "P_placebo": {
   "drives_with_donor": 82,
@@ -131,5 +147,5 @@
   "a null or a gated 'not supported' is not 'no weather effect' (no equivalence test)",
   "not an article figure"
  ],
- "seconds": 8.6
+ "seconds": 30.6
 }
