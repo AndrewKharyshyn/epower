@@ -1,0 +1,43 @@
+{
+ "milestone": "M765",
+ "auditor": "analytical-auditor (blind, Sonnet)",
+ "claim": "availability A, per-rule flag counts and cross-tabulation, agreement under B, B1/B3 and P, excursion diagnostic",
+ "verdict": "accept",
+ "reproduced": {
+  "A": "119 unavailable (4 outside span), 598 available",
+  "flags_total_unavail_avail": {
+   "B": "17/3/14",
+   "B1": "7/1/6",
+   "B2": "17/3/14",
+   "B3": "7/1/6",
+   "P": "13/3/10"
+  },
+  "one_rule_only": {
+   "B_not_B3": 8,
+   "B3_not_B": 0,
+   "B_not_P": 4,
+   "P_not_B": 0,
+   "B3_not_P": 2,
+   "P_not_B3": 6
+  },
+  "agreement_E_int": {
+   "B": "584 available, n 418 / 130 days, relative 1.195 % [1.044, 1.414]",
+   "B1_B3": "592 available, n 423, 1.200 % [1.048, 1.419]",
+   "P": "588 available, n 422 / 130 days, median 0.1098 km [0.0949, 0.1296], 1.129 % [0.925, 1.387]"
+  }
+ },
+ "disagreements": [],
+ "max_abs_diff": "0 for every count and for CI bounds at the displayed 3 decimals",
+ "checks": [
+  "the 6 drives flagged by P but not B3 all have a bracketing row more than 35 s from a drive end (5 flat or near-flat brackets, 1 with a -0.73 km step)",
+  "17 recorded excursions reproduced; 22 drives have an endpoint whose two bracketing rows are both below the running maximum (a wider reading gives 31: definition dependent)",
+  "H1 falsified as reported (observed 119 / 3 / 14 / 6 against predicted 124 / 8 / 9 / 7)"
+ ],
+ "concerns": [
+  "the word logic only tests the upper bound, so P still reads 'reaches beyond +-1 %'; the P interval [0.92, 1.39] straddles 1 %, so 'the difference exceeds 1 %' is no longer supported: wording must say the interval includes 1 %",
+  "the replacement trigger is true (n 418 to 422 and the interval changes): a separate milestone is needed",
+  "report that B over-excludes 4 drives P keeps and B3 over-excludes 2, but P also excludes 6 that B3 keeps"
+ ],
+ "auditor_disclosure": "none beyond the blind rules",
+ "recorded_by": "main session from the auditor's returned brief"
+}
