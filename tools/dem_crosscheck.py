@@ -444,6 +444,8 @@ def write_manifest(dem_dir, out_path):
 
 
 def verify_manifest(dem_dir, man_path):
+    if not os.path.exists(man_path):
+        raise Stop("manifest missing: %s" % man_path)
     with open(man_path, encoding="utf-8") as f:
         man = json.load(f)
     for e in man["files"]:
@@ -714,7 +716,7 @@ def main(argv=None):
     ap.add_argument("--nb", type=int, default=NB_DEFAULT)
     ap.add_argument("--cache", default="")
     a = ap.parse_args(argv)
-    man_path = os.path.join(a.out_dir, "M762_dem_manifest.json")
+    man_path = os.path.join(HERE, "..", "analyses", "M762_dem_manifest.json")     # fixed: the manifest committed with the spec, never the output folder
     for sub in ("fabdem", "nasadem", "aw3d30", "glo30"):
         if not a.dem_dir or not os.path.isdir(os.path.join(a.dem_dir, sub)):
             print("dem_crosscheck: DEM directories missing, skipped (optional)")
