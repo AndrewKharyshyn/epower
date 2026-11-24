@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""M749 (spec analyses/M749_spec.md Rev 4): additive payload block `cloudCrossChecks`: short cross-check notes (X1 logged distance, X2 between-drive logging, X3 ambient, X4 timestamps) shown beside the OBD figures they verify (AUXILIARY; OBD stays primary; not an article figure). X1 (M760) reads the registered M752 result and the counts of its blind audit.
+"""M749 (spec analyses/M749_spec.md Rev 4): additive payload block `cloudCrossChecks`: short cross-check notes (X1 logged distance, X2 between-drive logging, X3 ambient, X4 timestamps) shown beside the OBD figures they verify (AUXILIARY; OBD stays primary; not an article figure). X1 (M760, replaced by M766) reads the registered M766 result under the revised jump rule P and the Director sentence of M765.
 
 Reads ONLY the registered results (never the M746 retests): analyses/M730_clock_offset.json, M734_thermal_forcing.json, M739_unlogged_exposure.json.
 Each file is pinned by its sha256 (PINS below, recorded in the CHANGELOG entry of M749); a mismatch or a missing file writes nothing and exits 3 (fails closed). Every number is copied from a registered field,
@@ -16,8 +16,8 @@ PINS = {
     "M730_clock_offset.json": "930a54ee4a18e8577322d209086cad80cdf2aaca76e47a89dbd43b3fa761b3bf",
     "M734_thermal_forcing.json": "3df29a57a5246d029cb6d7778ce1bd0bcaac9080fade286ae8ee4aa8372fb6b6",
     "M739_unlogged_exposure.json": "9bd34b87e06fe053f267d92ea7cb988db822814b54e650a73b95c1645f5fb07f",
-    "M752_odometer_agreement.json": "60c2a3277af28eca113c7e26ac349b2eb3dd6a7c2d389df3042601ca187b6967",
-    "M752_audit.json": "519facdd188218f9b9089c58396b72e241626e2e932afbcc5f882e62fbc01ddc",
+    "M766_odometer_agreement_P.json": "516ab32b55978edac91967f1be391abf517263d4667fb1cbc23bd71079c19dc4",
+    "M765_director_decision.json": "38e9e94b847e57ede2e97e5a4905ea4d2f0ab4beb516383d3d57ddab9a59082d",
 }
 REGISTERED_MASTER = "d514d6009d6d9a0a168ad4fb09b9bb98"
 KEY = "cloudCrossChecks"
@@ -67,58 +67,70 @@ def km2(x):
     return float(Decimal(repr(float(x))).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
 
 
-def build_x1(m52, aud):
-    """Note X1 (spec analyses/M760_spec.md Rev 2): logged distance versus the cloud-reported, interpolated odometer. Copies registered M752 fields; carries NO absolute cloud odometer, no cloud km, no 'reading' string."""
-    if m52["masterMd5"] != REGISTERED_MASTER or m52["registeredMasterMd5"] != REGISTERED_MASTER:
-        raise Stop("the registered M752 result was not computed on the registered master")
-    P = m52["P1_agreement"]
+def short_word(word):
+    """The verdict phrase without the repeated numbers: 'aggregate relative difference ...: the interval includes 1 %' -> 'the interval includes 1 %'."""
+    return word.split(": ", 1)[1] if ": " in word else word
+
+
+def build_x1(res, dec):
+    """Note X1 (spec analyses/M766_spec.md Rev 2): logged distance versus the cloud-reported, interpolated odometer under the REVISED jump rule P (M765). Copies the registered M766 result and the Director's disclosure sentence;
+    carries NO absolute cloud odometer, no cloud km, no 'reading' string and no B (M752 window rule) number."""
+    if res["masterMd5"] != REGISTERED_MASTER or res.get("rule") != "P (revised rule, M765)":
+        raise Stop("the registered M766 result was not computed on the registered master under rule P")
+    if not res["control_R0"]["reproduced_leaf_by_leaf"] or not res["consistency_R2"]["equals_M765_P"]:
+        raise Stop("the M766 result does not carry a passed control and M765 consistency")
+    P = res["P1_agreement"]
     prim = P["E_int"]["primary_identity_ge2km"]
     for k in ("nDrives", "nDays"):
         if not prim.get(k):
             raise Stop("X1 source carries no %s" % k)
-    lo, hi = prim["relative"]["ci95"]
-    within1 = "consistent within +-1 %" if (lo >= -0.01 and hi <= 0.01) else "not consistent within +-1 %"
-    within3 = "consistent within +-3 %" if (lo >= -0.03 and hi <= 0.03) else "not consistent within +-3 %"
+    words = res["P1_verdict_wording"]["primary_E_int_identity_ge2km"]
+    cov = res["P0_coverage"]["E_int"]
+    sel = res["P0_selection_check"]
+    sens = res["excursionSensitivity"]
+    if "disclosure_sentence" not in dec:
+        raise Stop("the M765 decision carries no disclosure sentence")
 
     def rel(c):
         return {"est": pct2(c["relative"]["est"]), "ci95": [pct2(c["relative"]["ci95"][0]), pct2(c["relative"]["ci95"][1])], "nDrives": c["nDrives"], "nDays": c["nDays"],
                 "rawFraction": {"est": c["relative"]["est"], "ci95": list(c["relative"]["ci95"])}}
 
-    strata = {}
-    for k in ("2to10km", "10kmplus"):
-        strata[k] = rel(P["E_int"]["strata"][k])
-    cov = m52["P0_coverage"]["E_int"]
-    sel = m52["P0_selection_check"]
-    an = m52["P3_anchor"]
-    ap = aud["p1"]["E_int"]
+    def sens_block(v):
+        s_ = v["primary_identity_ge2km"]
+        return {"drivesDropped": int(v["drives_with_an_endpoint_inside_an_excursion"]), **rel(s_), "verdict": {"within1pct": short_word(v["verdict_words"]["within1pct"]), "within3pct": short_word(v["verdict_words"]["within3pct"])}}
+
+    both_positive = P["E_int"]["primary_identity_ge2km"]["relative"]["est"] > 0 and P["E_br"]["primary_identity_ge2km"]["relative"]["est"] > 0
+    lo, hi = prim["relative"]["ci95"]
     x1 = {
         "label": "Independent cross-check (auxiliary): cloud-reported, interpolated odometer at both ends of a drive compared with the logged (app-calculated) drive distance",
-        "nDrives": int(prim["nDrives"]), "nDays": int(prim["nDays"]), "available": int(cov["available"]), "drivesInCorpus": int(m52["P0_coverage"]["drives"]),
+        "ruleLabel": "revised rule P (the earlier note used the M752 window rule)",
+        "nDrives": int(prim["nDrives"]), "nDays": int(prim["nDays"]), "available": int(cov["available"]), "drivesInCorpus": int(res["P0_coverage"]["drives"]),
         "medianDifferenceKm": {"est": km2(prim["median"]["est"]), "ci95": [km2(prim["median"]["ci95"][0]), km2(prim["median"]["ci95"][1])], "raw": {"est": prim["median"]["est"], "ci95": list(prim["median"]["ci95"])}},
         "relativeDifferencePercent": rel(prim),
-        "verdict": {"within1pct": within1, "within3pct": within3, "size": "small difference, cloud larger" if prim["relative"]["est"] > 0 else "small difference"},
-        "aggregateDefinition": "aggregate = sum of per-drive differences over the sum of logged kilometres (km-weighted), so long drives dominate; day-clustered bootstrap, seed %d, %d draws" % (m52["seed"], m52["nBoot"]),
-        "strata": strata,
+        "verdict": {"within1pct": short_word(words["within1pct"]), "within3pct": short_word(words["within3pct"]), "size": "small difference, cloud larger" if prim["relative"]["est"] > 0 else "small difference"},
+        "aggregateDefinition": "aggregate = sum of per-drive differences over the sum of logged kilometres (km-weighted), so long drives dominate; day-clustered bootstrap, seed %d, %d draws" % (res["seed"], res["nBoot"]),
+        "strata": {k: rel(P["E_int"]["strata"][k]) for k in ("2to10km", "10kmplus")},
         "sensitivity": {"bracketedEndpoints": rel(P["E_br"]["primary_identity_ge2km"]), "shift16s": rel(P["E_int_shift16"]["primary_identity_ge2km"]),
                         "note": "the +16 s shift changes the sample (more drives have a bracket inside the cap), not only the offset"},
-        "coverage": {"unavailableByReason": dict(cov["unavailableByReason"]), "auditorAvailable": int(aud["coverage"]["E_int_available"]), "byStratum": sel["byStratum"], "byMonth": sel["byMonth"]},
-        "integrity": {"negativeSteps": int(m52["P4_integrity"]["negativeSteps"]), "levelExcursions": int(m52["P4_integrity"]["levelExcursions"]), "maxExcursionKm": m52["P4_integrity"]["maxExcursionKm"],
-                      "jumpExcludedTool": int(cov["unavailableByReason"]["odometer_jump"]), "jumpExcludedAuditor": int(aud["coverage"]["odometer_jump"]), "nTool": int(prim["nDrives"]), "nAuditor": int(ap["n"])},
-        "anchor": {"differenceKm": km2(an["differenceKm"]), "rawDifferenceKm": an["differenceKm"], "n": int(an["n"])},
+        "excursionSensitivity": {"S1_strict": sens_block(sens["S1_strict"]), "S2_wide": sens_block(sens["S2_wide"]),
+                                 "note": "strict = an endpoint between the first and the last row of a recorded level excursion; wide = between the row before and the row after it"},
+        "coverage": {"unavailableByReason": dict(cov["unavailableByReason"]), "byStratum": sel["byStratum"], "byMonth": sel["byMonth"]},
+        "integrity": {"negativeSteps": int(res["negative_steps"]), "levelExcursions": int(res["level_excursions"]), "maxExcursionKm": res["maxExcursionKm"], "jumpExcluded": int(cov["unavailableByReason"].get("odometer_jump", 0))},
+        "anchor": {"differenceKm": km2(res["P3_anchor"]["differenceKm"]), "rawDifferenceKm": res["P3_anchor"]["differenceKm"], "n": int(res["P3_anchor"]["n"])},
         "disclosures": [
             "Both counters rest on the same wheel-speed scale, so this checks logging completeness, not distance accuracy; a shared scale offset cannot be detected.",
-            "The interpolation rule was changed (Rev 2.1) after a smoke run had been seen; the verdict is the same under both rules.",
-            "Jump-excluded drives: %d (tool) versus %d (independent reproduction); n %d versus %d; available %d versus %d: the verdict is the same under both counts; the difference is documented, not resolved." % (cov["unavailableByReason"]["odometer_jump"], aud["coverage"]["odometer_jump"], prim["nDrives"], ap["n"], cov["available"], aud["coverage"]["E_int_available"]),
+            "The earlier note used the M752 window rule; it is replaced by the revised rule P (a jump counts only between the last row at or before the drive start and the first row at or after its end).",
+            dec["disclosure_sentence"],
+            "Jump-excluded drives under the revised rule: %d; drives with a cloud odometer: %d of %d." % (cov["unavailableByReason"].get("odometer_jump", 0), cov["available"], res["P0_coverage"]["drives"]),
             "Availability is selected by month and by drive length (counts in the payload); a selection effect on the aggregate is not excluded.",
-            "The cloud odometer stream has %d negative steps and %d level excursions (largest %s km); drives with a jump near the drive are excluded." % (m52["P4_integrity"]["negativeSteps"], m52["P4_integrity"]["levelExcursions"], m52["P4_integrity"]["maxExcursionKm"]),
-            "Both interpolation variants (interpolated and bracketed endpoints) give a positive difference, so the parked-edge model of the design is not confirmed.",
-            "The end-of-record anchor is one point (n = %d), one-sided and not a known answer." % an["n"],
+            "The cloud odometer stream has %d negative steps and %d level excursions (largest %s km); the rule can miss an excursion that starts before the first endpoint row, which is why the sensitivity with those drives dropped (%d strict, %d wide) is shown." % (res["negative_steps"], res["level_excursions"], res["maxExcursionKm"], sens["S1_strict"]["drives_with_an_endpoint_inside_an_excursion"], sens["S2_wide"]["drives_with_an_endpoint_inside_an_excursion"]),
+        ] + (["Both interpolation variants (interpolated and bracketed endpoints) give a positive difference, so the parked-edge model of the design is not confirmed."] if both_positive else []) + [
+            "The end-of-record anchor is one point (n = %d), one-sided and not a known answer." % res["P3_anchor"]["n"],
             "Cause wording: consistent with logger edge losses (a hypothesis); per-sample speed quantisation in the app integral is an untested alternative; the positive sign argues against a parked-edge interpolation artefact.",
             "Nothing is replaced or corrected: no cloud kilometre or odometer value is shown and the logged distance and logged-share KPI are unchanged.",
         ],
     }
     return x1
-
 
 def build(src, pins=PINS):
     m30, m34, m39 = (src[k] for k in ("M730_clock_offset.json", "M734_thermal_forcing.json", "M739_unlogged_exposure.json"))
@@ -132,7 +144,7 @@ def build(src, pins=PINS):
     t1 = m34["T1_ambient"]["screened_minus_manual"]
     if m30.get("n_days") is None or t1.get("n_days") is None or u1.get("days") is None:
         raise Stop("a note source carries no n_days: that note is dropped by rule")
-    x1 = build_x1(src["M752_odometer_agreement.json"], src["M752_audit.json"])
+    x1 = build_x1(src["M766_odometer_agreement_P.json"], src["M765_director_decision.json"])
     block = {
         "basis": basis, "registeredMasterMd5": REGISTERED_MASTER, "sourceSha256": dict(pins), "status": tail,
         "x1LoggedDistance": x1,

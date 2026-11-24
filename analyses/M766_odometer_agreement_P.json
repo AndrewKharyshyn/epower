@@ -1,0 +1,1131 @@
+{
+ "milestone": "M766",
+ "spec": "analyses/M766_spec.md Rev 2",
+ "rule": "P (revised rule, M765)",
+ "role": "the M752 odometer-agreement outputs under the revised jump rule P; report-only",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "storeManifestSha256": "7cbab168a882a561f55005e27a6fe484b91eb450c7e1bc2a2b6e0a37b25b3a96",
+ "m752ToolSha256": "741bc24b8ac4eeed7bbdf98f93658a9ff66f6487e01f59418aa8b6ade7ae9037",
+ "m752ResultSha256": "60c2a3277af28eca113c7e26ac349b2eb3dd6a7c2d389df3042601ca187b6967",
+ "m765ResultSha256": "59afeb41b7eb18e766834231642403d1a2df978d1d54577a91427a549121a46d",
+ "toolSha256": "af581d30d64b3ee351714749b1334629197f52c1cf8b545687438b598329bd28",
+ "seed": 42,
+ "nBoot": 4000,
+ "control_R0": {
+  "rule": "B",
+  "reproduced_leaf_by_leaf": true,
+  "blocks": [
+   "P0_coverage",
+   "P0_selection_check",
+   "P1_agreement",
+   "P2_resolution"
+  ]
+ },
+ "consistency_R2": {
+  "equals_M765_P": true,
+  "S1_count": 22
+ },
+ "P0_coverage": {
+  "drives": 717,
+  "E_int": {
+   "available": 588,
+   "unavailableByReason": {
+    "no_row_within_cap": 100,
+    "odometer_jump": 13,
+    "hole": 12,
+    "outside_span": 4
+   }
+  },
+  "E_br": {
+   "available": 588,
+   "unavailableByReason": {
+    "no_row_within_cap": 100,
+    "odometer_jump": 13,
+    "hole": 12,
+    "outside_span": 4
+   }
+  },
+  "E_near": {
+   "available": 588,
+   "unavailableByReason": {
+    "no_row_within_cap": 112,
+    "odometer_jump": 13,
+    "outside_span": 4
+   }
+  },
+  "E_near60": {
+   "available": 606,
+   "unavailableByReason": {
+    "no_row_within_cap": 94,
+    "odometer_jump": 13,
+    "outside_span": 4
+   }
+  },
+  "E_int_shift16": {
+   "available": 601,
+   "unavailableByReason": {
+    "no_row_within_cap": 93,
+    "hole": 12,
+    "odometer_jump": 7,
+    "outside_span": 4
+   }
+  }
+ },
+ "P0_selection_check": {
+  "byStratum": {
+   "below2km": {
+    "drives": 184,
+    "available": 161
+   },
+   "2to10km": {
+    "drives": 344,
+    "available": 285
+   },
+   "10kmplus": {
+    "drives": 189,
+    "available": 142
+   }
+  },
+  "byMonth": {
+   "2026-05": {
+    "drives": 38,
+    "available": 34
+   },
+   "2026-06": {
+    "drives": 63,
+    "available": 54
+   },
+   "2026-07": {
+    "drives": 93,
+    "available": 90
+   },
+   "2026-08": {
+    "drives": 111,
+    "available": 78
+   },
+   "2026-09": {
+    "drives": 186,
+    "available": 173
+   },
+   "2026-10": {
+    "drives": 115,
+    "available": 65
+   },
+   "2026-11": {
+    "drives": 111,
+    "available": 94
+   }
+  }
+ },
+ "P1_agreement": {
+  "E_int": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 577,
+     "nDays": 132,
+     "median": {
+      "est": 0.08047,
+      "ci95": [
+       0.06953,
+       0.09062
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08203,
+      "ci95": [
+       0.07344,
+       0.0918
+      ]
+     },
+     "p90Abs": {
+      "est": 0.38859,
+      "ci95": [
+       0.30937,
+       0.52969
+      ]
+     },
+     "relative": {
+      "est": 0.0117,
+      "ci95": [
+       0.00964,
+       0.01424
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 155,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 283,
+     "nDays": 109,
+     "median": {
+      "est": 0.06875,
+      "ci95": [
+       0.06016,
+       0.08164
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07734,
+      "ci95": [
+       0.06094,
+       0.08398
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17172,
+      "ci95": [
+       0.15234,
+       0.20125
+      ]
+     },
+     "relative": {
+      "est": 0.02275,
+      "ci95": [
+       0.01962,
+       0.0263
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 139,
+     "nDays": 74,
+     "median": {
+      "est": 0.30937,
+      "ci95": [
+       0.27266,
+       0.35521
+      ]
+     },
+     "medianAbs": {
+      "est": 0.31719,
+      "ci95": [
+       0.27812,
+       0.35898
+      ]
+     },
+     "p90Abs": {
+      "est": 1.16125,
+      "ci95": [
+       0.80086,
+       1.45679
+      ]
+     },
+     "relative": {
+      "est": 0.0096,
+      "ci95": [
+       0.00761,
+       0.01199
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 422,
+    "nDays": 130,
+    "median": {
+     "est": 0.10977,
+     "ci95": [
+      0.09492,
+      0.12956
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11224,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47938,
+     "ci95": [
+      0.3686,
+      0.70739
+     ]
+    },
+    "relative": {
+     "est": 0.01129,
+     "ci95": [
+      0.00925,
+      0.01387
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 422,
+    "nDays": 130,
+    "median": {
+     "est": 0.10977,
+     "ci95": [
+      0.09492,
+      0.12956
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11224,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47938,
+     "ci95": [
+      0.3686,
+      0.70739
+     ]
+    },
+    "relative": {
+     "est": 0.01129,
+     "ci95": [
+      0.00925,
+      0.01387
+     ]
+    }
+   }
+  },
+  "E_br": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 577,
+     "nDays": 132,
+     "median": {
+      "est": 0.08125,
+      "ci95": [
+       0.07227,
+       0.09219
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08281,
+      "ci95": [
+       0.07734,
+       0.09302
+      ]
+     },
+     "p90Abs": {
+      "est": 0.39469,
+      "ci95": [
+       0.31109,
+       0.52969
+      ]
+     },
+     "relative": {
+      "est": 0.01215,
+      "ci95": [
+       0.0101,
+       0.01476
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 155,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 283,
+     "nDays": 109,
+     "median": {
+      "est": 0.07344,
+      "ci95": [
+       0.06172,
+       0.0875
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07734,
+      "ci95": [
+       0.06797,
+       0.08906
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17188,
+      "ci95": [
+       0.15234,
+       0.20125
+      ]
+     },
+     "relative": {
+      "est": 0.02435,
+      "ci95": [
+       0.02142,
+       0.02765
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 139,
+     "nDays": 74,
+     "median": {
+      "est": 0.31719,
+      "ci95": [
+       0.27812,
+       0.35781
+      ]
+     },
+     "medianAbs": {
+      "est": 0.31875,
+      "ci95": [
+       0.28047,
+       0.36016
+      ]
+     },
+     "p90Abs": {
+      "est": 1.16125,
+      "ci95": [
+       0.80156,
+       1.45679
+      ]
+     },
+     "relative": {
+      "est": 0.00977,
+      "ci95": [
+       0.00785,
+       0.01215
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 422,
+    "nDays": 130,
+    "median": {
+     "est": 0.11836,
+     "ci95": [
+      0.09921,
+      0.13281
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11914,
+     "ci95": [
+      0.1,
+      0.13906
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47938,
+     "ci95": [
+      0.3703,
+      0.71328
+     ]
+    },
+    "relative": {
+     "est": 0.01165,
+     "ci95": [
+      0.00965,
+      0.01428
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 422,
+    "nDays": 130,
+    "median": {
+     "est": 0.11836,
+     "ci95": [
+      0.09921,
+      0.13281
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11914,
+     "ci95": [
+      0.1,
+      0.13906
+     ]
+    },
+    "p90Abs": {
+     "est": 0.47938,
+     "ci95": [
+      0.3703,
+      0.71328
+     ]
+    },
+    "relative": {
+     "est": 0.01165,
+     "ci95": [
+      0.00965,
+      0.01428
+     ]
+    }
+   }
+  },
+  "E_near": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 577,
+     "nDays": 132,
+     "median": {
+      "est": 0.07891,
+      "ci95": [
+       0.06914,
+       0.08984
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08047,
+      "ci95": [
+       0.07227,
+       0.09142
+      ]
+     },
+     "p90Abs": {
+      "est": 0.36562,
+      "ci95": [
+       0.29844,
+       0.47034
+      ]
+     },
+     "relative": {
+      "est": 0.01192,
+      "ci95": [
+       0.00983,
+       0.01447
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 156,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 286,
+     "nDays": 110,
+     "median": {
+      "est": 0.06914,
+      "ci95": [
+       0.05938,
+       0.07969
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07539,
+      "ci95": [
+       0.06094,
+       0.08281
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17148,
+      "ci95": [
+       0.14977,
+       0.19922
+      ]
+     },
+     "relative": {
+      "est": 0.02243,
+      "ci95": [
+       0.01948,
+       0.02583
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 135,
+     "nDays": 74,
+     "median": {
+      "est": 0.30859,
+      "ci95": [
+       0.27148,
+       0.35781
+      ]
+     },
+     "medianAbs": {
+      "est": 0.30937,
+      "ci95": [
+       0.27266,
+       0.35781
+      ]
+     },
+     "p90Abs": {
+      "est": 1.18062,
+      "ci95": [
+       0.71797,
+       1.54609
+      ]
+     },
+     "relative": {
+      "est": 0.00981,
+      "ci95": [
+       0.00779,
+       0.01224
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 421,
+    "nDays": 131,
+    "median": {
+     "est": 0.10938,
+     "ci95": [
+      0.09141,
+      0.12266
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11016,
+     "ci95": [
+      0.09805,
+      0.13008
+     ]
+    },
+    "p90Abs": {
+     "est": 0.45781,
+     "ci95": [
+      0.36172,
+      0.59211
+     ]
+    },
+    "relative": {
+     "est": 0.01152,
+     "ci95": [
+      0.0094,
+      0.01406
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 421,
+    "nDays": 131,
+    "median": {
+     "est": 0.10938,
+     "ci95": [
+      0.09141,
+      0.12266
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11016,
+     "ci95": [
+      0.09805,
+      0.13008
+     ]
+    },
+    "p90Abs": {
+     "est": 0.45781,
+     "ci95": [
+      0.36172,
+      0.59211
+     ]
+    },
+    "relative": {
+     "est": 0.01152,
+     "ci95": [
+      0.0094,
+      0.01406
+     ]
+    }
+   }
+  },
+  "E_near60": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 595,
+     "nDays": 132,
+     "median": {
+      "est": 0.07891,
+      "ci95": [
+       0.06953,
+       0.08984
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08125,
+      "ci95": [
+       0.07734,
+       0.09219
+      ]
+     },
+     "p90Abs": {
+      "est": 0.37547,
+      "ci95": [
+       0.30906,
+       0.49891
+      ]
+     },
+     "relative": {
+      "est": 0.01164,
+      "ci95": [
+       0.00973,
+       0.014
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 156,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 296,
+     "nDays": 111,
+     "median": {
+      "est": 0.06914,
+      "ci95": [
+       0.05938,
+       0.0793
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07305,
+      "ci95": [
+       0.06132,
+       0.08203
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17148,
+      "ci95": [
+       0.15,
+       0.19922
+      ]
+     },
+     "relative": {
+      "est": 0.0223,
+      "ci95": [
+       0.01938,
+       0.02554
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 143,
+     "nDays": 76,
+     "median": {
+      "est": 0.30937,
+      "ci95": [
+       0.27266,
+       0.35352
+      ]
+     },
+     "medianAbs": {
+      "est": 0.3125,
+      "ci95": [
+       0.27539,
+       0.35781
+      ]
+     },
+     "p90Abs": {
+      "est": 1.13531,
+      "ci95": [
+       0.81146,
+       1.42109
+      ]
+     },
+     "relative": {
+      "est": 0.00961,
+      "ci95": [
+       0.00773,
+       0.01192
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 439,
+    "nDays": 131,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09219,
+      0.12969
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11328,
+     "ci95": [
+      0.09844,
+      0.13087
+     ]
+    },
+    "p90Abs": {
+     "est": 0.46203,
+     "ci95": [
+      0.3625,
+      0.71016
+     ]
+    },
+    "relative": {
+     "est": 0.01127,
+     "ci95": [
+      0.00931,
+      0.01367
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 439,
+    "nDays": 131,
+    "median": {
+     "est": 0.11016,
+     "ci95": [
+      0.09219,
+      0.12969
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11328,
+     "ci95": [
+      0.09844,
+      0.13087
+     ]
+    },
+    "p90Abs": {
+     "est": 0.46203,
+     "ci95": [
+      0.3625,
+      0.71016
+     ]
+    },
+    "relative": {
+     "est": 0.01127,
+     "ci95": [
+      0.00931,
+      0.01367
+     ]
+    }
+   }
+  },
+  "E_int_shift16": {
+   "identityClass": {
+    "identity": {
+     "nDrives": 590,
+     "nDays": 132,
+     "median": {
+      "est": 0.08047,
+      "ci95": [
+       0.07031,
+       0.08984
+      ]
+     },
+     "medianAbs": {
+      "est": 0.08047,
+      "ci95": [
+       0.07109,
+       0.09063
+      ]
+     },
+     "p90Abs": {
+      "est": 0.38008,
+      "ci95": [
+       0.31561,
+       0.52031
+      ]
+     },
+     "relative": {
+      "est": 0.01195,
+      "ci95": [
+       0.00979,
+       0.01459
+      ]
+     }
+    },
+    "notIdentity": {
+     "nDrives": 0,
+     "nDays": 0,
+     "note": "sensitivity class (trip_meter, repaired or other non-identity drives): counts only unless the floor is met"
+    }
+   },
+   "strata": {
+    "below2km": {
+     "nDrives": 158,
+     "nDays": 73,
+     "status": "counts only: no agreement verdict below 2 km (resolution)"
+    },
+    "2to10km": {
+     "nDrives": 293,
+     "nDays": 110,
+     "median": {
+      "est": 0.07109,
+      "ci95": [
+       0.06094,
+       0.08203
+      ]
+     },
+     "medianAbs": {
+      "est": 0.07109,
+      "ci95": [
+       0.06094,
+       0.08277
+      ]
+     },
+     "p90Abs": {
+      "est": 0.17172,
+      "ci95": [
+       0.1526,
+       0.20078
+      ]
+     },
+     "relative": {
+      "est": 0.0238,
+      "ci95": [
+       0.02089,
+       0.0271
+      ]
+     }
+    },
+    "10kmplus": {
+     "nDrives": 139,
+     "nDays": 74,
+     "median": {
+      "est": 0.31875,
+      "ci95": [
+       0.27812,
+       0.35781
+      ]
+     },
+     "medianAbs": {
+      "est": 0.31953,
+      "ci95": [
+       0.27891,
+       0.36016
+      ]
+     },
+     "p90Abs": {
+      "est": 1.16125,
+      "ci95": [
+       0.8,
+       1.45336
+      ]
+     },
+     "relative": {
+      "est": 0.00961,
+      "ci95": [
+       0.0075,
+       0.01209
+      ]
+     }
+    }
+   },
+   "primary_identity_ge2km": {
+    "nDrives": 432,
+    "nDays": 131,
+    "median": {
+     "est": 0.10977,
+     "ci95": [
+      0.09766,
+      0.13047
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11211,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.46703,
+     "ci95": [
+      0.37094,
+      0.70195
+     ]
+    },
+    "relative": {
+     "est": 0.01149,
+     "ci95": [
+      0.00927,
+      0.01417
+     ]
+    }
+   },
+   "all_ge2km": {
+    "nDrives": 432,
+    "nDays": 131,
+    "median": {
+     "est": 0.10977,
+     "ci95": [
+      0.09766,
+      0.13047
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11211,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "p90Abs": {
+     "est": 0.46703,
+     "ci95": [
+      0.37094,
+      0.70195
+     ]
+    },
+    "relative": {
+     "est": 0.01149,
+     "ci95": [
+      0.00927,
+      0.01417
+     ]
+    }
+   }
+  }
+ },
+ "P1_verdict_wording": {
+  "primary_E_int_identity_ge2km": {
+   "within1pct": "aggregate relative difference 1.13 % [0.92, 1.39]: the interval includes 1 %",
+   "within3pct": "consistent within +-3 %"
+  }
+ },
+ "P2_resolution": {
+  "smallestPositiveCloudIncrementKm": 0.00781,
+  "loggedResolutionKm": 0.1,
+  "note": "a per-drive difference below the combined resolution is not read as disagreement"
+ },
+ "P3_anchor": {
+  "differenceKm": -0.409,
+  "n": 1,
+  "note": "the anchor does not depend on the jump rule; carried as the difference and n only"
+ },
+ "P_vs_B_counts": {
+  "jump_flagged_B": 17,
+  "jump_flagged_B1_strictly_inside": 7,
+  "jump_flagged_P": 13,
+  "R2": {
+   "rule_flagged_P_keeps": {
+    "B": 4,
+    "B1": 2,
+    "B3": 2
+   },
+   "P_flagged_rule_keeps": {
+    "B": 0,
+    "B1": 6,
+    "B3": 6
+   },
+   "reading": "B over-exclusive (4), under-exclusive (0); B3 over-exclusive (2), under-exclusive (6) relative to P (available-by-A drives only)",
+   "note": "a zero 'P_flagged_rule_keeps' for B does not mean P never excludes more: against B3, P excludes 6 drives that B3 keeps"
+  }
+ },
+ "excursionSensitivity": {
+  "S1_strict": {
+   "drives_with_an_endpoint_inside_an_excursion": 22,
+   "available_all_drives_after": 573,
+   "primary_identity_ge2km": {
+    "nDrives": 414,
+    "nDays": 129,
+    "median": {
+     "est": 0.11224,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11758,
+     "ci95": [
+      0.09922,
+      0.13828
+     ]
+    },
+    "p90Abs": {
+     "est": 0.48812,
+     "ci95": [
+      0.3686,
+      0.71797
+     ]
+    },
+    "relative": {
+     "est": 0.01127,
+     "ci95": [
+      0.00912,
+      0.01384
+     ]
+    }
+   },
+   "verdict_words": {
+    "within1pct": "aggregate relative difference 1.13 % [0.91, 1.38]: the interval includes 1 %",
+    "within3pct": "consistent within +-3 %"
+   }
+  },
+  "S2_wide": {
+   "drives_with_an_endpoint_inside_an_excursion": 31,
+   "available_all_drives_after": 573,
+   "primary_identity_ge2km": {
+    "nDrives": 414,
+    "nDays": 129,
+    "median": {
+     "est": 0.11224,
+     "ci95": [
+      0.09844,
+      0.13203
+     ]
+    },
+    "medianAbs": {
+     "est": 0.11758,
+     "ci95": [
+      0.09922,
+      0.13828
+     ]
+    },
+    "p90Abs": {
+     "est": 0.48812,
+     "ci95": [
+      0.3686,
+      0.71797
+     ]
+    },
+    "relative": {
+     "est": 0.01127,
+     "ci95": [
+      0.00912,
+      0.01384
+     ]
+    }
+   },
+   "verdict_words": {
+    "within1pct": "aggregate relative difference 1.13 % [0.91, 1.38]: the interval includes 1 %",
+    "within3pct": "consistent within +-3 %"
+   }
+  }
+ },
+ "excursions_recorded": 17,
+ "negative_steps": 17,
+ "level_excursions": 17,
+ "maxExcursionKm": 101.35,
+ "deviations_from_spec": [
+  "the M752 audit-count fields (7 jump-excluded, n 420, 586 available) are not used under the revised rule; the jump-rule difference is carried as the Director's disclosure sentence of M765",
+  "E_near and E_near60 use the endpoint rows of their own windows under P; their nearest row is one of the bracketing rows, so the stretch equals the bracketing stretch (spec 7.7 a); they are not displayed",
+  "the within-1-% and within-3-% wording is the three-valued function of M765 (verdict_three), not the two-valued M752 wording; counts and intervals are unchanged by this",
+  "the anchor is carried as the difference and n only (spec 7.8); the absolute fields of the M752 result are not copied"
+ ],
+ "scope": "report-only: no master column, payload or dashboard change inside this result; never substituted into distance_km or the logged-share KPI",
+ "seconds": 29.7
+}

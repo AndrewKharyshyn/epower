@@ -71119,15 +71119,15 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-24T07:10:33.830742+00:00",
+   "generatedAt": "2026-11-24T13:16:10.202662+00:00",
    "pipelineVersion": 6,
    "computationStatus": "computed",
    "computationStatusNote": "M749: copied by tools/cloud_payload.py from the registered MyNISSAN cloud-export results (auxiliary; spec analyses/M749_spec.md Rev 2)",
-   "includedInReleaseAt": "2026-11-24T07:10:33.830742+00:00",
-   "computedAt": "2026-11-24T07:10:33.830742+00:00",
+   "includedInReleaseAt": "2026-11-24T13:16:10.202662+00:00",
+   "computedAt": "2026-11-24T13:16:10.202662+00:00",
    "dependencies": {
     "declaredIn": "tools/stamp_dependencies.json",
-    "milestone": "M760"
+    "milestone": "M766"
    },
    "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
    "inputBasis": {
@@ -71142,8 +71142,8 @@
      "analyses/M730_clock_offset.json": "607686272c05896f5a62c3b214dba1f3",
      "analyses/M734_thermal_forcing.json": "de6c5625200232481711d5481ea7964b",
      "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff",
-     "analyses/M752_odometer_agreement.json": "2a288f2119060e02691f2364fbdca779",
-     "analyses/M752_audit.json": "13ba10577e79cfe7f98c4c9d32965447"
+     "analyses/M766_odometer_agreement_P.json": "0fe8e18f4850d5353bb10de6cf3e04ba",
+     "analyses/M765_director_decision.json": "562e1ed2e7d089b0da1048a3ebb208aa"
     }
    },
    "stampLineage": [
@@ -71169,6 +71169,22 @@
      "supersededAtMilestone": "M760",
      "supersededAt": "2026-11-24T07:10:34.350933+00:00",
      "reason": "identity values changed (master, raw manifest, config section or input file)"
+    },
+    {
+     "identity": {
+      "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "analyses/M730_clock_offset.json": "607686272c05896f5a62c3b214dba1f3",
+       "analyses/M734_thermal_forcing.json": "de6c5625200232481711d5481ea7964b",
+       "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff",
+       "analyses/M752_odometer_agreement.json": "2a288f2119060e02691f2364fbdca779",
+       "analyses/M752_audit.json": "13ba10577e79cfe7f98c4c9d32965447"
+      }
+     },
+     "supersededAtMilestone": "M766",
+     "supersededAt": "2026-11-24T13:13:40.701203+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
     }
    ],
    "upstreamHashes": {
@@ -71178,8 +71194,8 @@
      "analyses/M730_clock_offset.json": "607686272c05896f5a62c3b214dba1f3",
      "analyses/M734_thermal_forcing.json": "de6c5625200232481711d5481ea7964b",
      "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff",
-     "analyses/M752_odometer_agreement.json": "2a288f2119060e02691f2364fbdca779",
-     "analyses/M752_audit.json": "13ba10577e79cfe7f98c4c9d32965447"
+     "analyses/M766_odometer_agreement_P.json": "0fe8e18f4850d5353bb10de6cf3e04ba",
+     "analyses/M765_director_decision.json": "562e1ed2e7d089b0da1048a3ebb208aa"
     }
    }
   },
@@ -479255,48 +479271,49 @@
    "M730_clock_offset.json": "930a54ee4a18e8577322d209086cad80cdf2aaca76e47a89dbd43b3fa761b3bf",
    "M734_thermal_forcing.json": "3df29a57a5246d029cb6d7778ce1bd0bcaac9080fade286ae8ee4aa8372fb6b6",
    "M739_unlogged_exposure.json": "9bd34b87e06fe053f267d92ea7cb988db822814b54e650a73b95c1645f5fb07f",
-   "M752_odometer_agreement.json": "60c2a3277af28eca113c7e26ac349b2eb3dd6a7c2d389df3042601ca187b6967",
-   "M752_audit.json": "519facdd188218f9b9089c58396b72e241626e2e932afbcc5f882e62fbc01ddc"
+   "M766_odometer_agreement_P.json": "516ab32b55978edac91967f1be391abf517263d4667fb1cbc23bd71079c19dc4",
+   "M765_director_decision.json": "38e9e94b847e57ede2e97e5a4905ea4d2f0ab4beb516383d3d57ddab9a59082d"
   },
   "status": "auxiliary; not an article figure",
   "x1LoggedDistance": {
    "label": "Independent cross-check (auxiliary): cloud-reported, interpolated odometer at both ends of a drive compared with the logged (app-calculated) drive distance",
-   "nDrives": 418,
+   "ruleLabel": "revised rule P (the earlier note used the M752 window rule)",
+   "nDrives": 422,
    "nDays": 130,
-   "available": 584,
+   "available": 588,
    "drivesInCorpus": 717,
    "medianDifferenceKm": {
     "est": 0.11,
     "ci95": [
-     0.1,
+     0.09,
      0.13
     ],
     "raw": {
-     "est": 0.11016,
+     "est": 0.10977,
      "ci95": [
-      0.09766,
-      0.12969
+      0.09492,
+      0.12956
      ]
     }
    },
    "relativeDifferencePercent": {
-    "est": 1.2,
+    "est": 1.13,
     "ci95": [
-     1.04,
-     1.41
+     0.93,
+     1.39
     ],
-    "nDrives": 418,
+    "nDrives": 422,
     "nDays": 130,
     "rawFraction": {
-     "est": 0.01195,
+     "est": 0.01129,
      "ci95": [
-      0.01044,
-      0.01414
+      0.00925,
+      0.01387
      ]
     }
    },
    "verdict": {
-    "within1pct": "not consistent within +-1 %",
+    "within1pct": "the interval includes 1 %",
     "within3pct": "consistent within +-3 %",
     "size": "small difference, cloud larger"
    },
@@ -479305,79 +479322,123 @@
     "2to10km": {
      "est": 2.28,
      "ci95": [
-      1.97,
-      2.62
+      1.96,
+      2.63
      ],
-     "nDrives": 281,
-     "nDays": 108,
+     "nDrives": 283,
+     "nDays": 109,
      "rawFraction": {
-      "est": 0.02281,
+      "est": 0.02275,
       "ci95": [
-       0.01969,
-       0.02624
+       0.01962,
+       0.0263
       ]
      }
     },
     "10kmplus": {
-     "est": 1.03,
+     "est": 0.96,
      "ci95": [
-      0.89,
-      1.23
+      0.76,
+      1.2
      ],
-     "nDrives": 137,
+     "nDrives": 139,
      "nDays": 74,
      "rawFraction": {
-      "est": 0.01031,
+      "est": 0.0096,
       "ci95": [
-       0.00893,
-       0.01232
+       0.00761,
+       0.01199
       ]
      }
     }
    },
    "sensitivity": {
     "bracketedEndpoints": {
-     "est": 1.23,
+     "est": 1.17,
      "ci95": [
-      1.07,
-      1.45
+      0.97,
+      1.43
      ],
-     "nDrives": 418,
+     "nDrives": 422,
      "nDays": 130,
      "rawFraction": {
-      "est": 0.01226,
+      "est": 0.01165,
       "ci95": [
-       0.0107,
-       0.01454
+       0.00965,
+       0.01428
       ]
      }
     },
     "shift16s": {
-     "est": 1.22,
+     "est": 1.15,
      "ci95": [
-      1.06,
-      1.44
+      0.93,
+      1.42
      ],
-     "nDrives": 425,
+     "nDrives": 432,
      "nDays": 131,
      "rawFraction": {
-      "est": 0.01216,
+      "est": 0.01149,
       "ci95": [
-       0.01064,
-       0.01443
+       0.00927,
+       0.01417
       ]
      }
     },
     "note": "the +16 s shift changes the sample (more drives have a bracket inside the cap), not only the offset"
    },
+   "excursionSensitivity": {
+    "S1_strict": {
+     "drivesDropped": 22,
+     "est": 1.13,
+     "ci95": [
+      0.91,
+      1.38
+     ],
+     "nDrives": 414,
+     "nDays": 129,
+     "rawFraction": {
+      "est": 0.01127,
+      "ci95": [
+       0.00912,
+       0.01384
+      ]
+     },
+     "verdict": {
+      "within1pct": "the interval includes 1 %",
+      "within3pct": "consistent within +-3 %"
+     }
+    },
+    "S2_wide": {
+     "drivesDropped": 31,
+     "est": 1.13,
+     "ci95": [
+      0.91,
+      1.38
+     ],
+     "nDrives": 414,
+     "nDays": 129,
+     "rawFraction": {
+      "est": 0.01127,
+      "ci95": [
+       0.00912,
+       0.01384
+      ]
+     },
+     "verdict": {
+      "within1pct": "the interval includes 1 %",
+      "within3pct": "consistent within +-3 %"
+     }
+    },
+    "note": "strict = an endpoint between the first and the last row of a recorded level excursion; wide = between the row before and the row after it"
+   },
    "coverage": {
     "unavailableByReason": {
      "no_row_within_cap": 100,
-     "odometer_jump": 17,
+     "odometer_jump": 13,
      "hole": 12,
      "outside_span": 4
     },
-    "auditorAvailable": 586,
     "byStratum": {
      "below2km": {
       "drives": 184,
@@ -479385,11 +479446,11 @@
      },
      "2to10km": {
       "drives": 344,
-      "available": 283
+      "available": 285
      },
      "10kmplus": {
       "drives": 189,
-      "available": 140
+      "available": 142
      }
     },
     "byMonth": {
@@ -479399,7 +479460,7 @@
      },
      "2026-06": {
       "drives": 63,
-      "available": 52
+      "available": 54
      },
      "2026-07": {
       "drives": 93,
@@ -479407,7 +479468,7 @@
      },
      "2026-08": {
       "drives": 111,
-      "available": 77
+      "available": 78
      },
      "2026-09": {
       "drives": 186,
@@ -479415,7 +479476,7 @@
      },
      "2026-10": {
       "drives": 115,
-      "available": 64
+      "available": 65
      },
      "2026-11": {
       "drives": 111,
@@ -479427,10 +479488,7 @@
     "negativeSteps": 17,
     "levelExcursions": 17,
     "maxExcursionKm": 101.35,
-    "jumpExcludedTool": 17,
-    "jumpExcludedAuditor": 7,
-    "nTool": 418,
-    "nAuditor": 420
+    "jumpExcluded": 13
    },
    "anchor": {
     "differenceKm": -0.41,
@@ -479439,10 +479497,11 @@
    },
    "disclosures": [
     "Both counters rest on the same wheel-speed scale, so this checks logging completeness, not distance accuracy; a shared scale offset cannot be detected.",
-    "The interpolation rule was changed (Rev 2.1) after a smoke run had been seen; the verdict is the same under both rules.",
-    "Jump-excluded drives: 17 (tool) versus 7 (independent reproduction); n 418 versus 420; available 584 versus 586: the verdict is the same under both counts; the difference is documented, not resolved.",
+    "The earlier note used the M752 window rule; it is replaced by the revised rule P (a jump counts only between the last row at or before the drive start and the first row at or after its end).",
+    "The 17 vs 7 jump-excluded drives come from extra edge rows in the M752 tool's window. Under the revised rule P, 4 drives excluded by the tool rule are kept; relative to the audit-like rule B3, P keeps 2 it excludes and excludes 6 it keeps (bracketing rows more than 35 s from a drive end). A 6-drive availability difference against the M752 audit is not resolved.",
+    "Jump-excluded drives under the revised rule: 13; drives with a cloud odometer: 588 of 717.",
     "Availability is selected by month and by drive length (counts in the payload); a selection effect on the aggregate is not excluded.",
-    "The cloud odometer stream has 17 negative steps and 17 level excursions (largest 101.35 km); drives with a jump near the drive are excluded.",
+    "The cloud odometer stream has 17 negative steps and 17 level excursions (largest 101.35 km); the rule can miss an excursion that starts before the first endpoint row, which is why the sensitivity with those drives dropped (22 strict, 31 wide) is shown.",
     "Both interpolation variants (interpolated and bracketed endpoints) give a positive difference, so the parked-edge model of the design is not confirmed.",
     "The end-of-record anchor is one point (n = 1), one-sided and not a known answer.",
     "Cause wording: consistent with logger edge losses (a hypothesis); per-sample speed quantisation in the app integral is an untested alternative; the positive sign argues against a parked-edge interpolation artefact.",
