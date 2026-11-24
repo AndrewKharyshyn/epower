@@ -1,0 +1,26 @@
+{
+ "milestone": "M768",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M768_spec.md Rev 1",
+ "decision": "revise, all rulings adopted in Rev 2 section 7",
+ "rulings": [
+  "R1 legitimate own spec; departs from the M757 F3 condition; changes no M757 verdict; does not unlock display",
+  "R2 G0 sums confirmed; three classes primary, five exploratory; Q3 and Q5 class contrasts expected not testable",
+  "R3 continuous slope on the 3,436-step basis is the estimable estimand for Q3, Q4 generator share and Q5",
+  "R4 Q1 split into charge (Q1a) and regeneration-classified charge (Q1b); wording 'battery charge power'",
+  "R5 Q2 exploratory only; threshold 100 kJ; ratio of sums; no comparison with regenDisplayV2",
+  "R6 consensus class is a selected-subset sensitivity; no errors-in-variables correction; misclassification per source",
+  "R7 R3 numeric: placebo same sign, interval excluding zero, at least 0.5 x primary => inconclusive; only confirmatory contrast Q1 downhill minus flat; MDD alpha 0.05 power 0.8; speed-standardised contrasts beside raw",
+  "R8 R5 also covers Q2 above 1 and any R1 reconciliation failure",
+  "R9 sign convention not a blocker (M265); tool states it"
+ ],
+ "conditions": [
+  "C1 per-drive check of the charge integral against master gross_charge_kwh and charge_pure_regen_kwh with a tolerance stated before the run",
+  "C2 no M726 file touched; cohort strata no thermal contrast reading",
+  "C3 privacy: no per-step or per-drive output; AW3D30 internal use only",
+  "C4 Sonnet blind audit; Opus plus Andrii sign-off before any display or article use",
+  "C5 Rev 2 to the Director before any code"
+ ],
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session from the Director's returned brief"
+}
