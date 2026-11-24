@@ -99,6 +99,44 @@ try:
     assert json.load(open(os.path.join(r, "st.json")))["tools"]["coverage"]["status"] == "skipped_locked"
     os.remove(os.path.join(store, ".cloud_stage.lock"))
 
+    # audit M746: skipped_up_to_date twice in a row; --only keeps the other tools' records; upstream failure; stale lock takeover; failed promotion keeps the previous outputs
+    r = mk_root("k")
+    configure(r, planted(r, [("coverage", "ok", [], False), ("tyre", "ok", ["coverage"], False)]))
+    args = ["--timeout", "5", "--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")]
+    C.main(args)
+    C.main(args)
+    C.main(args)
+    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    assert st["coverage"]["status"] == "skipped_up_to_date" and st["tyre"]["status"] == "skipped_up_to_date" and st["coverage"]["outputs"]
+    C.main(args + ["--only", "tyre"])
+    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    assert st["coverage"]["status"] == "skipped_up_to_date" and st["coverage"]["fingerprint"]
+    r = mk_root("m")
+    configure(r, planted(r, [("coverage", "fail", [], False), ("tyre", "ok", ["coverage"], False)]))
+    C.main(["--timeout", "5", "--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
+    st = json.load(open(os.path.join(r, "st.json")))["tools"]
+    assert st["coverage"]["status"] == "failed" and st["tyre"]["status"] == "skipped_upstream_failed"
+    lk = os.path.join(store, ".cloud_stage.lock")
+    open(lk, "w").write("1")
+    old = os.path.getmtime(lk) - 7 * 3600
+    os.utime(lk, (old, old))
+    r = mk_root("n")
+    configure(r, planted(r, [("coverage", "ok", [], False)]))
+    C.main(["--out-root", os.path.join(r, "ret"), "--status", os.path.join(r, "st.json")])
+    assert json.load(open(os.path.join(r, "st.json")))["tools"]["coverage"]["status"] == "ok" and not os.path.exists(lk)
+    # promotion keeps the old destination when copying fails
+    d0 = os.path.join(work, "dest")
+    os.makedirs(d0)
+    open(os.path.join(d0, "o.txt"), "w").write("old")
+    sc = os.path.join(work, "sc")
+    os.makedirs(sc)
+    try:
+        C.promote(sc, d0, ["o.txt"])
+        raise SystemExit("promotion of a missing output must fail")
+    except OSError:
+        pass
+    assert open(os.path.join(d0, "o.txt")).read() == "old"
+
     # (i) status vocabulary has no 'gap' wording; (real tool list) order and pinned flags
     assert not any("gap" in x for x in C.STATUSES)
     import importlib

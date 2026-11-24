@@ -119,13 +119,51 @@ def tool_cmd(tid, script, scratch, master_md5, store, cov_dir):
     if tid == "tyre":
         return base + ["--store", store, "--out-dir", scratch, "--coverage", os.path.join(cov_dir, "M729_cloud_coverage.csv")]
     if tid == "grade_shares":
-        return base + ["--run", "--retest", "--store", store, "--out-dir", scratch]
+        return base + ["--run", "--retest", "--store", store, "--raw-dir", os.environ.get("XT_RAW_DIR") or P("raw"), "--out-dir", scratch]
     return base
 
 
 def dem_complete():
     d = os.environ.get("XT_DEM_DIR") or ""
     return bool(d) and all(os.path.isdir(os.path.join(d, s)) for s in ("fabdem", "nasadem", "aw3d30", "glo30"))
+
+
+LOCK_MAX_AGE_S = 6 * 3600
+
+
+def acquire_lock(path):
+    """Atomic lock (O_EXCL). A lock older than LOCK_MAX_AGE_S is stale (a killed stage) and is taken over. Returns True when held."""
+    for _ in range(2):
+        try:
+            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(fd, ("%d %d" % (os.getpid(), int(time.time()))).encode())
+            os.close(fd)
+            return True
+        except FileExistsError:
+            try:
+                if time.time() - os.path.getmtime(path) > LOCK_MAX_AGE_S:
+                    os.remove(path)
+                    continue
+            except OSError:
+                pass
+            return False
+    return False
+
+
+def promote(scratch, dest, outs):
+    """Copy the outputs into <dest>.tmp (same filesystem as dest), then swap the directory in; a failure leaves the previous dest intact."""
+    tmp = dest + ".tmp"
+    shutil.rmtree(tmp, ignore_errors=True)
+    os.makedirs(tmp)
+    for o in outs:
+        shutil.copy2(os.path.join(scratch, o), os.path.join(tmp, o))
+    old = dest + ".old"
+    shutil.rmtree(old, ignore_errors=True)
+    if os.path.isdir(dest):
+        os.rename(dest, old)
+    os.rename(tmp, dest)
+    shutil.rmtree(old, ignore_errors=True)
+    return {o: sha256_file(os.path.join(dest, o)) for o in outs}
 
 
 def main(argv=None):
@@ -139,44 +177,55 @@ def main(argv=None):
     status = {"stage": "cloud_auxiliary", "spec": "analyses/M746_spec.md Rev 5", "verified": False, "startedAt": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "tools": {}}
     code = 0
     lock = None
+    prev = {}
+    if os.path.exists(a.status):
+        try:
+            d_prev = json.load(open(a.status, encoding="utf-8"))
+            prev = d_prev.get("tools", {})
+            if prev and all(v.get("status") == "skipped_locked" for v in prev.values()):
+                prev = d_prev.get("previousTools") or {}
+        except Exception:
+            prev = {}
     try:
         store = store_dir()
         manifest = os.path.join(store, "manifest.json")
-        has_store = os.path.exists(manifest)
+        exports = os.environ.get("XT_CLOUD_EXPORTS") or ""
+        has_exports = bool(exports and glob.glob(os.path.join(exports, "*.zip")))
         master = P("drive_master.csv")
         master_md5 = md5_file(master)
         status["masterMd5"] = master_md5
-        store_sha = sha256_file(manifest) if has_store else None
-        status["storeManifestSha256"] = store_sha
-        if has_store:
+        if os.path.isdir(store) or has_exports:
+            os.makedirs(store, exist_ok=True)
             lock = os.path.join(store, ".cloud_stage.lock")
-            if os.path.exists(lock):
+            if not acquire_lock(lock):
+                lock = None
                 for tid, *_ in TOOLS:
                     status["tools"][tid] = {"status": "skipped_locked"}
-                lock = None
                 raise StopIteration
-            open(lock, "w").write(str(os.getpid()))
-        prev = {}
-        if os.path.exists(a.status):
-            try:
-                prev = json.load(open(a.status, encoding="utf-8")).get("tools", {})
-            except Exception:
-                prev = {}
         env = dict(os.environ, PYTHONUTF8="1")
         before_all = hash_protected()
         cov_dir = None
         failed_ids = set()
         breach = False
+        store_sha = sha_or_none(manifest)
         for tid, script, needs, outs, pinned in TOOLS:
             rec = {"status": None}
             status["tools"][tid] = rec
             if only and tid not in only:
-                rec["status"] = "skipped_opt_out"
+                old = prev.get(tid)
+                status["tools"][tid] = dict(old) if old else {"status": "skipped_opt_out"}      # an --only run keeps the other tools' records (fingerprints)
+                if tid == "coverage" and old and old.get("promotedTo"):
+                    cov_dir = P(old["promotedTo"])
                 continue
             if breach:
                 rec["status"] = "integrity_breach"
                 continue
-            if not has_store:
+            has_store = os.path.exists(manifest)
+            if tid == "import":
+                if not has_exports:
+                    rec["status"] = "skipped_no_new_input"
+                    continue
+            elif not has_store:
                 rec["status"] = "skipped_no_store"
                 continue
             if pinned:
@@ -185,26 +234,22 @@ def main(argv=None):
             if any(n in failed_ids for n in needs):
                 rec["status"] = "skipped_upstream_failed"
                 continue
-            if tid == "import" and not (os.environ.get("XT_CLOUD_EXPORTS") and glob.glob(os.path.join(os.environ["XT_CLOUD_EXPORTS"], "*.zip"))):
-                rec["status"] = "skipped_no_new_input"
-                continue
             if tid == "grade_shares" and not dem_complete():
                 rec["status"] = "skipped_no_dem"
                 continue
             extra = {"dem": sha_or_none(P("analyses", "M762_dem_manifest.json")) if tid == "grade_shares" else None,
-                     "cross": sha_or_none(P("tools", "dem_crosscheck.py")) if tid == "grade_shares" else None}
+                     "cross": sha_or_none(P("tools", "dem_crosscheck.py")) if tid == "grade_shares" else None,
+                     "coverage": (sha_or_none(os.path.join(cov_dir, "M729_cloud_coverage.csv")) if cov_dir else None) if tid == "tyre" else None}
             fp = inputs_fingerprint(tid, script, master_md5, store_sha, extra)
             dest = os.path.join(a.out_root, "%s_%s" % (tid, master_md5[:8]))
             p_rec = prev.get(tid) or {}
             if tid != "import" and p_rec.get("fingerprint") == fp and outs and all(os.path.exists(os.path.join(dest, o)) and sha256_file(os.path.join(dest, o)) == (p_rec.get("outputs") or {}).get(o) for o in outs):
-                rec.update(status="skipped_up_to_date", fingerprint=fp)
+                rec.update(status="skipped_up_to_date", fingerprint=fp, outputs=p_rec.get("outputs"), promotedTo=p_rec.get("promotedTo"))
                 if tid == "coverage":
                     cov_dir = dest
                 continue
             scratch = tempfile.mkdtemp(prefix="cloud_%s_" % tid)
             cmd = tool_cmd(tid, script, scratch, master_md5, store, cov_dir or os.path.join(a.out_root, "coverage_%s" % master_md5[:8]))
-            if tid == "tyre" and cov_dir is None:
-                cmd[-1] = os.path.join(a.out_root, "coverage_%s" % master_md5[:8], "M729_cloud_coverage.csv")
             rc, so, se, secs, timed_out = run_cmd(cmd, a.timeout, env)
             rec.update(seconds=secs, exit_code=rc)
             after = hash_protected()
@@ -221,18 +266,18 @@ def main(argv=None):
             elif rc != 0 or any(not os.path.exists(os.path.join(scratch, o)) for o in outs):
                 rec.update(status="failed", stderr=(se or so)[:300])
                 failed_ids.add(tid)
+            elif tid == "import":
+                rec["status"] = "ok"
+                store_sha = sha_or_none(manifest)                                              # downstream fingerprints use the store as imported
             else:
-                if tid != "import":
-                    os.makedirs(dest, exist_ok=True)
-                    shas = {}
-                    for o in outs:
-                        os.replace(os.path.join(scratch, o), os.path.join(dest, o))
-                        shas[o] = sha256_file(os.path.join(dest, o))
+                try:
+                    shas = promote(scratch, dest, outs)
                     rec.update(status="ok", fingerprint=fp, outputs=shas, promotedTo=os.path.relpath(dest, ROOT).replace("\\", "/"))
                     if tid == "coverage":
                         cov_dir = dest
-                else:
-                    rec["status"] = "ok"
+                except OSError as e:
+                    rec.update(status="failed", stderr="promotion failed: %s" % str(e)[:200])
+                    failed_ids.add(tid)
             shutil.rmtree(scratch, ignore_errors=True)
         status["integrity"] = {"protectedUnchanged": not breach}
     except StopIteration:
@@ -246,6 +291,8 @@ def main(argv=None):
             except OSError:
                 pass
         status["finishedAt"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+        if any(v.get("status") == "skipped_locked" for v in status["tools"].values()):
+            status["previousTools"] = prev                                                      # a locked run keeps the last real records for the next run
         os.makedirs(os.path.dirname(a.status), exist_ok=True)
         with open(a.status, "w", encoding="utf-8", newline="\n") as f:
             json.dump(status, f, indent=1)

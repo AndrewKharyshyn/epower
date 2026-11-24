@@ -275,7 +275,7 @@ def main(argv=None):
                "deviations_from_spec": ["the speed mix of the covered versus the uncovered kilometres is a DRIVE-LEVEL approximation (the master's time-weighted urban and highway fractions weighted by drive kilometres), because the step windows of the uncovered parts are not available"],
                "seconds": round(time.time() - t_start, 1)}
         if a.retest:
-            res.update({"milestone": "M746 retest of M767", "spec": "analyses/M746_spec.md Rev 5 and analyses/M767_retest_addendum.md", "retest": True, "registeredMd5": dsg.PINNED_MD5, "registeredDrives": REGISTERED_N,
+            res.update({"milestone": "M746 retest of M767", "spec": "analyses/M746_spec.md Rev 5 and analyses/M767_retest_addendum.md", "retest": True, "control_R1_scope": "the registered 717 drives only (nested control, tolerance 0); the added drives are not compared to M762", "registeredMd5": dsg.PINNED_MD5, "registeredDrives": REGISTERED_N,
                         "drives": len(canonical), "nestedControl": nested,
                         "retestLabel": "retest on %d drives (master MD5 %s...)" % (len(canonical), master_md5[:8]),
                         "scopeNote": "descriptive monitoring only: a repeated look at the data, no confirmatory reading; the registered result is not replaced; M726: not read by the winter session"})

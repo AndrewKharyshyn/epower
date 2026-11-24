@@ -83,4 +83,24 @@ assert abs(mix["all_logged"]["urban_pct"] + mix["all_logged"]["highway_pct"] + m
 assert J.scan_privacy({"by_month": {"2026-05": {"drives": 38}}, "E1": {"rows": [{"class": "-1 to 1 pp", "steps": 7837}]}}) == []
 assert J.scan_privacy({"f": "2026-10-17_23-13-01.csv"}) and J.scan_privacy({"v": 48104.8}) and J.scan_privacy({"2026-10-17": 3})
 assert S.CELL_FLOORS == {"steps": 20, "days": 5} and S.FLOORS == {"days": 30, "km": 100.0, "steps": 1000} and S.CLASS_NAMES[2] == "-1 to 1 pp"
+
+# M746 retest mode (audit): the registered set must be the first 717 canonical drives; control R1 fails (Stop) on a different step table; the retest result path never equals analyses/
+import hashlib
+try:
+    S.registered_files(["f%d" % i for i in range(700)])
+    raise SystemExit("a short or foreign file list must stop")
+except S.Stop:
+    pass
+planted = pd.DataFrame({"first": [False] * 4, "last": [False] * 4, "vmin_kmh": [30.0] * 4, "gF": [0.0, 0.5, 2.0, -2.0], "gN": [0.0] * 4, "gA": [0.0] * 4, "gG": [0.0] * 4, "dh_num": [1.0] * 4, "dh_glo": [1.0] * 4})
+m762_fake = {"C1_step_stages": {"all_steps_before_exclusions": 99}, "C6_class_shares": {"F": {"step_share": [0.0] * 5}}, "C6_misclassification_vs_fabdem": {"N": 0.0, "A": 0.0}}
+try:
+    S.control_r1(planted, m762_fake)
+    raise SystemExit("a different step table must fail control R1")
+except S.Stop:
+    pass
+st4 = S.step_sets(planted)[0]
+assert st4["after_fabdem_grade_8pp_exclusion"] == 4 and S.RETEST_RESULT == "grade_shares_retest.json" and S.REGISTERED_N == 717
+src = open(os.path.join(ROOT, "tools", "dem_grade_shares.py"), encoding="utf-8").read()
+assert src.index("master pin failed") < src.index("json.dump(res") and src.count("json.dump(res") == 1        # registered mode: a pin stop returns before the only write
+assert "never writes into analyses" in src
 print("test_dem_grade_shares: OK")
