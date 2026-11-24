@@ -1,0 +1,18 @@
+{
+ "milestone": "M773",
+ "spec": "analyses/M773_spec.md Rev 2",
+ "auditor": "analytical-auditor (Sonnet, blind: claim and data paths only; the tool and the result were not read)",
+ "verdict": "revise (outlier-robust sensitivity; mean and placebo wording), then addressed",
+ "reproduced": {"eligible_drives": 445, "window_28d": {"drives": 116, "days": 37, "before": {"drives": 60, "days": 19}, "after": {"drives": 56, "days": 18}}, "primary_difference_kwh_per100km": 1.157, "ci95": [-0.876, 3.248], "mde": 2.946, "mean_before": 9.336,
+                "sensitivities": {"42d": "1.535 [0.021, 3.024], 84 + 98 drives on 30 + 31 days (author lower bound 0.09)", "14d_reduced_covariates": "1.580 (author 1.636), 73 drives, only 7 after-days", "placebo_minus_42d": "-3.043 [-6.027, -0.179] (author -3.08 [-5.98, 0.03]: the upper bound falls either side of zero)", "placebo_plus_42d": "0.779 (author 1.02; unexplained implementation difference)"},
+                "agreement": "the primary agrees to three decimals; the sensitivities and placebos differ by up to 0.24"},
+ "concerns": [
+  "the outcome ranges from -14.4 to 49.8 (SD 7.0); the high tail is short drives of 1.0 to 1.7 km; the unweighted fit is outlier sensitive: a robust sensitivity is needed (added after the audit: winsorised at the 2.5th and 97.5th percentiles within the window, +1.386 [-0.27, 3.25], MDE 2.54: same reading)",
+  "the spec text quoted a mean of 14.2 kWh per 100 km (all 645 channel drives); the 445 eligible drives average 12.10, so the half-MDE threshold is 0.042 (not 0.05); the result carries the note",
+  "one drive of 717 differs in the long-soak gap between a local-time and a UTC basis (a DST change); not checked whether it falls in a window",
+  "the 14-day window has only 7 after-days",
+  "the October guard (the +56 and +84 day centres at 28 days) was not checked by the auditor; its windows all end before 10 Oct",
+  "the 42-day lower bound (0.02 to 0.09) sits at zero and depends on the implementation: not a detection; one of several unpicked sensitivities"
+ ],
+ "language": "only 'not informative at this support' and 'not established'; never 'no effect' or 'rolling resistance measured'"
+}
