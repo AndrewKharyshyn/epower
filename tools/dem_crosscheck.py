@@ -291,7 +291,7 @@ def hat_block(g_f, g_n, g_a, days, W=None, nb=NB_DEFAULT):
     for key, p, b in (("F", pf, bf), ("N", pn, bn), ("A", pa, ba)):
         s = float(math.sqrt(p)) if p > 0 else None
         sd = np.where(b > 0, np.sqrt(np.where(b > 0, b, 1.0)), np.nan)
-        out["s_" + key] = {"var_pp2": float(p), "sd_pp": s, "ci95_pp": pct_ci(sd), "share_draws_nonpositive": float(np.mean(b <= 0))}
+        out["s_" + key] = {"var_pp2": float(p), "sd_pp": s, "ci95_pp": pct_ci(sd), "se_pp": float(np.nanstd(sd)), "mde_pp": float(2.8 * np.nanstd(sd)), "share_draws_nonpositive": float(np.mean(b <= 0))}
     out["lambda_F"] = float(1.0 - pf / pv_f) if pv_f > 0 else None
     return out
 
@@ -625,7 +625,9 @@ def analyse(df, nb, glo_checks):
         ud = len(set(days))
         km = float(d["d_m"].sum() / 1000.0)
         n2 = int((100.0 * d["dh"].abs() / d["d_m"] > 2.0).sum())
-        floors = {"days": ud, "km": km, "steps_above_2pp": n2, "met": bool(ud >= 30 and km >= 100.0 and n2 >= 1000)}
+        floors = {"days": ud, "km": km, "steps_total": int(len(d)), "steps_above_2pp": n2, "met": bool(ud >= 30 and km >= 100.0 and n2 >= 1000),
+                  "met_literal_spec_floors": bool(ud >= 30 and km >= 100.0 and len(d) >= 1000),
+                  "note": "'met' applies the M757 criterion (steps above 2 pp), stricter than the M762 spec 8.1 R2 floors (days, km and TOTAL steps); both are reported, the stricter one governs the provisional label and is not relaxed after the result (Director)"}
         support[name] = floors
         if len(d) < 50:
             continue
@@ -707,6 +709,19 @@ def analyse(df, nb, glo_checks):
     return res
 
 
+DEVIATIONS = [
+    "the bare-earth stratum is evaluated and reported, but its support floor uses steps above 2 pp (784 against 1,000, 'met' false); the spec 8.1 R2 floors (days, km, total steps: 6,950 steps, 131 days, 4,130 km) are met and reported as met_literal_spec_floors; the stricter reading governs the provisional label and is not relaxed after the result (spec 10.8 a)",
+    "GLO-30 EDM and FLM value meanings could not be read from the product handbook (host unreachable); the unflagged code is the dominant value of each mask (EDM 1, FLM 2, share 0.9655 each) and any other value counts as flagged (spec 13, 10.8 b)",
+    "AW3D30 has no mask layer (OpenTopography export); the common-support step set uses the NASADEM NUM mask only for that purpose (spec 9.2, 10.8 c)",
+    "AW3D30 provenance recorded from the portal pages (spec 11, 10.8 d); the download date is the file timestamp",
+    "the outlier screen is a sensitivity (spec 10.4, 10.8 e); the primary set is the unscreened common support",
+    "the AW3D30 value histogram was inspected after section 9 was written (spec 10.8 f)",
+    "the NASADEM NUM mask removed water only in this area (codes 0 and 3 to 8 occur); no PRISM, GDEM or interpolation codes were present, so the guard against AW3D30-lineage fills in NASADEM was not exercised",
+    "C4 (grade coefficient per source, 2SLS) and C6 (class shares, misclassification) are descriptive; their independent reproduction is recorded in analyses/M762_audit.json (not part of the first audit round)",
+    "negative F0, F1, F2 coefficients, where they occur, are nuisance terms of the energy balance and are never read as road-load estimates (Director)",
+]
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest", action="store_true")
@@ -762,10 +777,12 @@ def main(argv=None):
             import shutil
             shutil.rmtree(tmp, ignore_errors=True)
         res = analyse(df, a.nb, glo_checks=True)
-        res.update({"milestone": "M762", "spec": "analyses/M762_spec.md Rev 6", "masterMd5": dsg.PINNED_MD5, "m757_tool_sha256": sha256_file(os.path.join(HERE, "dem_step_grade.py")),
+        res.update({"milestone": "M762", "spec": "analyses/M762_spec.md Rev 7 (sections 9 to 13 amend 1 to 8)", "masterMd5": dsg.PINNED_MD5, "m757_tool_sha256": sha256_file(os.path.join(HERE, "dem_step_grade.py")),
                     "tool_sha256": sha256_file(os.path.abspath(__file__)), "manifest_sha256": sha256_file(man_path), "seed": SEED, "nBoot": a.nb, "C0_codings": c0,
                     "C0_coverage_fixes": {k: {"with_value": v[0], "tried": v[1], "share": (v[0] / v[1] if v[1] else None)} for k, v in fixes.items() if v[1]},
-                    "privacy": "aggregates only; no coordinates, tracks or per-drive geometry"})
+                    "privacy": "aggregates only; no coordinates, tracks or per-drive geometry",
+                    "interpolation": "bilinear at the fix position in FABDEM, NASADEM, AW3D30 and GLO-30; mask values are taken from the nearest node (NASADEM NUM, GLO-30 EDM and FLM)",
+                    "deviations_from_spec": DEVIATIONS})
         if dsg.mc.md5(a.master) != dsg.PINNED_MD5:
             print("dem_crosscheck: master changed during the run")
             return 1
