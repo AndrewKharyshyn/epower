@@ -1,3 +1,14 @@
+## M763 (2026-11-24): M762 spec Rev 3 to Rev 5 (sources obtained, Director rulings, AW3D30 provenance): spec only
+
+**Rationale.** Spec-only amendments to analyses/M762_spec.md before any manifest, code or result: Rev 3 (FABDEM, NASADEM_HGT with .num, AW3D30 mosaic from OpenTopography without mask; ASTER and GLO-30 not obtained), Rev 4 (Director review analyses/M762_director_review_rev3.json: revise, all rulings adopted: assumption-conditional three-cornered hat with both bias directions stated; the omitted untouched stratum is a relaxation so only 'not adequate' can be final and 'adequate' or 'marginal' is provisional; provenance as a precondition; quantisation of both whole-metre corners with a planted-rounding test; the outlier screen is a sensitivity with the worse verdict holding; preferred path: GLO-30 with edit and filling masks if Andrii approves), Rev 5 note (AW3D30 provenance: OpenTopography collection OT.112016.4326.2, V3.2 Jan 2021, DOI 10.5069/G94M92HB, no mask offered, licence not provided on the portal). Downloaded by Andrii outside the repository: NASADEM_HGT zips (17 needed tiles intact, CRC passed, .hgt 3601x3601 int16 and .num present), AW3D30 mosaic (tar sha256 7703001465421fccf5735d2119e03a63109622478aa3c6d1a332747bf453f38b). ASTER download attempts were unsuccessful and ASTER is not used. No data used yet; master MD5 d514d6009d6d9a0a168ad4fb09b9bb98 unchanged; no payload, dashboard or figure change.
+
+**State.** `drive_master.csv` 717 rows, MD5 `d514d6009d6d9a0a168ad4fb09b9bb98`.
+
+**Delta flags.** none.
+
+**Files.** `analyses/M762_spec.md`, `analyses/M762_director_review_rev3.json`.
+
+
 ## M762 (2026-11-24): independent-DEM cross-check of the FABDEM step grade: spec only (Rev 2 after Director review; no download, code or result yet)
 
 **Rationale.** Owner: yes, draft the spec; any auxiliary DEM channel may serve as an independent source. Replaces the logged-altitude validation that M757 could not run (R2, R3, R4 not testable; negative control failed; those verdicts are NOT relaxed). Spec analyses/M762_spec.md Rev 2: three-cornered hat on FABDEM plus two independent products (NASADEM or SRTM, AW3D30; GLO-30 is never a corner because FABDEM derives from it), void masks and common support, frozen adequacy thresholds 0.67 and 1.33 pp on the inter-product step-grade error with the implied misclassification stated before any result (about 21 % of steps change their 2 pp class at 0.67 pp: adequacy means class shares, not per-step labels), 2SLS descriptive only, per-source download approval by Andrii (login-gated data downloaded by him). Director review analyses/M762_director_review_rev1.json: revise, R1-R9 adopted. Spec only: master MD5 d514d6009d6d9a0a168ad4fb09b9bb98 unchanged; nothing downloaded; no payload, dashboard or published figure changes.
