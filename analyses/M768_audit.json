@@ -23,5 +23,30 @@
  "not_covered": [
   "Q2 exploratory ratios, Q4 SOC and net battery energy, the consensus-class and per-source blocks were not reproduced in this round"
  ],
- "recorded_by": "main session from the auditor's returned brief"
+ "recorded_by": "main session from the auditor's returned brief",
+ "round2": {
+  "auditor": "analytical-auditor (blind, Sonnet), second narrow task",
+  "verdict": "accept",
+  "reproduced": {
+   "consensus_class": "n 8,690; Q1a 11.863 / 7.841 / 6.269 kWh per 100 km; downhill minus flat +4.022 [3.115, 4.727] (claimed [3.145, 4.740]); uphill minus flat -1.572 [-2.526, -0.782] (claimed [-2.514, -0.802]): sign and interval agree, so the consensus check of the R3 reading holds",
+   "speed_standardised": "+3.251 [2.799, 3.649] with the band km-shares held fixed at the overall values (resampling the shares gives [2.68, 3.72]); the result states the fixed-share convention",
+   "per_source_downhill_minus_flat": {
+    "NASADEM": "+3.409 [2.667, 3.958] (claimed [2.723, 3.951])",
+    "AW3D30": "+3.559 [2.787, 4.167]",
+    "GLO30": "+3.628 [2.920, 4.228]"
+   },
+   "three_class_misclassification": {
+    "NASADEM": 13.4,
+    "AW3D30": 12.5,
+    "GLO30": 8.0
+   },
+   "Q4": "net battery energy 5.750 / 1.479 / -3.040 kWh per 100 km (charge minus discharge); SOC change 286.19 / 66.27 / -176.69 pp per 100 km (raw SOC channel, interpolated at the window ends, without the pipeline spike filter); share of the charge energy with engine speed above 400 rpm (the master's engine-on threshold) 41.34 / 69.96 / 75.76 %"
+  },
+  "disagreements": [
+   "point estimates agree to the third decimal; interval ends differ by up to 0.03 (consensus), 0.056 on the NASADEM lower end: rounding or bootstrap-stream differences"
+  ],
+  "not_covered": [
+   "Q2 exploratory ratios; fuel class means (below the floors, counts only)"
+  ]
+ }
 }
