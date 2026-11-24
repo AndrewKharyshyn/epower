@@ -503,6 +503,19 @@
    "inputFiles": [
     "analyses/M756_rerun/M751_heatsoak_gap_sensitivity.json"
    ]
+  },
+  "gradeClassShares": {
+   "producer": "tools/grade_shares_payload.py",
+   "producerStages": [
+    "grade_shares_payload"
+   ],
+   "readsRaw": false,
+   "readsRawManifest": false,
+   "rawNote": "no raw read; copies the registered grade-class share result (M767, carried) pinned by file sha256 in tools/grade_shares_payload.py",
+   "configSections": [],
+   "inputFiles": [
+    "analyses/M767_grade_class_shares.json"
+   ]
   }
  }
 }

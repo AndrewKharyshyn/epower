@@ -71246,6 +71246,54 @@
      "analyses/M756_rerun/M751_heatsoak_gap_sensitivity.json": "c742c4caa41304bc7d29b10d68445b55"
     }
    }
+  },
+  "gradeClassShares": {
+   "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-24T14:28:54.018127+00:00",
+   "pipelineVersion": 6,
+   "computationStatus": "computed",
+   "computationStatusNote": "M767: copied by tools/grade_shares_payload.py from the registered grade-class share result (carried; spec analyses/M767_spec.md Rev 2)",
+   "includedInReleaseAt": "2026-11-24T14:28:54.018127+00:00",
+   "computedAt": "2026-11-24T14:28:53.402593+00:00",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M767"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "inputBasis": {
+    "nDrives": 717,
+    "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "declaredIdentity": {
+    "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M767_grade_class_shares.json": "da28715254178a84d9e275a5eb2654f5"
+    }
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+      "generatedAt": "2026-11-24T14:28:54.018127+00:00"
+     },
+     "supersededAtMilestone": "M767",
+     "supersededAt": "2026-11-24T14:28:55.268621+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "upstreamHashes": {
+    "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M767_grade_class_shares.json": "da28715254178a84d9e275a5eb2654f5"
+    }
+   }
   }
  },
  "ambientTable": {
@@ -479868,6 +479916,466 @@
    "audit": "The blind reproduction reproduced these cells within construction differences, not leaf-exactly (6-12 h A-C 6.52 vs 7.19 pp; tau B 9.79 vs 9.53 h; 12-24 h point estimates differ). The tau fit conditions on the outcome (residual excess above 0.5 C).",
    "days": "Day counts are the calendar days of the arrival clusters in the registered result.",
    "unsupported": "not estimable at this support"
+  }
+ },
+ "gradeClassShares": {
+  "basis": "computed on the registered corpus of 717 drives (master MD5 d514d600...; M762 DEM manifest sha256 c115d1c3...); later drives are not included",
+  "registeredMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+  "corpusDrives": 717,
+  "sourceFile": "analyses/M767_grade_class_shares.json",
+  "sourceSha256": "b86d3aacbcb12b59d718180d2f086dd8aa605c5d8d254426824d591849a72052",
+  "resultToolSha256": "1d86c907df4e6efae0889fb2332fadff300f24d9d22141178bf147d3099e22d9",
+  "seed": 42,
+  "nBoot": 4000,
+  "status": "carried block, auxiliary; not an article figure; not refreshed by ingestion",
+  "staleness": {
+   "carried": true,
+   "corpusDrives": 717,
+   "refreshedAt": null
+  },
+  "title": "Grade-class shares of the covered driving (estimated DEM step grade, cloud-step scale)",
+  "stepSet": {
+   "steps": 11088,
+   "days": 134,
+   "km": 6373.2
+  },
+  "classes": [
+   {
+    "label": "below -3 pp",
+    "plainLabel": "Steep downhill",
+    "plainRange": "road falls more than 3 m per 100 m",
+    "steps": 374,
+    "days": 49,
+    "drives": 93,
+    "km": 193.0,
+    "intervalShown": true,
+    "stepSharePct": {
+     "est": 3.37,
+     "ci95": [
+      2.68,
+      4.08
+     ],
+     "raw": {
+      "est": 3.373015873015873,
+      "ci95": [
+       2.6773727859359253,
+       4.076442512305349
+      ]
+     }
+    },
+    "kmSharePct": {
+     "est": 3.03,
+     "ci95": [
+      2.4,
+      3.66
+     ],
+     "raw": {
+      "est": 3.027648668224669,
+      "ci95": [
+       2.4042625510638844,
+       3.661597273509709
+      ]
+     }
+    },
+    "products": {
+     "FABDEM": 3.37,
+     "NASADEM": 3.61,
+     "AW3D30": 3.63,
+     "GLO-30": 3.45
+    },
+    "productsRaw": {
+     "FABDEM": 3.373015873015873,
+     "NASADEM": 3.6075036075036073,
+     "AW3D30": 3.6345598845598848,
+     "GLO-30": 3.454184704184704
+    },
+    "bracketMinPct": 3.37,
+    "bracketMaxPct": 3.63,
+    "sourceDependent": false
+   },
+   {
+    "label": "-3 to -1 pp",
+    "plainLabel": "Gentle downhill",
+    "plainRange": "falls 1 to 3 m per 100 m",
+    "steps": 1273,
+    "days": 88,
+    "drives": 195,
+    "km": 720.4,
+    "intervalShown": true,
+    "stepSharePct": {
+     "est": 11.48,
+     "ci95": [
+      10.06,
+      12.85
+     ],
+     "raw": {
+      "est": 11.480880230880231,
+      "ci95": [
+       10.060038264168204,
+       12.85330363513692
+      ]
+     }
+    },
+    "kmSharePct": {
+     "est": 11.3,
+     "ci95": [
+      9.94,
+      12.68
+     ],
+     "raw": {
+      "est": 11.303259733232988,
+      "ci95": [
+       9.9401818233082,
+       12.682668404015956
+      ]
+     }
+    },
+    "products": {
+     "FABDEM": 11.48,
+     "NASADEM": 13.66,
+     "AW3D30": 13.2,
+     "GLO-30": 12.71
+    },
+    "productsRaw": {
+     "FABDEM": 11.480880230880231,
+     "NASADEM": 13.663419913419913,
+     "AW3D30": 13.203463203463203,
+     "GLO-30": 12.707431457431456
+    },
+    "bracketMinPct": 11.48,
+    "bracketMaxPct": 13.66,
+    "sourceDependent": true
+   },
+   {
+    "label": "-1 to 1 pp",
+    "plainLabel": "Level",
+    "plainRange": "within 1 m per 100 m",
+    "steps": 7837,
+    "days": 134,
+    "drives": 466,
+    "km": 4565.2,
+    "intervalShown": true,
+    "stepSharePct": {
+     "est": 70.68,
+     "ci95": [
+      67.22,
+      74.25
+     ],
+     "raw": {
+      "est": 70.68001443001442,
+      "ci95": [
+       67.21987677934142,
+       74.25339690342561
+      ]
+     }
+    },
+    "kmSharePct": {
+     "est": 71.63,
+     "ci95": [
+      68.13,
+      75.01
+     ],
+     "raw": {
+      "est": 71.63190574011156,
+      "ci95": [
+       68.13193611051874,
+       75.01232247754079
+      ]
+     }
+    },
+    "products": {
+     "FABDEM": 70.68,
+     "NASADEM": 65.41,
+     "AW3D30": 66.42,
+     "GLO-30": 67.63
+    },
+    "productsRaw": {
+     "FABDEM": 70.68001443001442,
+     "NASADEM": 65.41305916305916,
+     "AW3D30": 66.42316017316018,
+     "GLO-30": 67.63167388167388
+    },
+    "bracketMinPct": 65.41,
+    "bracketMaxPct": 70.68,
+    "sourceDependent": true
+   },
+   {
+    "label": "1 to 3 pp",
+    "plainLabel": "Gentle uphill",
+    "plainRange": "rises 1 to 3 m per 100 m",
+    "steps": 1234,
+    "days": 90,
+    "drives": 201,
+    "km": 699.3,
+    "intervalShown": true,
+    "stepSharePct": {
+     "est": 11.13,
+     "ci95": [
+      9.86,
+      12.32
+     ],
+     "raw": {
+      "est": 11.129148629148629,
+      "ci95": [
+       9.856181609383972,
+       12.317489359298039
+      ]
+     }
+    },
+    "kmSharePct": {
+     "est": 10.97,
+     "ci95": [
+      9.77,
+      12.19
+     ],
+     "raw": {
+      "est": 10.972926405699281,
+      "ci95": [
+       9.771064105828774,
+       12.186718354121007
+      ]
+     }
+    },
+    "products": {
+     "FABDEM": 11.13,
+     "NASADEM": 13.59,
+     "AW3D30": 13.13,
+     "GLO-30": 12.72
+    },
+    "productsRaw": {
+     "FABDEM": 11.129148629148629,
+     "NASADEM": 13.59126984126984,
+     "AW3D30": 13.131313131313133,
+     "GLO-30": 12.716450216450218
+    },
+    "bracketMinPct": 11.13,
+    "bracketMaxPct": 13.59,
+    "sourceDependent": true
+   },
+   {
+    "label": "above 3 pp",
+    "plainLabel": "Steep uphill",
+    "plainRange": "rises more than 3 m per 100 m",
+    "steps": 370,
+    "days": 54,
+    "drives": 103,
+    "km": 195.3,
+    "intervalShown": true,
+    "stepSharePct": {
+     "est": 3.34,
+     "ci95": [
+      2.7,
+      3.96
+     ],
+     "raw": {
+      "est": 3.336940836940837,
+      "ci95": [
+       2.703396317521668,
+       3.957257018095601
+      ]
+     }
+    },
+    "kmSharePct": {
+     "est": 3.06,
+     "ci95": [
+      2.42,
+      3.69
+     ],
+     "raw": {
+      "est": 3.064259452731513,
+      "ci95": [
+       2.4247722752214886,
+       3.694858350614849
+      ]
+     }
+    },
+    "products": {
+     "FABDEM": 3.34,
+     "NASADEM": 3.72,
+     "AW3D30": 3.61,
+     "GLO-30": 3.49
+    },
+    "productsRaw": {
+     "FABDEM": 3.336940836940837,
+     "NASADEM": 3.7247474747474745,
+     "AW3D30": 3.6075036075036073,
+     "GLO-30": 3.49025974025974
+    },
+    "bracketMinPct": 3.34,
+    "bracketMaxPct": 3.72,
+    "sourceDependent": false
+   }
+  ],
+  "misclassificationPct": {
+   "NASADEM": 15.7,
+   "AW3D30": 14.6,
+   "GLO-30": 9.4
+  },
+  "coverage": {
+   "loggedKm": 11062.2,
+   "coveredKm": 6373.2,
+   "coveredSharePct": 57.6,
+   "drives": 717,
+   "drivesWithCoveredStep": 474,
+   "raw": {
+    "loggedKm": 11062.24,
+    "coveredKm": 6373.175790534543,
+    "coveredSharePct": 57.61198265933973
+   },
+   "byLength": {
+    "10 km and longer": {
+     "drives": 189,
+     "loggedKm": 9578.4,
+     "coveredKm": 5983.9,
+     "coveredSharePct": 62.5
+    },
+    "2 to 10 km": {
+     "drives": 344,
+     "loggedKm": 1261.5,
+     "coveredKm": 365.3,
+     "coveredSharePct": 29.0
+    },
+    "below 2 km": {
+     "drives": 184,
+     "loggedKm": 222.3,
+     "coveredKm": 24.0,
+     "coveredSharePct": 10.8
+    }
+   },
+   "byMonth": {
+    "2026-05": {
+     "drives": 38,
+     "loggedKm": 358.3,
+     "coveredKm": 205.7,
+     "coveredSharePct": 57.4
+    },
+    "2026-06": {
+     "drives": 63,
+     "loggedKm": 2594.9,
+     "coveredKm": 1572.0,
+     "coveredSharePct": 60.6
+    },
+    "2026-07": {
+     "drives": 93,
+     "loggedKm": 2870.3,
+     "coveredKm": 2218.5,
+     "coveredSharePct": 77.3
+    },
+    "2026-08": {
+     "drives": 111,
+     "loggedKm": 2130.5,
+     "coveredKm": 1118.0,
+     "coveredSharePct": 52.5
+    },
+    "2026-09": {
+     "drives": 186,
+     "loggedKm": 799.8,
+     "coveredKm": 335.5,
+     "coveredSharePct": 41.9
+    },
+    "2026-10": {
+     "drives": 115,
+     "loggedKm": 1707.0,
+     "coveredKm": 648.2,
+     "coveredSharePct": 38.0
+    },
+    "2026-11": {
+     "drives": 111,
+     "loggedKm": 601.4,
+     "coveredKm": 275.4,
+     "coveredSharePct": 45.8
+    }
+   },
+   "byCohort": {
+    "cold": {
+     "drives": 77,
+     "loggedKm": 555.2,
+     "coveredKm": 313.7,
+     "coveredSharePct": 56.5
+    },
+    "shoulder": {
+     "drives": 217,
+     "loggedKm": 2227.6,
+     "coveredKm": 846.9,
+     "coveredSharePct": 38.0
+    },
+    "warm": {
+     "drives": 423,
+     "loggedKm": 8279.4,
+     "coveredKm": 5212.6,
+     "coveredSharePct": 63.0
+    }
+   },
+   "speedMix": {
+    "all_logged": {
+     "urban_pct": 46.3,
+     "highway_pct": 23.8,
+     "mixed_pct": 29.9
+    },
+    "covered": {
+     "urban_pct": 40.8,
+     "highway_pct": 25.3,
+     "mixed_pct": 33.9
+    },
+    "uncovered_remainder": {
+     "urban_pct": 53.8,
+     "highway_pct": 21.8,
+     "mixed_pct": 24.4
+    }
+   }
+  },
+  "excludedAbove8pp": {
+   "steps": 27,
+   "belowMinus8": 15,
+   "above8": 12,
+   "sharePct": 0.24
+  },
+  "fabdemSensitivityStepSharePct": {
+   "pre_mask_set_11682_steps": [
+    3.54,
+    11.7,
+    70.04,
+    11.27,
+    3.45
+   ],
+   "no_glo_flag_set_11577_steps": [
+    3.42,
+    11.7,
+    70.23,
+    11.29,
+    3.36
+   ],
+   "primary_set_11088_steps": [
+    3.37,
+    11.48,
+    70.68,
+    11.13,
+    3.34
+   ]
+  },
+  "limits": [
+   "inter-product DEM error only, assumption-conditional (uncorrelated errors); common-mode error is not identified; not the error against the road grade",
+   "shares describe the COVERED driving (cloud-step scale, steps of 300 to 900 m at 8 km/h or more with a cloud position pair), not all driving",
+   "not per-step labels: the class of a step differs between FABDEM and NASADEM or AW3D30 on the shown share of steps",
+   "GLO-30 is FABDEM's base (not independent); FABDEM is the most central product, so random DEM noise moves share out of the -1 to 1 class and the bracket is not symmetric",
+   "the NASADEM mask removed water only; FABDEM's own building and forest removals are not masked; AW3D30 has no mask and its portal licence is 'not provided' (internal use only)",
+   "the M757 placebo failure stands; regeneration, apparent KE recovery, fuel and traction energy by grade class stay locked (M762 8.8 and R4)"
+  ],
+  "notes": {
+   "lead": "Estimated grade-class shares of the COVERED driving: the share of the 11,088 cloud-step stretches (300 to 900 m, at 8 km/h or more) in each class of the estimated FABDEM step grade, with day-clustered 95 % intervals. The step-count share is primary; the kilometre-weighted share is a secondary view of the same classes. Selection: consecutive cloud rows at most 120 s apart, no first or last step of a drive, speed 8 km/h or more, then the DEM masks.",
+   "coverage": "The covered stretches are 6373.2 km of the 11062.2 km logged (57.6 %): the shares describe where the covered driving takes place, not all driving. Coverage is selected by drive length (10 km and longer 62.5 %; 2 to 10 km 29.0 %; below 2 km 10.8 %) and varies by month (2026-05 57.4 %; 2026-06 60.6 %; 2026-07 77.3 %; 2026-08 52.5 %; 2026-09 41.9 %; 2026-10 38.0 %; 2026-11 45.8 %).",
+   "products": "Four elevation products classify the same stretches; the bracket is their minimum and maximum, not an interval. Classes where another product lies outside the FABDEM interval: -3 to -1 pp, -1 to 1 pp, 1 to 3 pp; stable across products: below -3 pp, above 3 pp. GLO-30 is FABDEM's base (not independent), and FABDEM is the most central product: random DEM noise moves share out of the -1 to 1 pp class, so the bracket is not symmetric.",
+   "labels": "Estimated DEM step grade (inter-product DEM error only, assumption-conditional, common-mode error not identified; not the error against the road grade). Not per-stretch labels: the class of a stretch differs between FABDEM and NASADEM on 15.7 % and AW3D30 on 14.6 % of the stretches.",
+   "excluded": "27 stretches (0.24 %) with an estimated grade beyond 8 pp (15 steeper than -8, 12 steeper than +8) are excluded as likely bridges, cuttings or position artefacts; the outer classes therefore cover 3 to 8 pp.",
+   "locked": "Regeneration, apparent KE recovery, fuel and traction energy by grade class are not shown here: they are a separate analysis (M768) that needs its own review before display.",
+   "plain": {
+    "what": "How much of the driving we can place on the map goes downhill, uphill or on the level. Each short stretch of road (300 to 900 m) is given an estimated slope from one public elevation map (FABDEM); the bar splits all 11,088 stretches into five slope groups.",
+    "slope": "Slope is metres of rise per 100 m driven (1 % = 1 m per 100 m). Gentle means 1 to 3 %, steep means more than 3 %.",
+    "coverage": "These stretches are 57.6 % of the logged kilometres (6373.2 of 11062.2 km; the logged kilometres include every drive, also those flagged as outliers). Longer drives are over-represented, so read the bar as the driving we could map, not all driving.",
+    "uncertainty": "The elevation maps are not exact. About 15.7 % of stretches fall in a different slope group on NASADEM than on FABDEM (AW3D30: 14.6 %). FABDEM, the map used here, gives the highest level share: the other maps put up to 5.3 points less in level and up to 2.5 points more in each gentle group. The steep groups stay within about 0.4 points on every map. The 95 % range in brackets covers day-to-day variation only, not differences between maps (for level, the NASADEM share of 65.41 % lies below it).",
+    "use": "Energy, regeneration and fuel by slope group are not shown here (separate analysis M768, under review). This is not an energy result."
+   },
+   "unsupported": "interval not shown: fewer than 20 stretches or 5 days in the class"
   }
  }
 }

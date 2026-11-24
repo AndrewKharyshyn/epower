@@ -175,6 +175,16 @@ def payload_checks(arrays_path):
         hg and (hg.get("staleness") or {}).get("carried") is True and "later drives are not included" in str(hg.get("basis"))
         and hg.get("bins") and hg.get("tau") and (hg.get("setLabels") or {}).get("A") == "all pairs, registered corpus" and _hg_eq)
 
+    # (5b3) M767: the carried grade-class share block is present with its basis, labels and staleness fields, and its numbers equal the registered result (tools/grade_shares_payload.py --check).
+    gs = sa.get("gradeClassShares") or {}
+    try:
+        import subprocess as _sp
+        _gs_eq = _sp.run([sys.executable, str(Path(SRC) / "tools" / "grade_shares_payload.py"), "--check"], capture_output=True, cwd=str(SRC), env=dict(os.environ, PYTHONUTF8="1")).returncode == 0
+    except Exception:
+        _gs_eq = False
+    checks["grade-class share block present, carried-labelled and equal to the registered result (M767)"] = bool(
+        gs and (gs.get("staleness") or {}).get("carried") is True and "later drives are not included" in str(gs.get("basis")) and len(gs.get("classes") or []) == 5 and gs.get("coverage") and gs.get("limits") and _gs_eq)
+
     # (5c) M755: every ambientByDrive entry is readable by the shared reader (tools/ambient_protocol.readings) and the non-canonical ones are exactly the frozen legacy keys: a new bare number or one-reading list
     #      fails here instead of being skipped silently by a block that parses it list-only (the 66 drives of 11-22 Sep 2026 were).
     try:
