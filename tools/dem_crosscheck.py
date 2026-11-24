@@ -663,6 +663,9 @@ def analyse(df, nb, glo_checks):
         pw[lab] = dsg.f1_stats(prim[a_].values, prim[b_].values, prim["day"].values, nb)
     res["C2_pairwise_primary"] = pw
     # C4: grade coefficient with each source, placebo per source, 2SLS (descriptive)
+    prim_all = prim
+    prim = prim[prim["fuel"]]                              # the energy-balance fits need the traction reconstruction (fuel-flow channel), as in M757 F2; C2, C3, C5 and C6 use every step
+    res["C4_fuel_instrumented_steps"] = {"n_steps": int(len(prim)), "n_drives": int(prim["drive"].nunique()), "n_days": int(prim["day"].nunique()), "km": float(prim["d_m"].sum() / 1000.0)}
     days_u = sorted(prim["day"].unique())
     Wd = dsg.boot_weights(len(days_u), nb)
     fits = {}
@@ -688,6 +691,7 @@ def analyse(df, nb, glo_checks):
         iv["note"] = "first-stage F below 10: b_IV not reported"
     iv["label"] = "descriptive; conditional on the traction reconstruction and the assumed mass; never 'validated' or 'corrected'"
     res["C4_2sls"] = iv
+    prim = prim_all
     # C5 diagnostic and untouched stratum share
     res["C5_untouched_share_of_primary"] = float(len(sets["untouched_stratum"]) / max(len(prim), 1))
     res["C5_fill_signature_share_aw3d30_vs_nasadem_both_fixes_within_0.5m"] = float(np.isfinite(prim["dh_fillsig"]).mean()) if "dh_fillsig" in prim else None
