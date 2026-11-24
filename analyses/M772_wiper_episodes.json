@@ -1,0 +1,187 @@
+{
+ "milestone": "M772",
+ "spec": "analyses/M772_spec.md Rev 2",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "toolSha256": "d2036561047fc5ce0afd309115bad42b06afb0ad0a431b08e2552b59afebae99",
+ "seed": 42,
+ "nBoot": 4000,
+ "inputs": {
+  "store_manifest_sha256": "7cbab168a882a561f55005e27a6fe484b91eb450c7e1bc2a2b6e0a37b25b3a96",
+  "m771_result_sha256": "300b63fcd651df9230bba1d6cef63cb3eb5f0e250b3c1c8fe16a4515c38a3981"
+ },
+ "nested_control": {
+  "passed": true,
+  "counts_equal": {
+   "eligible_drives": 241,
+   "wet_drives": 8,
+   "wet_days": 7,
+   "fuel_wet_drives": 2,
+   "fuel_wet_days": 2,
+   "dry": 212
+  },
+  "dark_contrast_equal_M771": true
+ },
+ "G_prime_support_gate": {
+  "definitions": {
+   "primary_adjacent_rows": {
+    "wet_proxy_drives": 10,
+    "wet_proxy_days": 8,
+    "isolated_only_drives": 19,
+    "dry_reference_drives": 212,
+    "fuel_basis_wet_proxy_drives": 2,
+    "fuel_basis_wet_proxy_days": 2
+   },
+   "strict_timestamp_span": {
+    "wet_proxy_drives": 5,
+    "wet_proxy_days": 5,
+    "isolated_only_drives": 24,
+    "dry_reference_drives": 212,
+    "fuel_basis_wet_proxy_drives": 1,
+    "fuel_basis_wet_proxy_days": 1
+   },
+   "hole_limit_90s": {
+    "wet_proxy_drives": 10,
+    "wet_proxy_days": 8,
+    "isolated_only_drives": 19,
+    "dry_reference_drives": 212,
+    "fuel_basis_wet_proxy_drives": 2,
+    "fuel_basis_wet_proxy_days": 2
+   },
+   "code6_only": {
+    "wet_proxy_drives": 9,
+    "wet_proxy_days": 7,
+    "isolated_only_drives": 20,
+    "dry_reference_drives": 212,
+    "fuel_basis_wet_proxy_drives": 2,
+    "fuel_basis_wet_proxy_days": 2
+   }
+  },
+  "floor": {
+   "drives": 20,
+   "days": 10
+  },
+  "passed": false,
+  "any_activity_drives": 29,
+  "comparison_M771_share_definition": {
+   "wet_proxy_drives": 8,
+   "wet_proxy_days": 7,
+   "fuel_basis_wet_proxy_drives": 2,
+   "fuel_basis_wet_proxy_days": 2,
+   "dry_reference_drives": 212
+  }
+ },
+ "A1_prime": {
+  "counts_only": true,
+  "reason": "below the floor of 20 wet-proxy drives on 10 days on the fuel basis",
+  "fuel_basis_wet_proxy_drives": 2,
+  "fuel_basis_wet_proxy_days": 2,
+  "reading": "not supported at this support"
+ },
+ "A3_prime_dark_proxy_fuel": {
+  "label": "darkness and visibility proxy, exploratory, no pre-registered expectation; the M771 wet-exclusion set; only the flag varies",
+  "definitions": {
+   "calendar_whole_master": {
+    "difference_after_adjustment": -0.11445888846765147,
+    "ci95": [
+     -0.8328839497375108,
+     0.3886686403679869
+    ],
+    "mde": 0.8490027861059398,
+    "drives": 104,
+    "contrast_positive_drives": 53,
+    "days": 57,
+    "bootstrap_rank_deficient_resamples": {
+     "draws": 4000,
+     "deficient": 7
+    }
+   },
+   "long_soak_3h": {
+    "difference_after_adjustment": -0.2677466850067516,
+    "ci95": [
+     -0.9901723717489471,
+     0.2921608371115458
+    ],
+    "mde": 0.9031553767975466,
+    "drives": 104,
+    "contrast_positive_drives": 53,
+    "days": 57,
+    "bootstrap_rank_deficient_resamples": {
+     "draws": 4000,
+     "deficient": 7
+    }
+   },
+   "long_soak_2h": {
+    "difference_after_adjustment": -0.30722504804096057,
+    "ci95": [
+     -1.0663442454114616,
+     0.2489295260927089
+    ],
+    "mde": 0.9263207769933317,
+    "drives": 104,
+    "contrast_positive_drives": 53,
+    "days": 57,
+    "bootstrap_rank_deficient_resamples": {
+     "draws": 4000,
+     "deficient": 7
+    }
+   },
+   "long_soak_6h": {
+    "difference_after_adjustment": -0.2198767278780279,
+    "ci95": [
+     -0.9294901335121311,
+     0.30484172110143304
+    ],
+    "mde": 0.8685036609738135,
+    "drives": 104,
+    "contrast_positive_drives": 53,
+    "days": 57,
+    "bootstrap_rank_deficient_resamples": {
+     "draws": 4000,
+     "deficient": 7
+    }
+   }
+  },
+  "calendar_flag_within_sample_M771_sensitivity": {
+   "difference_after_adjustment": -0.37277229145826485,
+   "ci95": [
+    -1.170012765578128,
+    0.23407498899275872
+   ],
+   "mde": 1.0023809106022454,
+   "drives": 104,
+   "contrast_positive_drives": 53,
+   "days": 57,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 4000,
+    "deficient": 7
+   }
+  },
+  "spread_note": "the spread across the definitions is the finding; none is picked"
+ },
+ "C_integrity": {
+  "gap_bins_hours": {
+   "0_to_1_h": 379,
+   "1_to_3_h": 110,
+   "3_to_6_h": 48,
+   "6_to_12_h": 75,
+   "12_to_24_h": 78,
+   "24_to_inf_h": 26
+  },
+  "drives_flag_differs_calendar_vs_3h": 87,
+  "first_drive_of_master": "unknown, excluded from the soak contrasts",
+  "long_soak_3h_share_by_class": {
+   "urban": 0.31715210355987056,
+   "mixed": 0.3235294117647059,
+   "mixed_highway": 0.3076923076923077,
+   "highway": 0.2608695652173913
+  }
+ },
+ "limits": [
+  "a wiper episode is a precipitation, spray or washing proxy; the wiper mode and the codes are not named here; no weather-service data",
+  "the long-soak flag (3 hours or more after the previous logged drive; assumed cooling time) over-labels long soaks when driving is unlogged; M769 to M771 used the calendar first-drive-of-day flag",
+  "association only; 'not supported' is not 'no weather effect'; fuel is logged / app-calculated; the registered M771 result is not changed",
+  "cloud-to-drive clock alignment is unvalidated (M729); month fixed effects are nearly collinear with the wet proxy",
+  "not an article figure"
+ ],
+ "seconds": 292.7
+}

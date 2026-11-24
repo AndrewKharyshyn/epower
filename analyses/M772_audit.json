@@ -1,0 +1,17 @@
+{
+ "milestone": "M772",
+ "spec": "analyses/M772_spec.md Rev 2",
+ "auditor": "analytical-auditor (Sonnet, blind: claim and data paths only; the tool and the result were not read)",
+ "verdict": "accept (minor revise: the wording of the moving test and the moving-rows-only dry definition are disclosed)",
+ "reproduced": {"eligible_drives": 241, "eligible_days": 102, "wet_proxy_primary": {"drives": 10, "days": 8}, "isolated_only": 19, "dry": 212, "fuel_basis_wet_proxy": {"drives": 2, "days": 2}, "floor_20_drives_10_days": "fails: A1 prime is counts only",
+                "strict_timestamp_span_wet": 5, "code6_only_wet": 9, "gap_bins_hours_0-1_1-3_3-6_6-12_12-24_24plus": [379, 110, 48, 75, 78, 26], "flag_differs_calendar_vs_3h": 87,
+                "dark_contrast_3h_flag": {"drives": 104, "days": 57, "estimate": -0.2677, "ci95": [-0.990, 0.292], "draws": 4000, "seed": 42}, "agreement": "counts exact; estimate within 0.0003; interval ends within 0.001"},
+ "concerns_and_disclosures": [
+  "the moving test needs 'the nearest Trip row with a non-missing displayed speed within 20 s'; taking the literally nearest row even when its speed is missing gives 10 wet, 18 isolated and 213 dry (one drive moves from isolated to dry); the wet, strict, code-6, fuel-basis and eligible counts are unchanged",
+  "dry and isolated are defined on moving rows only: 12 dry drives carry on-codes on stopped rows; counting any on-row in the window gives 201 dry and 30 non-episode drives",
+  "the wet exclusion in the dark contrast uses the M771 share definition (outcome-free); the span-rule version listed in the spec as a sensitivity was not run (deviation)",
+  "no outcome is used in the wiper, episode or soak definitions; fuel is read only for the contrast and the fuel-basis counts",
+  "the soak gap runs over the full master including outlier and cloud-less drives, with the first drive unknown; unlogged driving makes it over-label long soaks",
+  "the auditor ran no planted-stream tests of its own; the agreement is on real data"
+ ]
+}
