@@ -1,0 +1,13 @@
+{
+ "milestone": "M770",
+ "spec": "analyses/M770_spec.md Rev 2",
+ "auditor": "analytical-auditor (Sonnet, blind: claim and data paths only; the tools and the result were not read)",
+ "verdict": "accept (with a specification-sensitivity note)",
+ "reproduced": {"drives": 68, "days": 44, "estimate_per10pct": 0.104, "ci95": [-0.755, 0.943], "bootstrap_sd": 0.431, "mde": 1.208, "median_cold_equivalent_kpa": 243.3, "eligible_mean_fuel": 5.513, "half_lower_magnitude": 0.00827,
+                "agreement": "counts exact; estimate 0.104 versus 0.116 (covariate coding); interval ends differ by 0.08 to 0.12; MDE 1.21 versus 1.14; same conclusion"},
+ "funnel": {"snapshot_drives": 403, "clean": 394, "fuel_basis": 312, "distance_at_least_5_km": 69, "complete_covariates": 68, "puncture_day_drops": 0, "class_mix": {"urban": 53, "mixed": 10, "mixed_highway": 4, "highway": 2}},
+ "B1": "confirmed and stronger than stated: fuel_recon_master has no drives between 1 Jul and 13 Aug 2026, so the before-window holds 0 fuel drives at 14 and 28 days; the 26 Jul top-up cannot be analysed on the fuel basis; counts only",
+ "placebo_plus42": "28-day window difference about +1.0 L/100 km with an interval above zero: season and route confounding; the placebo has no calibration for the real step",
+ "concerns": ["the slope and its interval depend on the covariate specification (0.104 to 0.116): reported as specification sensitivity", "the cold-equivalent coefficients come from M733 E2 fitted on the same snapshots (disclosed): attenuation likely", "only 6 non-urban drives; class dummies weakly identified (15 parameters, 44 clusters)", "bootstrap resamples with 15 parameters and 44 clusters can be rank deficient: the tool now counts them (0 of 4000 in the final run)", "the per +10 % scale extrapolates about 5 times beyond the observed interquartile range (about +-1.9 %; the spec text said about +-3 %)"],
+ "not_done": "no code-level comparison (blind reproduction only)"
+}

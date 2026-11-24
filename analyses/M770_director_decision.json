@@ -1,0 +1,25 @@
+{
+ "milestone": "M770",
+ "spec": "analyses/M770_spec.md Rev 2",
+ "result": "analyses/M770_tyre_rolling.json",
+ "audit": "analyses/M770_audit.json",
+ "reviewer": "research-director (Opus); recorded by the main session (Sonnet)",
+ "decision": "accept as report-only; result 'not informative at this support'; no dashboard binding, no article use",
+ "scale_decision": {"quote": "You may trust the data since it is plausible and according to my manual control. So the pressure is assumed to be correct.", "date": "24 Nov 2026", "source": "chat", "independentlyVerified": false},
+ "allowed_wording": "M770 (report-only): on the fuel basis (68 drives, 44 days, distance 5 km or more) the covariate-adjusted association of logged / app-calculated fuel with the cold-equivalent four-corner tyre pressure is not informative at this support: slope +0.12 L/100 km per +10 % (95 % interval -0.67 to +0.93; the auditor's covariate coding gives +0.10), MDE 1.14 (auditor 1.21) against an informativeness threshold of 0.0083 (about 140 to 146 times). Pressure scale accepted by the owner from manual gauge control (24 Nov 2026), not independently re-measured. Association only; season, route, HVAC and period confounded. The 26 Jul top-up cannot be examined on the fuel basis (no fuel drives before it in either window).",
+ "forbidden": ["no or negligible rolling-resistance or pressure effect", "pressure does not affect fuel, traction or regeneration", "validated, verified or measured (the pressure scale or the energies)", "effect of pressure", "the top-up changed or did not change consumption", "any reading of the +42 day placebo as a pressure or top-up result", "traction or generator energy 'measured' (model-derived)"],
+ "quotable_now": "internal and CHANGELOG only: the counts, the funnel 403, 394, 312, 69, 68, the slope with its interval, MDE against the threshold, the 'not informative' reading, B1 counts only; nothing about rolling resistance or about fuel, traction or regeneration beyond 'not resolvable with these data'; not the dashboard, not the article",
+ "deviations_to_state": [
+  "B1 is unanalysable: no fuel-basis drives between 1 Jul and 13 Aug 2026, so the before-window holds 0 drives at 14 and 28 days; counts only; the B1 MDE could not be written",
+  "the +42 day placebo (28-day window) gives +1.0 L/100 km (interval 0.42 to 1.76): confounding is about 8 to 60 times the expected effect; no calibration for the real step",
+  "specification sensitivity, reported and not picked: pooled +0.10 to +0.12; epoch fixed effects -0.12 (sign flip); raw snapshot +0.14; 2 km floor +0.76 (204 drives, 78 days); 10 km floor +0.61 (48 drives, 37 days)",
+  "design_mde uses the outcome SD (the adjusted residual SD cannot be known outcome-blind), stated in the result",
+  "the per +10 % scale extrapolates about 5 times beyond the observed interquartile range (about -1.9 to +1.9 %)",
+  "the M733 temperature coefficients were estimated on the same snapshots",
+  "only 6 non-urban drives; 15 parameters on 44 clusters; rank-deficient bootstrap resamples counted (0 of 4000)",
+  "the A2 traction slope is positive (expected negative) with an interval that includes zero: no sign reading"
+ ],
+ "dashboard": "not allowed",
+ "needs_andrii_signoff": false,
+ "follow_ups": ["a before/after look around 26 Jul on battery-side channels that exist then (no fuel), same labelling, descriptive only", "the coast-down feasibility spec (opposite-direction same-segment pairs, a resolution check, FABDEM as an exclusion screen only)", "an owner gauge log (dated cold readings) to quantify the scale error", "more long drives with fuel logging, especially non-urban; rerun only when the sizing shows reach of the threshold (unlikely: recorded)"]
+}
