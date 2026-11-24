@@ -1,0 +1,24 @@
+{
+ "milestone": "M765",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M765_spec.md Rev 2 (Rev 3 note section 8)",
+ "audit": "analyses/M765_audit.json",
+ "result": "analyses/M765_jump_rule.json",
+ "decision": "revise (minor): accept M765 as report-only once the two string fixes in C1 are made; counts reproduced blind; H1 falsified and reported as found",
+ "rulings": [
+  "1 report-only stands; J0 passes; 17 vs 7 is the tool's extra window rows (B2 = B, B3 = B1), not order of reasons",
+  "2 P governs X1 per estimator; B, B1, B3, P side by side",
+  "3 replacement trigger fired; own milestone ('revised rule'); every displayed X1 number replaced from one P run; no mixing",
+  "4 the 6-drive residual does not block; disclose as unresolved; never call B3 the auditor's rule",
+  "5 R2 reading complete; zero P-excludes-more against B is not 'never'"
+ ],
+ "allowed_wording": "Under P: aggregate relative difference 1.13 % [0.92, 1.39]; the interval includes 1 %; consistent within +-3 %; median 0.11 km [0.09, 0.13], within 0.25 km; sign unchanged; P estimate inside the M752 interval. Forbidden for P: above/exceeds/reaches beyond 1 %; within 1 %; equivalent to / not different from 1 % (no TOST); correction; measured for E_int/E_br.",
+ "disclosure_sentence": "The 17 vs 7 jump-excluded drives come from extra edge rows in the M752 tool's window. Under the revised rule P, 4 drives excluded by the tool rule are kept; relative to the audit-like rule B3, P keeps 2 it excludes and excludes 6 it keeps (bracketing rows more than 35 s from a drive end). A 6-drive availability difference against the M752 audit is not resolved.",
+ "conditions": [
+  "C1 rerun with counts byte-identical: three-valued within-1-% word; complete R2 reading; record as deviation; no new audit if only strings change",
+  "C2 replacement spec pre-registers the P-minus-excursion sensitivity (22; 31 wider) and discloses that P can miss excursions",
+  "C3 no article use without an Opus audit and Andrii's sign-off"
+ ],
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session from the Director's returned brief"
+}

@@ -108,4 +108,13 @@ assert J.h1_check(J.crosstab(recs3), 4)["falsified_by_cross_tab"] is True
 assert J.scan_privacy({"a": {"n": 584, "rel": 1.2, "byMonth": {"2026-05": {"drives": 38}}}}) == []
 assert J.scan_privacy({"f": "2026-10-17_23-13-01.csv"}) and J.scan_privacy({"v": 48104.8}) and J.scan_privacy({"2026-10-17": 3})
 assert J.PREDICTIONS == {"unavailable_by_A": 124, "B_and_unavailable_by_A": 8, "B_and_available_by_A": 9, "B3_and_available_by_A": 7}
+# three-valued wording (Director C1)
+def S(est, lo, hi, med=0.1):
+    return {"relative": {"est": est, "ci95": [lo, hi]}, "medianAbs": {"est": med}}
+assert "interval lies above 1 %" in J.verdict_three(S(0.012, 0.0104, 0.0141), 0.01)
+assert "interval includes 1 %" in J.verdict_three(S(0.0113, 0.0092, 0.0139), 0.01) and "interval includes 1 %" in J.verdict_three(S(0.0113, 0.0092, 0.0139), 0.01)
+assert J.verdict_three(S(0.005, 0.002, 0.008), 0.01) == "consistent within +-1 %"
+assert J.verdict_three(S(0.0113, 0.0092, 0.0139), 0.03) == "consistent within +-3 %"
+assert "median |difference| 0.30 km above 0.25 km" in J.verdict_three(S(0.005, 0.002, 0.008, 0.30), 0.01)
+assert J.verdict_three({}, 0.01) == "not estimable at this support"
 print("test_odometer_jump_audit: OK")

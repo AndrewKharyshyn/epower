@@ -133,6 +133,26 @@ def h1_check(ct, outside_span):
             "falsified_by_cross_tab": bool(obs["B_and_unavailable_by_A"] < 8)}
 
 
+def verdict_three(summary, margin):
+    """Three-valued wording (Director ruling C1): 'above m %' when the whole interval of the aggregate relative difference lies above the margin, 'interval includes m %' when it straddles the margin, 'consistent within +-m %' when it lies inside; the 0.25 km median criterion is appended as in M752."""
+    if "relative" not in summary:
+        return "not estimable at this support"
+    lo, hi = summary["relative"]["ci95"]
+    est = "aggregate relative difference %.2f %% [%.2f, %.2f]" % (100 * summary["relative"]["est"], 100 * lo, 100 * hi)
+    m = 100 * margin
+    if lo > margin:
+        word = "%s: the interval lies above %g %%" % (est, m)
+    elif hi < -margin:
+        word = "%s: the interval lies below -%g %%" % (est, m)
+    elif lo >= -margin and hi <= margin:
+        word = "consistent within +-%g %%" % m
+    else:
+        word = "%s: the interval includes %g %%" % (est, m)
+    if summary["medianAbs"]["est"] > dm.MEDIAN_ABS_KM:
+        word += "; median |difference| %.2f km above %.2f km" % (summary["medianAbs"]["est"], dm.MEDIAN_ABS_KM)
+    return word
+
+
 def scan_privacy(obj):
     """Fails on a value in the absolute-odometer range or a string that looks like a full date or a drive file name."""
     bad = []
@@ -165,7 +185,7 @@ def _summary(df, name, nb, flags_col):
     prim = sub[sub["identity"]]
     s = dm.summarise(prim[prim["logged"] >= dm.SHORT_KM], nb)
     out = {"available_all_drives": int((df[name + "_dist0"].notna() & ~df[flags_col]).sum()), "primary_identity_ge2km": s,
-           "verdict_words": {"within1pct": dm.verdict(s, dm.MARGIN_PRIMARY), "within3pct": dm.verdict(s, dm.MARGIN_WIDE)}}
+           "verdict_words": {"within1pct": verdict_three(s, dm.MARGIN_PRIMARY), "within3pct": verdict_three(s, dm.MARGIN_WIDE)}}
     return out
 
 
@@ -270,10 +290,12 @@ def main(argv=None):
                 c[1] += int(av)
             bym[k] = {m: ({"drives": v[0], "available": v[1]} if v[0] >= 3 else "suppressed (fewer than 3 drives)") for m, v in tab.items()}
         # R2 / R3
-        keepsP = lambda k: int(sum(1 for r, row in zip(recs, rows_df) if row[k] and not row["P"] and not r["unavailable_A"]))
-        pexcl = int(sum(1 for r, row in zip(recs, rows_df) if row["P"] and not row["B"] and not row["B3"] and not r["unavailable_A"]))
-        r2 = {"tool_B_excludes_drives_P_keeps": keepsP("B"), "audit_like_B3_excludes_drives_P_keeps": keepsP("B3"), "P_excludes_drives_both_B_and_B3_keep": pexcl,
-              "reading": "B over-exclusive" if keepsP("B") > 0 and pexcl == 0 else ("B and B3 differ from P in both directions" if (keepsP("B") > 0 or keepsP("B3") > 0) and pexcl > 0 else ("P excludes drives both keep (under-exclusive)" if pexcl > 0 else "B, B3 and P agree on the available drives"))}
+        avail = lambda: [(r, row) for r, row in zip(recs, rows_df) if not r["unavailable_A"]]
+        over = lambda k: int(sum(1 for r, row in avail() if row[k] and not row["P"]))
+        under = lambda k: int(sum(1 for r, row in avail() if row["P"] and not row[k]))
+        r2 = {"rule_flagged_P_keeps": {k: over(k) for k in ("B", "B1", "B3")}, "P_flagged_rule_keeps": {k: under(k) for k in ("B", "B1", "B3")},
+              "reading": "B over-exclusive (%d), under-exclusive (%d); B3 over-exclusive (%d), under-exclusive (%d) relative to P (available-by-A drives only)" % (over("B"), under("B"), over("B3"), under("B3")),
+              "note": "a zero 'P_flagged_rule_keeps' for B does not mean P never excludes more: against B3, P excludes %d drives that B3 keeps" % under("B3")}
         regI = reg["P1_agreement"]["E_int"]["primary_identity_ge2km"]
         pI = j2["P"]["E_int"]["primary_identity_ge2km"]
         rd = lambda x: round(100 * x, 2)
@@ -289,7 +311,10 @@ def main(argv=None):
                       "diagnostic_drives_with_an_endpoint_inside_a_recorded_excursion": int(exc), "recorded_excursions": int(len(spans)), "negative_steps": int(cnt.get("negativeSteps", 0))},
                "J2": j2, "J2_availability_by_month": bym, "R2": r2, "R3": r3,
                "disclosures": ["H1 was derived from the registered totals and the rule texts; P was frozen before any per-drive look; B, B1, B3 and P are reported side by side and P is not chosen because of its result (spec 7.8)",
-                               "B3 is a reconstruction of the audit rule from its rules_inferred text, not the auditor's code (spec 7.4)",
+                               "B3 is a reconstruction of the audit rule from its rules_inferred text, not the auditor's code (spec 7.4); a 6-drive availability difference between the M752 audit (586 available) and A minus the B3 flags (592) is NOT resolved and concerns only how faithfully B3 copies the audit rule, not P",
+                               "H1 (order of reasons) was falsified: the frozen predictions are not met (spec 7.2, 7.3); the 17 versus 7 comes from the extra window rows of the tool rule B (B2 = B and B3 = B1)",
+                               "the three-valued within-1-% wording (above / interval includes / within) replaces the M752 two-valued wording for every rule in this result (Director ruling C1, spec 8); counts are unchanged",
+                               "P can miss a level excursion that starts before the first endpoint row; the excursion sensitivity (22 drives, 31 under a wider definition) is pre-registered for the replacement milestone (Director C2)",
                                "the excursion count is a diagnostic, not a rule: P can miss an excursion that starts before the first endpoint row (spec 7.6)"],
                "privacy": "counts, rates and size classes only; no drive names, dates, coordinates or absolute cloud odometer values", "seconds": round(time.time() - t_start, 1)}
         bad = scan_privacy(res)
