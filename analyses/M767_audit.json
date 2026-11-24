@@ -1,0 +1,20 @@
+{
+ "milestone": "M767",
+ "spec": "analyses/M767_spec.md Rev 2",
+ "result_audit": {
+  "auditor": "analytical-auditor (Sonnet, blind: claim and data path only)",
+  "verdict": "accept",
+  "reproduced": {"n_steps": 11088, "n_drives_with_a_covered_step": 474, "n_days": 134, "km": 6373.18, "step_share_pct": [3.373, 11.481, 70.680, 11.129, 3.337],
+                 "ci95_day_clustered_pct": [[2.68, 4.08], [10.06, 12.85], [67.22, 74.25], [9.86, 12.32], [2.70, 3.96]], "covered_share_of_logged_km_pct": 57.61, "abs_diff_to_registered": 0.0},
+  "method_notes": ["stage counts 11,890 to 11,088 equal M762 C1", "resampling unit calendar day (134 days), ratio of sums within a draw", "CI endpoints are sensitive to the RNG implementation at the 0.07 pp level (numpy Generator seed 42 reproduces to 4 decimals)",
+                   "the logged-kilometre denominator includes the drives flagged by ens_outlier_v2; shares over steps are unaffected; the coverage wording now says so"]
+ },
+ "display_audit": {
+  "auditor": "research-director (Opus)",
+  "order_deviation": "spec 6.9/6.10 asked for the Opus audit before the render was sent; the render was sent first and the audit followed; the owner sign-off of 2026-11-24 therefore preceded the audit and the conditions below were applied afterwards (they only tighten wording)",
+  "verdict": "pass_with_conditions",
+  "conditions_applied": ["FABDEM sensitivities (pre-mask, no GLO flag, primary) rendered in Technical detail", "selection criteria (gap at most 120 s, no first or last step, 8 km/h) added to notes.lead",
+                         "plain.slope percent sign fixed (no doubled percent)", "uncertainty sentence rewritten from the payload (level up to 5.3 points lower on other maps, gentle groups up to 2.5 higher, steep groups within about 0.4; the 95 % range covers day-to-day variation only)",
+                         "plain.use no longer reads as an energy statement; energy by slope group points to M768", "semantic gate A2 rerun: 1949 passed, 0 failed"]
+ }
+}
