@@ -2,7 +2,7 @@
  "milestone": "M773",
  "spec": "analyses/M773_spec.md Rev 2",
  "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
- "toolSha256": "3674301b6e34831ccc0e1cb798f1ed0d3a4c9747680d3dbb258c001490188268",
+ "toolSha256": "99bb1baa07f91b0a8a750a6ad5cd08415b8da5b943f55d7ff5e7a801c9dbd5be",
  "seed": 42,
  "nBoot": 4000,
  "inputs": {
@@ -22,6 +22,7 @@
    -5.3
   ],
   "corpus_wide_mean_kwh_per100km": 12.10134831460674,
+  "corpus_mean_note": "mean over the eligible drives of the whole master (445 drives); the spec text quoted 14.2 for all 645 drives with the channel",
   "half_mde_threshold_kwh_per100km": 0.04235471910112359,
   "assumed": "Crr 0.010, mass 1900 kg, eta 0.75; pressure exponent -0.2 to -0.5; pressure rise 10 to 16 %; rolling share of the outcome 0.35 to 0.55; pass-through 1.0 to 1.2",
   "expected_sign": "negative",
@@ -133,6 +134,26 @@
    "mde": 4.4806523529454765,
    "mean_before": 19.681426725857076,
    "difference_pct_of_before_mean": -3.310957766975332,
+   "bootstrap_rank_deficient_resamples": {
+    "draws": 2000,
+    "deficient": 0
+   }
+  },
+  "winsorised_outcome_2p5_97p5_within_window": {
+   "days_before": 19,
+   "days_after": 18,
+   "drives_before": 60,
+   "drives_after": 56,
+   "parameters": 11,
+   "thermal_levels_in_window": 2,
+   "difference_after_minus_before": 1.3861702102231734,
+   "ci95": [
+    -0.27099667750703393,
+    3.24849393178268
+   ],
+   "mde": 2.538381733073531,
+   "mean_before": 8.930958333333335,
+   "difference_pct_of_before_mean": 15.520957085305403,
    "bootstrap_rank_deficient_resamples": {
     "draws": 2000,
     "deficient": 0
@@ -411,5 +432,5 @@
   "a null is not 'no pressure effect' (no equivalence test); the placebo windows are a scale of confounding, not a calibration; nothing is picked among the sensitivities",
   "not an article figure"
  ],
- "seconds": 94.3
+ "seconds": 68.7
 }

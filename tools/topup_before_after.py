@@ -174,7 +174,7 @@ def analyse(d, steps, nb):
     e = eligible(d)
     corpus_mean = float(e["ev_kwh_per100km"].mean())
     exp_low_kwh = EXPECT_LOWER_PCT / 100.0 * corpus_mean
-    res["expectation"] = {"relative_pct": list(EXPECT_REL_PCT), "corpus_wide_mean_kwh_per100km": corpus_mean, "half_mde_threshold_kwh_per100km": exp_low_kwh,
+    res["expectation"] = {"relative_pct": list(EXPECT_REL_PCT), "corpus_wide_mean_kwh_per100km": corpus_mean, "corpus_mean_note": "mean over the eligible drives of the whole master (445 drives); the spec text quoted 14.2 for all 645 drives with the channel", "half_mde_threshold_kwh_per100km": exp_low_kwh,
                           "assumed": "Crr 0.010, mass 1900 kg, eta 0.75; pressure exponent -0.2 to -0.5; pressure rise 10 to 16 %; rolling share of the outcome 0.35 to 0.55; pass-through 1.0 to 1.2",
                           "expected_sign": "negative", "near_certain": "not informative at this support"}
     prot = T.protected_dates(steps)
@@ -195,6 +195,10 @@ def analyse(d, steps, nb):
         sens["offset_covariate"] = fit(w28.dropna(subset=["I_offset_A_applied"]).assign(off=lambda x: x["I_offset_A_applied"].astype(float)), "ev_kwh_per100km", COVS_FULL + ["off"], max(nb // 2, 500))
     wn = w28[w28["ev_nr_per100"].notna() & np.isfinite(w28["ev_nr_per100"])]
     sens["ev_nr_regen_poor_subset"] = fit(wn, "ev_nr_per100", COVS_FULL, max(nb // 2, 500))
+    ww = w28.copy()
+    lo_, hi_ = np.percentile(ww["ev_kwh_per100km"].astype(float), [2.5, 97.5])
+    ww["ev_kwh_per100km"] = ww["ev_kwh_per100km"].astype(float).clip(lo_, hi_)
+    sens["winsorised_outcome_2p5_97p5_within_window"] = fit(ww, "ev_kwh_per100km", COVS_FULL, max(nb // 2, 500))
     sens["exclude_puncture_days_14_to_16"] = fit(window(e, center, 28, exclude_days=PUNCTURE_SENS), "ev_kwh_per100km", COVS_FULL, max(nb // 2, 500))
     for fl in (0.5, 2.0):
         sens["ev_distance_floor_%g_km" % fl] = fit(window(eligible(d, ev_floor=fl), center, 28), "ev_kwh_per100km", COVS_FULL, max(nb // 2, 500))
