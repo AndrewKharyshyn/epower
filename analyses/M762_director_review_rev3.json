@@ -1,0 +1,25 @@
+{
+ "milestone": "M762",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M762_spec.md Rev 3 (section 9)",
+ "decision": "revise, every ruling adopted in Rev 4 section 10",
+ "rulings": [
+  "R1 hat assumption-conditional; both bias directions stated",
+  "R1b missing GLO-30 EDM/FLM for FABDEM fill cells stated (biases s_F down)",
+  "R2 omitting the 8.2 stratum is a relaxation: only 'not adequate' final; adequate/marginal provisional",
+  "R3 provenance a precondition (portal, version, date, licence) before manifest/run; else 'provenance unrecorded', no adequate",
+  "R4 quantisation: NASADEM also whole metres; planted-rounding test; bilinear stated",
+  "R5 relaxations (a)-(f) into deviations_from_spec"
+ ],
+ "conditions": [
+  "C1 prefer GLO-30 + EDM/FLM (open data, Andrii yes)",
+  "C2 AW3D30 MSK if portal offers",
+  "C3 primary unscreened, screened sensitivity, worse verdict holds, one formula",
+  "C4 re-check support floors after common-support loss",
+  "C5 diagnostic near-zero AW3D30-NASADEM share",
+  "C6 fix 9.9, 9.4 slip, quote .num coding, Rev 4 before manifest/code/result"
+ ],
+ "needs_andrii_signoff": true,
+ "needs_andrii_signoff_note": "main session reading: AW3D30 provenance statement and the GLO-30 download yes",
+ "recorded_by": "main session (subagent has no Write tool)"
+}
