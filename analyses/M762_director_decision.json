@@ -1,0 +1,33 @@
+{
+ "milestone": "M762",
+ "reviewer": "research-director (Opus)",
+ "spec": "analyses/M762_spec.md Rev 9",
+ "audit": "analyses/M762_audit.json",
+ "result": "analyses/M762_dem_crosscheck.json",
+ "decision_1": {
+  "decision": "revise (minor)",
+  "conditions": [
+   "deviations_from_spec section, Rev 7 citation, minimum detectable s_F and interpolation statement in the result",
+   "C4/C6 not quoted until a narrow blind reproduction matches (done, round 2)",
+   "C6 beside the verdict",
+   "negative road-load terms are nuisance terms",
+   "provisional lifts only when the handbook coding is read and the mask rule confirmed, the Director rules the floor basis, and the untouched stratum is not worse",
+   "placebo does not explain the M757 failure; M757 R2-R4 unchanged; regeneration by grade class locked",
+   "binding, dashboard or article use needs an Opus audit and Andrii's sign-off"
+  ]
+ },
+ "decision_2": {
+  "decision": "revise (confirm literal floors; final wording only after C1-C5)",
+  "floor_basis": "literal spec 8.1 R2 / 10.5: at least 30 days, 100 unique km, 1,000 TOTAL steps; ruled after the first result was seen; a deviation fix, not tuning; no verdict word changes",
+  "allowed_wording": "FABDEM v1.2 step grade: adequate for corpus-level grade-class SHARES (2 pp classes) at cloud-step scale (spec R3, worse of primary / screened / untouched), with s_F, interval and n from the result and the required limits (inter-product DEM error only; assumption-conditional; common-mode not identified; not per-step labels; NUM removed water only; FABDEM own removals unmasked; AW3D30 no mask and licence not provided; M757 placebo failure stands; 8.8 and R4 unchanged; never validated, measured or proven)",
+  "conditions": [
+   "C1 tool: met = literal floors, M757 count kept as a field, known-answer test, regenerate on saved steps, Rev 9 note (done)",
+   "C2 result cites Rev 8 or later, drops the stale handbook note and the '(Director)' stricter-governs note, deviations record the ruling and its timing (done)",
+   "C3 narrow blind audit of the untouched stratum (done, round 3)",
+   "C4 F and J conventions named, audit range 901-913 and 14.2-18.0 (done)",
+   "C5 master MD5 pre and post, open_items, release_identity, local release_check, six green CI, CHANGELOG"
+  ]
+ },
+ "needs_andrii_signoff": false,
+ "recorded_by": "main session from the Director's returned briefs (the subagent has no Write tool)"
+}

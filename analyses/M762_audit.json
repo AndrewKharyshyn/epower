@@ -82,5 +82,11 @@
    "F and J depend on conventions (J 14.2 to 18.0 across variants): the report names the convention used",
    "mass 1950 kg: b stays conditional on the reconstruction"
   ]
+ },
+ "round3_untouched_stratum": {
+  "auditor": "analytical-auditor (blind, Sonnet), narrow check",
+  "verdict": "accept",
+  "reproduced": "|FABDEM - GLO-30| <= 2.0 m at both fixes: 6,950 steps, 131 days, 4,129.56 km, 784 steps above 2 pp; s_F 0.292 pp [0.257, 0.334] overall and 0.1956 pp [0.176, 0.218] for 500-900 m (4,576 steps, 85 days); counts and km identical, intervals match to 3 decimals",
+  "disclosure": "the auditor had read the earlier result file at the end of the main task before this check, so the claim numbers had been seen; the stratum numbers are its own computation run afterwards; its remark that the result reported 'met: false' refers to the first result (M757 criterion), superseded by the literal-floor ruling"
  }
 }
