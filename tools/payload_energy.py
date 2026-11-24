@@ -196,7 +196,7 @@ def eligible(d, dist_min=DIST_MIN, need_fuel=True):
     ok = (d["ens_outlier_v2"].astype(str).str.lower() != "true") & d["has_pattern"].astype(str).eq("True") & (d["distance_km"].astype(float) >= dist_min) & d["cls"].isin(CLASSES)
     if need_fuel:
         ok &= d["fuel_L_per_100km"].notna()
-    ok &= d[["payload100", "ambient", "v2", "dsoc100", "logdist"]].notna().all(1)
+    ok &= d[["payload100", "ambient", "v2", "dsoc100", "logdist"]].notna().all(axis=1)
     return d[ok].copy()
 
 
