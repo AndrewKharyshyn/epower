@@ -1812,7 +1812,7 @@ function GradeClassShares(){
         <div>Drive-level speed mix of the logged kilometres (urban / mixed / highway, % of km): all logged {B.coverage.speedMix.all_logged.urban_pct} / {B.coverage.speedMix.all_logged.mixed_pct} / {B.coverage.speedMix.all_logged.highway_pct}; covered {B.coverage.speedMix.covered.urban_pct} / {B.coverage.speedMix.covered.mixed_pct} / {B.coverage.speedMix.covered.highway_pct}; uncovered remainder {B.coverage.speedMix.uncovered_remainder.urban_pct} / {B.coverage.speedMix.uncovered_remainder.mixed_pct} / {B.coverage.speedMix.uncovered_remainder.highway_pct} (an approximation from the master's time-weighted drive fractions).</div>
         <div>{B.notes.locked}</div>
       </details>
-      <div style={{marginTop:4}}>Registered 717-drive corpus (master MD5 {B.registeredMasterMd5.slice(0,8)}...); {B.status}.</div>
+      <div style={{marginTop:4}}>{B.basis}; {B.status}.</div>
     </div>
   );
 }
