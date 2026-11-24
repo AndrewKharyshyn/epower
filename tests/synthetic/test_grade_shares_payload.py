@@ -115,6 +115,47 @@ try:
 finally:
     shutil.rmtree(tmp, ignore_errors=True)
 
+# M746 Rev 5: a labelled retest builds a non-carried block with its own source sha; floors, nested control and label are required; the delta escalates on a leaving class
+rt = copy.deepcopy(res)
+rt.update(retest=True, registeredMd5=P.REGISTERED_MASTER, masterMd5="e" * 32, drives=730, nestedControl={"registered_drives": 717, "stages_and_shares_equal_M762": True},
+          retestLabel="retest on 730 drives (master MD5 eeeeeeee...)")
+root_save, d3 = P.ROOT, tempfile.mkdtemp()
+try:
+    P.ROOT = d3
+    with open(os.path.join(d3, "g.json"), "w", encoding="utf-8") as f:
+        json.dump(rt, f)
+    rblock = P.build(P.load(d3, "g.json", None), None, "g.json")
+finally:
+    P.ROOT = root_save
+    shutil.rmtree(d3, ignore_errors=True)
+assert rblock["staleness"] == {"carried": False, "corpusDrives": 730, "refreshedAt": None} and "retest on 730 drives" in rblock["basis"] and rblock["sourceFile"] == "g.json"
+for t in strings(rblock):
+    assert not rule.hits(t), t
+assert "not refreshed by ingestion" not in rblock["status"] and "later drives are not included" not in rblock["basis"]
+for mut, what in ((lambda r: r.pop("nestedControl"), "no nested control"), (lambda r: r.update(registeredMd5="0" * 32), "wrong registered identity"), (lambda r: r.update(retestLabel="x"), "no label"),
+                  (lambda r: r["E1_shares_primary_steps_secondary_km"].update(n_days=10), "below the day floor")):
+    r3 = copy.deepcopy(rt)
+    mut(r3)
+    try:
+        P.build(r3, "p", "x")
+        raise SystemExit("must stop: %s" % what)
+    except (P.Stop, KeyError):
+        pass
+dl = P.delta(blk, rblock)
+assert dl["escalate"] is False and len(dl["rows"]) == 5
+moved = copy.deepcopy(rblock)
+moved["classes"][2]["stepSharePct"]["est"] = 99.0
+assert P.delta(blk, moved)["escalate"] is True and P.delta(blk, moved)["escalatedClasses"] == ["-1 to 1 pp"]
+flag = copy.deepcopy(rblock)
+flag["classes"][0]["sourceDependent"] = True
+assert P.delta(blk, flag)["escalate"] is True and P.source_of(blk) == (P.SRC_REL, P.SRC_SHA) and P.source_of(rblock)[1] is None
+
+rule2 = [r for r in LG.RULES if r.rid == "M746-grade-shares-refresh-wording"][0]
+for bad in ("the grade class shares are now higher", "updated grade class shares", "grade class shares trend upward"):
+    assert rule2.hits(bad), bad
+for t in strings(rblock):
+    assert not rule2.hits(t), t
+
 try:
     real = P.load()
 except P.Stop as e:

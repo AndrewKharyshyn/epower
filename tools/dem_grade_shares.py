@@ -23,6 +23,9 @@ CLASS_NAMES = ("below -3 pp", "-3 to -1 pp", "-1 to 1 pp", "1 to 3 pp", "above 3
 FLOORS = {"days": 30, "km": 100.0, "steps": 1000}
 CELL_FLOORS = {"steps": 20, "days": 5}                       # spec 3 R2: a cell below it is counts only
 SOURCES = ("F", "N", "A", "G")
+REGISTERED_N = 717
+REGISTERED_FILES_SHA = "65878488cfab9652252cb7f4c4e607fdd1af4c69c74eca64c0e95f461da2e0a8"   # sha256 of the sorted canonical file names of the registered master (M767 addendum Rev 3)
+RETEST_RESULT = "grade_shares_retest.json"
 
 
 class Stop(Exception):
@@ -133,6 +136,42 @@ def coverage_tables(prim, dmaster, canonical, cohort_of):
     return out
 
 
+def step_sets(df):
+    """The frozen M762 selection (first/last, speed, common support, NUM mask, GLO flag, 8 pp exclusion): (stages, base, cs, nasok, gloOK, prim)."""
+    base = df[~df["first"] & ~df["last"] & (df["vmin_kmh"] >= dsg.V_MIN_KMH)]
+    cs = base[np.isfinite(base["gF"]) & np.isfinite(base["gN"]) & np.isfinite(base["gA"])]
+    nasok = cs[np.isfinite(cs["dh_num"])]
+    gloOK = nasok[np.isfinite(nasok["dh_glo"])]
+    prim = gloOK[gloOK["gF"].abs() <= dsg.GRADE_EXCL_PP]
+    stages = {"all_steps_before_exclusions": int(len(df)), "after_first_last_speed": int(len(base)), "common_support_F_N_A_finite": int(len(cs)), "after_nasadem_num_srtm_mask": int(len(nasok)),
+              "after_glo30_unflagged_mask": int(len(gloOK)), "after_fabdem_grade_8pp_exclusion": int(len(prim))}
+    return stages, base, cs, nasok, gloOK, prim
+
+
+def control_r1(df, m762):
+    """Control R1 on a step table: the M762 C1 stages and C6 FABDEM shares and misclassification (tolerance 0)."""
+    stages, base, cs, nasok, gloOK, prim = step_sets(df)
+    if stages != m762["C1_step_stages"]:
+        raise Stop("control R1: the step stages differ from the M762 result: %s" % stages)
+    clF = classes5(prim["gF"].values)
+    f_shares = [float(np.mean(clF == c)) for c in range(5)]
+    if f_shares != m762["C6_class_shares"]["F"]["step_share"]:
+        raise Stop("control R1: the FABDEM step shares differ from the M762 C6 result")
+    mis = {k: float(np.mean(clF != classes5(prim["g" + k].values))) for k in ("N", "A", "G")}
+    if mis["N"] != m762["C6_misclassification_vs_fabdem"]["N"] or mis["A"] != m762["C6_misclassification_vs_fabdem"]["A"]:
+        raise Stop("control R1: the misclassification rates differ from the M762 result")
+    return stages, base, cs, nasok, gloOK, prim, clF, f_shares, mis
+
+
+def registered_files(canonical):
+    """The registered 717 drives = the first REGISTERED_N canonical files of the master (ingestions append); verified by the sha256 of their sorted names."""
+    import hashlib
+    reg = list(canonical[:REGISTERED_N])
+    if len(reg) != REGISTERED_N or hashlib.sha256("\n".join(sorted(reg)).encode()).hexdigest() != REGISTERED_FILES_SHA:
+        raise Stop("retest: the first %d canonical drives of the master are not the registered set" % REGISTERED_N)
+    return reg
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", action="store_true")
@@ -144,6 +183,7 @@ def main(argv=None):
     ap.add_argument("--seasonal", default=os.path.join(HERE, "..", "seasonal_drive_master.csv"))
     ap.add_argument("--nb", type=int, default=NB_DEFAULT)
     ap.add_argument("--cache", default="")
+    ap.add_argument("--retest", action="store_true", help="M746 Rev 5: run on a later master (the registered result and pin are never touched; needs --out-dir outside analyses)")
     a = ap.parse_args(argv)
     for sub in ("fabdem", "nasadem", "aw3d30", "glo30"):
         if not a.dem_dir or not os.path.isdir(os.path.join(a.dem_dir, sub)):
@@ -162,8 +202,12 @@ def main(argv=None):
         man_path = os.path.join(HERE, "..", "analyses", "M762_dem_manifest.json")
         m762_path = os.path.join(HERE, "..", "analyses", "M762_dem_crosscheck.json")
         X.verify_manifest(a.dem_dir, man_path)
-        if dsg.mc.md5(a.master) != dsg.PINNED_MD5:
+        master_md5 = dsg.mc.md5(a.master)
+        if master_md5 != dsg.PINNED_MD5 and not a.retest:
             print("dem_grade_shares: master pin failed")
+            return 1
+        if a.retest and os.path.abspath(a.out_dir) == os.path.abspath(os.path.join(HERE, "..", "analyses")):
+            print("dem_grade_shares: a retest never writes into analyses/ itself (use a scratch --out-dir)")
             return 1
         m762 = json.load(open(m762_path, encoding="utf-8"))
         c0 = X.integrity_stage(a.dem_dir)
@@ -184,22 +228,19 @@ def main(argv=None):
             getattr(sa.loader, "close", lambda: None)()
             shutil.rmtree(tmp, ignore_errors=True)
         df = X._grades(df)
-        base = df[~df["first"] & ~df["last"] & (df["vmin_kmh"] >= dsg.V_MIN_KMH)]
-        cs = base[np.isfinite(base["gF"]) & np.isfinite(base["gN"]) & np.isfinite(base["gA"])]
-        nasok = cs[np.isfinite(cs["dh_num"])]
-        gloOK = nasok[np.isfinite(nasok["dh_glo"])]
-        prim = gloOK[gloOK["gF"].abs() <= dsg.GRADE_EXCL_PP]
-        stages = {"all_steps_before_exclusions": int(len(df)), "after_first_last_speed": int(len(base)), "common_support_F_N_A_finite": int(len(cs)), "after_nasadem_num_srtm_mask": int(len(nasok)),
-                  "after_glo30_unflagged_mask": int(len(gloOK)), "after_fabdem_grade_8pp_exclusion": int(len(prim))}
-        if stages != m762["C1_step_stages"]:
-            raise Stop("control R1: the step stages differ from the M762 result: %s" % stages)
-        clF = classes5(prim["gF"].values)
-        f_shares = [float(np.mean(clF == c)) for c in range(5)]
-        if f_shares != m762["C6_class_shares"]["F"]["step_share"]:
-            raise Stop("control R1: the FABDEM step shares differ from the M762 C6 result")
-        mis = {k: float(np.mean(clF != classes5(prim["g" + k].values))) for k in ("N", "A", "G")}
-        if mis["N"] != m762["C6_misclassification_vs_fabdem"]["N"] or mis["A"] != m762["C6_misclassification_vs_fabdem"]["A"]:
-            raise Stop("control R1: the misclassification rates differ from the M762 result")
+        canonical = [m["file"] for m in dsg.mc.load_master(a.master)]
+        nested = None
+        if a.retest:
+            reg = set(registered_files(canonical))
+            control_r1(df[df["drive"].isin(reg)], m762)                    # nested control: the registered drives reproduce M762 C1/C6 exactly
+            nested = {"registered_drives": REGISTERED_N, "stages_and_shares_equal_M762": True}
+        if a.retest:
+            stages, base, cs, nasok, gloOK, prim = step_sets(df)
+            clF = classes5(prim["gF"].values)
+            f_shares = [float(np.mean(clF == c)) for c in range(5)]
+            mis = {k: float(np.mean(clF != classes5(prim["g" + k].values))) for k in ("N", "A", "G")}
+        else:
+            stages, base, cs, nasok, gloOK, prim, clF, f_shares, mis = control_r1(df, m762)
         W_cache = {}
         e1 = shares_table(prim, "gF", a.nb, W_cache)
         e3 = bracket_and_flags(prim, a.nb, W_cache, e1["rows"])
@@ -221,7 +262,7 @@ def main(argv=None):
         e4["fabdem_sensitivities_step_share_pct"] = {"pre_mask_set_%d_steps" % len(cs): [float(100 * np.mean(classes5(cs["gF"].values) == c)) for c in range(5)],
                                                      "no_glo_flag_set_%d_steps" % len(nasok[nasok["gF"].abs() <= dsg.GRADE_EXCL_PP]): [float(100 * np.mean(classes5(nasok[nasok["gF"].abs() <= dsg.GRADE_EXCL_PP]["gF"].values) == c)) for c in range(5)],
                                                      "primary_set_%d_steps" % len(prim): [float(100 * v) for v in f_shares]}
-        res = {"milestone": "M767", "spec": "analyses/M767_spec.md Rev 2", "masterMd5": dsg.PINNED_MD5, "m762ResultSha256": X.sha256_file(m762_path), "m762ManifestSha256": X.sha256_file(man_path),
+        res = {"milestone": "M767", "spec": "analyses/M767_spec.md Rev 2", "masterMd5": master_md5, "m762ResultSha256": X.sha256_file(m762_path), "m762ManifestSha256": X.sha256_file(man_path),
                "toolSha256": X.sha256_file(os.path.abspath(__file__)), "seed": SEED, "nBoot": a.nb, "control_R1": {"stages_equal_M762": True, "fabdem_step_shares_equal_M762_C6": True, "misclassification_equal_M762": True},
                "C1_step_stages": stages, "E1_shares_primary_steps_secondary_km": e1, "E2_cohorts_result_only": e2, "E3_products": e3, "E4_coverage_and_selection": e4,
                "three_class_and_five_class_misclassification_vs_fabdem_pct": {"five_class": {k: 100.0 * v for k, v in mis.items()}},
@@ -233,13 +274,18 @@ def main(argv=None):
                           "the M757 placebo failure stands; regeneration, apparent KE recovery, fuel and traction energy by grade class stay locked (M762 8.8 and R4)"],
                "deviations_from_spec": ["the speed mix of the covered versus the uncovered kilometres is a DRIVE-LEVEL approximation (the master's time-weighted urban and highway fractions weighted by drive kilometres), because the step windows of the uncovered parts are not available"],
                "seconds": round(time.time() - t_start, 1)}
+        if a.retest:
+            res.update({"milestone": "M746 retest of M767", "spec": "analyses/M746_spec.md Rev 5 and analyses/M767_retest_addendum.md", "retest": True, "control_R1_scope": "the registered 717 drives only (nested control, tolerance 0); the added drives are not compared to M762", "registeredMd5": dsg.PINNED_MD5, "registeredDrives": REGISTERED_N,
+                        "drives": len(canonical), "nestedControl": nested,
+                        "retestLabel": "retest on %d drives (master MD5 %s...)" % (len(canonical), master_md5[:8]),
+                        "scopeNote": "descriptive monitoring only: a repeated look at the data, no confirmatory reading; the registered result is not replaced; M726: not read by the winter session"})
         bad = J.scan_privacy(res)
         if bad:
             raise Stop("privacy scan failed: %s" % bad[:3])
-        if dsg.mc.md5(a.master) != dsg.PINNED_MD5:
+        if dsg.mc.md5(a.master) != master_md5:
             raise Stop("drive_master.csv changed during the run")
         os.makedirs(a.out_dir, exist_ok=True)
-        with open(os.path.join(a.out_dir, "M767_grade_class_shares.json"), "w", encoding="utf-8", newline="\n") as f:
+        with open(os.path.join(a.out_dir, RETEST_RESULT if a.retest else "M767_grade_class_shares.json"), "w", encoding="utf-8", newline="\n") as f:
             json.dump(res, f, indent=1, default=lambda o: None if o != o else str(o))
         print("dem_grade_shares: R1 ok | covered %.1f %% of the logged km | flat class %.1f %%" % (e4["covered_share_of_logged_km_pct"], e1["rows"][2]["step_share_pct"]["est"]))
         return 0

@@ -29,10 +29,11 @@ def sha256(path):
 
 
 def load(root=ROOT, rel=SRC_REL, pin=SRC_SHA):
+    """pin=None: a retest source (M746 Rev 5): its own sha256 is recorded in the block (sourceSha256) and checked by --check."""
     p = os.path.join(root, rel)
     if not os.path.exists(p):
-        raise Stop("missing registered source %s" % rel)
-    if sha256(p) != pin:
+        raise Stop("missing source %s" % rel)
+    if pin is not None and sha256(p) != pin:
         raise Stop("registered source %s differs from its pinned sha256" % rel)
     with open(p, encoding="utf-8") as f:
         return json.load(f)
@@ -47,11 +48,25 @@ def r1(x):
     return None if x is None else float(Decimal(repr(float(x))).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP))
 
 
-def build(res, pin=SRC_SHA):
-    if res.get("masterMd5") != REGISTERED_MASTER:
-        raise Stop("the registered result was not computed on the registered master")
-    if not all(res["control_R1"].values()):
-        raise Stop("the registered result does not carry a passed control R1")
+FLOORS = {"days": 30, "km": 100.0, "steps": 1000}
+
+
+def build(res, pin=SRC_SHA, rel=SRC_REL):
+    retest = bool(res.get("retest"))
+    if retest:
+        if res.get("registeredMd5") != REGISTERED_MASTER or not (res.get("nestedControl") or {}).get("stages_and_shares_equal_M762") or not all(res["control_R1"].values()):
+            raise Stop("the retest does not carry the registered master identity and a passed nested control")
+        ss = res["E1_shares_primary_steps_secondary_km"]
+        if ss["n_steps"] < FLOORS["steps"] or ss["n_days"] < FLOORS["days"] or ss["km"] < FLOORS["km"]:
+            raise Stop("the retest is below the support floors")
+        if "retest on" not in str(res.get("retestLabel")):
+            raise Stop("the retest carries no retestLabel")
+    else:
+        if res.get("masterMd5") != REGISTERED_MASTER:
+            raise Stop("the registered result was not computed on the registered master")
+        if not all(res["control_R1"].values()):
+            raise Stop("the registered result does not carry a passed control R1")
+    n_drives = int(res["drives"]) if retest else 717
     e1 = res["E1_shares_primary_steps_secondary_km"]
     e3 = res["E3_products"]
     e4 = res["E4_coverage_and_selection"]
@@ -91,10 +106,11 @@ def build(res, pin=SRC_SHA):
     gg = [_g(r, p_) for r, p_ in zip(e1["rows"], e3)]
     lvl, gentle, steep = gg[2], [gg[1], gg[3]], [gg[0], gg[4]]
     block = {
-        "basis": "computed on the registered corpus of 717 drives (master MD5 %s...; M762 DEM manifest sha256 %s...); later drives are not included" % (REGISTERED_MASTER[:8], res["m762ManifestSha256"][:8]),
-        "registeredMasterMd5": REGISTERED_MASTER, "corpusDrives": 717, "sourceFile": SRC_REL, "sourceSha256": pin, "resultToolSha256": res["toolSha256"], "seed": res["seed"], "nBoot": res["nBoot"],
-        "status": "carried block, auxiliary; not an article figure; not refreshed by ingestion",
-        "staleness": {"carried": True, "corpusDrives": 717, "refreshedAt": None},
+        "basis": ("%s; M762 DEM manifest sha256 %s...; the registered result (717 drives) is unchanged" % (res["retestLabel"], res["m762ManifestSha256"][:8])) if retest else
+                 ("computed on the registered corpus of 717 drives (master MD5 %s...; M762 DEM manifest sha256 %s...); later drives are not included" % (REGISTERED_MASTER[:8], res["m762ManifestSha256"][:8])),
+        "registeredMasterMd5": REGISTERED_MASTER, "corpusDrives": n_drives, "sourceFile": rel, "sourceSha256": pin or sha256(os.path.join(ROOT, rel)), "resultToolSha256": res["toolSha256"], "seed": res["seed"], "nBoot": res["nBoot"],
+        "status": ("auxiliary block from a labelled retest; descriptive monitoring only; not an article figure; the promotion step records the source file" if retest else "carried block, auxiliary; not an article figure; not refreshed by ingestion"),
+        "staleness": {"carried": not retest, "corpusDrives": n_drives, "refreshedAt": None},
         "title": "Grade-class shares of the covered driving (estimated DEM step grade, cloud-step scale)",
         "stepSet": {"steps": int(e1["n_steps"]), "days": int(e1["n_days"]), "km": r1(e1["km"])},
         "classes": classes,
@@ -162,16 +178,72 @@ def splice(block, dry=False, path=None):
     return True
 
 
+def delta(old, new, registered=None):
+    """M746 Rev 5, 10.7: monitoring record of a refreshed block against the PREVIOUS displayed block (and the registered one). Not a test.
+    escalate = a class leaves the PREVIOUS displayed interval, changes its support status (interval shown) or changes its source-dependent flag."""
+    rows, esc = [], []
+    for o, n in zip(old["classes"], new["classes"]):
+        lo, hi = o["stepSharePct"]["ci95"]
+        e = n["stepSharePct"]["est"]
+        outside = bool(o["intervalShown"] and lo is not None and (e < lo or e > hi))
+        rec = {"class": n["label"], "previousShare": o["stepSharePct"]["est"], "newShare": e, "outsidePreviousInterval": outside,
+               "supportChanged": o["intervalShown"] != n["intervalShown"], "sourceDependentChanged": o["sourceDependent"] != n["sourceDependent"]}
+        if registered:
+            rlo, rhi = registered["classes"][len(rows)]["stepSharePct"]["ci95"]
+            rec["outsideRegisteredInterval"] = bool(rlo is not None and (e < rlo or e > rhi))
+        if outside or rec["supportChanged"] or rec["sourceDependentChanged"]:
+            esc.append(n["label"])
+        rows.append(rec)
+    return {"rows": rows, "coveredSharePctPrevious": old["coverage"]["coveredSharePct"], "coveredSharePctNew": new["coverage"]["coveredSharePct"],
+            "stepsPrevious": old["stepSet"]["steps"], "stepsNew": new["stepSet"]["steps"], "escalate": bool(esc), "escalatedClasses": esc,
+            "note": "monitoring record, not a test; a displayed change goes to the owner as one line plus the rendered page; an escalation needs a blind audit and the Director before the block is replaced"}
+
+
+def source_of(block):
+    """The source recorded in a block: (relative path, pin or None for a retest file)."""
+    rel = block.get("sourceFile") or SRC_REL
+    return rel, (SRC_SHA if rel == SRC_REL else None)
+
+
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    src = None
+    if "--source" in argv:
+        src = argv[argv.index("--source") + 1]
     try:
-        block = build(load())
+        with open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8") as f:
+            A = json.load(f)
         if "--check" in argv:
-            with open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8") as f:
-                A = json.load(f)
-            ok = A.get(KEY) == block
-            print("grade_shares_payload: block %s" % ("present and equal to the registered result" if ok else "MISSING or different"))
+            cur = A.get(KEY)
+            if cur is None:
+                print("grade_shares_payload: block MISSING")
+                return 1
+            rel, pin = source_of(cur)
+            res = load(ROOT, rel, pin)
+            if pin is None and sha256(os.path.join(ROOT, rel)) != cur.get("sourceSha256"):
+                print("grade_shares_payload: the recorded source sha256 differs from the file")
+                return 1
+            block = build(res, pin if pin else cur["sourceSha256"], rel)
+            ok = cur == block
+            print("grade_shares_payload: block %s" % ("present and equal to its recorded source" if ok else "MISSING or different"))
             return 0 if ok else 1
+        if src:
+            rel = src.replace("\\", "/")
+            block = build(load(ROOT, rel, None), None, rel)
+        else:
+            block = build(load())
+        if "--delta" in argv or (src and "--splice" in argv):
+            old = A.get(KEY)
+            if old:
+                d = delta(old, block, build(load()) if old.get("sourceFile") != SRC_REL else old)
+                print("grade_shares_payload: delta " + json.dumps(d)[:1500])
+                acc = argv[argv.index("--accept-escalated") + 1] if "--accept-escalated" in argv and argv.index("--accept-escalated") + 1 < len(argv) else None
+                if acc and not os.path.isfile(os.path.join(ROOT, acc)):
+                    print("grade_shares_payload: --accept-escalated needs the path of the audit or Director decision file (not found); nothing written")
+                    return 4
+                if d["escalate"] and not acc and "--splice" in argv:
+                    print("grade_shares_payload: ESCALATED (a class left the previous displayed interval, changed support or changed its source flag): blind audit and Director before replacement; nothing written")
+                    return 4
         if "--splice" in argv:
             dry = "--dry-run" in argv
             ch = splice(block, dry)

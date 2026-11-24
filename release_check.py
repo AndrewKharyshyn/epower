@@ -183,7 +183,7 @@ def payload_checks(arrays_path):
     except Exception:
         _gs_eq = False
     checks["grade-class share block present, carried-labelled and equal to the registered result (M767)"] = bool(
-        gs and (gs.get("staleness") or {}).get("carried") is True and "later drives are not included" in str(gs.get("basis")) and len(gs.get("classes") or []) == 5 and gs.get("coverage") and gs.get("limits") and _gs_eq)
+        gs and ((gs.get("staleness") or {}).get("carried") is True and "later drives are not included" in str(gs.get("basis")) or (gs.get("staleness") or {}).get("carried") is False and "retest on" in str(gs.get("basis"))) and len(gs.get("classes") or []) == 5 and gs.get("coverage") and gs.get("limits") and _gs_eq)
 
     # (5c) M755: every ambientByDrive entry is readable by the shared reader (tools/ambient_protocol.readings) and the non-canonical ones are exactly the frozen legacy keys: a new bare number or one-reading list
     #      fails here instead of being skipped silently by a block that parses it list-only (the 66 drives of 11-22 Sep 2026 were).

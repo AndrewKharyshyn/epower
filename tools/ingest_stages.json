@@ -1598,6 +1598,21 @@
    "verified": true
   },
   {
+   "id": "cloud_auxiliary",
+   "title": "M746 (spec analyses/M746_spec.md Rev 5): OPTIONAL, non-blocking stage for the MyNISSAN cloud auxiliary tools, run after release_check (never read by it). Tools run in a scratch dir and are promoted only to analyses/cloud_retests/; registered results are never written; pinned tools without a Rev 3 addendum are skipped_pinned_master; the grade-class shares are a labelled retest (promotion into the dashboard payload is a separate audited step, spec 10.2). Exit 0 on tool failure; exit 2 only on an integrity breach of a protected file (the release_check pass is then stale: rerun it)",
+   "cmd": [
+    "python3",
+    "tools/cloud_stage.py"
+   ],
+   "verified": false,
+   "implemented": true,
+   "optional": true,
+   "outputs": [
+    "analyses/cloud_stage_status.json",
+    "analyses/cloud_retests/"
+   ]
+  },
+  {
    "id": "state",
    "title": "Regenerate STATE.md",
    "cmd": [

@@ -1,0 +1,17 @@
+{
+ "milestone": "M746",
+ "spec": "analyses/M746_spec.md Rev 5",
+ "reviewer": "research-director (Opus)",
+ "audit": "analyses/M746_audit.json",
+ "decision": "accept for merge as tooling only; stage entry stays verified:false; no dashboard or payload change",
+ "scientific_meaning": "The retest on the pinned master reproduces the registered M767 result in every non-label key with the nested control at tolerance 0. This shows the tool is deterministic and does not regress on the registered corpus; it shows nothing about behaviour on a later master or with a new export (the dry run skipped import: no new export).",
+ "conditions_before_merge": ["round-2 auditor check of the round-1 fixes and the 8.1 no-write test recorded as pass", "CHANGELOG states the deviations: (1) the promotion audit (spec 10.10 vi) is deferred past this PR; (2) the thermal, grade and unlogged Rev 3 addenda are not built and run under the 8.5 skipped_pinned_master fallback; (3) the audit's not-fixed items are carried", "the 10.7 language rule is present in language_gate.py"],
+ "conditions_before_first_refreshed_render": ["blind audit of grade_shares_payload.py --source --splice end to end on a real later master, then an Opus check (M762 8.7/R4)", "gate rules for 'refreshed', 're-run' and 'latest' near the shares", "--accept-escalated needs the path of an audit or Director decision file (implemented after this decision)", "the nested control must pass at the new master"],
+ "allowed_wording": "M746: optional report-only cloud_auxiliary stage with a grade_shares retest mode (tooling; verified:false). The retest on the pinned master reproduces the registered M767 result in all non-label keys. Thermal, grade and unlogged stay skipped_pinned_master (Rev 3 addenda not built). No dashboard promotion; the promotion step awaits a blind audit and an Opus check.",
+ "never": ["validated", "confirmed", "updated", "verified", "reproduces on new data", "refreshed shares in a display"],
+ "retests": "descriptive monitoring, never cumulative evidence",
+ "follow_ups": ["milestone: Rev 3 addenda for M737, M734, M739 (registered mode writes no stub; retest mode; tests; Director review)", "milestone: promotion-path blind audit plus Opus check at the first ingestion with a new cloud export", "set verified:true only after a full ingestion has run the stage", "AW3D30 licence review for a public repository"],
+ "limits": ["known-answer covers the pinned master only", "the promotion path is untested on real later data", "Windows grandchild tree-kill untested", "shares depend on coverage (57.6 % of the logged km at registration): a refresh can move them through coverage, not terrain"],
+ "recorded_by": "main session (Sonnet) from the Opus report; condition 1 is closed by the round-2 entry in M746_audit.json",
+ "owner_note": "Andrii's 2026-11-24 verbatim ('Should be reshreshed in case when the cloud data export is available at ingestion stage.') is the owner decision behind this milestone; it is NOT a sign-off of any refreshed display"
+}
