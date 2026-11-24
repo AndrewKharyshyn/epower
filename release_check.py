@@ -158,10 +158,10 @@ def payload_checks(arrays_path):
     # (5b) M749: the additive cloud cross-check block (tools/cloud_payload.py, ingestion stage cloud_payload) is present, carries its status, basis and the three note items, X1 stays held back, and no
     #      cloud kilometre, hour or odometer value is in it (a whole-file arrays rewrite with the stage skipped would otherwise drop the key silently).
     cc = sa.get("cloudCrossChecks") or {}
-    checks["cloud cross-check block present with status, basis and notes X2-X4, X1 held back (M749)"] = bool(
+    checks["cloud cross-check block present with status, basis and notes X1-X4 (M749, M760)"] = bool(
         cc and cc.get("status") == "auxiliary; not an article figure" and "not recomputed with later drives" in str(cc.get("basis"))
-        and all(cc.get(k) for k in ("x2BetweenDriveLogging", "x3Ambient", "x4Timestamps", "sourceSha256")) and cc.get("x1LoggedDistance") is None
-        and not any(w in json.dumps(cc) for w in ("total_km_cloud", "netCloudOdometerGainKm", "lowerBiasedCloudTotal")))
+        and all(cc.get(k) for k in ("x2BetweenDriveLogging", "x3Ambient", "x4Timestamps", "sourceSha256")) and bool(cc.get("x1LoggedDistance"))
+        and not any(w in json.dumps(cc) for w in ("total_km_cloud", "netCloudOdometerGainKm", "lowerBiasedCloudTotal", "cloudLastOdoKm", "cloudPlusLogged", "bracketsReading")))
 
     # (5b2) M758: the carried heat-soak gap sensitivity block is present with its basis, labels and staleness fields, and its numbers equal the registered result leaf by leaf (tools/heatsoak_gap_payload.py --check).
     #       A stale basis (live master differs from the registered one) never fails the gate: it is disclosed on the page.
