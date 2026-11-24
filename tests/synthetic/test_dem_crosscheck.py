@@ -181,4 +181,9 @@ try:
     assert len(X.used_files(tmp)) == 17 * 5 + 1 and X.NUM_SRTM == (1, 23)
 finally:
     shutil.rmtree(tmp, ignore_errors=True)
+# support floors (spec 8.1 R2 / 10.5, literal): days, km and TOTAL steps; the M757 steps-above-2-pp count is a reported field only
+f = X.support_floors(131, 4129.6, 6950, 784)
+assert f["met"] is True and f["met_m757_criterion_steps_above_2pp"] is False
+assert X.support_floors(29, 500.0, 5000, 2000)["met"] is False and X.support_floors(40, 99.0, 5000, 2000)["met"] is False and X.support_floors(40, 500.0, 999, 2000)["met"] is False
+assert X.support_floors(30, 100.0, 1000, 0)["met"] is True
 print("test_dem_crosscheck: OK")

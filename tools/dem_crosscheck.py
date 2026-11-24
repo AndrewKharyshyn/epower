@@ -226,6 +226,7 @@ def aw3d_loader(tif_path):
             return None
         a = np.asarray(im.crop((x0, y0, x1, y1)), dtype=np.int32).astype(np.int16)
         return Cell(a, N + 1, E, ppy, ppx, area)
+    load.close = im.close
     return load
 
 
@@ -236,6 +237,12 @@ def hat_variances(v_fn, v_fa, v_na):
     sn = (v_fn + v_na - v_fa) / 2.0
     sa = (v_fa + v_na - v_fn) / 2.0
     return sf, sn, sa
+
+
+def support_floors(days, km, n_total, n_above_2pp):
+    """Spec 8.1 R2 / 10.5 (literal, Director ruling 2): at least 30 days, 100 unique km and 1,000 TOTAL steps. The M757 count of steps above 2 pp is kept as a reported field only."""
+    return {"days": int(days), "km": float(km), "steps_total": int(n_total), "steps_above_2pp": int(n_above_2pp),
+            "met": bool(days >= 30 and km >= 100.0 and n_total >= 1000), "met_m757_criterion_steps_above_2pp": bool(days >= 30 and km >= 100.0 and n_above_2pp >= 1000)}
 
 
 def day_index(days):
@@ -500,7 +507,7 @@ def integrity_stage(dem_dir):
         modes[name] = {"unflagged_code": int(v), "share": k / tot, "histogram_share": {str(a): b / tot for a, b in sorted(acc.items())}}
     tot = sum(num_counts.values())
     return {"nasadem_num_share_by_range": {k: v / tot for k, v in ranges.items()}, "glo30_masks": modes,
-            "glo30_coding_note": "the EDM / FLM value meanings could not be read from the product handbook (host unreachable); the unflagged code is taken as the dominant value and any other value counts as flagged (edited or filled)"}
+            "glo30_coding_note": "unflagged = EDM 1 ('not edited') and FLM 2 ('not edited / not filled'), the dominant values of the used tiles, confirmed by the Copernicus DEM Product Handbook issue 5.0, Tables 6 and 7 (spec Rev 8); any other value counts as flagged (edited, or filled from another DEM)"}
 
 
 def build_surfaces(dem_dir):
@@ -509,7 +516,7 @@ def build_surfaces(dem_dir):
     sn = Surface(hgt_loader(os.path.join(dem_dir, "nasadem"), "hgt"), name="nasadem")
     numS = Surface(hgt_loader(os.path.join(dem_dir, "nasadem"), "num"), None, "nasadem_num")
     import tempfile
-    tmp = tempfile.mkdtemp(prefix="m762_aw3d_", dir=dem_dir)
+    tmp = tempfile.mkdtemp(prefix="m762_aw3d_")
     with tarfile.open(os.path.join(dem_dir, "aw3d30", "rasters_AW3D30.tar.gz"), "r:gz") as t:
         m = t.getmember("output_AW3D30.tif")
         if not m.isfile() or "/" in m.name or ".." in m.name:
@@ -625,9 +632,7 @@ def analyse(df, nb, glo_checks):
         ud = len(set(days))
         km = float(d["d_m"].sum() / 1000.0)
         n2 = int((100.0 * d["dh"].abs() / d["d_m"] > 2.0).sum())
-        floors = {"days": ud, "km": km, "steps_total": int(len(d)), "steps_above_2pp": n2, "met": bool(ud >= 30 and km >= 100.0 and n2 >= 1000),
-                  "met_literal_spec_floors": bool(ud >= 30 and km >= 100.0 and len(d) >= 1000),
-                  "note": "'met' applies the M757 criterion (steps above 2 pp), stricter than the M762 spec 8.1 R2 floors (days, km and TOTAL steps); both are reported, the stricter one governs the provisional label and is not relaxed after the result (Director)"}
+        floors = support_floors(ud, km, len(d), n2)
         support[name] = floors
         if len(d) < 50:
             continue
@@ -710,14 +715,15 @@ def analyse(df, nb, glo_checks):
 
 
 DEVIATIONS = [
-    "the bare-earth stratum is evaluated and reported, but its support floor uses steps above 2 pp (784 against 1,000, 'met' false); the spec 8.1 R2 floors (days, km, total steps: 6,950 steps, 131 days, 4,130 km) are met and reported as met_literal_spec_floors; the stricter reading governs the provisional label and is not relaxed after the result (spec 10.8 a)",
-    "GLO-30 EDM and FLM value meanings could not be read from the product handbook (host unreachable); the unflagged code is the dominant value of each mask (EDM 1, FLM 2, share 0.9655 each) and any other value counts as flagged (spec 13, 10.8 b)",
+    "the support floors of the untouched stratum: the first run applied the M757 criterion (1,000 steps above 2 pp; 784, 'met' false) instead of the M762 spec 8.1 R2 floors (days, km and TOTAL steps). The Director ruled AFTER the first result was seen that the literal spec floors govern (the M757 criterion was never pre-registered for M762); the tool was changed and the result regenerated on the saved steps (a deviation fix, not tuning). The stratum has 6,950 steps, 131 days, 4,130 km and its verdicts are the same words as before; the M757 count stays in the result as met_m757_criterion_steps_above_2pp (spec 15)",
+    "GLO-30 EDM and FLM: the first run took the dominant value of each mask as 'unflagged' because the handbook could not be read; the handbook (issue 5.0, Tables 6 and 7) was supplied later and confirms the rule exactly (EDM 1, FLM 2); no value changed (spec 14, 10.8 b)",
     "AW3D30 has no mask layer (OpenTopography export); the common-support step set uses the NASADEM NUM mask only for that purpose (spec 9.2, 10.8 c)",
-    "AW3D30 provenance recorded from the portal pages (spec 11, 10.8 d); the download date is the file timestamp",
+    "AW3D30 provenance recorded from the portal pages (spec 11, 10.8 d); the download date is the file timestamp; the portal licence field is 'not provided' (internal use only)",
     "the outlier screen is a sensitivity (spec 10.4, 10.8 e); the primary set is the unscreened common support",
     "the AW3D30 value histogram was inspected after section 9 was written (spec 10.8 f)",
     "the NASADEM NUM mask removed water only in this area (codes 0 and 3 to 8 occur); no PRISM, GDEM or interpolation codes were present, so the guard against AW3D30-lineage fills in NASADEM was not exercised",
-    "C4 (grade coefficient per source, 2SLS) and C6 (class shares, misclassification) are descriptive; their independent reproduction is recorded in analyses/M762_audit.json (not part of the first audit round)",
+    "FABDEM edits (buildings, forests removed) are masked only through the GLO-30 EDM and FLM of its base DEM; FABDEM's own removals are not masked",
+    "C4 (grade coefficient per source, 2SLS) and C6 (class shares, misclassification) were reproduced blind in a second audit round (analyses/M762_audit.json); they are descriptive",
     "negative F0, F1, F2 coefficients, where they occur, are nuisance terms of the energy balance and are never read as road-load estimates (Director)",
 ]
 
@@ -775,12 +781,16 @@ def main(argv=None):
                     pickle.dump((df, fixes), open(a.cache, "wb"))
         finally:
             import shutil
+            getattr(sa.loader, "close", lambda: None)()
             shutil.rmtree(tmp, ignore_errors=True)
         res = analyse(df, a.nb, glo_checks=True)
-        res.update({"milestone": "M762", "spec": "analyses/M762_spec.md Rev 7 (sections 9 to 13 amend 1 to 8)", "masterMd5": dsg.PINNED_MD5, "m757_tool_sha256": sha256_file(os.path.join(HERE, "dem_step_grade.py")),
+        res.update({"milestone": "M762", "spec": "analyses/M762_spec.md Rev 9 (sections 9 to 15 amend 1 to 8)", "masterMd5": dsg.PINNED_MD5, "m757_tool_sha256": sha256_file(os.path.join(HERE, "dem_step_grade.py")),
                     "tool_sha256": sha256_file(os.path.abspath(__file__)), "manifest_sha256": sha256_file(man_path), "seed": SEED, "nBoot": a.nb, "C0_codings": c0,
                     "C0_coverage_fixes": {k: {"with_value": v[0], "tried": v[1], "share": (v[0] / v[1] if v[1] else None)} for k, v in fixes.items() if v[1]},
                     "privacy": "aggregates only; no coordinates, tracks or per-drive geometry",
+                    "conventions": {"first_stage_F": "day-cluster-robust Wald statistic of the two excluded instruments (NASADEM and AW3D30 m g dh), divided by 2, with the G/(G-1) small-sample factor; the blind audit obtained 901 to 913 depending on the small-sample convention (far above 10)",
+                                    "J": "overidentification statistic from the 2SLS residuals with a day-cluster-robust weight matrix, one degree of freedom; the audit obtained 14.2 to 18.0 across variants; J rejects, so b_IV is descriptive and not attenuation-corrected",
+                                    "step_grade": "100 times the DEM height difference between the two fixes over the OBD path distance of the step (not the GPS chord)"},
                     "interpolation": "bilinear at the fix position in FABDEM, NASADEM, AW3D30 and GLO-30; mask values are taken from the nearest node (NASADEM NUM, GLO-30 EDM and FLM)",
                     "deviations_from_spec": DEVIATIONS})
         if dsg.mc.md5(a.master) != dsg.PINNED_MD5:
