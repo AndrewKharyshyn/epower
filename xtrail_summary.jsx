@@ -274,12 +274,19 @@ function socSpeedCell(rows, socBin, speedBand) {
 function Section({ title, children, accent="#60a5fa", seasonAware=false }) {
   const _sc=React.useContext(CohortCtx);
   return (
-    <div style={{ marginBottom:20, background:"#ffffff", borderRadius:10, padding:16, border:"1px solid #e2e8f0", boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
+    <div className="xt-tile" style={{ marginBottom:24, background:"#ffffff", borderRadius:10, padding:"22px 28px", border:"1px solid #e2e8f0", boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
       {(_sc!=="all" && !seasonAware) && <div data-allref-badge="1" style={{float:"right",marginLeft:8,fontSize:8.5,color:"#64748b",background:"#f1f5f9",border:"1px solid #e2e8f0",borderRadius:10,padding:"1px 7px",whiteSpace:"nowrap"}}>All-data reference · thermal-cohort filter does not apply</div>}
-      <h2 style={{ fontSize:13, fontWeight:700, color:accent, margin:"0 0 12px 0", textTransform:"uppercase", letterSpacing:1 }}>{title}</h2>
+      <h2 style={{ fontSize:16, fontWeight:700, color:accent, margin:"0 0 14px 0", lineHeight:1.3 }}>{title}</h2>
       {children}
     </div>
   );
+}
+// M774 (owner request 2026-11-25): evidence stays on the page but behind one labelled disclosure, so the headline and chart read first.
+function Notes({ title="How we calculated it", children }) {
+  return <details className="xt-notes" style={{ margin:"12px 0 4px", border:"1px solid #e2e8f0", borderRadius:8, background:"#f8fafc", padding:"8px 14px" }}>
+    <summary style={{ fontSize:12, fontWeight:600, color:"#334155" }}>{title}</summary>
+    <div style={{ marginTop:8 }}>{children}</div>
+  </details>;
 }
 function Callout({ kind, children }) {
   const C = {
@@ -5853,11 +5860,13 @@ function BetweenDriveLoggingView(){
           </tbody>
         </table>
       </ChartWithTable>
+      <Notes title="How we calculated it, and what the cloud export adds">
       <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-bdl-reading="1">
         {(B.reading||[]).map((t,i)=><p key={i} style={{margin:"2px 0"}}>{t}</p>)}
       </div>
       <CloudCrossCheckLogging/>
       <CloudCrossCheckDistance/>
+      </Notes>
     </Section>
   );
 }
@@ -12882,7 +12891,10 @@ function CompareControls({sel,onToggle}){
 }
 
 export default function App() {
-  const [tab, setTab] = useState("overview");
+  const tabSlug = t => t.replace(/\s+/g, "-");
+  const [tab, setTab] = useState(() => { try { const h = (window.location.hash || "").replace(/^#/, ""); const hit = ["overview","charts","fuel","distribution","highway vs city","thermal","records","health","cross-vehicle","conclusions"].find(t => tabSlug(t) === h); return hit || "overview"; } catch (e) { return "overview"; } });
+  // M774: the current tab is addressable (#thermal, #highway-vs-city, ...); failures (sandboxed or about:blank pages) are ignored.
+  React.useEffect(() => { try { const h = "#" + tabSlug(tab); if (window.location.hash !== h) window.history.replaceState(null, "", h); } catch (e) {} }, [tab]);
   const [cohort, setCohort] = useState("all");
   const [cmpSel,setCmpSel]=useState({warm:true,shoulder:true,cold:cohortAvailable("cold")});  // M465: Cold joins the default comparison once it meets the support rule; M270: default Warm vs Shoulder (audit Section 9); All added on request
   const cmpToggle=(k)=>setCmpSel(prev=>{
@@ -12925,7 +12937,20 @@ export default function App() {
   return (
    <CohortCtx.Provider value={cohort}>
     <CompareCtx.Provider value={cmpSel}>
-    <div style={{fontFamily:"system-ui,sans-serif",background:"#f8fafc",color:"#1e293b",minHeight:"100vh",padding:16,maxWidth:1128,margin:"0 auto"}}>
+    <div className="xt-root" style={{fontFamily:"system-ui,sans-serif",background:"#f8fafc",color:"#1e293b",minHeight:"100vh",padding:20,maxWidth:1128,margin:"0 auto"}}>
+      {/* M774 (dashboard UX, owner request 2026-11-25): FullHD / 15-16 inch laptop reading scale. CSS zoom scales every
+          size uniformly (text, tiles, SVG charts) without touching individual literals; prose lines are capped. */}
+      <style>{`
+        .xt-root{zoom:1.25}
+        @media (min-width:1800px){.xt-root{zoom:1.4}}
+        .xt-root p,.xt-root [style*="line-height: 1.5"],.xt-root [style*="line-height: 1.6"]{max-width:118ch}
+        .xt-root button:focus-visible,.xt-root summary:focus-visible,.xt-root a:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
+        .xt-root details>summary{cursor:pointer}
+        .xt-nav{display:flex;flex-wrap:wrap;gap:4px 14px;justify-content:center;margin-bottom:10px}
+        .xt-nav-group{display:flex;flex-direction:row;align-items:center;gap:5px}
+        .xt-nav-label{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#64748b;white-space:nowrap}
+        .xt-nav-btns{display:flex;gap:3px}
+      `}</style>
       <div style={{textAlign:"center",marginBottom:16}}>
         <div style={{fontSize:18,fontWeight:800,color:"#0f172a"}}>Nissan X-Trail e-POWER — Interim Summary</div>
         <div style={{fontSize:11,color:"#64748b"}}>2nd-gen e-POWER · 1.5 L VC-Turbo (generator only) · battery energy reference 2.1 kWh, assumed (turnover and C-rate use the separately stated 5 Ah reference) · {S.totalDrives} drives · {S.dateRange} · {S.totalKm.toFixed(0)} km logged · ODO {S.odometer.toLocaleString("en-US")} km (dash reading as of {S.odometerAsOf})</div>
@@ -12934,19 +12959,27 @@ export default function App() {
       <CohortSelector cohort={cohort} setCohort={setCohort}/>
       {cohort==="compare" && <CompareControls sel={cmpSel} onToggle={cmpToggle}/>}
 
-      <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:16,justifyContent:"center"}}>
-        {tabs.map(t=>(
-          <button key={t} onClick={()=>setTab(t)} style={{
-            padding:"5px 10px",borderRadius:6,border:"1px solid #e2e8f0",fontSize:11,
-            background:tab===t?"#1e293b":"transparent",color:tab===t?"#f8fafc":"#374151",cursor:"pointer",fontWeight:tab===t?700:400,
-            textTransform:"capitalize"
-          }}>{t}</button>
+      {/* M774: the ten tabs are grouped under six destinations (labels are not buttons; tab keys, order and button text are unchanged). */}
+      <nav className="xt-nav" aria-label="Dashboard sections">
+        {[["Summary",["overview","conclusions"]],["Battery & driving",["charts","distribution","highway vs city","records"]],["Fuel",["fuel"]],["Temperature",["thermal"]],["Battery health",["health"]],["Data & methods",["cross-vehicle"]]].map(([g,ts])=>(
+          <div key={g} className="xt-nav-group" role="group" aria-label={g}>
+            <div className="xt-nav-label">{g}</div>
+            <div className="xt-nav-btns">
+              {ts.map(t=>(
+                <button key={t} id={"tab-"+tabSlug(t)} aria-current={tab===t?"page":undefined} onClick={()=>setTab(t)} style={{
+                  padding:"2px 8px",borderRadius:5,border:"1px solid "+(tab===t?"#1e293b":"#cbd5e1"),fontSize:11,lineHeight:1.3,
+                  background:tab===t?"#1e293b":"#fff",color:tab===t?"#f8fafc":"#374151",cursor:"pointer",fontWeight:tab===t?700:500,
+                  textTransform:"capitalize"
+                }}>{t}</button>
+              ))}
+              {g==="Data & methods"&&<button onClick={()=>setShowGlossary(v=>!v)} aria-pressed={showGlossary} style={{
+                padding:"2px 8px",borderRadius:5,border:"1px solid #c4b5fd",fontSize:11,lineHeight:1.3,
+                background:showGlossary?"#7c3aed":"#fff",color:showGlossary?"#f8fafc":"#6d28d9",cursor:"pointer",fontWeight:700
+              }}>? Methods &amp; Glossary</button>}
+            </div>
+          </div>
         ))}
-        <button onClick={()=>setShowGlossary(v=>!v)} style={{
-          padding:"5px 10px",borderRadius:6,border:"1px solid #c4b5fd",fontSize:11,
-          background:showGlossary?"#7c3aed":"transparent",color:showGlossary?"#f8fafc":"#6d28d9",cursor:"pointer",fontWeight:700
-        }}>? Methods &amp; Glossary</button>
-      </div>
+      </nav>
 
       {showGlossary && <Glossary onClose={()=>setShowGlossary(false)}/>}
 
@@ -14096,7 +14129,7 @@ export default function App() {
               <strong>Data-provenance notice (raw-file provenance).</strong> {ps.disclosure} {ps.sensitivityStatement} Published cell-spread slope (reference of record): {m0.published} mV/month, 95% CI [{m0.publishedCI95?.[0]}, {m0.publishedCI95?.[1]}]. Result: before the raw files were replaced by the verified originals, a rebuild from the lower-precision re-exported copies was not robust for this slope, because it fell outside the published interval. That rebuild is a sensitivity analysis, not a finding, and the payload holds the full detail. Scope: of the {hk.nCompared} headline values compared in that earlier rebuild, {hk.nOutsidePublishedCI} fell outside their published interval (the cell-spread trend and the non-authoritative cell-health trend), {hk.nInsidePublishedCI} fell inside it, {hk.nUnchanged} were unchanged, {hk.nChangedNoPublishedCI} changed without a published interval (largest change {hk.maxAbsRelDeltaPctNoCI}%) and {hk.nNotComparable} were not comparable. {hk.decisionFlipsCount} equivalence decisions changed (cell-spread TOST p {hk.cellSpreadTostP?.published} → {hk.cellSpreadTostP?.rebuild}; equivalence was not established in either). Reading: {ps.wording?.[0]}.
             </div>); })()}
           <div style={{padding:10,background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,marginBottom:10,fontSize:12,color:"#166534",lineHeight:1.6}}>
-            <strong>Result:</strong> {spreadSpans()===false?"a "+spreadDir()+" conditional cell-spread slope is estimated relative to the May baseline (interval excludes zero; season-confounded)":"no difference from the May baseline is resolved"}. <strong>Scope:</strong> all paired samples across sessions, temperatures (sensor-1 peak up to {S.tPeakC ?? "—"}°C) and drive types; the median over drives of the mean spread is ~{S.cellHealthTrend?.restingSpreadMedianMv ?? "—"} mV, after {Math.round(S.totalKm).toLocaleString("en-US")} km and {S.gtcSum.toFixed(1)} gross capacity turnovers (GTC). <strong>Reading:</strong> {spreadSpans()===false?"this is a conditional-slope estimate, not a capacity or SOH change and not an equivalence result":"this is a non-detection, not an equivalence result"}; the equivalence test against the disclosed margin does not establish stability. This section reports cell-spread indicators only: no direct capacity SOH and no resistance-derived SOH is estimated. The authoritative cluster-robust-OLS 95% interval [{S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[0]}, {S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[1]}] mV/month {spreadSpans()===false?"excludes":"spans"} zero (equivalence testing below). <strong>Throughput units:</strong> GTC double-counts charge and discharge, at ≈{S.metricConvention?.gtcOverStandardEfc}× a discharge-only "standard EFC" of {S.metricConvention?.efcStandard?.toFixed(1)}. It differs from both the {S.fceSum.toFixed(1)} charge+discharge FCE and the {S.rfEfcSum?.toFixed(1)} Rainflow-EFC used elsewhere on this dashboard; FCE and standard EFC differ by the {S.metricConvention?.fceOverStandardEfc}× charge-discharge imbalance. <strong>Cross-check:</strong> rainflow cycle counting (an ASTM-style method) on the raw SoC trace gives a second count of cycles. It is compared on a matched set of drives, because rainflow is eligible on fewer drives than the current-integral FCE, and totals over different drive sets would show coverage, not agreement. On the {S.ledgerCrossCheck?.matchedAll?.n} drives where both metrics are computable, cumulative rainflow-EFC is {S.ledgerCrossCheck?.matchedAll?.rfEfc?.toFixed(1)} against {S.ledgerCrossCheck?.matchedAll?.fce?.toFixed(1)} coulometric FCE — a ratio of <strong style={{color:"#7c3aed"}}>{S.ledgerCrossCheck?.matchedAll?.ratio?.toFixed(3)}</strong> ({S.ledgerCrossCheck?.matchedClean?.ratio?.toFixed(3)} on the {S.ledgerCrossCheck?.matchedClean?.n} canonical-clean matched drives). Per-drive correlation is very high (Pearson r = {S.ledgerCrossCheck?.matchedAll?.pearsonR?.toFixed(3)}), but rainflow runs systematically ~{S.ledgerCrossCheck?.matchedAll?.excessPct?.toFixed(1)}% higher (mean bias +{S.ledgerCrossCheck?.matchedAll?.biasPerDrive?.toFixed(3)} EFC/drive). Reading: the gap is a stable definitional offset, caused by different cycle-counting rules and by the step size of the SoC signal. It is <em>not</em> numerical closure. High correlation between two throughput ledgers supports the direction of the accounting, but the two totals are not equal.
+            <strong>Result:</strong> {spreadSpans()===false?"a "+spreadDir()+" conditional cell-spread slope is estimated relative to the May baseline (interval excludes zero; season-confounded)":"no difference from the May baseline is resolved"}. <strong>Scope:</strong> all paired samples across sessions, temperatures (sensor-1 peak up to {S.tPeakC ?? "—"}°C) and drive types; the median over drives of the mean spread is ~{S.cellHealthTrend?.restingSpreadMedianMv ?? "—"} mV, after {Math.round(S.totalKm).toLocaleString("en-US")} km and {S.gtcSum.toFixed(1)} gross capacity turnovers (GTC). <strong>Reading:</strong> {spreadSpans()===false?"this is a conditional-slope estimate, not a capacity or SOH change and not an equivalence result":"this is a non-detection, not an equivalence result"}; the equivalence test against the disclosed margin does not establish stability. This section reports cell-spread indicators only: no direct capacity SOH and no resistance-derived SOH is estimated. The authoritative cluster-robust-OLS 95% interval [{S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[0]}, {S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[1]}] mV/month {spreadSpans()===false?"excludes":"spans"} zero (equivalence testing below). <strong>Throughput units:</strong> GTC double-counts charge and discharge, at ≈{S.metricConvention?.gtcOverStandardEfc}× a discharge-only "standard EFC" of {S.metricConvention?.efcStandard?.toFixed(1)}. It differs from both the {S.fceSum.toFixed(1)} charge+discharge FCE and the {S.rfEfcSum?.toFixed(1)} Rainflow-EFC used elsewhere on this dashboard; FCE and standard EFC differ by the {S.metricConvention?.fceOverStandardEfc}× charge-discharge imbalance. <strong>Cross-check:</strong> rainflow cycle counting (an ASTM-style method) on the raw SoC trace gives a second count of cycles. It is compared on a matched set of drives, because the two methods are eligible on different drive sets, and totals over different drive sets would show coverage, not agreement. On the {S.ledgerCrossCheck?.matchedAll?.n} drives where both metrics are computable, cumulative rainflow-EFC is {S.ledgerCrossCheck?.matchedAll?.rfEfc?.toFixed(1)} against {S.ledgerCrossCheck?.matchedAll?.fce?.toFixed(1)} coulometric FCE — a ratio of <strong style={{color:"#7c3aed"}}>{S.ledgerCrossCheck?.matchedAll?.ratio?.toFixed(3)}</strong> ({S.ledgerCrossCheck?.matchedClean?.ratio?.toFixed(3)} on the {S.ledgerCrossCheck?.matchedClean?.n} canonical-clean matched drives). Per-drive correlation is very high (Pearson r = {S.ledgerCrossCheck?.matchedAll?.pearsonR?.toFixed(3)}), but rainflow runs systematically ~{Math.abs(S.ledgerCrossCheck?.matchedAll?.excessPct ?? NaN).toFixed(1)}% {(S.ledgerCrossCheck?.matchedAll?.excessPct ?? 0) >= 0 ? "higher" : "lower"} (mean bias {(S.ledgerCrossCheck?.matchedAll?.biasPerDrive ?? 0) >= 0 ? "+" : "−"}{Math.abs(S.ledgerCrossCheck?.matchedAll?.biasPerDrive ?? NaN).toFixed(3)} EFC/drive). Reading: the gap is a stable definitional offset, caused by different cycle-counting rules and by the step size of the SoC signal. It is <em>not</em> numerical closure. High correlation between two throughput ledgers supports the direction of the accounting, but the two totals are not equal.
           </div>
           <div style={{padding:10,background:"#f1f5f9",borderRadius:8,marginBottom:10,fontSize:11,color:"#374151",lineHeight:1.6,border:"1px solid #e2e8f0"}}>
             <strong style={{color:"#0f172a"}}>Secondary robustness cross-check (ens_outlier_v2-clean, n={S.cellHealthTrend.n}); not the authoritative estimate.</strong> It regresses the already temperature- and current-deconfounded spread series with a day-clustered bootstrap. The authoritative cluster-robust-OLS estimator below regresses the raw series with pack temperature and peak current as explicit controls. The OLS point estimate ({S.cellHealthTrend.olsSlopeMvPerMo} mV/month) is set beside a robust Huber fit ({S.cellHealthTrend.huberSlopeMvPerMo} mV/month, n={S.cellHealthTrend.nHuber}{(()=>{
