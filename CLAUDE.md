@@ -35,6 +35,11 @@ New tooling only under `tools/`. Do not reorganise the tree before the reproduct
 - Use appropriate ML/statistical methods to prevent false-negative and false-optimistic results; report method
   disagreement (e.g. Path A vs Path B) instead of tuning to agree.
 
+## Python file encoding (standing, M777, owner request 2026-11-25)
+Every Python `open()`, `read_text()` and `write_text()` in repo code, tests and sub-agent scratch scripts passes `encoding="utf-8"` (the Windows default is cp1251; 
+CI fails on `tests/synthetic/test_encoding_guard.py` otherwise). Run `python tests/synthetic/test_encoding_guard.py` before pushing; the tracked pre-push hook 
+(`python tools/install_git_hooks.py` once per clone) runs it for you. Briefs to sub-agents that write scripts repeat this rule. Setting `PYTHONUTF8=1` on the machine is recommended.
+
 ## Language discipline
 - Generator/traction quantities are estimated / reconstructed / model-derived, never "measured".
 - TOST "not established" is not "no degradation" (window too short). `CAP_KWH=2.1` and the 20,000 GTC threshold are
