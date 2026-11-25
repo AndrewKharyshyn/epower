@@ -56,3 +56,13 @@ Any change to a logged figure, the KPI, the thermal or energy analyses; imputing
 
 ## 9. Questions for the Director
 (a) Is reporting the cloud km as "at least" beside OBD km, with a definition range, consistent with the M739 ruling that cloud distance is not carried (bias about -6 %)? (b) Are the primary rule (P = 45 s, midpoint speed above 2 km/h) and the sensitivity grid defensible, and is the D1 +-10 % criterion sensible? (c) Is the G1/G2 split a sound way to bound unresolved movement without stacking? (d) Any wording that conflicts with the language gate or the owner's "cloud complementary" decision?
+
+## 10. Rev 2.1 clarifications (written AFTER the first tool run and the blind audit; no threshold, estimand or decision rule changed)
+Rev 2 file sha256 before this section: f98f404213641cfc5f2b8a47a24417757d07922bdb7a3427ca69894503dc67c5. The first tool run implemented "a speed sample within 25 s of the step midpoint with speed above 2 km/h" as the NEAREST sample; the blind audit (analyses/M776_audit/) implemented it as ANY such sample, which is the literal spec text, and differed by 0.3 to 13.6 km per month. The tool was corrected to the literal reading before any payload was written; after the correction tool and audit agree on every month (OBD km, drives, days; cloud km outside the logs and its steps; G1, G2). Pinned readings:
+- Speed support: any speed sample with |t - midpoint| at most the support window and speed above the floor.
+- Overlap with a padded window is inclusive (a step touching the padded edge overlaps).
+- Study span starts at the first OBD window (11 May); cloud steps before it are not counted (including them would add 92.9 km to May, audit note). The export span ends at the last odometer sample; drives starting inside it enter E1.
+- A day is the Kyiv date of the END of the step or gap increment (t2); an increment crossing local midnight (2.5 km on 17/18 October) therefore falls on the later date, the audit assigned it to the earlier date; month totals are unaffected.
+- e4ORCE_*.csv files in raw/ belong to another vehicle and are not OBD windows of this car (listed in the output); the two comparison-only files (2026-07-30 22-06-51, 2026-08-01 20-53-20) ARE windows (the Director's ruling).
+- Odometer rows listed in conflicts.csv are dropped; zero-increment pairs are ignored.
+- Grid: the step-gap value 25 s is below the nominal 30 s cloud cadence and reclassifies almost every step as a gap increment, so the pre-registered D1(b) check fails on the full grid by construction. The tool reports both the full factorial and the same grid without the 25 s point (fields ...Gap35Plus); the verdict on D1(b) is the Director's, and the deviation is recorded here.
