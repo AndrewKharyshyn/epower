@@ -1,0 +1,35 @@
+{
+ "milestone": "M773",
+ "spec": "analyses/M773_spec.md Rev 2",
+ "result": "analyses/M773_topup_before_after.json",
+ "audit": "analyses/M773_audit.json",
+ "reviewer": "research-director (Opus); recorded by the main session (Sonnet)",
+ "decision": "accept as report-only; reading 'not informative at this support'; no dashboard, no article",
+ "owner_decision": "2026-11-25 (Andrii, chat): 'Before/after look around the 26 July top-up: We can do this.'",
+ "scale_decision": {"quote": "You may trust the data since it is plausible and according to my manual control. So the pressure is assumed to be correct.", "date": "24 Nov 2026", "source": "chat", "independentlyVerified": false},
+ "allowed_wording": [
+  "M773 before/after look at one tyre top-up: the covariate-adjusted difference in battery-side electric-driving energy (engine-speed proxy at most 400 rpm) is +1.16 kWh per 100 km [-0.88, 3.25] (60 drives on 19 days before, 56 on 18 days after; MDE 2.95), about 70 times the half-MDE threshold of 0.042: not informative at this support",
+  "the sign is opposite to the pre-registered expectation (-0.7 % to -5.3 %) and the interval includes zero",
+  "the placebo windows reach about 3 kWh per 100 km: the scale of the season, route, HVAC and load confounding, larger than both the observed and the expected change",
+  "the sensitivities span +0.28 to +1.69 (regen-poor subset -0.65); nothing is picked"
+ ],
+ "forbidden": ["pressure effect, no effect, no pressure effect", "rolling resistance measured or reduced", "the top-up increased consumption", "significant (any window)", "measured (for the outcome)", "calibrated by the placebo", "confirmed or ruled out"],
+ "quotable_now": [
+  "the 42-day window only together with the primary, as a sensitivity: +1.54 with a lower bound of 0.09 (author) or 0.02 (audit), i.e. at zero and implementation sensitive; read as inconsistent with the expected sign, confounding suspected, never as a finding",
+  "placebo -42 days: about -3.1 [about -6.0, about 0.0] (the upper bound falls either side of zero: no inclusion or exclusion statement); placebo +42 days +0.8 to +1.0 (implementation difference unresolved): magnitudes of confounding only",
+  "pressure dose (cold-equivalent medians): before 235 to 239 kPa; week +1 261 kPa (4 drives); weeks +2 to +4 247 to 249 kPa"
+ ],
+ "deviations_to_state": [
+  "the eligible-drive mean is 12.10 kWh per 100 km (445 drives), not the 14.2 of the spec text (645 channel drives): the half-MDE threshold is 0.042",
+  "the 14-day window has 7 after-days, not 8",
+  "the offset-covariate sensitivity is degenerate (every resample rank deficient; the estimate equals the primary): report it as non-estimable",
+  "the winsorised sensitivity was added after the audit (post hoc, labelled)",
+  "placebo centres skipped by the guard: 28 days +56 and +84, 14 days +84; several centres are counts only",
+  "the realised sustained dose is about +4 to +6 %, below the assumed 10 to 16 %, so the expected change is smaller still",
+  "one drive differs in the long-soak gap between a local-time and a UTC basis (DST)",
+  "the EV mean speed fell from 34.9 to 32.2 km/h across the step (an observation, not an explanation)"
+ ],
+ "dashboard": "not allowed",
+ "needs_andrii_signoff": false,
+ "follow_ups": ["reconcile the author and audit placebo +42 days and the 42-day lower bound (seed, resample or covariate path); low priority", "fix or drop the offset covariate (collinear) in the tool", "fix the long-soak flag to one time basis", "no further top-up looks on this channel unless the effect is designed (paired, many steps)"]
+}
