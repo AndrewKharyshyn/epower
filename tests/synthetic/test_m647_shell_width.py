@@ -4,6 +4,6 @@ import os
 REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 J = open(os.path.join(REPO, "xtrail_summary.jsx"), encoding="utf-8").read()
 B = open(os.path.join(REPO, "build_html.js"), encoding="utf-8").read()
-assert 'padding:16,maxWidth:1128,margin:"0 auto"' in J and "maxWidth:740" not in J
-assert "#root{max-width:1160px;" in B and 'svg[width="100%"]{max-height:640px}' in B
+assert 'padding:20,maxWidth:1128,margin:"0 auto"' in J and "maxWidth:740" not in J  # M774: padding 16 -> 20, zoomed shell
+assert "#root{max-width:none;" in B  # M774: the zoomed .xt-root column is centred by its own margin and 'svg[width="100%"]{max-height:640px}' in B
 print("PASS test_m647_shell_width")
