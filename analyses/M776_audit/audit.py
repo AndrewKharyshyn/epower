@@ -97,5 +97,5 @@ dayout={}
 for d in ['2026-10-17','2026-10-18']:
     g=dd[dd.d==d];dayout[d]=dict(obd=round(g.distance_km.sum(),1),drives=len(g),E2=round(D[d]['E2'],1),G1=round(D[d]['G1'],1),G2=round(D[d]['G2'],1))
 res=dict(n_windows=len(wins),not_in_master=notinmaster,span=[pd.Timestamp(x,unit='s',tz='UTC').isoformat() for x in span],months=out,days=dayout)
-json.dump(res,open(R+'analyses/M776_audit/audit_out.json','w'),indent=1)
+json.dump(res,open(R+'analyses/M776_audit/audit_out.json','w',encoding='utf-8'),indent=1)
 print(json.dumps(res,indent=0)[:6000])
