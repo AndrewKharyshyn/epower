@@ -71294,6 +71294,56 @@
      "analyses/M767_grade_class_shares.json": "da28715254178a84d9e275a5eb2654f5"
     }
    }
+  },
+  "cloudMonthlyCoverage": {
+   "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-25T11:34:54.941935+00:00",
+   "pipelineVersion": 6,
+   "computationStatus": "computed",
+   "computationStatusNote": "M776: copied by tools/cloud_monthly_payload.py from the registered monthly cloud-movement result (auxiliary; spec analyses/M776_spec.md Rev 2)",
+   "includedInReleaseAt": "2026-11-25T11:34:54.941935+00:00",
+   "computedAt": "2026-11-25T11:34:54.941935+00:00",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "inputBasis": {
+    "nDrives": 717,
+    "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "declaredIdentity": {
+    "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M776_cloud_monthly.json": "c2ce5a1d6129908a46b676e954fd7fef",
+     "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff"
+    }
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+      "generatedAt": "2026-11-25T11:34:54.941935+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-11-25T11:34:58.856070+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "upstreamHashes": {
+    "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M776_cloud_monthly.json": "c2ce5a1d6129908a46b676e954fd7fef",
+     "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff"
+    }
+   }
   }
  },
  "ambientTable": {
@@ -480377,5 +480427,631 @@
    },
    "unsupported": "interval not shown: fewer than 20 stretches or 5 days in the class"
   }
+ },
+ "cloudMonthlyCoverage": {
+  "label": "OBD-logged distance and speed-supported cloud movement outside the logs, by month",
+  "status": "auxiliary; not an article figure; snapshot registered on 717 drives (master d514d600; 713 start inside the export span 2026-05-10 to 2026-11-19); not recomputed with later drives",
+  "spec": "analyses/M776_spec.md Rev 2.1",
+  "specSha256": "b7ab20334b90984a1e9c4f2c2f986defae37b011164ba8a783c0c7b8e615f704",
+  "registeredMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+  "sourceSha256": [
+   "M776_cloud_monthly.json",
+   "M739_unlogged_exposure.json"
+  ],
+  "ruleLabel": "Cloud movement counted here: successive odometer samples at most 35 s apart, speed above 2 km/h within 25 s of the step midpoint, implied speed at most 180 km/h, and the whole step outside every OBD log padded by 45 s. A step is assigned to the Kyiv month of both its ends.",
+  "headlineMonth": "2026-10",
+  "months": [
+   {
+    "month": "2026-05",
+    "partial": true,
+    "obdKm": 358.3,
+    "obdDrives": 38,
+    "obdDays": 10,
+    "cloudOutsideKm": 337.7,
+    "cloudOutsideSteps": 1719,
+    "cloudOutsideDays": 19,
+    "e2SensitivityMinKm": 1.7,
+    "e2SensitivityMaxKm": 337.8,
+    "e2SensitivityMinKmGap35Plus": 337.7,
+    "e2SensitivityMaxKmGap35Plus": 337.8,
+    "small": false,
+    "g1Km": 13.0,
+    "g1N": 8,
+    "g2Km": 36.2,
+    "g2N": 4,
+    "definitionRangeKm": [
+     337.7,
+     350.7
+    ],
+    "cloudInsideLogsKm": 335.5,
+    "captureInsideLogs": 0.936,
+    "belowResolution": false
+   },
+   {
+    "month": "2026-06",
+    "partial": false,
+    "obdKm": 2594.9,
+    "obdDrives": 63,
+    "obdDays": 18,
+    "cloudOutsideKm": 413.3,
+    "cloudOutsideSteps": 1284,
+    "cloudOutsideDays": 17,
+    "e2SensitivityMinKm": 0.1,
+    "e2SensitivityMaxKm": 413.4,
+    "e2SensitivityMinKmGap35Plus": 413.3,
+    "e2SensitivityMaxKmGap35Plus": 413.4,
+    "small": false,
+    "g1Km": 0.0,
+    "g1N": 0,
+    "g2Km": 203.0,
+    "g2N": 6,
+    "definitionRangeKm": [
+     413.3,
+     413.3
+    ],
+    "cloudInsideLogsKm": 2419.7,
+    "captureInsideLogs": 0.932,
+    "belowResolution": false
+   },
+   {
+    "month": "2026-07",
+    "partial": false,
+    "obdKm": 2870.3,
+    "obdDrives": 93,
+    "obdDays": 20,
+    "cloudOutsideKm": 28.4,
+    "cloudOutsideSteps": 108,
+    "cloudOutsideDays": 11,
+    "e2SensitivityMinKm": 0.0,
+    "e2SensitivityMaxKm": 28.5,
+    "e2SensitivityMinKmGap35Plus": 28.3,
+    "e2SensitivityMaxKmGap35Plus": 28.5,
+    "small": true,
+    "g1Km": 0.0,
+    "g1N": 0,
+    "g2Km": 24.0,
+    "g2N": 3,
+    "definitionRangeKm": [
+     28.4,
+     28.4
+    ],
+    "cloudInsideLogsKm": 2913.7,
+    "captureInsideLogs": 1.015,
+    "belowResolution": false
+   },
+   {
+    "month": "2026-08",
+    "partial": false,
+    "obdKm": 2130.5,
+    "obdDrives": 111,
+    "obdDays": 26,
+    "cloudOutsideKm": 105.8,
+    "cloudOutsideSteps": 349,
+    "cloudOutsideDays": 14,
+    "e2SensitivityMinKm": 0.4,
+    "e2SensitivityMaxKm": 106.0,
+    "e2SensitivityMinKmGap35Plus": 105.4,
+    "e2SensitivityMaxKmGap35Plus": 106.0,
+    "small": false,
+    "g1Km": 0.6,
+    "g1N": 2,
+    "g2Km": 475.6,
+    "g2N": 29,
+    "definitionRangeKm": [
+     105.8,
+     106.4
+    ],
+    "cloudInsideLogsKm": 1709.2,
+    "captureInsideLogs": 0.802,
+    "belowResolution": false
+   },
+   {
+    "month": "2026-09",
+    "partial": false,
+    "obdKm": 799.8,
+    "obdDrives": 186,
+    "obdDays": 30,
+    "cloudOutsideKm": 181.8,
+    "cloudOutsideSteps": 1096,
+    "cloudOutsideDays": 20,
+    "e2SensitivityMinKm": 0.7,
+    "e2SensitivityMaxKm": 181.8,
+    "e2SensitivityMinKmGap35Plus": 181.7,
+    "e2SensitivityMaxKmGap35Plus": 181.8,
+    "small": false,
+    "g1Km": 4.3,
+    "g1N": 2,
+    "g2Km": 88.7,
+    "g2N": 8,
+    "definitionRangeKm": [
+     181.8,
+     186.1
+    ],
+    "cloudInsideLogsKm": 787.9,
+    "captureInsideLogs": 0.985,
+    "belowResolution": false
+   },
+   {
+    "month": "2026-10",
+    "partial": false,
+    "obdKm": 1707.0,
+    "obdDrives": 115,
+    "obdDays": 17,
+    "cloudOutsideKm": 560.3,
+    "cloudOutsideSteps": 1512,
+    "cloudOutsideDays": 15,
+    "e2SensitivityMinKm": 0.5,
+    "e2SensitivityMaxKm": 560.4,
+    "e2SensitivityMinKmGap35Plus": 560.3,
+    "e2SensitivityMaxKmGap35Plus": 560.4,
+    "small": false,
+    "g1Km": 96.2,
+    "g1N": 2,
+    "g2Km": 899.7,
+    "g2N": 30,
+    "definitionRangeKm": [
+     560.3,
+     656.6
+    ],
+    "cloudInsideLogsKm": 927.8,
+    "captureInsideLogs": 0.544,
+    "belowResolution": false
+   },
+   {
+    "month": "2026-11",
+    "partial": true,
+    "obdKm": 595.8,
+    "obdDrives": 107,
+    "obdDays": 19,
+    "cloudOutsideKm": 166.0,
+    "cloudOutsideSteps": 851,
+    "cloudOutsideDays": 16,
+    "e2SensitivityMinKm": 0.5,
+    "e2SensitivityMaxKm": 166.1,
+    "e2SensitivityMinKmGap35Plus": 165.7,
+    "e2SensitivityMaxKmGap35Plus": 166.1,
+    "small": false,
+    "g1Km": 3.3,
+    "g1N": 3,
+    "g2Km": 52.4,
+    "g2N": 9,
+    "definitionRangeKm": [
+     166.0,
+     169.3
+    ],
+    "cloudInsideLogsKm": 561.1,
+    "captureInsideLogs": 0.942,
+    "belowResolution": false
+   }
+  ],
+  "monthUnknown": [
+   {
+    "cloudOutsideKm": 0.0,
+    "g1Km": 0.0,
+    "g2Km": 2.5
+   }
+  ],
+  "totals": {
+   "obdKm": 11056.6,
+   "cloudOutsideKm": 1793.3,
+   "g1Km": 117.4,
+   "g2Km": 1782.1,
+   "cloudInsideLogsKm": 9654.9
+  },
+  "crossReferenceM739": {
+   "m739StrictUnitsKm": 1917.9,
+   "m776E2TotalKm": 1793.3,
+   "relativeDifference": -0.065,
+   "explanation": "M739 joins steps into movement units (pauses up to 120 s) with a 60 s pad and a different support rule; M776 counts single steps with a 45 s pad, so the totals are close but not equal. The difference is reported, not reconciled."
+  },
+  "d4": {
+   "cloudMovementOnDayWithoutObd": [
+    "2026-05-19",
+    "2026-05-20",
+    "2026-05-21",
+    "2026-05-22",
+    "2026-05-24",
+    "2026-05-25",
+    "2026-05-26",
+    "2026-05-27",
+    "2026-05-28",
+    "2026-05-29",
+    "2026-05-30",
+    "2026-06-01",
+    "2026-06-04",
+    "2026-06-05",
+    "2026-06-06",
+    "2026-06-07",
+    "2026-06-08",
+    "2026-06-23",
+    "2026-06-26",
+    "2026-08-11",
+    "2026-10-18",
+    "2026-10-22",
+    "2026-10-24",
+    "2026-10-25",
+    "2026-10-31"
+   ],
+   "longGapIncrementInG2NotE2": [
+    "2026-06-20",
+    "2026-08-30",
+    "2026-10-15",
+    "2026-10-16",
+    "2026-10-17"
+   ],
+   "day2026_10_18": {
+    "date": "2026-10-18",
+    "obdKm": 0.0,
+    "e2Km": 116.8,
+    "g1Km": 94.7,
+    "g2Km": 2.4
+   },
+   "day2026_10_17": {
+    "date": "2026-10-17",
+    "obdKm": 457.9,
+    "e2Km": 1.8,
+    "g1Km": 0.0,
+    "g2Km": 423.4
+   }
+  },
+  "rejectedSteps": {
+   "rej_nosupport": 294,
+   "rej_negative": 18,
+   "rej_speed": 8
+  },
+  "gridCombinations": 108,
+  "gridNote": "the pre-registered step-gap grid {25, 35, 45} s contains a value below the nominal 30 s cloud cadence, so at 25 s almost every step is reclassified as a gap increment; the e2Sensitivity*Gap35Plus fields repeat the full factorial without that point (a recorded deviation from spec Rev 2, for the Director)",
+  "daysWithoutObdWithCloudMovement": [
+   {
+    "date": "2026-05-19",
+    "obdKm": 0.0,
+    "e2Km": 6.0,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-20",
+    "obdKm": 0.0,
+    "e2Km": 30.1,
+    "g1Km": 0.6,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-21",
+    "obdKm": 0.0,
+    "e2Km": 24.1,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-22",
+    "obdKm": 0.0,
+    "e2Km": 43.0,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-24",
+    "obdKm": 0.0,
+    "e2Km": 17.6,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-25",
+    "obdKm": 0.0,
+    "e2Km": 11.2,
+    "g1Km": 0.4,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-26",
+    "obdKm": 0.0,
+    "e2Km": 21.6,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-27",
+    "obdKm": 0.0,
+    "e2Km": 32.3,
+    "g1Km": 3.3,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-28",
+    "obdKm": 0.0,
+    "e2Km": 26.4,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-29",
+    "obdKm": 0.0,
+    "e2Km": 31.8,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-05-30",
+    "obdKm": 0.0,
+    "e2Km": 27.7,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-01",
+    "obdKm": 0.0,
+    "e2Km": 44.9,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-04",
+    "obdKm": 0.0,
+    "e2Km": 17.9,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-05",
+    "obdKm": 0.0,
+    "e2Km": 13.5,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-06",
+    "obdKm": 0.0,
+    "e2Km": 15.0,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-07",
+    "obdKm": 0.0,
+    "e2Km": 22.8,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-08",
+    "obdKm": 0.0,
+    "e2Km": 10.7,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-23",
+    "obdKm": 0.0,
+    "e2Km": 5.2,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-06-26",
+    "obdKm": 0.0,
+    "e2Km": 5.3,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-08-11",
+    "obdKm": 0.0,
+    "e2Km": 79.6,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-10-18",
+    "obdKm": 0.0,
+    "e2Km": 116.8,
+    "g1Km": 94.7,
+    "g2Km": 2.4
+   },
+   {
+    "date": "2026-10-22",
+    "obdKm": 0.0,
+    "e2Km": 15.5,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-10-24",
+    "obdKm": 0.0,
+    "e2Km": 9.8,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-10-25",
+    "obdKm": 0.0,
+    "e2Km": 137.9,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   },
+   {
+    "date": "2026-10-31",
+    "obdKm": 0.0,
+    "e2Km": 225.7,
+    "g1Km": 0.0,
+    "g2Km": 0.0
+   }
+  ],
+  "cloudReportingGapDates": [
+   "2026-06-02",
+   "2026-06-15",
+   "2026-06-30",
+   "2026-07-01",
+   "2026-07-03",
+   "2026-07-04",
+   "2026-07-06",
+   "2026-07-08",
+   "2026-07-10",
+   "2026-07-27",
+   "2026-07-29",
+   "2026-07-31",
+   "2026-08-07",
+   "2026-08-27",
+   "2026-10-19",
+   "2026-10-21",
+   "2026-10-23",
+   "2026-10-26",
+   "2026-10-27",
+   "2026-10-28",
+   "2026-10-30"
+  ],
+  "cloudHoles24h": [
+   {
+    "from": "2026-05-19",
+    "to": "2026-05-20",
+    "hours": 26.0
+   },
+   {
+    "from": "2026-05-30",
+    "to": "2026-05-31",
+    "hours": 24.0
+   },
+   {
+    "from": "2026-06-01",
+    "to": "2026-06-03",
+    "hours": 38.4
+   },
+   {
+    "from": "2026-06-14",
+    "to": "2026-06-16",
+    "hours": 44.8
+   },
+   {
+    "from": "2026-06-19",
+    "to": "2026-06-20",
+    "hours": 24.4
+   },
+   {
+    "from": "2026-06-29",
+    "to": "2026-07-02",
+    "hours": 73.2
+   },
+   {
+    "from": "2026-07-02",
+    "to": "2026-07-05",
+    "hours": 61.6
+   },
+   {
+    "from": "2026-07-05",
+    "to": "2026-07-07",
+    "hours": 52.5
+   },
+   {
+    "from": "2026-07-07",
+    "to": "2026-07-09",
+    "hours": 47.0
+   },
+   {
+    "from": "2026-07-09",
+    "to": "2026-07-11",
+    "hours": 38.2
+   },
+   {
+    "from": "2026-07-26",
+    "to": "2026-07-28",
+    "hours": 36.6
+   },
+   {
+    "from": "2026-07-28",
+    "to": "2026-07-30",
+    "hours": 47.5
+   },
+   {
+    "from": "2026-07-30",
+    "to": "2026-08-01",
+    "hours": 43.2
+   },
+   {
+    "from": "2026-08-06",
+    "to": "2026-08-08",
+    "hours": 43.9
+   },
+   {
+    "from": "2026-08-12",
+    "to": "2026-08-13",
+    "hours": 26.3
+   },
+   {
+    "from": "2026-08-19",
+    "to": "2026-08-20",
+    "hours": 29.9
+   },
+   {
+    "from": "2026-08-25",
+    "to": "2026-08-26",
+    "hours": 25.2
+   },
+   {
+    "from": "2026-08-26",
+    "to": "2026-08-28",
+    "hours": 44.8
+   },
+   {
+    "from": "2026-10-18",
+    "to": "2026-10-20",
+    "hours": 52.5
+   },
+   {
+    "from": "2026-10-20",
+    "to": "2026-10-22",
+    "hours": 43.8
+   },
+   {
+    "from": "2026-10-22",
+    "to": "2026-10-24",
+    "hours": 45.7
+   },
+   {
+    "from": "2026-10-25",
+    "to": "2026-10-29",
+    "hours": 98.7
+   },
+   {
+    "from": "2026-10-29",
+    "to": "2026-10-31",
+    "hours": 36.6
+   },
+   {
+    "from": "2026-11-16",
+    "to": "2026-11-17",
+    "hours": 25.3
+   }
+  ],
+  "obdWindows": {
+   "rawFiles": 719,
+   "notInMaster": 2
+  },
+  "m739Reference": {
+   "aggregateSignedDifferenceRelative": -0.06278192429898471,
+   "aggregateInterval95Day": [
+    -0.10407487404837806,
+    -0.029429513017240765
+   ],
+   "shortestTercileStrata": {
+    "0/weekday": {
+     "nDrives": 128,
+     "nDays": 56,
+     "aggregateSignedDifferenceRelative": -0.24499511718749994
+    },
+    "0/weekend": {
+     "nDrives": 85,
+     "nDays": 29,
+     "aggregateSignedDifferenceRelative": -0.05112251722368785
+    }
+   },
+   "reading": "cloud step distance of logged drives, relative to their OBD distance"
+  },
+  "reading": [
+   "Kilometres are OBD-logged distance and speed-supported cloud movement outside those logs; the cloud value is a lower value under the stated rule, not a total.",
+   "Movement across long gaps is listed separately, with its timing unresolved, and is never added to the bars.",
+   "The definition range (cloud movement plus unresolved gap movement) is not a bound or an interval: driving that the cloud did not register cannot be excluded.",
+   "No percentage is computed across the two sources."
+  ]
  }
 }
