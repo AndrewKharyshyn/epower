@@ -491,6 +491,20 @@
     "analyses/M765_director_decision.json"
    ]
   },
+  "cloudMonthlyCoverage": {
+   "producer": "tools/cloud_monthly_payload.py",
+   "producerStages": [
+    "cloud_monthly_payload"
+   ],
+   "readsRaw": false,
+   "readsRawManifest": false,
+   "rawNote": "no raw read; copies the registered monthly OBD-versus-cloud movement result (MyNISSAN, auxiliary) pinned by file sha256 in tools/cloud_monthly_payload.py",
+   "configSections": [],
+   "inputFiles": [
+    "analyses/M776_cloud_monthly.json",
+    "analyses/M739_unlogged_exposure.json"
+   ]
+  },
   "heatSoakGapSensitivity": {
    "producer": "tools/heatsoak_gap_payload.py",
    "producerStages": [

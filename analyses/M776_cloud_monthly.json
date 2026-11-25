@@ -1,12 +1,12 @@
 {
  "milestone": "M776",
  "spec": "analyses/M776_spec.md Rev 2",
- "specSha256": "f98f404213641cfc5f2b8a47a24417757d07922bdb7a3427ca69894503dc67c5",
+ "specSha256": "b7ab20334b90984a1e9c4f2c2f986defae37b011164ba8a783c0c7b8e615f704",
  "role": "auxiliary; not an article figure",
  "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
  "pinnedMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
  "privacy": "aggregates only; no coordinates or per-drive tracks",
- "toolSha256": "8b23fcb75bb5c6ba030d3e843298909ef8d0b8861cd007211b4b69af2ce286c0",
+ "toolSha256": "cbb7e172c9f8c5647725cd5be83f745ac73fb39b2a71e6bdf04c30f8d73c69c7",
  "exportSpanKyiv": [
   "2026-05-10T12:25:56+03:00",
   "2026-11-19T18:43:14+02:00"
@@ -80,6 +80,7 @@
    "e2SensitivityMinKmGap35Plus": 337.7,
    "e2SensitivityMaxKmGap35Plus": 337.8,
    "small": false,
+   "belowResolution": false,
    "g1Km": 13.0,
    "g1N": 8,
    "g2Km": 36.2,
@@ -105,6 +106,7 @@
    "e2SensitivityMinKmGap35Plus": 413.3,
    "e2SensitivityMaxKmGap35Plus": 413.4,
    "small": false,
+   "belowResolution": false,
    "g1Km": 0.0,
    "g1N": 0,
    "g2Km": 203.0,
@@ -130,6 +132,7 @@
    "e2SensitivityMinKmGap35Plus": 28.3,
    "e2SensitivityMaxKmGap35Plus": 28.5,
    "small": true,
+   "belowResolution": false,
    "g1Km": 0.0,
    "g1N": 0,
    "g2Km": 24.0,
@@ -155,6 +158,7 @@
    "e2SensitivityMinKmGap35Plus": 105.4,
    "e2SensitivityMaxKmGap35Plus": 106.0,
    "small": false,
+   "belowResolution": false,
    "g1Km": 0.6,
    "g1N": 2,
    "g2Km": 475.6,
@@ -180,6 +184,7 @@
    "e2SensitivityMinKmGap35Plus": 181.7,
    "e2SensitivityMaxKmGap35Plus": 181.8,
    "small": false,
+   "belowResolution": false,
    "g1Km": 4.3,
    "g1N": 2,
    "g2Km": 88.7,
@@ -205,6 +210,7 @@
    "e2SensitivityMinKmGap35Plus": 560.3,
    "e2SensitivityMaxKmGap35Plus": 560.4,
    "small": false,
+   "belowResolution": false,
    "g1Km": 96.2,
    "g1N": 2,
    "g2Km": 899.7,
@@ -218,7 +224,7 @@
   },
   {
    "month": "2026-11",
-   "partial": false,
+   "partial": true,
    "obdKm": 595.8,
    "obdDrives": 107,
    "obdDays": 19,
@@ -230,6 +236,7 @@
    "e2SensitivityMinKmGap35Plus": 165.7,
    "e2SensitivityMaxKmGap35Plus": 166.1,
    "small": false,
+   "belowResolution": false,
    "g1Km": 3.3,
    "g1N": 3,
    "g2Km": 52.4,
@@ -255,6 +262,7 @@
    "e2SensitivityMinKmGap35Plus": 0.0,
    "e2SensitivityMaxKmGap35Plus": 0.0,
    "small": true,
+   "belowResolution": true,
    "g1Km": 0.0,
    "g1N": 0,
    "g2Km": 2.5,
@@ -278,6 +286,62 @@
   "rej_nosupport": 294,
   "rej_negative": 18,
   "rej_speed": 8
+ },
+ "d4": {
+  "cloudMovementOnDayWithoutObd": [
+   "2026-05-19",
+   "2026-05-20",
+   "2026-05-21",
+   "2026-05-22",
+   "2026-05-24",
+   "2026-05-25",
+   "2026-05-26",
+   "2026-05-27",
+   "2026-05-28",
+   "2026-05-29",
+   "2026-05-30",
+   "2026-06-01",
+   "2026-06-04",
+   "2026-06-05",
+   "2026-06-06",
+   "2026-06-07",
+   "2026-06-08",
+   "2026-06-23",
+   "2026-06-26",
+   "2026-08-11",
+   "2026-10-18",
+   "2026-10-22",
+   "2026-10-24",
+   "2026-10-25",
+   "2026-10-31"
+  ],
+  "longGapIncrementInG2NotE2": [
+   "2026-06-20",
+   "2026-08-30",
+   "2026-10-15",
+   "2026-10-16",
+   "2026-10-17"
+  ],
+  "day2026_10_18": {
+   "date": "2026-10-18",
+   "obdKm": 0.0,
+   "e2Km": 116.8,
+   "g1Km": 94.7,
+   "g2Km": 2.4
+  },
+  "day2026_10_17": {
+   "date": "2026-10-17",
+   "obdKm": 457.9,
+   "e2Km": 1.8,
+   "g1Km": 0.0,
+   "g2Km": 423.4
+  }
+ },
+ "crossReferenceM739": {
+  "m739StrictUnitsKm": 1917.9,
+  "m776E2TotalKm": 1793.3,
+  "relativeDifference": -0.065,
+  "explanation": "M739 joins steps into movement units (pauses up to 120 s) with a 60 s pad and a different support rule; M776 counts single steps with a 45 s pad, so the totals are close but not equal. The difference is reported, not reconciled."
  },
  "oneFactorAtATime": {
   "pad": {

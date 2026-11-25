@@ -1,0 +1,22 @@
+{
+ "milestone": "M776",
+ "spec": "analyses/M776_spec.md Rev 2.1",
+ "reviews": {
+  "rev1": {"decision": "revise", "required_changes": 10, "note": "all adopted in Rev 2 (wording cloud-supported, retitle, M749 narrowing rule, windows from every raw file, step-gap in the grid, definition range not a bound, M739 numbers bound, census statement, 5 km justification, not an article figure)"},
+  "result": {
+   "decision": "go",
+   "required_changes": [
+    "2026-11 partial flag: last month of the export span is partial (fixed in the tool; payload test)",
+    "Spec 5 cross-reference to the M739 strict-unit total with the explanation (written by the script; relative difference -6.5 %, over 5 %, explained by the different padding and joining rules)",
+    "D2: bind the M739 aggregate and shortest-tercile differences from M739_unlogged_exposure.json into the block (done: m739Reference)",
+    "Method note: V3 capture per month, script-bound (done: captureInsideLogs; below 1 in most months, above 1 in July, so the lower value is not strict)",
+    "D4 and the per-month 5 km flags as script fields (done: d4, belowResolution)",
+    "Table shows the full-factorial range and the range without the 25 s step-gap point side by side, deviation labelled; payload and CHANGELOG cite Rev 2.1 and its sha256 (done)",
+    "Language: additive M776 forbid rule with a ledger id, no loosening of M749/M760 (done: M776-cloud-monthly-wording)"
+   ],
+   "d1b": "Satisfied under the recorded deviation: the step-gap value is a classification boundary, not a robustness factor; at 25 s (below the 30 s cadence) the rule degenerates; without it every gated month stays within about 0.3 %. The full-factorial failure stays visible.",
+   "article": "not an article figure; no Andrii sign-off needed"
+  }
+ },
+ "blindAudit": {"file": "analyses/M776_audit/audit_out.json", "result": "reproduces E1, E2, G1, G2 per month and the 17/18 October days; one definition ambiguity (nearest versus any speed sample) resolved to the literal spec text before any payload was written; day attribution of a midnight-crossing increment differs by 2.5 km between days, not between months"}
+}

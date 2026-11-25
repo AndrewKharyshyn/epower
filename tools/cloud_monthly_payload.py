@@ -10,14 +10,14 @@ import copy, hashlib, json, os, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 A_DIR = os.path.join(ROOT, "analyses")
 PINS = {
-    "M776_cloud_monthly.json": "TO_BE_PINNED",
+    "M776_cloud_monthly.json": "ed7c2c9b14c644bc421b549e2f05a98b569400660a5e314ebd8b6b4bbb0e3ec4",
     "M739_unlogged_exposure.json": "9bd34b87e06fe053f267d92ea7cb988db822814b54e650a73b95c1645f5fb07f",
 }
 REGISTERED_MASTER = "d514d6009d6d9a0a168ad4fb09b9bb98"
 KEY = "cloudMonthlyCoverage"
 MONTH_FIELDS = ("month", "partial", "obdKm", "obdDrives", "obdDays", "cloudOutsideKm", "cloudOutsideSteps", "cloudOutsideDays",
                 "e2SensitivityMinKm", "e2SensitivityMaxKm", "e2SensitivityMinKmGap35Plus", "e2SensitivityMaxKmGap35Plus", "small",
-                "g1Km", "g1N", "g2Km", "g2N", "definitionRangeKm", "cloudInsideLogsKm", "captureInsideLogs")
+                "g1Km", "g1N", "g2Km", "g2N", "definitionRangeKm", "cloudInsideLogsKm", "captureInsideLogs", "belowResolution")
 
 
 class Stop(Exception):
@@ -55,8 +55,9 @@ def build(src):
     shortest = {k: v for k, v in short.items() if k.startswith("0/") and v.get("supported")}
     block = {
         "label": "OBD-logged distance and speed-supported cloud movement outside the logs, by month",
-        "status": "auxiliary; not an article figure; snapshot registered on %d drives (master d514d600, export span %s to %s); not recomputed with later drives" % (
-            m["months"] and sum(r["obdDrives"] for r in m["months"]), m["exportSpanKyiv"][0][:10], m["exportSpanKyiv"][1][:10]),
+        "status": "auxiliary; not an article figure; snapshot registered on 717 drives (master d514d600; %d start inside the export span %s to %s); not recomputed with later drives" % (
+            sum(r["obdDrives"] for r in m["months"]), m["exportSpanKyiv"][0][:10], m["exportSpanKyiv"][1][:10]),
+        "spec": "analyses/M776_spec.md Rev 2.1", "specSha256": m["specSha256"],
         "registeredMasterMd5": REGISTERED_MASTER,
         "sourceSha256": [fn for fn in PINS],
         "ruleLabel": "Cloud movement counted here: successive odometer samples at most 35 s apart, speed above 2 km/h within 25 s of the step midpoint, implied speed at most 180 km/h, and the whole step outside every OBD log padded by 45 s. A step is assigned to the Kyiv month of both its ends.",
@@ -64,6 +65,8 @@ def build(src):
         "months": rows,
         "monthUnknown": [{"cloudOutsideKm": r["cloudOutsideKm"], "g1Km": r["g1Km"], "g2Km": r["g2Km"]} for r in unknown],
         "totals": m["totals"],
+        "crossReferenceM739": m["crossReferenceM739"],
+        "d4": m["d4"],
         "rejectedSteps": m["rejected"],
         "gridCombinations": m["gridCombinations"],
         "gridNote": m["gridNote"],
@@ -80,7 +83,7 @@ def build(src):
             "Kilometres are OBD-logged distance and speed-supported cloud movement outside those logs; the cloud value is a lower value under the stated rule, not a total.",
             "Movement across long gaps is listed separately, with its timing unresolved, and is never added to the bars.",
             "The definition range (cloud movement plus unresolved gap movement) is not a bound or an interval: driving inside cloud reporting gaps is not observable.",
-            "No share of OBD plus cloud distance is reported.",
+            "No percentage is computed across the two sources.",
         ],
     }
     return block

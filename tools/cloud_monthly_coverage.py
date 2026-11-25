@@ -249,7 +249,8 @@ def run(store, raw_dir, master_path, out_path):
             ofat.setdefault(k, {})[str(val)] = {m: round(a.get(m, {}).get("step_outside", {"km": 0.0})["km"], 3) for m in months}
     # per-month table
     out_m = []
-    first_m, last_m = months[0], months[-1]
+    real = [m for m in months if m != "month unknown"]
+    first_m, last_m = real[0], real[-1]   # first month of the study span and last month of the export span are partial (spec section 3)
     for m in months:
         c = base.get(m, {})
         e2 = c.get("step_outside", {"km": 0.0, "n": 0, "days": set()})
@@ -259,12 +260,13 @@ def run(store, raw_dir, master_path, out_path):
         o = obd.get(m, {"km": 0.0, "drives": 0, "days": set()})
         e2km = e2["km"]
         out_m.append({
-            "month": m, "partial": m in (first_m, last_m) and m != "month unknown",
+            "month": m, "partial": m in (first_m, last_m),
             "obdKm": round(o["km"], 1), "obdDrives": o["drives"], "obdDays": len(o["days"]),
             "cloudOutsideKm": round(e2km, 1), "cloudOutsideSteps": e2["n"], "cloudOutsideDays": len(e2["days"]),
             "e2SensitivityMinKm": round(lo.get(m, 0.0), 1), "e2SensitivityMaxKm": round(hi.get(m, 0.0), 1),
             "e2SensitivityMinKmGap35Plus": round(lo2.get(m, 0.0), 1), "e2SensitivityMaxKmGap35Plus": round(hi2.get(m, 0.0), 1),
             "small": e2km <= SMALL_KM,
+            "belowResolution": (e2km + g1["km"]) < RESOLUTION_KM,   # spec section 4 falsification flag: E2 and the definition-range upper value both below 5 km
             "g1Km": round(g1["km"], 1), "g1N": g1["n"], "g2Km": round(g2["km"], 1), "g2N": g2["n"],
             "definitionRangeKm": [round(e2km, 1), round(e2km + g1["km"], 1)],
             "cloudInsideLogsKm": round(ins["km"], 1),
@@ -281,6 +283,15 @@ def run(store, raw_dir, master_path, out_path):
         if study_lo <= r["t0"] <= t_hi:
             obd_days[local_date(r["t0"])] = obd_days.get(local_date(r["t0"]), 0.0) + r["km"]
     days = [{"date": d, "obdKm": round(obd_days.get(d, 0.0), 1), "e2Km": round(v["e2"], 1), "g1Km": round(v["g1"], 1), "g2Km": round(v["g2"], 1)} for d, v in sorted(byday.items())]
+    dd = {x["date"]: x for x in days}
+    d4 = {"cloudMovementOnDayWithoutObd": [x["date"] for x in days if x["obdKm"] == 0.0 and x["e2Km"] > 0],
+          "longGapIncrementInG2NotE2": [x["date"] for x in days if x["g2Km"] > 100.0 and x["g2Km"] > 10 * max(x["e2Km"], 1e-9) and x["obdKm"] > 0],
+          "day2026_10_18": dd.get("2026-10-18"), "day2026_10_17": dd.get("2026-10-17")}
+    m739 = json.load(open(os.path.join(os.path.dirname(HERE), "analyses", "M739_unlogged_exposure.json"), encoding="utf-8"))
+    strict = m739["U1_unlogged"]["total_km_cloud"]
+    e2tot = sum(x["cloudOutsideKm"] for x in out_m)
+    xref = {"m739StrictUnitsKm": round(strict, 1), "m776E2TotalKm": round(e2tot, 1), "relativeDifference": round((e2tot - strict) / strict, 4),
+            "explanation": "M739 joins steps into movement units (pauses up to 120 s) with a 60 s pad and a different support rule; M776 counts single steps with a 45 s pad, so the totals are close but not equal. The difference is reported, not reconciled."}
     missing, holes = reporting_gaps(odo, spd, study_lo, t_hi)
     rej = {}
     for r in recs:
@@ -298,7 +309,7 @@ def run(store, raw_dir, master_path, out_path):
         "windows": {"rawFiles": wnotes["files"], "ambiguousStarts": wnotes["ambiguous_start"], "notObdDriveNames": wnotes["unparsed"], "notInMaster": extra},
         "months": out_m,
         "totals": {k: round(sum(x[k] for x in out_m), 1) for k in ("obdKm", "cloudOutsideKm", "g1Km", "g2Km", "cloudInsideLogsKm")},
-        "rejected": rej, "oneFactorAtATime": ofat, "days": days,
+        "rejected": rej, "d4": d4, "crossReferenceM739": xref, "oneFactorAtATime": ofat, "days": days,
         "cloudReportingGapDates": missing, "cloudHoles24h": holes,
         "scope": "E1/E2 are censuses under a stated rule (n steps, days); definition range is not a bound or an interval",
     }

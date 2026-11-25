@@ -5834,13 +5834,76 @@ function EarlyLateContrastView(){
   );
 }
 // M683 (display of the M672 payload; Director check of the rendered text): between-drive logged share by month, bound to S.betweenDriveLogging only (no typed number). Descriptive; a gap is not measured unlogged driving.
+// M776 (spec analyses/M776_spec.md Rev 2.1, Director decision; display of S.cloudMonthlyCoverage, no typed number): monthly OBD-logged distance beside speed-supported MyNISSAN movement outside the OBD logs. Auxiliary, not an article figure.
+function CloudMonthlyCoverageView(){
+  const B=S.cloudMonthlyCoverage;
+  if(!B||!Array.isArray(B.months)||!B.months.length) return null;
+  const f=(x,n=1)=>x==null?"n/a":Number(x).toLocaleString("en-US",{minimumFractionDigits:n,maximumFractionDigits:n});
+  const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const lab=(m)=>{const [y,mo]=m.split("-"); return MN[Number(mo)-1]+" "+y;};
+  const head=B.months.find(m=>m.month===B.headlineMonth)||B.months[0];
+  const scale=Math.max(...B.months.map(m=>Math.max(m.obdKm,m.definitionRangeKm[1])));
+  const w=(x)=>(100*x/scale).toFixed(2)+"%";
+  const gaps=new Set(B.cloudReportingGapDates||[]);
+  const dim=(m)=>{const [y,mo]=m.split("-").map(Number); return new Date(y,mo,0).getDate();};
+  const hatch="repeating-linear-gradient(45deg,#0d9488,#0d9488 3px,#99f6e4 3px,#99f6e4 6px)";
+  const lead=<>In {lab(head.month)}, OBD recorded {f(head.obdKm,0)} km. MyNISSAN shows at least {f(head.cloudOutsideKm,0)} km of speed-supported movement outside those logs. <span style={{color:"#64748b"}}>(Auxiliary; not an article figure.)</span></>;
+  return (
+    <Section title={B.label} accent="#0d9488" lead={lead}>
+      <div data-cmc-legend="1" style={{display:"flex",flexWrap:"wrap",gap:"4px 18px",fontSize:12,color:"#334155",margin:"4px 0 8px"}}>
+        <span><span style={{display:"inline-block",width:16,height:10,background:"#64748b",borderRadius:2,marginRight:6}}/>OBD: distance in the logged drives</span>
+        <span><span style={{display:"inline-block",width:16,height:10,background:hatch,borderRadius:2,marginRight:6}}/>MyNISSAN: at least this far, outside the OBD logs</span>
+        <span><span style={{display:"inline-block",width:16,height:10,border:"1.5px dashed #0f766e",borderRadius:2,marginRight:6}}/>definition range (adds long-gap movement with unresolved timing; not an interval)</span>
+      </div>
+      <ChartWithTable chart={<div data-cmc-bars="1" style={{display:"grid",gridTemplateColumns:"120px 1fr 200px",gap:"8px 10px",alignItems:"center",fontSize:12,color:"#334155"}}>
+        {B.months.map(m=>(<React.Fragment key={m.month}>
+          <span style={{fontWeight:600}}>{lab(m.month)}{m.partial?" (partial)":""}</span>
+          <span style={{display:"block"}}>
+            <span style={{display:"block",height:12,background:"#64748b",borderRadius:3,width:w(m.obdKm)}} aria-hidden="true"/>
+            <span style={{display:"block",height:12,marginTop:3,position:"relative",width:w(m.definitionRangeKm[1])}} aria-hidden="true">
+              <span style={{position:"absolute",left:0,top:0,height:12,width:(100*m.definitionRangeKm[0]/Math.max(m.definitionRangeKm[1],1e-9)).toFixed(2)+"%",background:hatch,borderRadius:3}}/>
+              {m.definitionRangeKm[1]>m.definitionRangeKm[0]&&<span style={{position:"absolute",left:0,top:0,height:12,width:"100%",border:"1.5px dashed #0f766e",borderRadius:3,boxSizing:"border-box"}}/>}
+            </span>
+          </span>
+          <span><strong>{f(m.obdKm,0)} km</strong> OBD<br/><strong>at least {f(m.cloudOutsideKm,0)} km</strong> MyNISSAN{m.small?" (small)":""}{m.g1Km>0?<span style={{color:"#64748b"}}>; +{f(m.g1Km,0)} km timing unresolved</span>:null}</span>
+        </React.Fragment>))}
+      </div>}>
+        <table style={{width:"100%",fontSize:12,borderCollapse:"collapse",marginTop:6}}>
+          <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>month</th><th>OBD km (drives / days)</th><th>MyNISSAN km outside the logs (steps / days)</th><th>range over all rule settings, km</th><th>range without the 25 s step-gap setting, km</th><th>long-gap movement outside the logs, timing unresolved, km (events)</th><th>long-gap movement overlapping OBD logs, km (events)</th><th>definition range, km</th><th>MyNISSAN km inside the logs / OBD km</th></tr></thead>
+          <tbody>
+            {B.months.map(m=>(<tr key={m.month} data-cmc-row={m.month} style={{borderTop:"1px solid #e2e8f0"}}><td>{lab(m.month)}{m.partial?" (partial)":""}</td><td>{f(m.obdKm)} ({m.obdDrives} / {m.obdDays})</td><td>{f(m.cloudOutsideKm)} ({m.cloudOutsideSteps} / {m.cloudOutsideDays}){m.small?" small":""}</td><td>{f(m.e2SensitivityMinKm)} to {f(m.e2SensitivityMaxKm)}</td><td>{f(m.e2SensitivityMinKmGap35Plus)} to {f(m.e2SensitivityMaxKmGap35Plus)}</td><td>{f(m.g1Km)} ({m.g1N})</td><td>{f(m.g2Km)} ({m.g2N})</td><td>{f(m.definitionRangeKm[0])} to {f(m.definitionRangeKm[1])}</td><td>{m.captureInsideLogs==null?"n/a":f(m.captureInsideLogs,2)}</td></tr>))}
+          </tbody>
+        </table>
+      </ChartWithTable>
+      <div data-cmc-strip="1" style={{marginTop:12}}>
+        <div style={{fontSize:12,color:"#334155",marginBottom:4}}><strong>Cloud reporting gaps.</strong> Days with no MyNISSAN odometer or speed rows are shown as empty squares; movement on those days is not observable in either source.</div>
+        {B.months.map(m=>(<div key={m.month} style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
+          <span style={{width:70,fontSize:11,color:"#64748b"}}>{lab(m.month)}</span>
+          <span style={{display:"flex",gap:2}}>{Array.from({length:dim(m.month)},(_,i)=>{const d=m.month+"-"+String(i+1).padStart(2,"0"); const g=gaps.has(d); return <span key={d} title={d+(g?": no cloud rows":"")} style={{width:12,height:12,borderRadius:2,background:g?"#fff":"#cbd5e1",border:g?"1.5px solid #b45309":"1px solid #cbd5e1"}}/>;})}</span>
+        </div>))}
+        <div style={{fontSize:11,color:"#64748b",marginTop:4}}>{(B.cloudReportingGapDates||[]).length} dates in the export span have no cloud rows; {(B.cloudHoles24h||[]).length} gaps of 24 h or more between cloud odometer samples.</div>
+      </div>
+      <Notes title="How we calculated it">
+        <div style={{fontSize:12,color:"#334155",lineHeight:1.6}}>
+          <p style={{margin:"0 0 6px"}}>{B.ruleLabel}</p>
+          <p style={{margin:"0 0 6px"}}>Movement across a long gap between two cloud samples is listed separately as "timing unresolved". It is not added to the bars, because it may include logged driving. The definition range adds it to the MyNISSAN value; it is not a bound or an interval, because driving inside the cloud reporting gaps cannot be seen.</p>
+          <p style={{margin:"0 0 6px"}}>The MyNISSAN value is a lower value, not a total. In the logged drives the same rule reproduces the OBD distance only partly (last column of the table). The earlier cross-check (M739) found the cloud distance of logged drives relative to OBD to differ by {f(100*B.m739Reference.aggregateSignedDifferenceRelative,1)}% in aggregate [{f(100*B.m739Reference.aggregateInterval95Day[0],1)}%, {f(100*B.m739Reference.aggregateInterval95Day[1],1)}%] and by more in the shortest-length stratum ({Object.entries(B.m739Reference.shortestTercileStrata).map(([k,v])=>k+": "+f(100*v.aggregateSignedDifferenceRelative,1)+"%, "+v.nDrives+" drives, "+v.nDays+" days").join("; ")}).</p>
+          <p style={{margin:"0 0 6px"}}>Rule settings varied: padding, time shift, speed-support window, speed floor and step-gap ({B.gridCombinations} combinations). The 25 s step-gap setting is shorter than the 30 s cloud sampling interval, so it moves nearly every step into the long-gap class; the table therefore shows the range with and without it.</p>
+          <p style={{margin:"0 0 6px"}}>Total over the table: {f(B.totals.cloudOutsideKm)} km MyNISSAN movement outside the logs against {f(B.crossReferenceM739.m739StrictUnitsKm)} km in the earlier movement-unit analysis (relative difference {f(100*B.crossReferenceM739.relativeDifference,1)}%). {B.crossReferenceM739.explanation}</p>
+          <p style={{margin:"0 0 6px"}}>Days with MyNISSAN movement outside the logs and no OBD log: {B.daysWithoutObdWithCloudMovement.length} days (for example {B.daysWithoutObdWithCloudMovement.slice(0,5).map(d=>d.date+" "+f(d.e2Km,0)+" km").join(", ")}).</p>
+          <p style={{margin:"0 0 6px"}}>Steps set aside: {Object.entries(B.rejectedSteps).map(([k,v])=>v+" "+({rej_nosupport:"without speed support",rej_speed:"with an implied speed above 180 km/h",rej_negative:"with a negative or non-monotonic odometer step"}[k]||k)).join("; ")}. OBD logs used for the windows: {B.obdWindows.rawFiles} files ({B.obdWindows.notInMaster} comparison-only files included). No percentage is computed across the two sources. {B.status}. Spec {B.spec}, sha256 {String(B.specSha256).slice(0,12)}.</p>
+        </div>
+      </Notes>
+    </Section>
+  );
+}
 function BetweenDriveLoggingView(){
   const B=S.betweenDriveLogging;
   if(!B||!B.window||!Array.isArray(B.months)||!B.months.length) return null;
   const W=B.window, f=(x,n=1)=>x==null?"n/a":Number(x).toFixed(n), pc=(x)=>x==null?"n/a":(100*Number(x)).toFixed(1)+"%";
   const same=W.shareOdometerBasis===W.shareDistanceBasis;
   return (
-    <Section title="Between-drive logged share by month (descriptive)" accent="#64748b">
+    <Section title="Continuity of the app-distance counter (descriptive)" accent="#64748b" collapsed={true} collapsedLabel="Show the between-drive logged share and the cloud cross-checks">
       <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-bdl-caption="1">
         Between the first and the last logged drive ({W.firstDate} to {W.lastDate}) the odometer advance within logged drives sums to {f(W.odometerAdvanceKm)} km (logged distance {f(W.loggedKm)} km); a further {f(W.unloggedGapKm)} km of odometer advance lies in {W.nGapSteps} gaps between consecutive logged drives (anomaly and R1-adjacent steps excluded), so the between-drive logged share is {pc(W.shareOdometerBasis)} on the odometer basis{same?" and on the distance basis":` and ${pc(W.shareDistanceBasis)} on the distance basis`}. A gap holds logger start/stop latency as well as missed trips and is not a measure of unlogged driving.
       </div>
@@ -5861,13 +5924,11 @@ function BetweenDriveLoggingView(){
           </tbody>
         </table>
       </ChartWithTable>
-      <Notes title="How we calculated it, and what the cloud export adds">
       <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-bdl-reading="1">
         {(B.reading||[]).map((t,i)=><p key={i} style={{margin:"2px 0"}}>{t}</p>)}
       </div>
       <CloudCrossCheckLogging/>
       <CloudCrossCheckDistance/>
-      </Notes>
     </Section>
   );
 }
@@ -13002,6 +13063,7 @@ export default function App() {
             </div>; })()}
           {S.meta&&S.meta.intakeAir&&S.meta.intakeAir.status==="unavailable"&&<div data-intake-air-overview="1" style={{fontSize:10.5,color:"#64748b",lineHeight:1.55,marginBottom:8}}><strong style={{color:"#334155"}}>Data health.</strong><IntakeAirNote what="No figure uses imputed intake-air values; thermal classes are set by the logged ambient readout, not by this channel."/></div>}
         </Section>
+        <CloudMonthlyCoverageView/>
         <BetweenDriveLoggingView/>
         <Section title="Sessions (grouped by phase)">
           {S.ambientTable&&S.ambientTable.rows&&<DriveCalendar dates={S.ambientTable.rows.map(r=>r.d)}/>}

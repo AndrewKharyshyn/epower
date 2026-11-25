@@ -1439,6 +1439,19 @@
    ]
   },
   {
+   "id": "cloud_monthly_payload",
+   "title": "M776 (spec analyses/M776_spec.md Rev 2.1): additive payload block cloudMonthlyCoverage (monthly OBD-logged distance beside speed-supported cloud movement outside the OBD logs, auxiliary, not an article figure; copied from the registered result analyses/M776_cloud_monthly.json pinned by sha256; a refresh is a re-run of tools/cloud_monthly_coverage.py, a new pin and a CHANGELOG entry)",
+   "cmd": [
+    "python3",
+    "tools/cloud_monthly_payload.py",
+    "--splice"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "heatsoak_gap_payload",
    "title": "M758 (spec analyses/M758_spec.md Rev 2): additive CARRIED payload block heatSoakGapSensitivity (labelled sensitivity of the 6-12 h retained-heat median to estimated unlogged driving, copied from the registered M756 rerun result pinned by sha256); not refreshed by ingestion; fails closed (exit 3, nothing written) on a pin mismatch, a missing source or an R1 mismatch; byte-identical on unchanged sources; its stamp is derived by the stamp_dependencies stage",
    "cmd": [
