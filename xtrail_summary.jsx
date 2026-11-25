@@ -271,13 +271,14 @@ function socSpeedCell(rows, socBin, speedBand) {
 }
 // seasonAware: the section hosts at least one cohort-aware chart (reads S.seasonalCharts). When a
 // season cohort (or Compare) is selected, every OTHER section is corpus-wide and says so.
-function Section({ title, children, accent="#60a5fa", seasonAware=false }) {
+function Section({ title, children, accent="#60a5fa", seasonAware=false, lead=null, collapsed=false, collapsedLabel="Show the method and evidence" }) {
   const _sc=React.useContext(CohortCtx);
   return (
     <div className="xt-tile" style={{ marginBottom:24, background:"#ffffff", borderRadius:10, padding:"22px 28px", border:"1px solid #e2e8f0", boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
       {(_sc!=="all" && !seasonAware) && <div data-allref-badge="1" style={{float:"right",marginLeft:8,fontSize:8.5,color:"#64748b",background:"#f1f5f9",border:"1px solid #e2e8f0",borderRadius:10,padding:"1px 7px",whiteSpace:"nowrap"}}>All-data reference · thermal-cohort filter does not apply</div>}
       <h2 style={{ fontSize:16, fontWeight:700, color:accent, margin:"0 0 14px 0", lineHeight:1.3 }}>{title}</h2>
-      {children}
+      {lead && <p style={{ fontSize:13, color:"#0f172a", lineHeight:1.55, margin:"0 0 10px 0" }} data-section-lead="1">{lead}</p>}
+      {collapsed ? <details className="xt-notes" style={{ border:"1px solid #e2e8f0", borderRadius:8, background:"#f8fafc", padding:"8px 14px" }}><summary style={{ fontSize:12, fontWeight:600, color:"#334155" }}>{collapsedLabel}</summary><div style={{ marginTop:8 }}>{children}</div></details> : children}
     </div>
   );
 }
@@ -5485,7 +5486,7 @@ function EnergyPacketsView(){
   const rows=[["overall","All runs"],["discharge","Discharge runs"],["charge","Charge runs"]];
   const lab={fast:"fast-polled drives",slow:"slow-polled drives"};
   return (
-    <Section title="Energy Exchange Runs — observed same-sign runs (descriptive)" accent="#60a5fa">
+    <Section title="How much energy moves in one charge or discharge burst (descriptive)" accent="#60a5fa">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-packets-note="1">A run is a maximal stretch in which the logged pack power (a reconstructed current × voltage product) keeps one sign inside a supported logging segment; it is an observed electrical exchange, not an ageing cycle, and the count share of tiny runs is not a share of battery stress. The run count depends on the logger cadence, so the two strata are shown separately and are not comparable; no pooled value is given. Intervals are day-clustered ({B.rule.intervals}); the p99 interval needs at least 20 days.</div>
       <div style={{display:"flex",gap:6,marginBottom:6}}>
         {keys.map(k=>(<button key={k} data-packets-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
@@ -5575,7 +5576,7 @@ function WindowUseView(){
   const pc=x=>x==null?"—":`${(100*x).toFixed(1)} %`;
   const lab={fast:"fast-polled drives",slow:"slow-polled drives"}, rf=D.referenceFree, aw=D.assumedWindow, R=D.throughputOverExcursion, so=D.socVersusCharge, os=D.offsetSensitivity;
   return (
-    <Section title="Use of the Assumed Battery Window (descriptive)" accent="#34d399">
+    <Section title="How far the battery charge moves on a drive (descriptive)" accent="#34d399">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-note="1">Per drive, the excursion of the integrated net charge (Ah, estimated from the logged pack current) and of the terminal energy (kWh, a reconstructed current × voltage integral, not stored energy), the reported state-of-charge excursion in points, and how those compare with an assumed 2.1 kWh window (verified:false, unchanged). Reference-free rows come first. Strata are not comparable and no pooled value is given; the upper bracket sums segment excursions (no gap bridging), the lower bracket is the largest single segment.</div>
       <div style={{display:"flex",gap:6,marginBottom:6}}>
         {keys.map(k=>(<button key={k} data-window-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
@@ -5636,7 +5637,7 @@ function CellObservabilityView(){
   const short=c=>c.includes("Max")?"Max cell voltage":c.includes("Min")?"Min cell voltage":"G01 channel";
   const mm=D.maxMinConsistency, pol=mm&&mm.polling, per=B.perCellExample||[];
   return (
-    <Section title="Observability of the Logged Cell-Voltage Channels (descriptive)" accent="#b45309">
+    <Section title="Observability of the Logged Cell-Voltage Channels (descriptive)" accent="#b45309" collapsed={true} collapsedLabel="Show the channel observability tables">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-cellobs-note="1">BMS-reported, logged channels, polled in a cycle: they are not simultaneous, and co-timed means exactly equal timestamps. For each channel, coverage is the share of pack-voltage samples with a channel sample within 1.5 s, and age is the time since the last channel sample. No spread, balance, health or capacity statement is made here; the per-cell channels of three early drives are a selected-channel example only. Strata are not comparable and no pooled value is given.</div>
       <div style={{display:"flex",gap:6,marginBottom:6,flexWrap:"wrap"}}>
         {keys.map(k=>(<button key={k} data-cellobs-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab(k)}</button>))}
@@ -5661,7 +5662,7 @@ function SignalValidityView(){
   const statusLab={unavailable_when_rule_holds:"unavailable when the rule holds",handled_upstream:"handled upstream",sparse_location_specific:"sparse, location-specific"};
   const holds=e=>e.rule.kind==="all_non_missing_equal"?`${e.filesRuleHolds} of ${e.filesWithSamples} files, ${e.daysRuleHolds} days`:e.rule.kind==="value_equals"?`${e.filesWithSentinel} files, ${e.daysWithSentinel} days (${e.sentinelSamples} samples)`:`${e.filesWithSamples} files, ${e.daysWithSamples} days`;
   return (
-    <Section title="Declared Validity Rules of Logged Channels (descriptive)" accent="#64748b">
+    <Section title="Declared Validity Rules of Logged Channels (descriptive)" accent="#64748b" collapsed={true} collapsedLabel="Show the channel rules">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-validity-note="1">Each channel below has a declared validity rule with its physical justification; a rule holds in the corpus files counted. Raw zeros and raw sentinel values stay in the raw files; nothing is suppressed or repaired, and no physical statement is made from an unavailable channel.</div>
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-validity-table="1">
         <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>channel</th><th style={{textAlign:"left"}}>location</th><th style={{textAlign:"left"}}>status</th><th>where the rule holds</th><th>active period</th><th>samples per second (median)</th></tr></thead>
@@ -5681,7 +5682,7 @@ function ChannelDependencyView(){
   const clsLab={coding_check_only:"coding check only (same derivation)",circular:"circular (the check contains or derives from its target)",model_adequacy:"model adequacy (same model, other split or order)",shared_raw_input:"shares the raw channels",independent_conditional_on_unverified_constant:"independent apart from an unverified constant",independent:"independent",negative_control:"negative control"};
   const led=B.claims.filter(c=>c.origin==="ledger"), ctl=B.claims.filter(c=>c.origin==="control");
   return (
-    <Section title="Dependency of Checks and Controls on Their Targets (descriptive)" accent="#64748b">
+    <Section title="How independent are the checks?" accent="#64748b" lead="Some checks verify the calculation using the same signals. Others compare with a separate source. A check that shares its inputs with its target can repeat the same bias, so it adds less confidence." collapsed={true} collapsedLabel="Show the check and control tables">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-depend-note="1">The dependencies below are hand-curated declarations (graph {String(B.inputs.graphSha256).slice(0,8)}, claims {String(B.inputs.claimsSha256).slice(0,8)}); the class of each check is computed from them. A class describes how a check relates to its target, not whether the check is useful. No validation status is changed here; where a ledger wording conflicts with the computed class, the conflict is marked and left for a separate ruling.</div>
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-depend-ledger="1">
         <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>check</th><th>target</th><th>validator</th><th>computed relation</th><th>settled after the blind audit</th><th>current status</th><th>wording</th></tr></thead>
@@ -5762,7 +5763,7 @@ function CsrSensitivityView(){
   const famB={V1_fillMM0:"window set: no forward fill of Max / Min",V2_fillMM1:"window set: 1 s fill of Max / Min",V9a_fillI0:"window set: no fill of the current",V9b_fillI1:"window set: 1 s fill of the current",V6_freshOnly:"window set: real samples of both channels only",V7_strictContiguity:"window set: no removed second inside the window"};
   const keys=Object.keys(B.strata);
   return (
-    <Section title="Sensitivity of the Cell-Spread Relaxation to Pairing, Fill and Gaps (exploratory)" accent="#64748b">
+    <Section title="How cell-voltage spread changes after the load falls: sensitivity to pairing, fill and gaps (exploratory)" accent="#64748b" collapsed={true} collapsedLabel="Show the sensitivity results">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-csr-note="1">This is a sensitivity of the exploratory relaxation result above; the published block and its text are unchanged. The highest-cell and lowest-cell voltages are polled in a cycle, not at the same instant, and the published resampling averages them to 1 s and carries values forward for up to 3 s. Each row changes one step. Re-measured rows use the same rest windows; window-set rows change which windows exist (added and dropped counts are shown). The native pair-level row is a separate estimand: the published onset averages the last loaded row and the first rest row and so contains an ohmic load term. The channel resolution is 1 mV, so magnitudes lie on a 0.5 mV lattice and a median of about 1 mV is at the resolution floor, not a measured widening. The cadence groups are not pooled, and no cell diagnosis, balance or health statement is made.</div>
       {keys.map(k=>{const st=B.strata[k]; return (
         <div key={k} style={{marginTop:8}} data-csr-stratum={k}>
@@ -6018,7 +6019,7 @@ function CellSpreadStepView(){
   const af=B.analysisFrame||{}, cs=B.coldStartAndSegments||{}, dp=B.dependence||{}, mc=B.matchedContrast||{}, cad=B.cadence||{}, cf=B.confirmatory||{}, irs=cf.inRangeSensitivity||{}, te=cf.terminalEvaluation||{}, tr=cf.preStepTRange||{}, ps=cf.postStepSlope||{};
   const eff=(o)=>o?`${f(o.lateEffect_mv)} mV ${iv(o.ci95)} (${o.n} drives, ${o.days} days)`:"n/a";
   return (
-    <Section title="Step Sensitivity of the Cell-Spread Trend (exploratory)" accent="#64748b">
+    <Section title="How the cell-spread trend changes with the choice of step date (exploratory)" accent="#64748b" collapsed={true} collapsedLabel="Show the step-sensitivity results">
       {B.models.M0_linear_released&&B.models.M3_step&&B.models.M3_step.est!=null&&(()=>{const m0=B.models.M0_linear_released, m3=B.models.M3_step, z3=Array.isArray(m3.ci95)&&m3.ci95[0]<=0&&m3.ci95[1]>=0; return (
       <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-csstep-caption="1">
         <strong>Result:</strong> the full-period model estimates a loaded cell-voltage spread slope of {f(m0.est)} mV/month {iv(m0.ci95)}. A model that allows a level change at {B.stepDate} estimates an ongoing slope of {f(m3.est)} mV/month {iv(m3.ci95)}, whose interval {z3?"includes":"excludes"} zero. <strong>Scope:</strong> {af.n} drives on {af.days} days. <strong>Reading:</strong> the logger timestamps the minimum and maximum cell voltage separately, so the spread is not a simultaneous reading. It describes cell-voltage behaviour under load, not capacity or state of health. The table below shows each model.
@@ -14431,7 +14432,7 @@ export default function App() {
           </GeneralGroup>
         </Section>
 
-        <Section title="Methods & Statistics" accent="#7c3aed">
+        <Section title="Methods & Statistics" accent="#7c3aed" collapsed={true} collapsedLabel="Show the methods and statistics">
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7,marginBottom:10}}>
             <p style={{marginTop:0}}>Each method used in the dashboard, in four parts — <strong style={{color:"#1d4ed8"}}>what</strong> it is, <strong style={{color:"#15803d"}}>why</strong> it is used here, what <strong style={{color:"#7c3aed"}}>output</strong> it produces, and what it <strong style={{color:"#b45309"}}>cannot</strong> prove. Grouped and collapsed by default; expand for the technical set. Additional methods not yet run are marked as recommendations. <strong style={{color:"#b45309"}}>Currency disclosure:</strong> methods whose outputs are carried forward from an earlier corpus snapshot are not re-run on every build — currently {(()=>{const st=(S.releaseProvenance?.injectedBlocks||[]).filter(b=>b.stale===true);return st.length?st.map((b,i)=>(<span key={b.key}>{i>0?"; ":""}<code style={{fontSize:9}}>{b.key}</code> (basis {b.basis} vs current {b.current})</span>)):"none stale at build time";})()}. Method descriptions below describe the implemented procedure; a carried-forward result reflects the earlier subset.</p>
           </div>
@@ -14731,7 +14732,7 @@ export default function App() {
                 item 7. */}
           </div>
         </Section>
-        <Section title="Methodology & Data Provenance">
+        <Section title="Methodology & Data Provenance" collapsed={true} collapsedLabel="Show the methodology and provenance">
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7}}>
             <p style={{marginTop:0,marginBottom:10}}>How the numbers on this dashboard are produced, from raw log to displayed value. Organised as labelled blocks A–J. Revision history and change-by-change repair notes are kept in <code style={{fontSize:9}}>CHANGELOG.md</code>, not here; every displayed figure traces to a named computation field or a labelled constant.</p>
           <ProvenanceBlock letter="A" title="Dataset & logging">
