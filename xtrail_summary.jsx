@@ -5876,17 +5876,17 @@ function CloudMonthlyCoverageView(){
         </table>
       </ChartWithTable>
       <div data-cmc-strip="1" style={{marginTop:12}}>
-        <div style={{fontSize:12,color:"#334155",marginBottom:4}}><strong>Cloud reporting gaps.</strong> Days with no MyNISSAN odometer or speed rows are shown as empty squares; movement on those days is not observable in either source.</div>
+        <div style={{fontSize:12,color:"#334155",marginBottom:4}}><strong>Days without MyNISSAN rows.</strong> The cloud export has rows only while the car is in use, so an empty square is a day without cloud rows, normally a day the car stood still. It is not a data failure.</div>
         {B.months.map(m=>(<div key={m.month} style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
           <span style={{width:70,fontSize:11,color:"#64748b"}}>{lab(m.month)}</span>
           <span style={{display:"flex",gap:2}}>{Array.from({length:dim(m.month)},(_,i)=>{const d=m.month+"-"+String(i+1).padStart(2,"0"); const g=gaps.has(d); return <span key={d} title={d+(g?": no cloud rows":"")} style={{width:12,height:12,borderRadius:2,background:g?"#fff":"#cbd5e1",border:g?"1.5px solid #b45309":"1px solid #cbd5e1"}}/>;})}</span>
         </div>))}
-        <div style={{fontSize:11,color:"#64748b",marginTop:4}}>{(B.cloudReportingGapDates||[]).length} dates in the export span have no cloud rows; {(B.cloudHoles24h||[]).length} gaps of 24 h or more between cloud odometer samples.</div>
+        <div style={{fontSize:11,color:"#64748b",marginTop:4}}>{(B.cloudReportingGapDates||[]).length} dates in the export span have no cloud rows; {(B.cloudHoles24h||[]).length} pauses of 24 h or more between cloud odometer samples.</div>
       </div>
       <Notes title="How we calculated it">
         <div style={{fontSize:12,color:"#334155",lineHeight:1.6}}>
           <p style={{margin:"0 0 6px"}}>{B.ruleLabel}</p>
-          <p style={{margin:"0 0 6px"}}>Movement across a long gap between two cloud samples is listed separately as "timing unresolved". It is not added to the bars, because it may include logged driving. The definition range adds it to the MyNISSAN value; it is not a bound or an interval, because driving inside the cloud reporting gaps cannot be seen.</p>
+          <p style={{margin:"0 0 6px"}}>Movement across a long gap between two cloud samples is listed separately as "timing unresolved". It is not added to the bars, because it may include logged driving. The definition range adds it to the MyNISSAN value; it is not a bound or an interval, because driving that the cloud did not register (for example during a delivery interruption) cannot be excluded.</p>
           <p style={{margin:"0 0 6px"}}>The MyNISSAN value is a lower value, not a total. In the logged drives the same rule reproduces the OBD distance only partly (last column of the table). The earlier cross-check (M739) found the cloud distance of logged drives relative to OBD to differ by {f(100*B.m739Reference.aggregateSignedDifferenceRelative,1)}% in aggregate [{f(100*B.m739Reference.aggregateInterval95Day[0],1)}%, {f(100*B.m739Reference.aggregateInterval95Day[1],1)}%] and by more in the shortest-length stratum ({Object.entries(B.m739Reference.shortestTercileStrata).map(([k,v])=>k+": "+f(100*v.aggregateSignedDifferenceRelative,1)+"%, "+v.nDrives+" drives, "+v.nDays+" days").join("; ")}).</p>
           <p style={{margin:"0 0 6px"}}>Rule settings varied: padding, time shift, speed-support window, speed floor and step-gap ({B.gridCombinations} combinations). The 25 s step-gap setting is shorter than the 30 s cloud sampling interval, so it moves nearly every step into the long-gap class; the table therefore shows the range with and without it.</p>
           <p style={{margin:"0 0 6px"}}>Total over the table: {f(B.totals.cloudOutsideKm)} km MyNISSAN movement outside the logs against {f(B.crossReferenceM739.m739StrictUnitsKm)} km in the earlier movement-unit analysis (relative difference {f(100*B.crossReferenceM739.relativeDifference,1)}%). {B.crossReferenceM739.explanation}</p>
