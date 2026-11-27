@@ -7,7 +7,7 @@ Owner: Andrii. Detail lives in `docs/` (load on demand, do not read everything a
 ## First actions each session
 1. `python tools/state.py` and read `STATE.md` (CHANGELOG head, drive_master rows/MD5, key counts). Disk is ground
    truth; memory, chat history and earlier summaries are frequently stale.
-2. Do NOT read `CHANGELOG.md` (1+ MB), `xtrail_summary.jsx` (~14.4k lines), `compute_summary_arrays.py` (~18.9k lines)
+2. Do NOT read `CHANGELOG.md` (1+ MB), `xtrail_summary.jsx` (~15.4k lines), `compute_summary_arrays.py` (~18.9k lines)
    or any raw CSV in full. Use `grep -n`, `head`, `sed -n 'a,bp'`, or `docs/script_index.md`.
 3. Deterministic work is done by scripts. Never re-type a number that a script can write; never quote a figure from
    memory. Every reported figure comes from a JSON/CSV written by a script this session, with its provenance.

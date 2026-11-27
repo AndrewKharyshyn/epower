@@ -4338,9 +4338,32 @@ function powerPeakCaption(){
   const cad=Object.entries(m.noneShareByCadence||{}).map(([k,v])=>`${k} ${v.tiersKw.cotimed}/${v.tiersKw.nearby}/${v.tiersKw.late}/${v.tiersKw.none}`).join("; ");
   return `kW view: T1 is the logged pack-temperature sample nearest the peak-power sample (a reconstructed I×V sample; signed age stored). Tiers within 1 s / within 3 s / 3–10 s (hollow, paired 3–10 s apart, slow polling) / omitted beyond 10 s: ${ct.cotimed} / ${ct.nearby} / ${ct.late} / ${ct.none} of ${m.nViewA} drives (by cadence, same order: ${cad}). The effect of the pairing is small in this corpus: median ΔT1 (peak-power minus peak-current sample) ${fx(d.median)} °C${d.ci95?` (95 % CI ${fx(d.ci95[0])} to ${fx(d.ci95[1])})`:""}, p99 |ΔT1| ${fx(m.absDt1?.p99)} °C, ${d.nDrives} drives on ${d.nDays} days (≤ 3 s tiers); the two moments differ by more than 3 s on ${m.nGapOver3s} of ${m.nViewA} drives. T1 is logged at 1 °C resolution, so smaller differences cannot be shown.`;
 }
+/* M784 (owner request 2026-11-27; display of S.cRatePointsAK, no new payload): the peak-charge risk map stays a scatter, but drives that sit close together are drawn as ONE representative dot whose size is
+   the number of drives it stands for, so that a thousand or more drives remain distinguishable. Pure model (no JSX, no S). Cells are dx degrees wide and dy value units tall (anchored at 0); the dot of a cell
+   is placed at the median temperature and median value of its drives. A drive that matters individually (kept: the caller's predicate, here the cold high-current events and the very high peaks) is never merged; cls(p) names the colour class of a drive and the dot takes the most common class of its drives. */
+/*M784-MODEL-BEGIN*/
+function crateMedian(a){ const s=[...a].sort((x,y)=>x-y), n=s.length; if(!n) return null; return n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2; }
+function crateClusterModel(vals,dx,dy,keep,cls){
+  const okv=(vals||[]).filter(p=>typeof p.t==="number"&&isFinite(p.t)&&typeof p.v==="number"&&isFinite(p.v));
+  const kept=[], cells={};
+  okv.forEach(p=>{ if(keep&&keep(p)){ kept.push(p); return; } const k=Math.floor(p.t/dx)+"|"+Math.floor(p.v/dy); (cells[k]=cells[k]||[]).push(p); });
+  const singles=[], groups=[];
+  Object.keys(cells).sort().forEach(k=>{
+    const m=cells[k];
+    if(m.length===1){ singles.push(m[0]); return; }
+    const types={}; m.forEach(p=>{ const c=cls?cls(p):p.type; types[c]=(types[c]||0)+1; });
+    const dom=Object.keys(types).sort((a,b)=>types[b]-types[a]||(a<b?-1:1))[0];
+    const ts=m.map(p=>p.t), vs=m.map(p=>p.v);
+    groups.push({key:k,n:m.length,t:crateMedian(ts),v:crateMedian(vs),tMin:Math.min(...ts),tMax:Math.max(...ts),vMin:Math.min(...vs),vMax:Math.max(...vs),types,dominant:dom,members:m.map(p=>p.i)});
+  });
+  const tAll=okv.map(p=>p.t);
+  return {kept,singles,groups,nDrives:okv.length,xMin:tAll.length?Math.floor(Math.min(...tAll)/5)*5:null,xMax:tAll.length?Math.ceil(Math.max(...tAll)/5)*5:null};
+}
+/*M784-MODEL-END*/
 function CRateRiskMap() {
   const [hover, setHover] = useState(null);
   const [unit, setUnit] = useState("A");
+  const [mode, setMode] = useState("grouped");
   const W=520, H=450, PL=50, PR=48, PT=24, PB=44;
   const pw=W-PL-PR, ph=H-PT-PB;
   // M58 (2026-07-27): axis bounds and reference lines were hardcoded. The
@@ -4356,12 +4379,18 @@ function CRateRiskMap() {
   const M = crateAxisModel(unit, pts, AXp, S.cRateRefLinesAK, RL);
   const kwv = kwViewVals(M.vals, pts, unit==="kW" ? "kwViewX" : "acViewX");
   const VALS = kwv || M.vals;
+  const CDX=2, CDY=Math.max(M.yMax/36,0.5);   // cell size of the grouped dots: 2 C wide, about 3 % of the value axis tall
+  const vSorted=VALS.map(x=>x.v).sort((a,b)=>a-b), v95=vSorted.length?vSorted[Math.floor(0.95*(vSorted.length-1))]:Infinity;
+  const isKept = p=>p.c>30||p.v>=v95;     // the dark-ringed events and the highest 5 % of the plotted peaks are never merged
+  const clsOf = p=>(p.t<20&&p.c>6)?"coldrisk":(p.t<25&&p.c>12)?"warmrisk":p.type;
+  const BM=crateClusterModel(VALS,CDX,CDY,isKept,clsOf);
   const xMin=AX.xMin ?? 8, xMax=AX.xMax ?? 55, yMin=0, yMax=M.yMax;
-  const xS = v=>(v-xMin)/(xMax-xMin)*pw;
+  const xLo=BM.xMin!==null?Math.min(xMin,BM.xMin<0?Math.floor(BM.xMin/10)*10:BM.xMin):xMin, xHi=BM.xMax!==null?Math.max(xMax,BM.xMax):xMax;   // M784: the payload axis is the minimum extent; the scale follows the data, below zero included
+  const xS = v=>(v-xLo)/(xHi-xLo)*pw;
   const yS = v=>ph-(v-yMin)/(yMax-yMin)*ph;
   const typeColor = { city:"#60a5fa", mixed:"#eab308", highway:"#f97316" };
   const step=(hi,lo,n)=>Array.from({length:n+1},(_,i)=>Math.round(lo+(hi-lo)*i/n));
-  const xTicks=step(xMax,10,Math.round((xMax-10)/5)).filter(v=>v>=10);
+  const xTicks=(()=>{ const a=[]; for(let t=Math.ceil(xLo/10)*10; t<=xHi+1e-9; t+=10) a.push(t); return a; })();
   const yTicks=M.ticks;
   const refLines=M.lines;
   const fmtTick = y => unit==="C" ? `${y}C` : String(y);
@@ -4383,6 +4412,11 @@ function CRateRiskMap() {
             style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",
               background:unit===k?"#0f172a":"#fff",color:unit===k?"#fff":"#334155"}}>{l}</button>
         ))}
+        <span role="group" aria-label="Grouping" style={{display:"inline-flex",gap:4,marginLeft:6}}>
+          {[["grouped","Grouped dots"],["drives","Every drive"]].map(([k,l])=>(
+            <button key={k} data-crate-mode={k} aria-pressed={mode===k} onClick={()=>{setMode(k);setHover(null);}} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid "+(mode===k?"#0f766e":"#cbd5e1"),background:mode===k?"#0f766e":"#fff",color:mode===k?"#fff":"#334155"}}>{l}</button>
+          ))}
+        </span>
         <span style={{fontSize:9,color:"#64748b"}}>{unit==="C" ? (xbRated() ? xbLab("crate") : "C-rate scales with the unverified CAP_KWH = 2.1 kWh") : "raw/ = sha256-verified originals (M366)"} · n={VALS.length} of {pts.length} drives plotted{unit==="kW"&&nKwMissing>0?` (${nKwMissing} without a power value)`:""}</span>
       </div>
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"hidden"}}>
@@ -4400,7 +4434,7 @@ function CRateRiskMap() {
         <rect x={PL+xS(Z.optimalLoC)} y={PT} width={xS(Z.optimalHiC)-xS(Z.optimalLoC)} height={ph} fill="#22c55e18"/>
         <line x1={PL+xS(Z.optimalHiC)} y1={PT} x2={PL+xS(Z.optimalHiC)} y2={PT+ph}
           stroke="#22c55e" strokeWidth={1} strokeDasharray="3 3" opacity={0.5}/>
-        <text x={PL+(xS(Z.optimalLoC)+xS(Z.optimalHiC))/2} y={PT+ph-6}
+        <text x={PL+(xS(Z.optimalLoC)+xS(Z.optimalHiC))/2} y={PT+ph-16}
           textAnchor="middle" fill="#22c55e" fontSize={8} opacity={0.8}>INTERMEDIATE {Z.optimalLoC}–{Z.optimalHiC}°C</text>
 
         {/* Warm/caution zone 40–44°C */}
@@ -4446,6 +4480,7 @@ function CRateRiskMap() {
           <text key={t.label} x={PL+pw-2} y={PT+yS(t.y)+9} textAnchor="end" fill="#94a3b8" fontSize={7}>≈{t.label} C</text>
         ))}
 
+        {xLo<0&&xHi>0&&(<g data-zero-line="1"><line x1={PL+xS(0)} y1={PT} x2={PL+xS(0)} y2={PT+ph} stroke="#475569" strokeWidth={1} strokeDasharray="3 3"/><text x={PL+xS(0)} y={PT-2} textAnchor="middle" fill="#475569" fontSize={8}>0 °C</text></g>)}
         {/* Horizontal ref lines */}
         {refLines.map(r=>(
           <g key={r.label}>
@@ -4465,8 +4500,34 @@ function CRateRiskMap() {
         <text x={12} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={8}
           transform={`rotate(-90,12,${PT+ph/2})`}>{yTitle}</text>
 
+        {/* M784: grouped view (default): one representative dot per cluster of similar drives; single and flagged drives as before */}
+        {mode==="grouped"&&(<g data-crate-grouped="1">
+          {BM.groups.map(g=>{
+            const cx=PL+xS(g.t), cy=PT+yS(g.v), r=Math.min(3+1.9*Math.sqrt(g.n-1),14);
+            const col=({coldrisk:"#ef4444",warmrisk:"#f97316"})[g.dominant]||typeColor[g.dominant]||"#94a3b8", fv=x=>Number(x).toFixed(unit==="C"?1:0);
+            const comp=Object.keys(g.types).sort((a,b)=>g.types[b]-g.types[a]).map(k=>`${k} ${g.types[k]}`).join(", ");
+            return (
+              <g key={g.key} data-crate-cluster={g.n}>
+                <title>{`${g.n} drives, ${g.tMin}–${g.tMax} °C, ${fv(g.vMin)}–${fv(g.vMax)}; shown at the median (${g.t} °C, ${fv(g.v)}); ${comp}`}</title>
+                <circle cx={cx} cy={cy} r={r} fill={col} opacity={0.55} stroke={col} strokeWidth={1.2}/>
+                {g.n>=5&&<text x={cx} y={cy+2.6} textAnchor="middle" fill="#0f172a" fontSize={r>8?8:6.5} fontWeight={700} pointerEvents="none">{g.n}</text>}
+              </g>
+            );
+          })}
+          {[...BM.singles,...BM.kept].map(p=>{
+            const cx=PL+xS(p.t), cy=PT+yS(p.v), c=p.c;
+            const col = p.t<20&&c>6?"#ef4444":p.t<25&&c>12?"#f97316":typeColor[p.type]||"#94a3b8";
+            const isStar=c>30, isBig=c>15;
+            return (
+              <g key={p.i} data-crate-single={p.i}>
+                <title>{`${p.t} °C · ${p.a ?? "—"} A · ${p.kw ?? "—"} kW (${p.type}) · ≈ ${c} C`}</title>
+                <circle cx={cx} cy={cy} r={isStar?3:isBig?4:3} fill={p.tier==="late"?"none":col} opacity={0.85} stroke={p.tier==="late"?col:(isStar?"#1e293b":"none")} strokeWidth={p.tier==="late"?1.25:(isStar?1.25:0)}/>
+              </g>
+            );
+          })}
+        </g>)}
         {/* Data points */}
-        {VALS.map(({i,t,c,type,a,kw,v,tier,ageS})=>{
+        {mode==="drives"&&VALS.map(({i,t,c,type,a,kw,v,tier,ageS})=>{
           const cx=PL+xS(t), cy=PT+yS(v);
           const col = t<20&&c>6?"#ef4444":t<25&&c>12?"#f97316":typeColor[type]||"#94a3b8";
           const isHov=hover===i;
@@ -4496,6 +4557,7 @@ function CRateRiskMap() {
         })}
       </svg>
 
+      {mode==="grouped"&&<div data-crate-group-note="1" style={{marginTop:6,fontSize:10.5,color:"#475569",lineHeight:1.55}}>Drives that sit close together (within {CDX} °C and about {Math.round(CDY)} {unit==="C"?"C":unit} of one another) are drawn as one dot at their median; the dot area grows with the number of drives it stands for (the number is printed inside from 5 drives; hover for the range and the drive types). The colour of a grouped dot is the most common colour among its drives (red = the cold high-current rule, orange = the cool high-C rule, otherwise the drive type). Single dots are individual drives; the highest 5 % of the peaks and the dark-ringed events are never merged. Switch to "Every drive" to see each drive.</div>}
       <div style={{display:"flex",gap:10,marginTop:6,fontSize:9,flexWrap:"wrap"}}>
         {[["city","#60a5fa","City"],["mixed","#eab308","Mixed"],["highway","#f97316","Highway"],["x","#ef4444","Cold HIGH RISK"]].map(([_,c,l])=>(
           <span key={l} style={{color:c}}>● {l}</span>
@@ -13459,7 +13521,7 @@ export default function App() {
         </Section>
         <Section title="1 — Peak Charge Current, Power and C-Rate vs Battery Temperature Risk Map" accent="#ef4444">
           {xbRated() && <div data-exposure-crate-tag="true" style={{fontSize:10,color:"#1e3a8a",background:"#eff6ff",border:"1px solid #bfdbfe",borderRadius:6,padding:"5px 8px",marginBottom:8}}>{xbLab("crate")}; {xbLab("rated")}.</div>}
-          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>Each dot is one drive. The vertical axis shows the drive's peak charge current (A, the default), peak charge power (kW) or C-rate; use the selector to switch. C-rate is the current relative to battery capacity, here {xbRated() ? "the rated 5 Ah capacity (documentary)" : "the unverified 2.1 kWh capacity"}. The horizontal axis is the battery temperature at the moment of that peak current, not the drive's overall peak temperature. The red zone marks a cold battery combined with a high charge rate, where lithium plating is a risk.</div>
+          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>Similar drives are drawn as one representative dot (switch to "Every drive" for one dot per drive). The vertical axis shows the drive's peak charge current (A, the default), peak charge power (kW) or C-rate; use the selector to switch. C-rate is the current relative to battery capacity, here {xbRated() ? "the rated 5 Ah capacity (documentary)" : "the unverified 2.1 kWh capacity"}. The horizontal axis is the battery temperature at the moment of that peak current, not the drive's overall peak temperature. The red zone marks a cold battery combined with a high charge rate, where lithium plating is a risk.</div>
           <div style={{fontSize:10,color:"#92400e",background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,padding:"6px 9px",marginBottom:8}}>The red-zone boundary is general lithium-ion guidance, not a rating for this pack. {(() => { const n = (S.cRatePoints||[]).filter(p=>p[0] < (S.cRateRefLines?.zones?.coldBelowC ?? "—")).length; return n>0 ? <>{n} of {S.cRatePoints?.length ?? "—"} points fall inside it (coldest {Math.min(...(S.cRatePoints||[]).map(p=>p[0]))}°C). They show that a cold pack and a raised charge current occurred together. They do not show that plating happened. A charge event with a truly cold pack (below 15°C) and any actual plating outcome are still not observed here.</> : <>No drive in this record falls inside it. The risk of charging a truly cold pack at a high C-rate comes from battery chemistry, not from these logs.</>; })()}</div>
           <CRateRiskMap/>
         </Section>

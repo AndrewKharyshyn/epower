@@ -21,6 +21,7 @@ const TABS=['overview','charts','fuel','distribution','highway vs city','thermal
     const kb=btns().find(b=>b.textContent.trim()==='Peak charge power (kW)');
     if(!kb)continue;
     seen=true;
+    const ev=btns().find(b=>b.textContent.trim()==='Every drive');if(ev){click(ev);await sleep(200);}   // M784: the risk map groups similar drives by default; the tier markers are per drive
     const ab=btns().find(b=>b.textContent.trim()==='Peak charge current (A)');click(ab);await sleep(200);
     const nA=d.querySelectorAll('svg circle').length;
     const atiers={};Object.values(B.acViewX).forEach(v=>{atiers[v.tier]=(atiers[v.tier]||0)+1;});
