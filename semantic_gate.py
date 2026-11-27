@@ -1197,8 +1197,8 @@ ok("C M465 Compare cube shows the Cold column with the exploratory marker, and t
    "cold compare text")
 ok("C M465 urban contrast Cold cells carry no interval and no difference in the payload", all((b.get("cold") is None) or (b["cold"].get("ci95") is None and "difference" not in b["cold"]) for b in _uc.get("bands", [])))
 # a leaked token is a rendered value, not the word used in prose ("... is NaN for this leg"): flag NaN/undefined
-# adjacent to a number/unit/punctuation slot, and any 'Infinity'.
-LEAK = re.compile(r"\bundefined\b(?![- ]?(behaviou?r|by|for))(?<!load undefined)|(?<![A-Za-z(])(?<![A-Za-z_] )NaN(?=\s?(%|kWh|km|mV|mΩ|°|/|\)|–|,\s*\d))|\bInfinity\b|\$\{")
+# adjacent to a number/unit/punctuation slot, and any 'Infinity'. M779: "an undefined value" is the verbatim wording of the bmsPowerMap monotone note (prose, not a leaked token).
+LEAK = re.compile(r"\bundefined\b(?![- ]?(behaviou?r|by|for|value))(?<!load undefined)|(?<![A-Za-z(])(?<![A-Za-z_] )NaN(?=\s?(%|kWh|km|mV|mΩ|°|/|\)|–|,\s*\d))|\bInfinity\b|\$\{")
 leak = [k for k, t in T.items() if LEAK.search(t)]
 ok("C no leaked NaN/undefined/Infinity in any tab/mode", not leak, str(leak[:4]))
 

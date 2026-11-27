@@ -1,0 +1,13 @@
+{
+ "milestone": "M779",
+ "spec": "analyses/M779_spec.md Rev 3 (file sha256 44305602c92b29c501b621c90f9a2e9fcd0e30232906f8f890e015b7adc54f0e)",
+ "reviews": {
+  "rev1_new_estimator": {"decision": "revise", "note": "the analysis already exists as M657/M658 (bmsPowerMap); the new estimator was withdrawn; seven changes recorded"},
+  "rev2_display_spec": {"decision": "revise", "note": "eight changes adopted as Rev 3 (ladder first, at-the-logged-maximum wording, disclosures, era labels from the payload, titles and O1 wording, saturation and I x V check as paired shares, regime table as disclosure only, language rule, Director review of the rendered text)"},
+  "rendered_text_review": {"decision": "revise", "note": "four changes applied: degenerate intervals printed as such, estimatorDependent and bootDropRate shown, polling-regime bins below the ladder floor marked, disclosure texts qualified as recorded at analysis time"},
+  "recheck": {"decision": "revise", "note": "one deduplicated flag source with display labels, estimator-dependent counts stated, singular counts fixed"},
+  "final": {"decision": "go", "note": "all items met; non-blocking: raw key 'longestRunAtMaximumS' replaced by 'longest run at the maximum' in the display"}
+ },
+ "article": "not an article figure",
+ "evidence": ["analyses/M779_rendered_text.txt", "test_bms_power_map_view.js"]
+}
