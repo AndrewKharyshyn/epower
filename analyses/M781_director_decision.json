@@ -1,0 +1,11 @@
+{
+ "milestone": "M781",
+ "basis": "owner instruction (Andrii, chat, 2026-11-27) to show the BMS-reported possible power in kW in a single view, not separately before and after Sep 30; display of the existing S.bmsPowerMap, no new computation, no pooling",
+ "deviation": "supersedes M779 spec section 2 ('one era is drawn at a time, never both together'); M779 spec Rev 3 rulings 1-10 stay in force; M657 'never pooled without the era shown' is met (every dot carries its period, nothing is pooled)",
+ "reviews": {
+  "display_review": {"decision": "revise", "changes": ["visible note lists every way the periods differ (conversion, highest logged value, polling mix) from the payload", "no difference between the two dots is estimated, a gap is not a period, update or temperature effect", "grid sentence from the payload field, earlier resolution not hidden", "dot labels readable in full", "fixed order and marker shape by period, exploratory muting per period", "gloss hp era / kW era as Earlier / Later logs", "language rule M781"]},
+  "final": {"decision": "go", "note": "optional: say which side the boundary day 2026-09-30 belongs to (a drive belongs to a period by its logger column format)"}
+ },
+ "article": "not an article figure",
+ "evidence": ["analyses/M781_rendered_text.txt", "test_bms_power_map_view.js"]
+}
