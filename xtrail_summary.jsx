@@ -900,7 +900,7 @@ function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", colo
                 <line x1={xS(r.lo)} y1={cy - 4} x2={xS(r.lo)} y2={cy + 4} stroke={c} strokeWidth={1.2} />
                 <line x1={xS(r.hi)} y1={cy - 4} x2={xS(r.hi)} y2={cy + 4} stroke={c} strokeWidth={1.2} />
               </g>}
-              {(r.kind === "interval" || r.kind === "point") && <circle cx={xS(r.est)} cy={cy} r={r.kind === "interval" ? 3.2 : 3.6} fill={r.kind === "interval" ? c : "#fff"} stroke={c} strokeWidth={1.6} />}
+              {(r.kind === "interval" || r.kind === "point") && (r.marker === "square" ? <rect data-marker="square" x={xS(r.est) - 3.4} y={cy - 3.4} width={6.8} height={6.8} fill={r.kind === "interval" ? c : "#fff"} stroke={c} strokeWidth={1.6} /> : <circle data-marker="circle" cx={xS(r.est)} cy={cy} r={r.kind === "interval" ? 3.2 : 3.6} fill={r.kind === "interval" ? c : "#fff"} stroke={c} strokeWidth={1.6} />)}
               {dotLabels && (r.kind === "interval" || r.kind === "point") && <text x={xS(r.est) > PL + pw - 28 ? xS(r.est) + 4 : xS(r.est)} y={cy - 7} textAnchor={xS(r.est) > PL + pw - 28 ? "end" : "middle"} fontSize={9.5} fontWeight={700} fill="#0f172a" data-dot-label="1">{fv(r.est) + dotUnit}</text>}
               {r.kind === "none" && <text x={PL + 6} y={cy + 3} fontSize={8.5} fill="#94a3b8" fontStyle="italic">{r.note || "not available"}</text>}
               <text x={W - PR + 8} y={cy + (r.sub ? -1 : 3)} fontSize={8.5} fill="#0f172a" fontWeight={700}>{txt}</text>
@@ -5869,86 +5869,95 @@ function EarlyLateContrastView(){
 // Ladder first (share of time at the logged maximum), then the below-maximum median and p5 (selected on the outcome). One logger era at a time, never contrasted. Exploratory, not an article figure.
 function BmsPowerMapView(){
   const B=S.bmsPowerMap;
-  const eraKeys=B&&B.eras?["kW","hp"].filter(e=>B.eras[e]):[];
-  const [era,setEra]=React.useState(eraKeys[0]||"kW");
+  const eraKeys=B&&B.eras?["hp","kW"].filter(e=>B.eras[e]):[];
   if(!B||!B.eras||!eraKeys.length) return null;
-  const E=B.eras[era]||B.eras[eraKeys[0]];
   const flag=B.rules&&B.rules.loggedMaximumFlagKw!=null?Number(B.rules.loggedMaximumFlagKw).toFixed(2):null;
   const f1=(x)=>x==null?"n/a":Number(x).toFixed(1), f2=(x)=>x==null?"n/a":Number(x).toFixed(2);
   const pc=(x,n=1)=>x==null?"n/a":(100*Number(x)).toFixed(n)+"%";
-  const dirs=[["input","Possible input power","BMS-reported possible input power (logged / app-calculated). The channel also covers generator charging and regeneration and does not separate them."],["output","Possible output power","BMS-reported possible output power (logged / app-calculated). Logged-maximum marker, not a ceiling."]];
+  const dirs=[["input","Possible input power","BMS-reported possible input power (logged / app-calculated), in kW. The channel also covers generator charging and regeneration and does not separate them."],["output","Possible output power","BMS-reported possible output power (logged / app-calculated), in kW. Logged-maximum marker, not a ceiling."]];
   const binLab=(b)=>b+" to "+(Number(b)+5)+" °C";
   const sortBins=(L)=>Object.keys(L||{}).sort((a,b)=>Number(a)-Number(b));
   const atMax=(v)=>v!=null&&flag!=null&&Number(v)>=Number(flag);
-  const eraLab=(e)=>(e==="kW"?"Logger columns in kW":"Logger columns in hp (converted to kW)")+": "+B.eras[e].input.dateFrom+" to "+B.eras[e].input.dateTo;
-  const monoText=(d)=>E[d].monotone||{};
-  const mk=(L,pick,scale,muteOnExploratory=true)=>sortBins(L).map(b=>{const c=L[b];
-    if(!c||c.status==="not shown") return {label:binLab(b),kind:"none",note:"not observed at this support"+(c&&c.reason?" ("+c.reason+")":"")};
-    const q=pick(c); if(!q||q.est==null) return {label:binLab(b),kind:"none",note:"not estimable"};
-    const degenerate=q.lo!=null&&q.hi!=null&&q.lo===q.hi;
-    return {label:binLab(b),est:q.est*scale,lo:q.lo!=null?q.lo*scale:undefined,hi:q.hi!=null?q.hi*scale:undefined,kind:(q.lo==null||degenerate)?"point":"interval",valueText:degenerate?(q.est*scale).toFixed(scale===100?1:2)+" (degenerate interval)":undefined,muted:muteOnExploratory&&c.status==="exploratory",
-      sub:plu(c.nDrives,"drive")+" · "+plu(c.nDays,"day")+" · "+c.status+(degenerate?" · interval degenerate":"")+(c.estimatorDependent?" · estimator-dependent":"")};});
+  // M781 (owner request 2026-11-27): one view, every value in kW (the earlier logs were recorded in horsepower and are converted to kW by the pipeline, metric factor); the two logging periods are drawn together, colour-coded, never pooled into one number
+  const ERA_COL={hp:"#d97706",kW:"#2563eb"};
+  const eraName=(e)=>(e==="hp"?"Earlier logs":"Later logs")+" ("+B.eras[e].input.dateFrom+" to "+B.eras[e].input.dateTo+")";
+  const eraShort=(e)=>e==="hp"?"Earlier logs":"Later logs", eraTiny=(e)=>e==="hp"?"Earlier":"Later";
   const ci=(c,k)=>c.ci95&&c.ci95[k]?c.ci95[k]:[null,null];
   const dg=(a)=>a&&a[0]!=null&&a[0]===a[1];
-  return (
-    <div data-bms-map="1">
-      <p style={{fontSize:13,color:"#0f172a",lineHeight:1.55,margin:"0 0 8px"}} data-bms-lead="1">{eraLab(era)}: BMS-reported possible input and output power at SoC 55 to 66 %, per 5 {"°"}C pack-temperature bin ({plu(E.input.drives,"drive")} on {plu(E.input.days,"day")}; {pc(E.input.droppedShare)} of channel time dropped for a missing pack temperature or SoC). The share of time at the logged maximum ({flag} kW or above) is shown first; a value at or above the maximum is not given as a kW number. <span style={{color:"#64748b"}}>(Exploratory; auxiliary; not an article figure.)</span></p>
-      <div style={{display:"flex",gap:6,margin:"4px 0 10px"}}>{eraKeys.map(e=><button key={e} onClick={()=>setEra(e)} aria-pressed={era===e} style={{fontSize:12,padding:"3px 10px",borderRadius:6,border:"1px solid "+(era===e?"#0f766e":"#cbd5e1"),background:era===e?"#0f766e":"#fff",color:era===e?"#fff":"#334155",cursor:"pointer",fontWeight:era===e?700:500}}>{eraLab(e)}</button>)}</div>
-      <div style={{fontSize:11,color:"#64748b",marginBottom:6}}>One logger era is shown at a time and the eras are not compared: the eras cover different seasons, so era and season move together.</div>
-      {dirs.map(([d,ttl,gloss])=>{ const X=E[d]; if(!X) return null; const L=X.ladderSoc55to66||{};
-        if(X.coverageFalsification) return <div key={d} data-bms-dir={d} style={{margin:"8px 0",fontSize:12,color:"#334155"}}><strong>{ttl}.</strong> No map is drawn: {typeof X.coverageFalsification==="string"?X.coverageFalsification:JSON.stringify(X.coverageFalsification)}</div>;
-        const m=monoText(d), rd=(B.reading||[]).find(t=>String(t).indexOf("saturated byte")>=0);
-        return (<div key={d} data-bms-dir={d} style={{margin:"12px 0 6px"}}>
-          <div style={{fontSize:13,fontWeight:700,color:"#0f172a"}}>{ttl}, per pack-temperature bin</div>
-          <div style={{fontSize:11.5,color:"#475569",marginBottom:4}}>{gloss}</div>
-          <div data-bms-share="1"><IntervalForest zero={false} refLine={null} xLabel={"share of time at the logged maximum ("+flag+" kW or above), %"} ariaLabel={ttl+": share of time at the logged maximum"} fmt={v=>Number(v).toFixed(1)} lblW={118} dotLabels={true} dotUnit="%" rows={mk(L,c=>({est:c.maxShare,lo:ci(c,"maxShare")[0],hi:ci(c,"maxShare")[1]}),100)}/></div>
-          <div style={{fontSize:12,fontWeight:600,color:"#334155",margin:"6px 0 0"}}>Below the logged maximum (selected on the outcome): median</div>
-          <div data-bms-belowmax="1"><IntervalForest zero={false} refLine={null} xLabel="median of the values below the logged maximum, kW" ariaLabel={ttl+": below-maximum median"} refLine={Number(flag)} refText={"logged maximum flag ("+flag+" kW)"} fmt={v=>Number(v).toFixed(2)} lblW={118} dotLabels={true} dotUnit=" kW" rows={mk(L,c=>({est:c.belowMaxMedian,lo:ci(c,"belowMaxMedian")[0],hi:ci(c,"belowMaxMedian")[1]}),1)}/></div>
-          <div style={{fontSize:12,fontWeight:600,color:"#334155",margin:"6px 0 0"}}>Below the logged maximum (selected on the outcome): 5th percentile</div>
-          <div data-bms-belowmax-p5="1"><IntervalForest zero={false} refLine={null} xLabel="5th percentile of the values below the logged maximum, kW" ariaLabel={ttl+": below-maximum 5th percentile"} refLine={Number(flag)} refText={"logged maximum flag ("+flag+" kW)"} fmt={v=>Number(v).toFixed(2)} lblW={118} dotLabels={true} dotUnit=" kW" rows={mk(L,c=>({est:c.belowMaxP5,lo:ci(c,"belowMaxP5")[0],hi:ci(c,"belowMaxP5")[1]}),1)}/></div>
-          <div data-bms-mono="1" style={{fontSize:11.5,color:"#475569",lineHeight:1.55,marginTop:6}}>
-            <div>Payload description, share at the logged maximum: {m.maxShare||"n/a"}</div>
-            <div>Payload description, below-maximum median: {m.belowMaxMedian||"n/a"}</div>
-            {rd&&<div>{rd}</div>}
-          </div>
-        </div>); })}
-      <Notes title="How we calculated it, the cell map and the disclosures">
-        <div style={{fontSize:12,color:"#334155",lineHeight:1.6}}>
+  const ladderOf=(e,d)=>((B.eras[e]||{})[d]||{}).ladderSoc55to66||{};
+  const binsOf=(d)=>[...new Set(eraKeys.flatMap(e=>Object.keys(ladderOf(e,d))))].sort((a,b)=>Number(a)-Number(b));
+  const mkAll=(d,pick,scale)=>{ const rows=[]; binsOf(d).forEach(b=>{ let first=true;
+    eraKeys.forEach(e=>{ const c=ladderOf(e,d)[b]; if(!c||c.status==="not shown") return;
+      const q=pick(c);
+      const sub=eraTiny(e)+" · "+plu(c.nDrives,"drive")+" · "+plu(c.nDays,"day")+" · "+c.status;
+      if(!q||q.est==null){ rows.push({label:first?binLab(b):"",kind:"none",note:"not estimable ("+eraShort(e).toLowerCase()+")",color:ERA_COL[e],marker:e==="hp"?"square":"circle"}); first=false; return; }
+      const degenerate=q.lo!=null&&q.hi!=null&&q.lo===q.hi;
+      rows.push({label:first?binLab(b):"",est:q.est*scale,lo:q.lo!=null?q.lo*scale:undefined,hi:q.hi!=null?q.hi*scale:undefined,kind:(q.lo==null||degenerate)?"point":"interval",color:ERA_COL[e],marker:e==="hp"?"square":"circle",valueText:degenerate?(q.est*scale).toFixed(scale===100?1:2)+" (degenerate interval)":undefined,muted:c.status==="exploratory",sub:sub}); first=false; });
+    if(first) rows.push({label:binLab(b),kind:"none",note:"not observed at this support in either logging period"}); });
+    return rows; };
+  const notesFor=(era)=>{ const E=B.eras[era]; return (<div key={era} data-bms-era={era} style={{marginBottom:14,paddingBottom:8,borderBottom:"1px solid #e2e8f0"}}>
           {dirs.map(([d,ttl])=>{ const X=E[d]; if(!X||X.coverageFalsification) return null; const L=X.ladderSoc55to66||{};
-            return (<div key={d} style={{marginBottom:10}} data-bms-ladder={d}>
-              <div style={{fontWeight:700}}>{ttl}: SoC 55 to 66 % ladder, all fields</div>
+            return (<div key={d} style={{marginBottom:10}} data-bms-ladder={era+"|"+d}>
+              <div style={{fontWeight:700}}>{eraName(era)}: {ttl}, SoC 55 to 66 % ladder, all fields</div>
               <div style={{fontSize:11,color:"#64748b"}}>Estimator-dependent ladder bins: {sortBins(L).filter(b=>L[b]&&L[b].estimatorDependent).length}. Estimator-dependent cells in the cell map below: {Object.keys(X.cells||{}).filter(k=>X.cells[k].estimatorDependent).length}.</div>
               <table style={{width:"100%",fontSize:11.5,borderCollapse:"collapse"}}>
                 <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>pack temperature</th><th>status</th><th>drives / days / seconds</th><th>time at the logged maximum</th><th>median</th><th>95th percentile</th><th>below-maximum median</th><th>below-maximum 5th percentile</th><th>flags</th></tr></thead>
-                <tbody>{sortBins(L).map(b=>{const c=L[b]; if(!c||c.status==="not shown") return <tr key={b} data-bms-row={d+"|"+b} style={{borderTop:"1px solid #e2e8f0"}}><td>{binLab(b)}</td><td colSpan={8}>not observed at this support{c&&c.reason?" ("+c.reason+")":""}; {c?plu(c.nDrives,"drive")+", "+plu(c.nDays,"day"):""}</td></tr>;
+                <tbody>{sortBins(L).map(b=>{const c=L[b]; if(!c||c.status==="not shown") return <tr key={b} data-bms-row={era+"|"+d+"|"+b} style={{borderTop:"1px solid #e2e8f0"}}><td>{binLab(b)}</td><td colSpan={8}>not observed at this support{c&&c.reason?" ("+c.reason+")":""}; {c?plu(c.nDrives,"drive")+", "+plu(c.nDays,"day"):""}</td></tr>;
                   const mx=ci(c,"maxShare"), bm=ci(c,"belowMaxMedian"), b5=ci(c,"belowMaxP5");
-                  return <tr key={b} data-bms-row={d+"|"+b} style={{borderTop:"1px solid #e2e8f0"}}><td>{binLab(b)}</td><td>{c.status}</td><td>{c.nDrives} / {c.nDays} / {f1(c.seconds)}</td><td>{pc(c.maxShare)} {dg(mx)?"(degenerate interval)":"["+pc(mx[0])+", "+pc(mx[1])+"]"}</td>
+                  return <tr key={b} data-bms-row={era+"|"+d+"|"+b} style={{borderTop:"1px solid #e2e8f0"}}><td>{binLab(b)}</td><td>{c.status}</td><td>{c.nDrives} / {c.nDays} / {f1(c.seconds)}</td><td>{pc(c.maxShare)} {dg(mx)?"(degenerate interval)":"["+pc(mx[0])+", "+pc(mx[1])+"]"}</td>
                     <td>{c.medianAtLoggedMaximum||atMax(c.median)?"at the logged maximum ("+flag+" kW or above)":f2(c.median)+" kW"}</td><td>{c.p95AtLoggedMaximum||atMax(c.p95)?"at the logged maximum ("+flag+" kW or above)":f2(c.p95)+" kW"}</td>
                     <td>{c.belowMaxMedian==null?"not estimable":f2(c.belowMaxMedian)+" kW "+(dg(bm)?"(degenerate interval)":"["+f2(bm[0])+", "+f2(bm[1])+"]")}</td><td>{c.belowMaxP5==null?"not estimable":f2(c.belowMaxP5)+" kW "+(dg(b5)?"(degenerate interval)":"["+f2(b5[0])+", "+f2(b5[1])+"]")}</td>
                     <td>{[c.estimatorDependent?"estimator-dependent":null,(()=>{ const names=new Set(); if(dg(mx)) names.add("share at the logged maximum"); if(dg(bm)) names.add("below-maximum median"); if(dg(b5)) names.add("below-maximum 5th percentile"); (c.degenerateIntervals||[]).forEach(k=>names.add(({median:"median",p95:"95th percentile",p5:"all-sample 5th percentile (not displayed)",belowMaxMedian:"below-maximum median",belowMaxP5:"below-maximum 5th percentile",maxShare:"share at the logged maximum",medianOfMedians:"median of drive medians (not displayed)"})[k]||k)); return names.size?"degenerate interval: "+[...names].join(", "):null; })(),c.bootDropRate!=null?"bootstrap draws dropped "+pc(c.bootDropRate):"bootstrap draws dropped: not reported"].filter(Boolean).join("; ")}</td></tr>;})}</tbody>
               </table>
             </div>); })}
           {dirs.map(([d,ttl])=>{ const X=E[d]; if(!X||X.coverageFalsification) return null; const C=X.cells||{}; const keys=Object.keys(C); const bins=[...new Set(keys.map(k=>k.split("|")[0]))].sort((a,b)=>Number(a)-Number(b)); const bands=B.binning&&B.binning.socBands||[];
-            return (<div key={"c"+d} style={{marginBottom:10}} data-bms-cells={d}>
-              <div style={{fontWeight:700}}>{ttl}: cells by pack temperature and SoC band (share at the logged maximum; below-maximum median in kW)</div>
+            return (<div key={"c"+era+d} style={{marginBottom:10}} data-bms-cells={era+"|"+d}>
+              <div style={{fontWeight:700}}>{eraName(era)}: {ttl}, cells by pack temperature and SoC band (share at the logged maximum; below-maximum median in kW)</div>
               <table style={{width:"100%",fontSize:11,borderCollapse:"collapse"}}>
                 <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>pack temperature</th>{bands.map(s=><th key={s}>SoC {s} %</th>)}</tr></thead>
                 <tbody>{bins.map(b=><tr key={b} style={{borderTop:"1px solid #e2e8f0"}}><td>{binLab(b)}</td>{bands.map(s=>{const c=C[b+"|"+s]; return <td key={s}>{!c||c.status==="not shown"?"not shown":pc(c.maxShare,0)+" ; "+(c.belowMaxMedian==null?"n/a":f1(c.belowMaxMedian))+(c.status==="exploratory"?" (exploratory)":"")+(c.estimatorDependent?" (estimator-dependent)":"")}</td>;})}</tr>)}</tbody>
               </table>
             </div>); })}
           {dirs.map(([d,ttl])=>{ const X=E[d]; if(!X||!X.saturation) return null; const S0=X.saturation, G=S0.loggedPowerAboveReportedLimit||{}, a=G.limitAtLoggedMaximum||{}, b=G.limitBelowMaximum||{};
-            return (<div key={"s"+d} style={{marginBottom:10}} data-bms-sat={d}>
-              <div style={{fontWeight:700}}>{ttl}: saturation description and the logged power check</div>
-              <p style={{margin:"2px 0"}}>Era maximum {f2(S0.eraMaximumKw)} kW; share of channel time at or above {flag} kW {pc(S0.shareOfChannelTimeAtOrAboveLoggedMaximumFlag)} ({S0.shareBasis}); longest run at the maximum {f1(S0.longestRunAtMaximumS)} s; supported cells with the maximum {S0.supportedCellsWithMaximum} of {S0.supportedCells}. {S0.pattern}: {S0.patternNote}</p>
+            return (<div key={"s"+era+d} style={{marginBottom:10}} data-bms-sat={era+"|"+d}>
+              <div style={{fontWeight:700}}>{eraName(era)}: {ttl}, saturation description and the logged power check</div>
+              <p style={{margin:"2px 0"}}>Maximum in this logging period {f2(S0.eraMaximumKw)} kW; share of channel time at or above {flag} kW {pc(S0.shareOfChannelTimeAtOrAboveLoggedMaximumFlag)} ({S0.shareBasis}); longest run at the maximum {f1(S0.longestRunAtMaximumS)} s; supported cells with the maximum {S0.supportedCellsWithMaximum} of {S0.supportedCells}. {S0.pattern}: {S0.patternNote}</p>
               {G.definition&&<p style={{margin:"2px 0"}}>Logged I x V power above the reported limit (time share of samples with logged charge power above 0.1 kW): limit at the logged maximum {pc(a.share,2)} [{pc(a.ci95&&a.ci95[0],2)}, {pc(a.ci95&&a.ci95[1],2)}]; limit below the maximum {pc(b.share,2)} [{pc(b.ci95&&b.ci95[0],2)}, {pc(b.ci95&&b.ci95[1],2)}]. {G.power&&G.power.note} {G.note}</p>}
             </div>); })}
-          <div style={{marginBottom:10}} data-bms-regime="1">
-            <div style={{fontWeight:700}}>Polling regimes (disclosure only; not drawn)</div>
-            <p style={{margin:"2px 0"}}>The fast and slow polling regimes are listed as point values without intervals; they pool SoC, count drives only, are not like-for-like and are not contrasted with each other. Regime and logger era may be confounded. A regime with no drives in an era is stated as empty. No support floor is applied in this table; bins that the ladder lists as not observed at this support are marked.</p>
+          <div style={{marginBottom:10}} data-bms-regime={era}>
+            <div style={{fontWeight:700}}>{eraName(era)}: polling regimes (disclosure only; not drawn)</div>
+            <p style={{margin:"2px 0"}}>The fast and slow polling regimes are listed as point values without intervals; they pool SoC, count drives only, are not like-for-like and are not contrasted with each other. Regime and logging period may be confounded. A regime with no drives in a period is stated as empty. No support floor is applied in this table; bins that the ladder lists as not observed at this support are marked.</p>
             {dirs.map(([d,ttl])=>{ const R=E[d]&&E[d].cadenceRegimeSensitivity; if(!R) return null; return (<div key={"r"+d}><div style={{fontWeight:600}}>{ttl}</div>
-              {["fast","slow"].map(g=>{ const Q=R[g]; if(!Q||!Q.byPackTempC||!Object.keys(Q.byPackTempC).length) return <div key={g}>{g}: no drives in this era</div>;
+              {["fast","slow"].map(g=>{ const Q=R[g]; if(!Q||!Q.byPackTempC||!Object.keys(Q.byPackTempC).length) return <div key={g}>{g}: no drives in this logging period</div>;
                 return <div key={g}>{g} polling, {Q.nDrives} drives: {sortBins(Q.byPackTempC).map(b=>{const z=Q.byPackTempC[b], lad=(E[d].ladderSoc55to66||{})[b], sub=!lad||lad.status==="not shown"; return binLab(b)+(sub?" (below the ladder's support floor)":"")+": median "+(atMax(z.median)?"at the logged maximum ("+flag+" kW or above)":f2(z.median)+" kW")+", at the logged maximum "+pc(z.maxShare)+", "+f1(z.seconds)+" s";}).join("; ")}</div>;})}</div>); })}
           </div>
+  </div>); };
+  return (
+    <div data-bms-map="1">
+      <p style={{fontSize:13,color:"#0f172a",lineHeight:1.55,margin:"0 0 8px"}} data-bms-lead="1">BMS-reported possible input and output power at SoC 55 to 66 %, per 5 {"°"}C pack-temperature bin, all in kW. {eraKeys.map(e=>eraName(e)+": "+plu(B.eras[e].input.drives,"drive")+" on "+plu(B.eras[e].input.days,"day")+"; "+pc(B.eras[e].input.droppedShare)+" of channel time dropped for a missing pack temperature or SoC").join(". ")}. The share of time at the logged maximum ({flag} kW or above) is shown first; a value at or above the maximum is not given as a kW number. <span style={{color:"#64748b"}}>(Exploratory; auxiliary; not an article figure.)</span></p>
+      <div data-bms-legend="1" style={{display:"flex",flexWrap:"wrap",gap:"4px 18px",fontSize:12,color:"#334155",margin:"4px 0 6px"}}>{eraKeys.map(e=><span key={e}><span style={{display:"inline-block",width:10,height:10,borderRadius:e==="hp"?1:5,background:ERA_COL[e],marginRight:5}}/>{eraName(e)} ({e==="hp"?"square":"circle"} marker)</span>)}</div>
+      <div data-bms-periodnote="1" style={{fontSize:11,color:"#64748b",marginBottom:6}}>The two logging periods are drawn together and are not pooled or compared. They differ in more than season: the earlier logs were recorded in horsepower and converted to kW; the highest logged value is {(B.eras.hp&&B.eras.hp.input.saturation)?f2(B.eras.hp.input.saturation.eraMaximumKw):"n/a"} kW in the earlier logs and {(B.eras.kW&&B.eras.kW.input.saturation)?f2(B.eras.kW.input.saturation.eraMaximumKw):"n/a"} kW in the later logs; the polling mix differs ({eraKeys.map(e=>{const R=B.eras[e].input.cadenceRegimeSensitivity||{}; return eraTiny(e).toLowerCase()+": "+plu((R.fast||{}).nDrives||0,"fast-polled drive")+" and "+plu((R.slow||{}).nDrives||0,"slow-polled drive");}).join("; ")}). No difference between the two dots of a bin is estimated, and a gap between them is not a period, update or temperature effect. A bin with data in only one period shows one dot.</div>
+      {dirs.map(([d,ttl,gloss])=>{
+        const bad=eraKeys.filter(e=>B.eras[e][d]&&B.eras[e][d].coverageFalsification);
+        if(bad.length===eraKeys.length) return <div key={d} data-bms-dir={d} style={{margin:"8px 0",fontSize:12,color:"#334155"}}><strong>{ttl}.</strong> No map is drawn: {bad.map(e=>eraName(e)+": "+(typeof B.eras[e][d].coverageFalsification==="string"?B.eras[e][d].coverageFalsification:JSON.stringify(B.eras[e][d].coverageFalsification))).join("; ")}</div>;
+        const rd=(B.reading||[]).find(t=>String(t).indexOf("saturated byte")>=0);
+        return (<div key={d} data-bms-dir={d} style={{margin:"12px 0 6px"}}>
+          <div style={{fontSize:13,fontWeight:700,color:"#0f172a"}}>{ttl}, per pack-temperature bin</div>
+          <div style={{fontSize:11.5,color:"#475569",marginBottom:4}}>{gloss}</div>
+          <div data-bms-share="1"><IntervalForest zero={false} refLine={null} xLabel={"share of time at the logged maximum ("+flag+" kW or above), %"} ariaLabel={ttl+": share of time at the logged maximum"} fmt={v=>Number(v).toFixed(1)} lblW={118} dotLabels={true} dotUnit="%" rows={mkAll(d,c=>({est:c.maxShare,lo:ci(c,"maxShare")[0],hi:ci(c,"maxShare")[1]}),100)}/></div>
+          <div style={{fontSize:12,fontWeight:600,color:"#334155",margin:"6px 0 0"}}>Below the logged maximum (selected on the outcome): median, kW</div>
+          <div data-bms-belowmax="1"><IntervalForest zero={false} xLabel="median of the values below the logged maximum, kW" ariaLabel={ttl+": below-maximum median"} refLine={Number(flag)} refText={"logged maximum flag ("+flag+" kW)"} fmt={v=>Number(v).toFixed(2)} lblW={118} dotLabels={true} dotUnit=" kW" rows={mkAll(d,c=>({est:c.belowMaxMedian,lo:ci(c,"belowMaxMedian")[0],hi:ci(c,"belowMaxMedian")[1]}),1)}/></div>
+          <div style={{fontSize:12,fontWeight:600,color:"#334155",margin:"6px 0 0"}}>Below the logged maximum (selected on the outcome): 5th percentile, kW</div>
+          <div data-bms-belowmax-p5="1"><IntervalForest zero={false} xLabel="5th percentile of the values below the logged maximum, kW" ariaLabel={ttl+": below-maximum 5th percentile"} refLine={Number(flag)} refText={"logged maximum flag ("+flag+" kW)"} fmt={v=>Number(v).toFixed(2)} lblW={118} dotLabels={true} dotUnit=" kW" rows={mkAll(d,c=>({est:c.belowMaxP5,lo:ci(c,"belowMaxP5")[0],hi:ci(c,"belowMaxP5")[1]}),1)}/></div>
+          <div data-bms-mono="1" style={{fontSize:11.5,color:"#475569",lineHeight:1.55,marginTop:6}}>
+            {eraKeys.map(e=>{ const m=(B.eras[e][d]||{}).monotone||{}; return <div key={e}><div>{eraName(e)}, payload description, share at the logged maximum: {m.maxShare||"n/a"}</div><div>{eraName(e)}, payload description, below-maximum median: {m.belowMaxMedian||"n/a"}</div></div>; })}
+            {rd&&<div>{rd}</div>}
+          </div>
+        </div>); })}
+      <Notes title="How we calculated it, the cell map and the disclosures">
+        <div style={{fontSize:12,color:"#334155",lineHeight:1.6}}>
+          <div style={{marginBottom:8}}>All values are in kW. The earlier logs were recorded in horsepower and are converted to kW by the pipeline with the metric horsepower factor. The payload reports {eraKeys.map(e=>eraTiny(e).toLowerCase()+": "+pc(B.eras[e].input.gridShareOn0p05kW)).join(", ")} of the values on the {B.rules&&B.rules.quantisationKw} kW grid; the converted earlier values come from a different logging resolution, so a difference between the periods below the resolution of the earlier logs is not interpretable. In the payload texts below, "hp era" means the Earlier logs (recorded in horsepower, converted to kW) and "kW era" means the Later logs.</div>
+          {eraKeys.map(notesFor)}
           <div data-bms-disclosures="1">
             <div style={{fontWeight:700}}>Disclosures from the analysis</div>
             <div style={{fontSize:11,color:"#64748b"}}>The texts below are recorded in the payload at the time of the analysis; the statuses printed in the tables above are the current ones, and a status named in a text may have changed since.</div>
