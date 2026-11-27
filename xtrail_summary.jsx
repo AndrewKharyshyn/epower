@@ -11639,6 +11639,35 @@ function AccelDecelEnvelopes() {
 }
 
 
+// M788 (audit Wave B #3, owner plan 2026-11-27; display of S.crawlStopGo.byDriveType, no new payload): compact horizontal box plots, one row per group: box = middle half of drives (25th to 75th percentile), line = median
+// (labelled), whisker = up to the 95th percentile. rows: [{label,n,q25,q50,q75,q95,flag,note,color}]. Pure view; no S.
+function BoxRows({ rows, xLabel, ariaLabel, fmt, color="#0891b2", lblW=150 }) {
+  const ok=rows.filter(r=>[r.q25,r.q50,r.q75].every(v=>typeof v==="number"));
+  if(!ok.length) return null;
+  const W=540, PL=lblW, PR=70, PT=8, PB=34, rowH=34, pw=W-PL-PR, ph=rows.length*rowH, H=PT+ph+PB;
+  const hi0=Math.max(...ok.map(r=>typeof r.q95==="number"?r.q95:r.q75),1e-9), raw=hi0/4, mag=Math.pow(10,Math.floor(Math.log10(raw))), nrm=raw/mag, step=(nrm<=1?1:nrm<=2?2:nrm<=5?5:10)*mag, hi=Math.ceil(hi0/step-1e-9)*step;
+  const xS=v=>PL+v/hi*pw, fv=fmt||(v=>Number(v).toFixed(1)), ticks=[]; for(let t=0;t<=hi+step*1e-9;t+=step) ticks.push(parseFloat(t.toPrecision(12)));
+  return (
+    <div data-box-rows="1">
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel||xLabel} style={{overflow:"visible"}}>
+        {ticks.map(t=>(<g key={t}><line x1={xS(t)} y1={PT} x2={xS(t)} y2={PT+ph} stroke="#f1f5f9" strokeWidth={1}/><text x={xS(t)} y={PT+ph+12} textAnchor="middle" fill="#94a3b8" fontSize={8}>{fv(t)}</text></g>))}
+        <text x={PL+pw/2} y={H-4} textAnchor="middle" fill="#64748b" fontSize={8.5}>{xLabel}</text>
+        {rows.map((r,i)=>{ const cy=PT+i*rowH+rowH/2, c=r.color||color, has=[r.q25,r.q50,r.q75].every(v=>typeof v==="number");
+          return (<g key={i} data-box-row={has?"box":"none"}>
+            <text x={PL-8} y={cy-1} textAnchor="end" fontSize={9} fill="#374151" fontWeight={600}>{r.label}</text>
+            <text x={PL-8} y={cy+10} textAnchor="end" fontSize={8} fill={r.flag?"#b45309":"#94a3b8"}>{r.sub}</text>
+            {has?<g>
+              {typeof r.q95==="number"&&<g><line x1={xS(r.q75)} y1={cy} x2={xS(r.q95)} y2={cy} stroke={c} strokeWidth={1.4}/><line x1={xS(r.q95)} y1={cy-5} x2={xS(r.q95)} y2={cy+5} stroke={c} strokeWidth={1.4}/></g>}
+              <rect x={xS(r.q25)} y={cy-9} width={Math.max(xS(r.q75)-xS(r.q25),1)} height={18} fill={c} opacity={r.flag?0.15:0.25} stroke={c} strokeWidth={1.4} strokeDasharray={r.flag?"3 2":undefined} rx={2}/>
+              <line x1={xS(r.q50)} y1={cy-9} x2={xS(r.q50)} y2={cy+9} stroke="#0f172a" strokeWidth={2.4}/>
+              <text x={xS(r.q50)} y={cy-12} textAnchor="middle" fontSize={9.5} fontWeight={700} fill="#0f172a" data-box-median="1">{fv(r.q50)}</text>
+            </g>:<text x={PL+6} y={cy+3} fontSize={8.5} fill="#94a3b8" fontStyle="italic">{r.note||"no estimate"}</text>}
+          </g>); })}
+      </svg>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:2}}>Box = middle half of drives (25th to 75th percentile), dark line = median, whisker = up to the 95th percentile of drives{rows.some(r=>r.flag)?"; dashed box = short or episodic stop-go time, read with the minutes beside the label":""}.</div>
+    </div>
+  );
+}
 function CrawlStopGo() {
   const _coh=useCohort();
   if(cohortNoData(_coh,["CrawlStopGo"])) return <ColdNoData chart="Crawl &amp; Stop-Go — Pack Energy per Cycle" cohort={_coh}/>;
@@ -11804,7 +11833,14 @@ function CrawlStopGo() {
       {DT.length>0 && (
         <div style={{marginBottom:10}}>
           <div style={{fontSize:9,color:"#64748b",marginBottom:6,letterSpacing:0.3}}>BY DRIVE TYPE — cycles/drive and engine starts per 10 min stop-go (median)</div>
-          <ChartWithTable chart={<div data-stopgo-dt-forest="1"><IntervalForest zero={true} intervalName="interquartile range (25th to 75th percentile of drives)" xLabel="median cycles per drive (dot), interquartile range of drives (line)" ariaLabel="median cycles per drive (dot), interquartile range of drives (line) by drive type" fmt={v=>Number(v).toFixed(1)} lblW={150} rows={DT.map(r=>{const q=BT[r.key]["cyclesPerDrive"]||{}; const fl=(C.smallDenominatorDriveTypes||[]).includes(r.key); return typeof q.median==="number"?{label:r.name+(fl?" (high-variance)":"")+" (n="+BT[r.key].nDrives+" drives)",est:q.median,lo:q.p25,hi:q.p75,color:"#0891b2"}:{label:r.name,color:"#0891b2",note:"no estimate"};})}/><IntervalForest zero={true} intervalName="interquartile range (25th to 75th percentile of drives)" xLabel="median engine starts per 10 min of stop-go (dot), interquartile range of drives (line)" ariaLabel="median engine starts per 10 min of stop-go (dot), interquartile range of drives (line) by drive type" fmt={v=>Number(v).toFixed(2)} lblW={150} rows={DT.map(r=>{const q=BT[r.key]["startsPer10minStopGo"]||{}; const fl=(C.smallDenominatorDriveTypes||[]).includes(r.key); return typeof q.median==="number"?{label:r.name+(fl?" (high-variance)":"")+" (n="+BT[r.key].nDrives+" drives)",est:q.median,lo:q.p25,hi:q.p75,color:"#0891b2"}:{label:r.name,color:"#0891b2",note:"no estimate"};})}/></div>}>
+          <ChartWithTable chart={<div data-stopgo-dt-forest="1">
+            <div style={{fontSize:11,fontWeight:700,color:"#0f172a",margin:"2px 0"}}>Stop-and-go cycles per drive</div>
+            <BoxRows xLabel="stop-and-go cycles per drive" ariaLabel="Stop-and-go cycles per drive by drive type: median, middle half and 95th percentile of drives" fmt={v=>Number(v).toFixed(v<10?1:0)} color="#0891b2"
+              rows={DT.map(r=>{const q=BT[r.key].cyclesPerDrive||{}; return {label:r.name,sub:`${BT[r.key].nDrives} drives`,q25:q.p25,q50:q.median,q75:q.p75,q95:q.p95};})}/>
+            <div style={{fontSize:11,fontWeight:700,color:"#0f172a",margin:"10px 0 2px"}}>Engine starts per 10 minutes in stop-and-go</div>
+            <BoxRows xLabel="engine starts per 10 minutes at or below the stop-go speed ceiling" ariaLabel="Engine starts per 10 minutes in stop-and-go by drive type: median, middle half and 95th percentile of drives" fmt={v=>Number(v).toFixed(v<10?1:0)} color="#b45309"
+              rows={DT.map(r=>{const b=BT[r.key], q=b.startsPer10minStopGo||{}, fl=(C.smallDenominatorDriveTypes||[]).includes(r.key), wm=b.lowSpeedTimeS?.median!=null?(b.lowSpeedTimeS.median/60).toFixed(1):null; return {label:r.name+(fl?" (short window)":""),sub:`${b.nDrives} drives${wm!=null?`, median ${wm} min stop-go`:""}`,flag:fl,q25:q.p25,q50:q.median,q75:q.p75,q95:q.p95};})}/>
+          </div>}>
           <div style={{display:"grid",gridTemplateColumns:`repeat(${DT.length},1fr)`,gap:8}}>
             {DT.map(r=>{const b=BT[r.key];
               const flagged=(C.smallDenominatorDriveTypes||[]).includes(r.key);
