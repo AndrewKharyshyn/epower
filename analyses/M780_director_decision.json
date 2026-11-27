@@ -1,0 +1,10 @@
+{
+ "milestone": "M780",
+ "spec": "analyses/M780_spec.md Rev 2 + Rev 2.1 (section 8)",
+ "reviews": {
+  "rev1": {"decision": "revise", "changes": ["per-drive extrema are already integers: the floor is defensive and moves no value", "edge closure and cohort edge note (exact 5.0 is Cold but in the 5 to <10 row)", "n and nDays on every ambient row", "label shows the closure", "few drives (n<5): no IQR box; single drive labelled", "extrema from the unfiltered master stated", "strict generated ordering sentence"]},
+  "result": {"decision": "revise then standing", "changes": ["remove 'typical' and 'true' from the section prose (spec section 1)", "one sentence: the regime tag is the regime of the row's lower edge, not a classification of each drive", "CHANGELOG records the Rev 2.1 deviation with all differing audit cells and the both-ways recomputation"], "notes": "audit deviation handled: Rev 2 section 2 named the unchanged reader (all readings), 'start and end pair' was a wording slip; D1 and D2 met; D3 met on synthetic and planted data (no sub-zero Sensor-1 minimum in the corpus yet)"}
+ },
+ "article": "not an article figure",
+ "evidence": ["analyses/M780_refresh_report.json", "analyses/M780_audit/out.json", "analyses/M780_rendered_text.txt", "test_battery_temp_ranges.py", "test_battery_temp_range_view.js"]
+}

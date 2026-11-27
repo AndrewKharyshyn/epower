@@ -1,0 +1,27 @@
+M780 rendered section text (jsdom textContent; SVG labels run together)
+TITLE: Battery Temperature — Observed Range
+
+--- PROSE (outside the charts) ---
+Sensor 1 (the hottest of the four pack probes), °C. Whisker = observed extrema (min-to-max across every drive in the group); box = interquartile range of the per-drive peak; tick = median peak, the central per-drive peak, which a single unusual drive moves less than it stretches the whisker. Extrema run on the unfiltered corpus per the study's convention (only the interquartile and median statistics elsewhere filter on ens_outlier_v2). See the 4-sensor chart above for the pack mean, which runs ~4–6°C cooler at equilibrium.
+
+Corpus Sensor-1 record — Jul20 D3, the single drive with the highest Sensor-1 sample in the corpus.
+
+Panels share one °C scale (taken from the data, so values below 0 °C are drawn left of the dashed 0 °C line) so groups stay directly comparable. Ambient rows are 5 °C wide on the recorded ambient (the mean of the readings recorded for the drive) and every observed ambient range is shown; a drive recorded at exactly 5.0 °C is in the Cold cohort but in the 5 to <10 °C row. The regime tag on a row is the regime of the row's lower edge (thresholds of the thermal cohorts), not a classification of each drive. Rows with fewer than 5 drives draw no interquartile box. Extremes come from every drive with a recorded ambient, not from the canonical-clean set; these rows are not cohort counts.
+
+Sensor 1 is the hottest of the four battery probes. Its range is 1-51°C across 717 drives and 11062.2 km (May 11 – Nov 20, 2026). The highest Sensor 1 reading is 51°C, on Jul20 D3. The highest pack mean on that drive is 46°C. Each is a maximum within the drive, and the two did not necessarily happen at the same moment. The mean of the four sensors settles at 35.7-37.4°C. The spread between sensors grows from 2.6°C at key-on to about 6.3°C once the pack is warm. Sensor 1 is always the hottest and Sensor 4 the coolest, so the ordering is stable and is not random scatter. Measured at the same moment, the gap between the hottest probe and the four-sensor mean is small: median about 1.2°C, up to about 6°C. This is a small, consistently ordered spread, not a large fixed difference across the pack. Two points affect how to read the ranges. (1) Ambient readings go back to the start of the study: 710 of 717 drives are in the ambient rows. The lowest value in the ambient rows is 1°C, which matches the lowest value in the whole data exactly, so the coldest packs are not hidden in the drive-class rows only. The remaining 7 drives are drives that do not enter the ambient rows, either because no ambient value could be read or because there is no Sensor 1 trajectory. The cause for each drive is not listed here. (2) No ordering of the median peak across the ambient rows is stated.
+
+--- CHART LABELS ---
+-5 to <0 C => -5 to <0 °C ambientCold · 2 drives · 1 day · few drives24°C
+0 to <5 C => 0 to <5 °C ambientCold · 62 drives · 16 days18°C
+5 to <10 C => 5 to <10 °C ambientShoulder · 103 drives · 34 days18°C
+10 to <15 C => 10 to <15 °C ambientShoulder · 124 drives · 45 days23°C
+15 to <20 C => 15 to <20 °C ambientWarm · 148 drives · 59 days31°C
+20 to <25 C => 20 to <25 °C ambientWarm · 168 drives · 58 days32°C
+25 to <30 C => 25 to <30 °C ambientWarm · 75 drives · 28 days37°C
+30 to <35 C => 30 to <35 °C ambientWarm · 26 drives · 12 days40°C
+35 to <40 C => 35 to <40 °C ambientWarm · 2 drives · 2 days · few drives42°C
+Urban => Urban26°Cn=615
+Mixed => Mixed37°Cn=34
+Mixed Highway => Mixed Highway42°Cn=38
+Highway => Highway43°Cn=22
+Long-haul (>60 min) => Long-haul (>60 min)42°Cn=52

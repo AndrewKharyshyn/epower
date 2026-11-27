@@ -797,39 +797,46 @@ function Kpi({ label, value, unit, sub, color="#60a5fa" }) {
    DriveDurationDist elsewhere on this dashboard. One consistent color for
    every row (the per-group rainbow carried no analytical meaning); n is
    printed past the whisker's high end rather than folded into a color key. */
-function TempIntervalPlot({ rows, max, color }) {
-  const W = 460, PL = 152, PR = 44, PT = 8, PB = 20, rowH = 32;
+function TempIntervalPlot({ rows, min = 0, max, color }) {
+  // M780 (spec analyses/M780_spec.md Rev 2): the scale comes from the payload (min and max over every row), so sub-zero values are drawn left of a dashed 0 C line instead of off the plot;
+  // ambient rows show the thermal regime of their lower edge, drives and days; a row with fewer than 5 drives draws no interquartile box and says so, a single drive says "single drive".
+  const W = 520, PL = 178, PR = 54, PT = 8, PB = 20, rowH = 36;
   const pw = W - PL - PR, H = PT + rows.length * rowH + PB;
-  const xS = v => PL + (v / max) * pw;
-  const step = max > 60 ? 20 : 10;
-  const ticks = Array.from({ length: Math.floor(max / step) + 1 }, (_, i) => i * step);
+  const span = (max - min) || 1;
+  const xS = v => PL + ((v - min) / span) * pw;
+  const step = span > 80 ? 20 : 10;   // 10 C ticks up to an 80 C span so a scale starting at -10 C keeps its negative tick
+  const ticks = []; for (let t = Math.ceil(min / step) * step; t <= max + 1e-9; t += step) ticks.push(t);
+  const crossesZero = min < 0 && max > 0;
+  const regimeName = { cold: "Cold", shoulder: "Shoulder", warm: "Warm" };
   return (
-    <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ overflow: "visible" }}>
+    <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ overflow: "visible" }} data-temp-interval-plot="1">
       {ticks.map(t => (
         <g key={t}>
           <line x1={xS(t)} y1={PT} x2={xS(t)} y2={PT + rows.length * rowH} stroke="#f1f5f9" strokeWidth={1} />
-          <text x={xS(t)} y={PT + rows.length * rowH + 13} textAnchor="middle" fill="#94a3b8" fontSize={7.5}>{t}°</text>
+          <text x={xS(t)} y={PT + rows.length * rowH + 13} textAnchor="middle" fill="#94a3b8" fontSize={8.5}>{t}°</text>
         </g>
       ))}
+      {crossesZero && <g data-zero-line="1"><line x1={xS(0)} y1={PT} x2={xS(0)} y2={PT + rows.length * rowH} stroke="#475569" strokeWidth={1} strokeDasharray="3 3" /><text x={xS(0)} y={PT - 1} textAnchor="middle" fill="#475569" fontSize={8.5}>0 °C</text></g>}
       {rows.map((r, i) => {
         const cy = PT + i * rowH + rowH / 2;
+        const isAmb = r.group === "ambient", few = isAmb && r.n < 5, single = isAmb && r.n === 1;
+        const hasBox = !few && r.p75Peak > r.p25Peak;
         const boxLo = r.p25Peak, boxHi = r.p75Peak;
-        const hasBox = boxHi > boxLo;
+        const lab = isAmb ? r.label.replace(" C", " °C") + " ambient" : r.label;
+        const sub = isAmb ? [regimeName[r.regime] || "", r.n + (r.n === 1 ? " drive" : " drives"), r.nDays + (r.nDays === 1 ? " day" : " days"), single ? "single drive" : (few ? "few drives" : "")].filter(Boolean).join(" · ") : "";
         return (
-          <g key={r.label}>
-            <text x={PL - 8} y={cy + 3} textAnchor="end" fontSize={9.5} fill="#374151" fontWeight={600}>{r.label}</text>
-            {/* whisker — true observed extrema */}
+          <g key={r.label} data-temp-row={r.label}>
+            <text x={PL - 8} y={cy + (sub ? -1 : 3)} textAnchor="end" fontSize={10} fill="#374151" fontWeight={600}>{lab}</text>
+            {sub && <text x={PL - 8} y={cy + 10} textAnchor="end" fontSize={8.5} fill="#64748b">{sub}</text>}
+            {/* whisker: true observed extrema */}
             <line x1={xS(r.lo)} y1={cy} x2={xS(r.hi)} y2={cy} stroke={color} strokeWidth={1} opacity={0.4} />
             <line x1={xS(r.lo)} y1={cy - 4} x2={xS(r.lo)} y2={cy + 4} stroke={color} strokeWidth={1} opacity={0.55} />
             <line x1={xS(r.hi)} y1={cy - 4} x2={xS(r.hi)} y2={cy + 4} stroke={color} strokeWidth={1} opacity={0.55} />
-            {/* IQR box (per-drive Sensor-1 peak distribution) */}
-            {hasBox && <rect x={xS(boxLo)} y={cy - 7} width={Math.max(xS(boxHi) - xS(boxLo), 1)} height={14}
-                              fill={color + "30"} stroke={color} strokeWidth={1.5} rx={2} />}
-            {/* median-peak tick + label, anchored above the box top edge so it
-                never sits inside the fill (same fix as the other box plots) */}
+            {/* IQR box of the per-drive Sensor-1 peak (not drawn for fewer than 5 drives) */}
+            {hasBox && <rect x={xS(boxLo)} y={cy - 7} width={Math.max(xS(boxHi) - xS(boxLo), 1)} height={14} fill={color + "30"} stroke={color} strokeWidth={1.5} rx={2} data-iqr-box="1" />}
             <line x1={xS(r.medPeak)} y1={cy - 9} x2={xS(r.medPeak)} y2={cy + 9} stroke={color} strokeWidth={2.5} />
-            <text x={xS(r.medPeak)} y={(hasBox ? cy - 7 : cy - 9) - 4} textAnchor="middle" fontSize={8.5} fill={color} fontWeight={700}>{r.medPeak}°C</text>
-            <text x={xS(r.hi) + 6} y={cy + 3} fontSize={7.5} fill="#94a3b8">n={r.n}</text>
+            <text x={xS(r.medPeak)} y={(hasBox ? cy - 7 : cy - 9) - 4} textAnchor="middle" fontSize={9} fill={color} fontWeight={700}>{r.medPeak}°C</text>
+            <text x={xS(r.hi) + 6} y={cy + 3} fontSize={8.5} fill="#94a3b8">{isAmb ? "" : "n=" + r.n}</text>
           </g>
         );
       })}
@@ -13890,11 +13897,12 @@ export default function App() {
               keeps a distinct red specifically because it is a different
               kind of figure (a single-drive absolute ceiling, not a group
               distribution), not decoration. */}
-          <div style={{fontSize:10,color:"#64748b",marginBottom:10}}>Sensor 1 (the hottest of the four pack probes), °C. Whisker = true observed extrema (min-to-max across every drive in the group); box = interquartile range of the per-drive peak; tick = median peak — the honest read of the typical ceiling, since a single unusual drive can stretch the whisker well past where the bulk of the group sits. Extrema run on the unfiltered corpus per the study's convention (only typical-range statistics filter on <code>ens_outlier_v2</code>). See the 4-sensor chart above for the pack mean, which runs ~4–6°C cooler at equilibrium.</div>
+          <div style={{fontSize:10,color:"#64748b",marginBottom:10}}>Sensor 1 (the hottest of the four pack probes), °C. Whisker = observed extrema (min-to-max across every drive in the group); box = interquartile range of the per-drive peak; tick = median peak, the central per-drive peak, which a single unusual drive moves less than it stretches the whisker. Extrema run on the unfiltered corpus per the study's convention (only the interquartile and median statistics elsewhere filter on <code>ens_outlier_v2</code>). See the 4-sensor chart above for the pack mean, which runs ~4–6°C cooler at equilibrium.</div>
 
           {(() => {
             const IV_COLOR = "#2563eb";
-            const mx = Math.max(50, ...S.batteryTempRanges.map(r => r.hi));
+            const mx = Math.max(50, Math.ceil(Math.max(...S.batteryTempRanges.map(r => r.hi)) / 10) * 10);
+            const mn = Math.min(0, Math.floor(Math.min(...S.batteryTempRanges.map(r => r.lo)) / 10) * 10);
             const panelStyle = { background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "10px 12px 4px", marginBottom: 10 };
             const headingStyle = { fontSize: 9, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 2 };
             const record = S.batteryTempRanges.find(r => r.group === "record");
@@ -13915,7 +13923,7 @@ export default function App() {
                   return (
                     <div key={grp} style={panelStyle}>
                       <div style={headingStyle}>{heading}</div>
-                      <TempIntervalPlot rows={rows} max={mx} color={IV_COLOR}/>
+                      <TempIntervalPlot rows={rows} min={mn} max={mx} color={IV_COLOR}/>
                     </div>
                   );
                 })}
@@ -13923,7 +13931,7 @@ export default function App() {
             );
           })()}
 
-          <div style={{marginTop:4,fontSize:9,color:"#94a3b8"}}>Panels share one °C scale so groups stay directly comparable; only the row color has been unified (it previously varied per row with no analytical meaning).</div>
+          <div style={{marginTop:4,fontSize:9,color:"#94a3b8"}} data-temp-range-note="1">Panels share one °C scale (taken from the data, so values below 0 °C are drawn left of the dashed 0 °C line) so groups stay directly comparable. Ambient rows are 5 °C wide on the recorded ambient (the mean of the readings recorded for the drive) and every observed ambient range is shown; a drive recorded at exactly 5.0 °C is in the Cold cohort but in the 5 to &lt;10 °C row. The regime tag on a row is the regime of the row&apos;s lower edge (thresholds of the thermal cohorts), not a classification of each drive. Rows with fewer than 5 drives draw no interquartile box. Extremes come from every drive with a recorded ambient, not from the canonical-clean set; these rows are not cohort counts.</div>
           <div style={{marginTop:8,fontSize:10,color:"#64748b"}}>Sensor 1 is the hottest of the four battery probes. Its range is {S.sensorSummary[0].lo}-{S.sensorSummary[0].hi}°C across {S.totalDrives} drives and {S.totalKm.toFixed(1)} km ({S.dateRange}). The highest Sensor 1 reading is {S.tPeakC}°C, on {S.tPeakDrive}. The highest pack mean on that drive is {S.tPeakPackMeanC}°C. Each is a maximum within the drive, and the two did not necessarily happen at the same moment. The mean of the four sensors settles at {S.batteryThermalMeta?.plateauLoC}-{S.batteryThermalMeta?.plateauHiC}°C. The spread between sensors grows from {S.batteryThermalMeta?.spreadKeyOnC}°C at key-on to about {S.batteryThermalMeta?.spreadPlateauC}°C once the pack is warm. Sensor 1 is always the hottest and Sensor 4 the coolest, so the ordering is stable and is not random scatter. Measured at the same moment, the gap between the hottest probe and the four-sensor mean is small: median about {S.thermalHighwayBand?.gapMedianC}°C, up to about {S.thermalHighwayBand?.gapMaxC}°C. This is a small, consistently ordered spread, not a large fixed difference across the pack. Two points affect how to read the ranges. (1) {/* ambient coverage is bound live from the rows below */}{(() => {
               const ambRows = S.batteryTempRanges.filter(r => r.group === "ambient");
               const nAmb = ambRows.reduce((s, r) => s + r.n, 0);
@@ -13931,7 +13939,9 @@ export default function App() {
               const corpusFloor = S.sensorSummary[0].lo;
               const gap = S.totalDrives - nAmb;
               return <>Ambient readings go back to the start of the study: {nAmb} of {S.totalDrives} drives are in the ambient rows. The lowest value in the ambient rows is {ambFloor}°C, which {ambFloor <= corpusFloor ? "matches the lowest value in the whole data exactly" : `is only ${ambFloor - corpusFloor}°C above the lowest value in the whole data (${corpusFloor}°C)`}, so the coldest packs are not hidden in the drive-class rows only. The remaining {gap} drives are drives that do not enter the ambient rows, either because no ambient value could be read or because there is no Sensor 1 trajectory. The cause for each drive is not listed here.</>;
-            })()} (2) Ambient temperature separates the <em>typical</em> peak (the median peak rises steadily across the three ambient bins) much more cleanly than it separates the extremes. The hottest single readings are set by load and drive length, not by outside air.</div>
+            })()} (2) {(() => { const R = S.batteryTempRanges.filter(r => r.group === "ambient" && r.n >= 5 && r.nDays >= 3);
+              const up = R.length >= 2 && R.every((r, k) => k === 0 || r.medPeak > R[k - 1].medPeak);
+              return up ? "Across the ambient rows with at least 5 drives on at least 3 days, the observed median peak is higher in each successive row (descriptive, no interval)." : "No ordering of the median peak across the ambient rows is stated."; })()}</div>
         </Section>
         <Section title={`Long-Highway Thermal Convergence (${S.thermalConvergence.length} drives >60min)`}>
           <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>Sensor-1 (hottest pack probe) temperature trajectory across every drive longer than 60 minutes, computed per drive from the raw log (M33). Regardless of starting temperature, the pack rises to a bounded peak within each logged duration (start/peak/end per drive; the trajectory shape is not shown here); a finite maximum over a bounded window does not establish thermal equilibrium. Highest peak across the set: {Math.max(...S.thermalConvergence.map(d=>d.t1Peak))}°C.</div>
