@@ -5581,12 +5581,24 @@ function probeRankLine(sensor){
 }
 // M551 (audit 2026-10-29 N01): observed same-sign electrical exchange runs (S.energyPackets), per logger-cadence stratum; no pooled headline and no contrast between strata.
 function EnergyPacketsView(){
-  const B=S.energyPackets, [st,setSt]=useState(null);
+  const B=S.energyPackets, [st,setSt]=useState(null), [basis,setBasis]=useState("completeOnly");
   if(!B||!B.strata) return null;
   const keys=Object.keys(B.strata).filter(k=>k!=="unknown"), cur=st&&B.strata[st]?st:keys[0], D=B.strata[cur];
   const f=(x,n=1)=>x==null?"—":Number(x).toFixed(n), iv=x=>x&&x.ci95?` (${f(x.ci95[0])}–${f(x.ci95[1])})`:"", pv=x=>x&&x.value!=null?`${f(x.value)}${iv(x)}`:"—", pc=x=>x&&x.pct!=null?`${f(x.pct,2)} %${x.ci95Pct?` (${f(x.ci95Pct[0],2)}–${f(x.ci95Pct[1],2)})`:""}`:"—";
   const rows=[["overall","All runs"],["discharge","Discharge runs"],["charge","Charge runs"]];
   const lab={fast:"fast-polled drives",slow:"slow-polled drives"};
+  // M785 (owner request 2026-11-27; display of S.energyPackets, no new payload): median, p90 and p99 of the run energy as dots with day-clustered intervals on a log axis (the energy spans three decades), plus the count share versus the energy share of runs below 1 Wh.
+  const lg=v=>Math.log10(v), unl=v=>{ const x=Math.pow(10,v); return x>=100?x.toFixed(0):x>=10?x.toPrecision(2):x.toPrecision(2); };
+  const fWh=x=>x==null?"—":Number(x)>=100?Number(x).toFixed(0):Number(x)>=10?Number(x).toFixed(1):Number(x).toFixed(2);
+  const dirs=[["discharge","Discharge","#2563eb"],["charge","Charge","#ea580c"]];
+  const forestRows=[["median","Median burst"],["p90","90th percentile"],["p99","99th percentile"]].flatMap(([q,ql])=>dirs.map(([d,dl,col])=>{
+    const o=D[d]?.energyWh?.[basis]?.[q]; if(!o||o.value==null||!(o.value>0)) return {kind:"none",label:`${ql}, ${dl}`,color:col,note:"not available"};
+    const hasI=o.ci95&&o.ci95[0]>0&&o.ci95[1]>0;
+    return {kind:hasI?"interval":"point",label:`${ql}, ${dl.toLowerCase()}`,est:lg(o.value),lo:hasI?lg(o.ci95[0]):undefined,hi:hasI?lg(o.ci95[1]):undefined,color:col,valueText:`${fWh(o.value)} Wh${hasI?` (${fWh(o.ci95[0])}–${fWh(o.ci95[1])})`:""}`};
+  }));
+  const shareRows=dirs.flatMap(([d,dl])=>{ const o=D[d]?.below1Wh; if(!o?.countSharePct||!o?.energySharePct) return [];
+    const mk=(x,l)=>({label:`${dl}, ${l}`,parts:[{key:"lt",label:"runs below 1 Wh",share:x.pct/100,color:"#60a5fa"},{key:"ge",label:"runs of 1 Wh and more",share:1-x.pct/100,color:"#cbd5e1"}]});
+    return [mk(o.countSharePct,"share of runs"),mk(o.energySharePct,"share of energy")]; });
   return (
     <Section title="How much energy moves in one charge or discharge burst (descriptive)" accent="#60a5fa">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-packets-note="1">A run is a maximal stretch in which the logged pack power (a reconstructed current × voltage product) keeps one sign inside a supported logging segment; it is an observed electrical exchange, not an ageing cycle, and the count share of tiny runs is not a share of battery stress. The run count depends on the logger cadence, so the two strata are shown separately and are not comparable; no pooled value is given. Intervals are day-clustered ({B.rule.intervals}); the p99 interval needs at least 20 days.</div>
@@ -5594,11 +5606,21 @@ function EnergyPacketsView(){
         {keys.map(k=>(<button key={k} data-packets-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
       </div>
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-packets-support="1">{D.nDrives} drives on {D.nDays} days; {D.nRunsAll.toLocaleString("en-US")} runs, {D.nRunsComplete.toLocaleString("en-US")} complete; {f(D.censoredRunSharePct,2)} % of runs and {f(D.censoredEnergySharePct,2)} % of the run energy are censored at a segment edge (a logging gap or the file edge). Reconciliation to the released energy ledger: {B.reconciliation.nCompared} drives compared, {B.reconciliation.nMisses} misses.</div>
+      <div style={{display:"flex",gap:6,marginBottom:6}} data-packets-basis-switch="1">
+        {[["completeOnly","Complete runs"],["allRunsCensoredAsLowerBounds","All runs, edge-cut ones as lower bounds"]].map(([k,l])=>(<button key={k} data-packets-basis={k} aria-pressed={basis===k} onClick={()=>setBasis(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:basis===k?"#0f172a":"#fff",color:basis===k?"#fff":"#334155"}}>{l}</button>))}
+      </div>
+      <div data-packets-chart="1">
+        <IntervalForest rows={forestRows} zero={false} xLabel="energy per run, Wh (log axis)" fmt={unl} dotLabels={false} lblW={150} ariaLabel="Energy of one charge or discharge run: median, 90th and 99th percentile with day-clustered 95% intervals, log axis" caption="Most runs move little energy; a few long ones move far more. Runs cut by a logging gap can only be longer than logged, so the lower-bound view shifts the upper percentiles up." />
+      </div>
+      <div style={{fontSize:10.5,color:"#334155",fontWeight:600,margin:"8px 0 2px"}}>Many small runs, little of the energy (runs below 1 Wh)</div>
+      <div data-packets-share-strip="1"><ShareStrip rows={shareRows} ariaLabel="Share of runs and share of energy that sit in runs below 1 Wh" lblW={190} fmt={v=>(100*v).toFixed(v<0.1?2:1)+" %"} /></div>
+      <ChartWithTable label="Show table">
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
         <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}></th><th>complete runs</th><th>median Wh</th><th>p90 Wh</th><th>p99 Wh</th><th>median s</th><th>below 1 Wh, share of runs %</th><th>below 1 Wh, share of energy %</th></tr></thead>
         <tbody>{rows.map(([k,l])=>{ const o=D[k]; if(!o||!o.energyWh) return null; const c=o.energyWh.completeOnly; return (
           <tr key={k} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left",color:"#0f172a"}}>{l}</td><td>{o.nComplete.toLocaleString("en-US")}</td><td>{pv(c.median)}</td><td>{pv(c.p90)}</td><td>{pv(c.p99)}</td><td>{pv(o.durationS.completeOnly.median)}</td><td>{pc(o.below1Wh.countSharePct)}</td><td>{pc(o.below1Wh.energySharePct)}</td></tr>); })}</tbody>
       </table>
+      </ChartWithTable>
       <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-packets-bracket="1">Censoring is length-biased (long runs meet gaps more often), so complete-only quantiles are biased low. Bracket with censored runs counted as lower bounds (all runs, all signs): median {pv(D.overall.energyWh.allRunsCensoredAsLowerBounds.median)} Wh, p90 {pv(D.overall.energyWh.allRunsCensoredAsLowerBounds.p90)} Wh. Current deadband (run definition only, the removed energy is an explicit residual): share of complete runs below 1 Wh is {Object.entries(D.deadbandSensitivity).map(([k,v])=>`${f(v.below1WhCountSharePct)} % at ≤ ${k}`).join(", ")}.</div>
     </Section>
   );
