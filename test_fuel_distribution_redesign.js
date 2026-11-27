@@ -29,7 +29,7 @@ const f1 = v => Number(v).toFixed(1);
   ok('box-whisker has a text alternative', /10th percentile/.test(bw().getAttribute('aria-label')) && /median/.test(bw().getAttribute('aria-label')));
   // window series
   const win = F.trend.windows14, ws = top.querySelector('[data-window-series]'); ok('window series present', !!ws);
-  const t0 = Date.parse(win[0].start), t1 = Date.parse(win[win.length - 1].start), step = (F.trend.primaryWindowDays || 14) * 86400000; const slots = []; for (let t = t0; t <= t1 + 1; t += step) slots.push(new Date(t).toISOString().slice(0, 10));
+  const t0 = Date.parse(win[0].start), t1 = Date.parse(win[win.length - 1].start), step = F.trend.primaryWindowDays * 86400000; const slots = []; for (let t = t0; t <= t1 + 1; t += step) slots.push(new Date(t).toISOString().slice(0, 10));
   win.forEach(w => { const g = ws.querySelector('[data-window-point="' + w.start + '"]'); ok(w.start + ': point, km and short-trip share equal the payload', !!g && g.textContent.includes(w.pooledL100.est.toFixed(1)) && g.textContent.includes(Math.round(w.km) + ' km') && g.textContent.includes(Math.round(100 * w.shareKmInTripsUnder5km) + '% short')); });
   slots.filter(s => !win.some(w => w.start === s)).forEach(s => ok(s + ': an empty window is drawn blank and says so', !!ws.querySelector('[data-window-empty="' + s + '"]') && /no fuel-logged trips/.test(ws.querySelector('[data-window-empty="' + s + '"]').textContent)));
   ok('the windows are called 14-day windows (not calendar fortnights)', /14-day window/.test(top.textContent));

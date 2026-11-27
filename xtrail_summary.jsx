@@ -9768,7 +9768,7 @@ function BoxWhisker({ row, xLabel, ariaLabel }) {
 }
 const _MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 function WindowSeries({ F }) {
-  const T = F.trend, step = (T.primaryWindowDays || 14) * 86400000;
+  const T = F.trend, step = T.primaryWindowDays * 86400000;
   const win = T.windows14, t0 = Date.parse(win[0].start), t1 = Date.parse(win[win.length - 1].start);
   const slots = []; for (let t = t0; t <= t1 + 1; t += step) { const iso = new Date(t).toISOString().slice(0, 10); slots.push({ iso, w: win.find(x => x.start === iso) || null }); }
   const W = 560, PL = 52, PR = 12, PT = 22, H1 = 150, GAP = 14, H2 = 64, H = PT + H1 + GAP + H2 + 40;
