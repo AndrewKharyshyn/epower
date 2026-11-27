@@ -5899,12 +5899,19 @@ function CsrSensitivityView(){
   const famA={V3:"re-measured on the same windows: polling-cycle pairing",V4:"re-measured on the same windows: nearest-reading pairing (1.5 s)",V8:"separate estimand: native pair level, no 1 s mean"};
   const famB={V1_fillMM0:"window set: no forward fill of Max / Min",V2_fillMM1:"window set: 1 s fill of Max / Min",V9a_fillI0:"window set: no fill of the current",V9b_fillI1:"window set: 1 s fill of the current",V6_freshOnly:"window set: real samples of both channels only",V7_strictContiguity:"window set: no removed second inside the window"};
   const keys=Object.keys(B.strata);
+  const csrRow=(label,o,color,muted)=>{ if(!o||o.median==null) return {kind:"none",label,note:"n/a",color}; return o.ci95?{kind:"interval",label,est:o.median,lo:o.ci95[0],hi:o.ci95[1],color,muted,valueText:`${o.median.toFixed(2)} (${o.ci95[0].toFixed(2)}, ${o.ci95[1].toFixed(2)})`}:{kind:"point",label,est:o.median,color,muted}; };
+  const csrRows=st=>[csrRow("published rule (reference)",st.V0,"#0f172a"),
+    ...Object.keys(famA).map(n=>csrRow(famA[n],st.familyA_fixedWindows[n],"#2563eb")),
+    ...Object.keys(famB).map(n=>csrRow(famB[n],st.familyB_windowSet[n],"#0d9488")),
+    csrRow("placebo: pseudo load-offs inside long rests",st.placebo,"#94a3b8",true)];
   return (
     <Section title="How cell-voltage spread changes after the load falls: sensitivity to pairing, fill and gaps (exploratory)" accent="#64748b" collapsed={true} collapsedLabel="Show the sensitivity results">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-csr-note="1">This is a sensitivity of the exploratory relaxation result above; the published block and its text are unchanged. The highest-cell and lowest-cell voltages are polled in a cycle, not at the same instant, and the published resampling averages them to 1 s and carries values forward for up to 3 s. Each row changes one step. Re-measured rows use the same rest windows; window-set rows change which windows exist (added and dropped counts are shown). The native pair-level row is a separate estimand: the published onset averages the last loaded row and the first rest row and so contains an ohmic load term. The channel resolution is 1 mV, so magnitudes lie on a 0.5 mV lattice and a median of about 1 mV is at the resolution floor, not a measured widening. The cadence groups are not pooled, and no cell diagnosis, balance or health statement is made.</div>
       {keys.map(k=>{const st=B.strata[k]; return (
         <div key={k} style={{marginTop:8}} data-csr-stratum={k}>
           <div style={{fontSize:10,fontWeight:600,color:"#475569"}}>{names[k]||k}: {st.nDrives} drives, {st.nDays} days, {st.nWindows} rest windows</div>
+          <div data-csr-chart={k}><IntervalForest rows={csrRows(st)} zero={false} xLabel="median relaxation magnitude, mV" fmt={v=>Number(v).toFixed(2)} lblW={230} ariaLabel={`Median relaxation magnitude by pairing, fill and gap variant, ${names[k]||k}, with day-clustered 95% intervals`} caption="Dark = the published rule, blue = re-measured on the same windows, teal = a different window set, grey = placebo. Intervals are day-clustered and lattice-bound; an open dot has no interval." /></div>
+          <ChartWithTable label="Show table">
           <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
             <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>variant</th><th>windows</th><th>median relaxation magnitude [95% interval]</th><th>difference from the published rule</th><th>added / dropped</th></tr></thead>
             <tbody>
@@ -5914,6 +5921,7 @@ function CsrSensitivityView(){
               <tr data-csr-row={`${k}-placebo`} style={{borderTop:"1px solid #e2e8f0"}}><td>placebo: pseudo load-offs inside long rests without preceding load</td><td>{st.placebo.n}</td><td>{med(st.placebo)}</td><td>reference median inside the placebo quartile range: {String(st.placebo.v0InsidePlaceboIQR)}</td><td>-</td></tr>
             </tbody>
           </table>
+          </ChartWithTable>
         </div>);})}
       <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-csr-foot="1">Reference: {B.pooledV0.n} rest windows on {B.pooledV0.nDays} days reproduce the published block exactly (pooled interval {mv(B.pooledV0.ci95[0])} to {mv(B.pooledV0.ci95[1])}); intervals are day-clustered percentile bootstrap (seed {B.seed}, {B.draws} draws) and are lattice-bound. Half-time has no median here because the published index counts rows of the collapsed grid, not seconds. Flags raised: {keys.map(k=>`${names[k]||k}: ${[...(B.flags[k].variantOutsideV0Interval||[]),...(B.flags[k].freshOnlyKeepsUnder60Pct?["fresh-only keeps under 60 %"]:[]),...(B.flags[k].windowsAddedOver5Pct||[]).map(x=>x+" adds over 5 % windows"),...(B.flags[k].v0InsidePlaceboIQR?["reference inside the placebo quartile range"]:[])].join("; ")||"none"}`).join(" | ")}. Trailing fill: {keys.map(k=>`${names[k]||k}: ${B.strata[k].trailingFill.windowsWithTrailingFill} of ${B.strata[k].nWindows} windows (${pc(B.strata[k].trailingFill.shareOfV0)}) use a second filled past a channel's last real sample; the reference median without them is ${med(B.strata[k].trailingFill.V0WithoutThem)}`).join(" | ")}. A median at the 1 mV logging resolution is above the rest placebo in aggregate, single windows cannot be told apart from rest noise, and the slow-polled magnitude depends on how it is built.</div>
     </Section>
