@@ -863,7 +863,7 @@ function intervalForestModel(rows, opts){
   return {rows:out,min:ticks[0],max:ticks[ticks.length-1],ticks};
 }
 /*M569-MODEL-END*/
-function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", color="#2563eb", ariaLabel, fmt, caption, lblW=176, intervalName="95% interval" }) {
+function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", color="#2563eb", ariaLabel, fmt, caption, lblW=176, intervalName="95% interval", dotLabels=false, dotUnit="" }) {
   const M = intervalForestModel(rows, { zero, ref: refLine });
   if (!M.rows.length) return null;
   const W = 540, PL = lblW, PR = 158, PT = 6, PB = 32, rowH = 28;
@@ -901,6 +901,7 @@ function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", colo
                 <line x1={xS(r.hi)} y1={cy - 4} x2={xS(r.hi)} y2={cy + 4} stroke={c} strokeWidth={1.2} />
               </g>}
               {(r.kind === "interval" || r.kind === "point") && <circle cx={xS(r.est)} cy={cy} r={r.kind === "interval" ? 3.2 : 3.6} fill={r.kind === "interval" ? c : "#fff"} stroke={c} strokeWidth={1.6} />}
+              {dotLabels && (r.kind === "interval" || r.kind === "point") && <text x={xS(r.est)} y={cy - 7} textAnchor="middle" fontSize={9.5} fontWeight={700} fill="#0f172a" data-dot-label="1">{fv(r.est) + dotUnit}</text>}
               {r.kind === "none" && <text x={PL + 6} y={cy + 3} fontSize={8.5} fill="#94a3b8" fontStyle="italic">{r.note || "not available"}</text>}
               <text x={W - PR + 8} y={cy + (r.sub ? -1 : 3)} fontSize={8.5} fill="#0f172a" fontWeight={700}>{txt}</text>
               {r.sub && <text x={W - PR + 8} y={cy + 9} fontSize={7.5} fill="#94a3b8">{String(r.sub).length > 44 ? String(r.sub).slice(0, 43) + "…" : r.sub}</text>}
@@ -912,6 +913,35 @@ function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", colo
     </div>
   );
 }
+// M778 (Wave 0 chart kit, owner request 2026-11-25/27): one directly labelled 100% strip per row. parts: [{key,label,share,color}] with share in 0..1 (null = unknown value, drawn as nothing).
+// Percent labels sit inside a segment when it is wide enough and above it otherwise; the same numbers are in the aria-label so the strip is readable without sight.
+function ShareStrip({ rows, ariaLabel, fmt, w=560, lblW=130 }) {
+  const f = fmt || (v => (100 * v).toFixed(1) + "%");
+  const bw = w - lblW - 10, rowH = 40, H = rows.length * rowH + 4;
+  const alt = rows.map(r => r.label + ": " + r.parts.filter(p => typeof p.share === "number").map(p => p.label + " " + f(p.share)).join(", ")).join("; ");
+  return (
+    <svg width="100%" viewBox={`0 0 ${w} ${H}`} role="img" aria-label={ariaLabel ? ariaLabel + ". " + alt : alt} style={{ overflow: "visible" }} data-share-strip="1">
+      {rows.map((r, i) => {
+        let x = lblW; const y = i * rowH + 14;
+        return (<g key={r.label}>
+          <text x={lblW - 8} y={y + 12} textAnchor="end" fontSize={11} fill="#334155" fontWeight={600}>{r.label}</text>
+          {r.parts.map(p => {
+            if (typeof p.share !== "number" || p.share < 0.0005) return null;
+            const wv = Math.max(0, p.share) * bw, xx = x; x += wv;
+            const inside = wv >= 52;
+            return (<g key={p.key}>
+              <rect x={xx} y={y} width={wv} height={18} fill={p.color} stroke="#fff" strokeWidth={0.5}><title>{r.label + ": " + p.label + " " + f(p.share)}</title></rect>
+              {inside
+                ? <text x={xx + wv / 2} y={y + 13} textAnchor="middle" fontSize={11} fill="#fff" fontWeight={700}>{f(p.share)}</text>
+                : <text x={xx + wv / 2} y={y - 3} textAnchor="middle" fontSize={10} fill="#0f172a" fontWeight={700}>{f(p.share)}</text>}
+            </g>);
+          })}
+        </g>);
+      })}
+    </svg>
+  );
+}
+function NotesIf({ on, title, children }) { return on ? <Notes title={title}>{children}</Notes> : <>{children}</>; }
 function ChartWithTable({ chart, children, label="Show table" }) {
   return (
     <div data-chart-with-table="1">
@@ -9655,6 +9685,18 @@ function FuelStates(){
   const V=Z.variants, C=Z.chargingSubState, cov=Z.coverage, st=Z.strata, sr=Z.speedResolutionKmh;
   return <FxCohortGate coh={coh} chart="Fuel by speed state"><div data-fuel-states="1">
     <FxScopeNote coh={coh}/>
+    {coh==="all"&&(()=>{ const A0=Z.groups["all"]; if(!A0||typeof A0.stationaryShare?.est!=="number") return null;
+      const bandRows=bandKeys.filter(k=>Z.groups[k]&&typeof Z.groups[k].stationaryShare?.est==="number").map(k=>{const e=Z.groups[k],q=e.stationaryShare; return {label:k.replace("band ","")+" km trips",est:q.est*100,lo:q.ci95?q.ci95[0]*100:undefined,hi:q.ci95?q.ci95[1]*100:undefined,kind:q.ci95?"interval":"point",sub:e.nTrips+" trips · "+e.nDays+" days"};});
+      return <div data-fuel-states-lead="1">
+        <p style={{fontSize:13,color:"#0f172a",lineHeight:1.55,margin:"0 0 8px"}}>About {fsPct(A0.stationaryShare.est,1)} of the fuel logged in this sample was used while the car was at 1 km/h or slower{A0.stationaryShare.ci95?" (95% day-clustered interval "+fsPct(A0.stationaryShare.ci95[0],1)+" to "+fsPct(A0.stationaryShare.ci95[1],1)+")":""}. Sample: {A0.nTrips} trips on {A0.nDays} days; fuel rate is app-calculated by the logger.</p>
+        <ShareStrip ariaLabel="Share of logged litres by speed state, all trips" rows={[{label:"All trips",parts:[{key:"stationary",label:"stationary",share:A0.stationaryShare.est,color:FS_COL.stationary},{key:"moving",label:"moving",share:A0.movingShare?.est,color:FS_COL.moving},{key:"unknown",label:"unknown",share:A0.unknownShare?.est,color:FS_COL.unknown}]}]}/>
+        <div data-fuel-states-legend="1" style={{fontSize:12,color:"#334155",margin:"2px 0 0 130px"}}>{["stationary","moving","unknown"].map(k=><span key={k} style={{marginRight:14}}><span style={{display:"inline-block",width:10,height:10,background:FS_COL[k],marginRight:4,borderRadius:2}}/>{k}{k==="unknown"?" "+fsPct(A0.unknownShare?.est,1):""}</span>)}</div>
+        {bandRows.length>0&&<div data-fuel-states-bands="1" style={{marginTop:10}}>
+          <div style={{fontSize:12,fontWeight:700,color:"#334155",marginBottom:2}}>Stopped share by trip length</div>
+          <IntervalForest zero={false} refLine={null} xLabel="stationary share of logged litres (%)" ariaLabel="Stationary share of logged litres by trip length" fmt={v=>Number(v).toFixed(1)} lblW={118} dotLabels={true} dotUnit="%" rows={bandRows}/>
+        </div>}
+      </div>; })()}
+    <NotesIf on={coh==="all"} title="How we calculated it, and all groups">
     {coh==="all"?<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:12}}>
       <div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>Share of logged litres by speed state, per trip-distance band</div><FxStack rows={rowsFor(["all"].concat(bandKeys))}/></div>
       <div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>By drive type and thermal cohort</div><FxStack rows={rowsFor(Object.keys(Z.groups).filter(k=>k.startsWith("driveType")||k.startsWith("cohort")))}/></div></div>
@@ -9674,6 +9716,7 @@ function FuelStates(){
       <div style={{marginTop:3}}>Never-re-exported / former re-export files: {fsPct(st.hashPassStationary.est,2)} ({fxN(st.hashPassStationary)}) / {fsPct(st.hashFailStationary.est,2)} ({fxN(st.hashFailStationary)}), not a paired test. In the {Z.f03SpeedHvCheck.nFilesCompared} files that were re-exports before M366 the speed columns (VCM, {Z.f03SpeedHvCheck.cellIdentical.speedVCM.nFiles} files; OBD, {Z.f03SpeedHvCheck.cellIdentical.speedOBD.nFiles} files), SoC ({Z.f03SpeedHvCheck.cellIdentical.soc.nFiles} files) and engine speed ({Z.f03SpeedHvCheck.cellIdentical.rpm.nFiles} files) of the former raw/ copies were cell-identical to the sha256-verified originals (read-only comparison run before raw/ was overwritten, M366); the speed integral and the stationary share are identical (zero difference, n={Z.f03SpeedHvCheck.derived.km.n} drives; {Z.f03SpeedHvCheck.filesWithoutUsableSpeed} file has no usable speed), so the moving/stationary split and the km basis do not depend on the re-export rounding. HV current and voltage in the former raw/ copies were rounded (maximum cell difference {Z.f03SpeedHvCheck.rounded.hvCurrent.maxAbsDiff} A and {Z.f03SpeedHvCheck.rounded.hvVoltage.maxAbsDiff} V): the effect on pack discharge and charge energy, computed in the read-only comparison, was {(Z.f03SpeedHvCheck.derived.dischargeKwh.aggRelDiff*100)>=0?"+":""}{(Z.f03SpeedHvCheck.derived.dischargeKwh.aggRelDiff*100).toFixed(3)}% and {(Z.f03SpeedHvCheck.derived.chargeKwh.aggRelDiff*100)>=0?"+":""}{(Z.f03SpeedHvCheck.derived.chargeKwh.aggRelDiff*100).toFixed(3)}% in aggregate (largest single-drive difference {Z.f03SpeedHvCheck.derived.dischargeKwh.maxAbsPerDriveDiff.toFixed(3)} kWh for discharge and {Z.f03SpeedHvCheck.derived.chargeKwh.maxAbsPerDriveDiff.toFixed(3)} kWh for charge; {Z.f03SpeedHvCheck.derived.dischargeKwh.nDrivesDiffAbove1pct} of {Z.f03SpeedHvCheck.derived.dischargeKwh.n} drives differ by more than 1% in discharge).</div>
       <div style={{marginTop:3}}>Fuel consumed during net pack charging (a temporal state of the logged rate, not an allocation of fuel to the battery; battery offset is estimated; {C.nTripsWithBatteryInputs} trips with battery inputs): trips that were never re-exports log {C.byDeadbandKw["db0.1"].hashPass.stationary} L while stationary and {C.byDeadbandKw["db0.1"].hashPass.moving} L while moving with net pack power below −0.1 kW; the former re-export files carried rounded raw/ current before M366 (effect on pack energy computed in the read-only comparison, stated above); all trips are now on the sha256-verified originals, and the charging-share comparison of the former re-exports with the originals (M365) differs by a fraction of a percentage point.</div>
       <div style={{marginTop:3}}>Coverage: the rate integral is {fsPct(cov.integralOverCounter,2)} above the logged counter; {fsPct(cov.lostSecondsShare,2)} of logged seconds lie in rate gaps above 5 s (their litres are not counted). Basis: raw/ = sha256-verified originals (M366); not M299-reproducible.</div></div>}
+    </NotesIf>
   </div></FxCohortGate>;
 }
 function FxLines({series,xlim,ylim,xticks,yticks,xl,yl,w=300,h=190}){
@@ -13301,7 +13344,7 @@ export default function App() {
         <Section seasonAware title={`Fuel data consistency: rate integral versus counter (logged/app-calculated; ${S.fuelAnalytics?.reconciliation?.analysisEligible} trips)`} accent="#0f766e"><FuelAgreement/></Section>
         <Section seasonAware title="Fuel consumption versus trip length (logged counter; descriptive)" accent="#0f766e"><FuelVsTripLength/></Section>
         <Section seasonAware title="Trip consumption distribution and pooled 14-day windows (logged counter; descriptive)" accent="#0f766e"><FuelDistributionTrend/></Section>
-        <Section seasonAware title="Fuel by speed state: stationary fuel and moving fuel (logged rate; temporal states)" accent="#0f766e"><FuelStates/></Section>
+        <Section seasonAware title="Fuel used while stopped (logged rate; temporal states)" accent="#0f766e"><FuelStates/></Section>
         <Section seasonAware title="Warm-up fuel trajectory after the first engine start (logged rate; descriptive associations)" accent="#0f766e"><FuelWarmup/></Section>
       </>)}
       {tab==="distribution"&&(<>
