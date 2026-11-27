@@ -6522,6 +6522,30 @@ function spreadProcNote(){
   const inc=rr.rowsIncludingZero||[], exc=rr.rowsExcludingZero||[];
   return `; the lower bound is procedure-dependent (${exc.length} of ${inc.length+exc.length} serial-dependence interval procedures exclude zero, ${inc.length} include it: ${inc.map(nm).join(", ")})`;
 }
+// M790 (audit Wave B #9, owner plan 2026-11-27; display of S.socHysteresisV2.outOfTimeEvaluation, no new payload): paired bars of observed and model-expected event counts on the later drives, one pair per model.
+// Expected = observed / (O/E), the payload's own ratio; the O/E interval is printed beside the pair. Pure view: rows [{label,observed,oe,lo,hi,sub}].
+function ObsExpBars({ rows, ariaLabel }) {
+  const ok=rows.filter(r=>[r.observed,r.oe].every(v=>typeof v==="number"&&isFinite(v)&&v>0));
+  if(!ok.length) return null;
+  const W=420, PL=110, PR=150, rowH=46, PT=6, PB=6, pw=W-PL-PR, H=PT+ok.length*rowH+PB;
+  const mx=Math.max(...ok.flatMap(r=>[r.observed,r.observed/r.oe])), xS=v=>v/mx*pw;
+  return (
+    <div data-obs-exp="1">
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel} style={{overflow:"visible"}}>
+        {ok.map((r,i)=>{ const y=PT+i*rowH, exp=r.observed/r.oe; return (
+          <g key={i} data-obs-exp-row={r.label}>
+            <text x={PL-8} y={y+17} textAnchor="end" fontSize={10} fontWeight={600} fill="#374151">{r.label}</text>
+            <text x={PL-8} y={y+30} textAnchor="end" fontSize={8} fill="#94a3b8">{r.sub}</text>
+            <rect x={PL} y={y+6} width={xS(r.observed)} height={14} fill="#2563eb"/><text x={PL+xS(r.observed)+4} y={y+17} fontSize={9.5} fontWeight={700} fill="#0f172a">{r.observed} observed</text>
+            <rect x={PL} y={y+23} width={xS(exp)} height={14} fill="#94a3b8"/><text x={PL+xS(exp)+4} y={y+34} fontSize={9.5} fontWeight={700} fill="#0f172a">{Math.round(exp)} expected</text>
+            <text x={W-PR+70} y={y+17} fontSize={9} fill="#334155" data-obs-exp-ratio="1">observed / expected {r.oe.toFixed(2)}</text>
+            {r.lo!=null&&<text x={W-PR+70} y={y+30} fontSize={8.5} fill="#64748b">95% interval {r.lo.toFixed(2)}–{r.hi.toFixed(2)}</text>}
+          </g>); })}
+      </svg>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:2}}>Observed = events detected on the later drives; expected = what the model fitted on the earlier drives predicted for the same seconds. Equal bars mean a ratio of 1.</div>
+    </div>
+  );
+}
 function OutOfTimePanel(){
   // M428 (audit F08): out-of-time evaluation of the frozen design; every figure binds to S.socHysteresisV2.outOfTimeEvaluation (script-written, tools/m428_oot.py).
   const E=S.socHysteresisV2?.outOfTimeEvaluation;
@@ -6536,8 +6560,10 @@ function OutOfTimePanel(){
   const allWithin=fid.every(x=>x.withinTolerance===true);
   return (
     <div data-out-of-time="1" style={{padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,marginBottom:10,fontSize:11,color:"#374151",lineHeight:1.6}}>
+      <div style={{fontSize:14,fontWeight:700,color:"#0f172a",marginBottom:4}} data-oot-title="1">How well did the model work on later drives?</div>
       <strong style={{color:"#0f172a"}}>Out-of-time evaluation of the frozen design.</strong> The model is fit once on the {E.split.nBasisDrives} basis drives and applied unchanged to the {E.split.nLaterDrives} later drives ({E.start.later.nDays} calendar days). No later row enters the knots, scale or coefficients. Events are detector-derived and hazards are model-derived. The intervals are day-clustered percentile bootstrap intervals (B={E.bootstrap.B}, seed {E.bootstrap.seed}). They depend on the fitted basis model and rest on few day clusters. The thresholds are declared planning choices, not validated.
       <ChartWithTable chart={<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:10}}>
+        <ObsExpBars ariaLabel="Observed and model-expected event counts on the later drives, START and STOP models" rows={sides.map(([k,title])=>({label:title,observed:E[k].later.events,oe:E[k].OE?.point,lo:E[k].OE?.ci95?.[0],hi:E[k].OE?.ci95?.[1],sub:`${E[k].later.nDrives} later drives, ${E[k].later.nDays} days`}))}/>
         <IntervalForest xLabel="Log-loss skill vs basis-rate constant (95% CI)" refLine={0} refText="no skill over the constant" fmt={v=>f(v,2)} lblW={110} ariaLabel="Out-of-time evaluation: log-loss skill versus the basis-rate constant, START and STOP models"
           caption="Day-clustered intervals conditional on the fitted basis model, resting on few day clusters."
           rows={sides.map(([k,title])=>({label:title,est:E[k].skillVsB0.point,lo:E[k].skillVsB0.ci95?.[0],hi:E[k].skillVsB0.ci95?.[1],sub:`${E[k].later.nDrives} later drives, ${E[k].later.nDays} days`}))}/>
