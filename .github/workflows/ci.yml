@@ -53,6 +53,7 @@ jobs:
           python tests/synthetic/test_cloud_payload.py
           python tests/synthetic/test_cloud_monthly_coverage.py
           python tests/synthetic/test_cloud_monthly_payload.py
+          python tests/synthetic/test_battery_temp_ranges.py
           python tests/synthetic/test_heatsoak_gap_payload.py
           python tests/synthetic/test_dem_crosscheck.py
           python tests/synthetic/test_dem_grade_shares.py
@@ -396,6 +397,7 @@ jobs:
           node test_fuelstates_forest.js
           node test_fuel_stopped_redesign.js
           node test_bms_power_map_view.js
+          node test_battery_temp_range_view.js
           node test_stopgo_forest.js
           node test_drive_calendar.js
           node test_fuelcoverage_chart.js

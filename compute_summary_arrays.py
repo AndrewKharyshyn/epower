@@ -15645,7 +15645,7 @@ def _battery_temp_ranges(dm, traj, ambient_by_drive):
         # dashboard. Degenerates to a point (p25==p75==the single value)
         # on n=1 groups (the record row), which the JSX renders as no box.
         parr = np.asarray(peaks, dtype=float)
-        return {'label': label, 'lo': int(min(mins)), 'hi': int(max(peaks)),
+        return {'label': label, 'lo': int(np.floor(min(mins))), 'hi': int(np.floor(max(peaks))),   # M780: floor, identical to int() for every non-negative value, correct below zero
                 'medPeak': int(round(float(np.median(peaks)))),
                 'p25Peak': round(float(np.percentile(parr, 25)), 1),
                 'p75Peak': round(float(np.percentile(parr, 75)), 1),
@@ -15655,21 +15655,30 @@ def _battery_temp_ranges(dm, traj, ambient_by_drive):
     rows = []
 
     # ---- axis 1: recorded ambient ------------------------------------
-    amb_bins = [('Cool ambient (<20 C)', -99, 20, '#3b82f6'),
-                ('Mild ambient (20-26 C)', 20, 26, '#22c55e'),
-                ('Hot ambient (>=26 C)', 26, 99, '#f59e0b')]
+    # M780 (spec analyses/M780_spec.md Rev 2): 5 C bins [a, a+5) anchored at 0 C over the WHOLE observed ambient range (no -99/99 catch-all, no bin dropped
+    # for support: this section shows observed extrema). Replaces the three fixed bins cool <20 / mild 20-26 / hot >=26 C, which lumped near-freezing and
+    # 19 C drives. Each row carries n (drives), nDays (calendar days) and the thermal regime of its LOWER edge (seasonal_core thresholds: cold below
+    # cold_max_c, warm from warm_min_c); a drive recorded at exactly cold_max_c is Cold but sits in the row that starts there (stated in the chart note).
     if ambient_by_drive:
-        for label, lo_a, hi_a, color in amb_bins:
-            files = []
-            for fn, pair in ambient_by_drive.items():
-                a = _ambient_reader().mean_reading(pair)
-                if a is None:
-                    continue
-                if lo_a <= a < hi_a:
-                    files.append(fn)
-            b = _bar(label, files, color, 'ambient')
+        from seasonal_core import DEFAULT_THERMAL_THRESHOLDS as _TH780
+        by_bin = {}
+        for fn, pair in ambient_by_drive.items():
+            a = _ambient_reader().mean_reading(pair)
+            if a is None:
+                continue
+            by_bin.setdefault(int(np.floor(float(a) / 5.0)) * 5, []).append(fn)
+        _date_of = dict(zip(dm['file'], dm['date'])) if 'date' in dm.columns else {}
+        for lo_a in sorted(by_bin):
+            files = by_bin[lo_a]
+            b = _bar('%d to <%d C' % (lo_a, lo_a + 5), files, '#3b82f6', 'ambient')
             if b:
-                b['note'] = (f"n={b['n']} drives with recorded ambient · "
+                used = [f for f in files if f in traj and 't1_min' in traj[f] and 't1_peak' in traj[f]]
+                b['ambLoC'] = lo_a
+                b['ambHiC'] = lo_a + 5
+                b['nDays'] = len({_date_of.get(f) for f in used if _date_of.get(f) is not None})
+                b['regime'] = ('cold' if lo_a < _TH780['cold_max_c'] else
+                               'warm' if lo_a >= _TH780['warm_min_c'] else 'shoulder')
+                b['note'] = (f"n={b['n']} drive{'' if b['n'] == 1 else 's'} on {b['nDays']} day{'' if b['nDays'] == 1 else 's'} with recorded ambient, "
                              f"median peak {b['medPeak']} C")
                 rows.append(b)
 
