@@ -10308,6 +10308,33 @@ function ShareForest({ items, h, ariaLabel }) {
   return <IntervalForest rows={rows} zero={false} xLabel={"share of cold starts reaching the threshold within " + h + " s (95% day-clustered interval)"} ariaLabel={ariaLabel} fmt={v => Number(v).toFixed(3)} lblW={210} caption="Blue = observed share before key-off; orange = Kaplan-Meier (product-limit) estimate. Same ledger values as the table below."/>;
 }
 
+// M789 (audit Wave B #4, owner plan 2026-11-27; display of S.thermalSupportLedger.timeToThreshold, no new payload): at-a-glance chart of the observed share of cold starts that reached coolant 80 C and oil 70 C within 5, 10 and 15 minutes, one axis for both fluids, with a support strip
+// (reached / trip ended first / sensor lost) and an "If the drive continued" switch that adds the Kaplan-Meier (product-limit) estimate. Pure view of K = cohort block; no S access beyond the argument.
+function TteGlance({ K, pct=(v=>(100*v).toFixed(0)+" %") }) {
+  const [km,setKm]=useState(false);
+  const cells=[["coolant","80","Coolant 80 °C"],["oil","70","Oil 70 °C"]].map(([fl,t,nm])=>({fl,t,nm,c:(K[fl]||{})[t]})).filter(x=>x.c&&x.c.horizons);
+  if(!cells.length) return null;
+  const H=[300,600,900], hl=h=>`${h/60} min`;
+  const hz=(c,h)=>c.horizons.find(x=>x.h===h);
+  const rows=cells.flatMap(({nm,c})=>H.flatMap(h=>{ const z=hz(c,h); if(!z||!z.supported||!z.E1) return [{kind:"none",label:`${nm}, within ${hl(h)}`,note:"not supported",color:"#2563eb"}];
+    const mk=(E,label,color,marker)=>({kind:"interval",label,est:E.point,lo:E.ci95?.[0],hi:E.ci95?.[1],color,marker,valueText:`${pct(E.point)}${E.ci95?` (${pct(E.ci95[0])}–${pct(E.ci95[1])})`:""}`});
+    const out=[mk(z.E1,`${nm}, within ${hl(h)}${km?": observed":""}`,"#2563eb")];
+    if(km&&z.E2) out.push(mk(z.E2,`${nm}, within ${hl(h)}: if the drive continued`,"#ea580c","square"));
+    return out; }));
+  const strip=cells.map(({nm,c})=>{ const n=c.n, lost=c.censoredChannelLoss, ended=c.censoredTripEnd; return {label:nm,parts:[{key:"r",label:"reached it",share:c.reached/n,color:"#2563eb"},{key:"e",label:"trip ended first",share:ended/n,color:"#cbd5e1"},{key:"l",label:"sensor readings lost",share:lost/n,color:"#f59e0b"}]}; });
+  const m10=cells.map(({nm,c})=>{ const z=hz(c,600); return z&&z.supported&&z.E1?`${pct(z.E1.point)} had reached ${nm.toLowerCase().replace(" °c"," °C")}`:null; }).filter(Boolean);
+  return (
+    <div data-tte-glance="1" style={{marginBottom:10}}>
+      {m10.length>0&&<p style={{fontSize:13,color:"#0f172a",lineHeight:1.55,margin:"0 0 8px"}} data-tte-glance-lead="1">Within ten minutes of a logged cold start, {m10.join(" and ")} (observed share; a trip that ended earlier counts as not reached, so this is a lower bound for how warm-up would go on a longer drive).</p>}
+      <div style={{display:"flex",gap:6,marginBottom:6}}>
+        {[[false,"Observed share"],[true,"If the drive continued"]].map(([v,l])=>(<button key={String(v)} data-tte-km={String(v)} aria-pressed={km===v} onClick={()=>setKm(v)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:km===v?"#0f172a":"#fff",color:km===v?"#fff":"#334155"}}>{l}</button>))}
+      </div>
+      <IntervalForest rows={rows} zero={true} xLabel="share of logged cold starts that reached the temperature (95% day-clustered interval)" fmt={v=>(100*v).toFixed(0)+" %"} lblW={190} ariaLabel="Share of cold starts that reached coolant 80 degrees C and oil 70 degrees C within 5, 10 and 15 minutes" caption={km?"Blue = observed share before the drive ended; orange squares = Kaplan-Meier (product-limit) estimate of what might have happened had drives continued. That estimate assumes the drives still running are informative about comparable drives that stopped.":"Observed share before the drive ended; it needs no assumption. A short trip ending before the target is part of real-world warm-up. A share with sensor loss is a lower bound."} />
+      <div style={{fontSize:10.5,color:"#334155",fontWeight:600,margin:"8px 0 2px"}}>What happened to the cold starts</div>
+      <div data-tte-glance-strip="1"><ShareStrip rows={strip} lblW={110} ariaLabel="Outcome of the logged cold starts" fmt={v=>(100*v).toFixed(0)+" %"} /></div>
+    </div>
+  );
+}
 function TimeToThresholdPanel() {
   // M435 (audit F17; spec analyses/M435_spec.md Rev 2.1/2.2): censoring-aware time-to-threshold tables. Every number binds to S.thermalSupportLedger.timeToThreshold (script-written, tools/m435_tte.py).
   const _coh=useCohort();
@@ -10326,6 +10353,7 @@ function TimeToThresholdPanel() {
   const PH=T_.postHoc?.stoppingProfile;
   return (
     <div data-m435="tte" style={box}>
+      <TteGlance K={K}/>
       <strong style={{color:"#0f172a"}}>How long cold starts take to reach a temperature, allowing for trips that ended early.</strong> Scope: {R.R4}. {T_.populationNote}
       {" "}A drive that ended before reaching the temperature is called right-censored (observation ended before the threshold). We do not know what would have happened next. The blue line shows how many observed drives reached the target before they ended. It needs no assumption. The orange line, the Kaplan-Meier (product-limit) estimate, shows what might have happened if drives had continued. It does need an assumption, and early trip endings can change that estimate.
       {cells.map(([fl,t,c])=>(
@@ -10363,7 +10391,7 @@ function TimeToThresholdPanel() {
       </div>}
       {_coh==="all"&&T_.fillSensitivity&&(()=>{ const FS=T_.fillSensitivity, si=FS.sampleIntervalS||{}; const cells=FS.headlineCells||[]; const NM={"coolant/80":"coolant 80 °C","oil/70":"oil 70 °C"};
         return <div data-m437="fill" style={{marginTop:8}}>
-          <strong style={{color:"#0f172a"}}>Sensitivity to the forward-fill limit and the trip-end tolerance (M437).</strong> {FS.reading} Headline cells at {FS.h} s, cohort all; the record is the fill of {FS.record.fill} s and the tolerance of {FS.record.toleranceS} s and no setting is chosen. Median sample interval: coolant {f(si.coolant&&si.coolant.medianS,2)} s (95th percentile {f(si.coolant&&si.coolant.p95S,2)} s), oil {f(si.oil&&si.oil.medianS,2)} s (95th percentile {f(si.oil&&si.oil.p95S,2)} s).
+          <strong style={{color:"#0f172a"}}>Do short sensor gaps change the result? Sensitivity to the forward-fill limit and the trip-end tolerance (M437).</strong> {FS.reading} Headline cells at {FS.h} s, cohort all; the record is the fill of {FS.record.fill} s and the tolerance of {FS.record.toleranceS} s and no setting is chosen. Median sample interval: coolant {f(si.coolant&&si.coolant.medianS,2)} s (95th percentile {f(si.coolant&&si.coolant.p95S,2)} s), oil {f(si.oil&&si.oil.medianS,2)} s (95th percentile {f(si.oil&&si.oil.p95S,2)} s).
           <ChartWithTable chart={<ShareForest h={FS.h} ariaLabel="Observed share and Kaplan-Meier (product-limit) estimate by forward-fill limit" items={cells.flatMap(k=>FS.fills.map(F=>{ const r=FS.settings[String(F)][k]; return r?{label:(NM[k]||k)+", fill "+F+" s"+(F===FS.record.fill?" (record)":""), r:{supported:r.supported600,E1:r.E1,E2:r.E2}, sub:r.n+" cold starts / "+r.days+" days, "+r.reached+" reached"}:null; }).filter(Boolean))}/>}><table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Cell</th><th style={th}>Fill (s)</th><th style={th}>Cold starts / days</th><th style={th}>Reached</th><th style={th}>Right-censored: trip end / channel loss (tolerance {FS.record.toleranceS} s)</th><th style={th}>Events after a gap over 10 s</th><th style={th}>Observed share within {FS.h} s (95% CI)</th><th style={th}>Kaplan-Meier (product-limit) estimate (95% CI)</th><th style={th}>Upper worst-case bound</th><th style={th}>Reading classes (fewer than half / half or more)</th></tr></thead>
             <tbody>{cells.flatMap(k=>FS.fills.map(F=>{ const r=FS.settings[String(F)][k]; if(!r) return null;
               return <tr key={k+F}><td style={td}>{NM[k]||k}</td><td style={td}>{F}{F===FS.record.fill?" (record)":""}</td><td style={td}>{r.n} / {r.days}</td><td style={td}>{r.reached}</td><td style={td}>{r.censoredTripEnd} / {r.censoredChannelLoss}</td><td style={td}>{r.eventsAfterGapOver10s}</td>
@@ -10372,7 +10400,7 @@ function TimeToThresholdPanel() {
           <div>Reason labels changed against the record, by fill and tolerance (drives censored in both): {Object.entries(FS.reasonChangedByFillAndTolerance).map(([g,c])=>`${g.replace("_X"," s, tolerance ")} s: ${cells.map(k=>(NM[k]||k)+" "+c[k].reasonChanged).join(", ")}`).join("; ")}. The trip-end tolerance changes only this split, never the counts of reached drives, the shares or the estimates. A tolerance of 5 s is below the 95th percentile of the coolant sample interval ({f(si.coolant&&si.coolant.p95S,2)} s), so label changes at 5 s reflect the sampling, not channel loss. The fill range of 0 to 6 s is below that percentile as well: longer gaps stay missing in every setting (the longer limits of 15 and 30 s are in the rows below). {FS.labels.censoringTimeChanged}.</div>
           {FS.extendedFills&&(()=>{ const EF=FS.extendedFills, ish=EF.coolantIntervalShare||{};
             return <div data-m648="extended-fills" style={{marginTop:6}}>
-              <strong style={{color:"#0f172a"}}>Longer fill limits (M648).</strong> {EF.reading} Cohort {EF.cohort}, headline cells at {EF.h} s; the record stays the fill of {EF.record.fill} s. Share of the pooled coolant sample intervals above F: {Object.entries(ish.byFillPercent||{}).map(([F,v])=>"F = "+F+" s "+(v>=10?String(Math.round(v)):Number(v).toPrecision(2))+" %").join(", ")} (95th percentile of the interval {f(ish.p95IntervalS,1)} s).
+              <strong style={{color:"#0f172a"}}>What if we hold readings longer? Longer fill limits (M648).</strong> {EF.reading} Cohort {EF.cohort}, headline cells at {EF.h} s; the record stays the fill of {EF.record.fill} s. Share of the pooled coolant sample intervals above F: {Object.entries(ish.byFillPercent||{}).map(([F,v])=>"F = "+F+" s "+(v>=10?String(Math.round(v)):Number(v).toPrecision(2))+" %").join(", ")} (95th percentile of the interval {f(ish.p95IntervalS,1)} s).
               <ChartWithTable chart={<ShareForest h={EF.h} ariaLabel="Observed share and Kaplan-Meier (product-limit) estimate by longer forward-fill limit" items={EF.headlineCells.flatMap(k=>EF.fills.map(F=>{ const r=EF.settings[String(F)][k]; return r?{label:(NM[k]||k)+", fill "+F+" s"+(F===EF.record.fill?" (record)":""), r:{supported:r.supported600,E1:r.E1,E2:r.E2}, sub:r.n+" cold starts / "+r.days+" days, "+r.reached+" reached"}:null; }).filter(Boolean))}/>}><table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Cell</th><th style={th}>Fill (s)</th><th style={th}>Cold starts / days</th><th style={th}>Reached</th><th style={th}>Observed share within {EF.h} s (95% CI)</th><th style={th}>Kaplan-Meier (product-limit) estimate (95% CI)</th><th style={th}>Cold starts dropped / added vs the record</th></tr></thead>
                 <tbody>{EF.headlineCells.flatMap(k=>EF.fills.map(F=>{ const r=EF.settings[String(F)][k]; if(!r) return null; const p=EF.pairedVsRecord[String(F)]&&EF.pairedVsRecord[String(F)][k];
                   return <tr key={k+F}><td style={td}>{NM[k]||k}</td><td style={td}>{F}{F===EF.record.fill?" (record)":""}</td><td style={td}>{r.n} / {r.days}</td><td style={td}>{r.reached}</td><td style={td}>{r.supported600?`${f(r.E1.point)} ${ci(r.E1.ci95)}`:"not supported"}</td><td style={td}>{r.supported600?`${f(r.E2.point)} ${ci(r.E2.ci95)}`:"not supported"}</td><td style={td}>{p?`${p.nDropped} / ${p.nAdded}`:"\u2014"}</td></tr>; }))}</tbody></table></ChartWithTable>
@@ -10381,7 +10409,7 @@ function TimeToThresholdPanel() {
         </div>; })()}
       {_coh==="all"&&T_.startStrata&&(()=>{ const SS=T_.startStrata; const NM={"coolant/80":"Coolant 80 °C","oil/70":"Oil 70 °C"}; const c0=SS.cutPointsC;
         return <div data-m438="strata" style={{marginTop:8}}>
-          <strong style={{color:"#0f172a"}}>Within start-temperature terciles (M438).</strong> Terciles of the coolant start temperature of the {SS.nColdStarts} coolant cold starts (cut points {f(c0[0],1)} and {f(c0[1],1)} {"°"}C; shares {SS.strataSharesOfCoolantColdStarts.map(x=>f(x,3)).join(" / ")}), the same stratum for coolant and oil. {SS.required.R1}. {SS.required.entanglement}. {SS.required.contrasts}.
+          <strong style={{color:"#0f172a"}}>Coolant 80 °C and oil 70 °C by starting coolant temperature. Within start-temperature terciles (M438).</strong> Terciles of the coolant start temperature of the {SS.nColdStarts} coolant cold starts (cut points {f(c0[0],1)} and {f(c0[1],1)} {"°"}C; shares {SS.strataSharesOfCoolantColdStarts.map(x=>f(x,3)).join(" / ")}), the same stratum for coolant and oil. {SS.required.R1}. {SS.required.entanglement}. {SS.required.contrasts}.
           {SS.headlineCells.map(k=>{ const cc=SS.cells[k]; return (
             <div key={k} data-m438-cell={k} style={{marginTop:4}}>
               <strong>{NM[k]||k}, {SS.headlineH} s, standardized to the observed start-temperature mix.</strong>
