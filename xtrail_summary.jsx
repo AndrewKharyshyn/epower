@@ -6229,6 +6229,51 @@ function ExposureVectorView(){
   );
 }
 // M688 (display of the M687 payload; Director check of the rendered text): modelled hours at pack temperature including parked hours, bound to S.parkedTimeBudget only (no typed number). Exploratory; every cold or hot figure carries its assumption-grid bracket; gaps of 12 h or longer are shown separately.
+// M791 (audit Wave B #11, owner plan 2026-11-27; display of S.parkedTimeBudget and S.seasonalFits, no new payload).
+// HoursBars: horizontal bars of hours by temperature band; rows [{label,hours,lo,hi,note}] (lo/hi = range over the assumption grid, drawn as a thin line); pattern=true draws hatched bars (modelled hours).
+function HoursBars({ rows, color, pattern=false, title, xLabel, id }) {
+  const W=300, PL=62, PR=48, rowH=22, PT=18, PB=30, pw=W-PL-PR, H=PT+rows.length*rowH+PB;
+  const mx=Math.max(1e-9,...rows.map(r=>typeof r.hi==="number"?r.hi:(typeof r.hours==="number"?r.hours:0)));
+  const raw=mx/3, mag=Math.pow(10,Math.floor(Math.log10(raw))), nrm=raw/mag, step=(nrm<=1?1:nrm<=2?2:nrm<=5?5:10)*mag, top=Math.ceil(mx/step-1e-9)*step;
+  const xS=v=>PL+v/top*pw, ticks=[]; for(let t=0;t<=top+step*1e-9;t+=step) ticks.push(parseFloat(t.toPrecision(12)));
+  return (
+    <div data-hours-bars={id}>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title+": "+rows.map(r=>r.label+" "+(typeof r.hours==="number"?r.hours.toFixed(1)+" h":"not shown")).join("; ")} style={{overflow:"visible"}}>
+        <defs><pattern id={"hb-"+id} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#fff"/><line x1="0" y1="0" x2="0" y2="5" stroke={color} strokeWidth="2.2"/></pattern></defs>
+        <text x={PL} y={10} fontSize={10} fontWeight={700} fill="#0f172a">{title}</text>
+        {ticks.map(t=>(<g key={t}><line x1={xS(t)} y1={PT} x2={xS(t)} y2={PT+rows.length*rowH} stroke="#f1f5f9"/><text x={xS(t)} y={PT+rows.length*rowH+10} textAnchor="middle" fontSize={7.5} fill="#94a3b8">{t}</text></g>))}
+        <text x={PL+pw/2} y={H-4} textAnchor="middle" fontSize={8.5} fill="#64748b">{xLabel}</text>
+        {rows.map((r,i)=>{ const cy=PT+i*rowH+rowH/2, has=typeof r.hours==="number";
+          return (<g key={r.label} data-hours-row={has?"bar":"none"}>
+            <text x={PL-6} y={cy+3} textAnchor="end" fontSize={8.5} fill="#374151">{r.label}</text>
+            {has?<g><rect x={PL} y={cy-6} width={Math.max(xS(r.hours)-PL,0.5)} height={12} fill={pattern?`url(#hb-${id})`:color} stroke={color} strokeWidth={1}/>
+              {typeof r.lo==="number"&&typeof r.hi==="number"&&<g><line x1={xS(r.lo)} y1={cy} x2={xS(r.hi)} y2={cy} stroke="#0f172a" strokeWidth={1}/><line x1={xS(r.lo)} y1={cy-3} x2={xS(r.lo)} y2={cy+3} stroke="#0f172a"/><line x1={xS(r.hi)} y1={cy-3} x2={xS(r.hi)} y2={cy+3} stroke="#0f172a"/></g>}
+              <text x={Math.max(xS(typeof r.hi==="number"?r.hi:r.hours),xS(r.hours))+4} y={cy+3} fontSize={8.5} fontWeight={700} fill="#0f172a">{r.hours.toFixed(r.hours<10?1:0)} h</text></g>
+              :<text x={PL+4} y={cy+3} fontSize={8} fill="#94a3b8" fontStyle="italic">{r.note||"not shown"}</text>}
+          </g>); })}
+      </svg>
+    </div>
+  );
+}
+// MiniEstimate: one small chart with a fitted value (dot), its interval (line) and an optional earlier-assumption band (shaded). All values passed in; nothing typed here.
+function MiniEstimate({ title, unit, est, lo, hi, band, bandLabel, fmt }) {
+  if(typeof est!=="number") return null;
+  const W=300, PL=10, PR=10, H=78, pw=W-PL-PR, fv=fmt||(v=>Number(v).toFixed(2));
+  const all=[est,lo,hi,band?.[0],band?.[1],0].filter(v=>typeof v==="number"), mn=Math.min(...all), mx=Math.max(...all), pad=(mx-mn)*0.08||1, a=mn-pad, b=mx+pad, xS=v=>PL+(v-a)/(b-a)*pw, cy=40;
+  return (
+    <div data-mini-estimate={title}>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title}: ${fv(est)} ${unit}${typeof lo==="number"?` (95% interval ${fv(lo)} to ${fv(hi)})`:""}${band?`; earlier assumption ${fv(band[0])} to ${fv(band[1])}`:""}`} style={{overflow:"visible"}}>
+        <text x={PL} y={10} fontSize={10} fontWeight={700} fill="#0f172a">{title}</text>
+        {band&&<g data-mini-band="1"><rect x={xS(band[0])} y={cy-14} width={Math.max(xS(band[1])-xS(band[0]),2)} height={28} fill="#f59e0b" opacity={0.25}/><text x={xS(band[0])} y={cy+26} fontSize={8} fill="#b45309">{bandLabel}</text></g>}
+        {a<0&&b>0&&<line x1={xS(0)} y1={cy-16} x2={xS(0)} y2={cy+16} stroke="#475569" strokeDasharray="3 3"/>}
+        {typeof lo==="number"&&<g><line x1={xS(lo)} y1={cy} x2={xS(hi)} y2={cy} stroke="#2563eb" strokeWidth={1.8}/><line x1={xS(lo)} y1={cy-4} x2={xS(lo)} y2={cy+4} stroke="#2563eb" strokeWidth={1.4}/><line x1={xS(hi)} y1={cy-4} x2={xS(hi)} y2={cy+4} stroke="#2563eb" strokeWidth={1.4}/></g>}
+        <circle cx={xS(est)} cy={cy} r={4} fill="#2563eb"/>
+        <text x={xS(est)} y={cy-8} textAnchor="middle" fontSize={9.5} fontWeight={700} fill="#0f172a" data-mini-value="1">{fv(est)}</text>
+        <text x={W-PR} y={H-4} textAnchor="end" fontSize={8} fill="#64748b">{unit}{typeof lo==="number"?` · 95% interval ${fv(lo)} to ${fv(hi)}`:""}</text>
+      </svg>
+    </div>
+  );
+}
 function ParkedTimeBudgetView(){
   const B=S.parkedTimeBudget;
   if(!B||!B.B1||!B.B3||!B.B4||!B.accounting||!B.flags) return null;
@@ -6244,6 +6289,15 @@ function ParkedTimeBudgetView(){
     <Section title="Modelled Parked Pack Temperature Hours Beside Logged Driving Hours (exploratory)" accent="#64748b">
       <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-pt-caption="1">
         Window of {f(ac.windowHours)} h from the first key-on to the last key-off ({W.nDrives} drives): {f(ac.drivingHours)} h of driving are logged; {f(ac.parkedAssignedHours)} h are parked time in {W.nGapsAssigned} gaps, and the pack temperature in these gaps is modelled, not measured; {f(ac.unassignedGapHours)} h in {W.nGapsUnassigned} gaps have no end-of-drive pack temperature and are not assigned. The logger records only while the car is on. Parked temperature is modelled from the cool-down relaxation fitted in the seasonal quantities above (time constant {f(B.tauAxis&&B.tauAxis[0]&&B.tauAxis[0].tauH,2)} h) and the driver-recorded ambient at the two bounding drives, with assumed outdoor parking (owner statement 2026-11-16). Endpoint-checked only: the model is compared with the observed temperature at the next key-on, never inside a gap. This is an hours-by-temperature budget of one May-to-November window, not lifetime exposure and not an ageing estimate.
+      </div>
+      <div data-pt-chart="1" style={{margin:"8px 0"}}>
+        <ShareStrip rows={[{label:"Study window",parts:[{key:"d",label:"driving (logged)",share:ac.drivingHours/ac.windowHours,color:"#2563eb"},{key:"p",label:"parked (modelled)",share:ac.parkedAssignedHours/ac.windowHours,color:"#94a3b8"},{key:"u",label:"unassigned gaps",share:ac.unassignedGapHours/ac.windowHours,color:"#f59e0b"}]}]} ariaLabel="Where the hours of the study window go: logged driving, modelled parked time and unassigned gaps" fmt={v=>(100*v).toFixed(1)+" %"} lblW={90}/>
+        <div style={{fontSize:9.5,color:"#475569",margin:"2px 0 0 90px"}} data-pt-legend="1"><span style={{color:"#2563eb",fontWeight:700}}>■</span> driving (logged) {ac.drivingHours.toFixed(0)} h · <span style={{color:"#94a3b8",fontWeight:700}}>■</span> parked (modelled) {ac.parkedAssignedHours.toFixed(0)} h · <span style={{color:"#f59e0b",fontWeight:700}}>■</span> unassigned gaps {ac.unassignedGapHours.toFixed(0)} h of {ac.windowHours.toFixed(0)} h</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:12,marginTop:4}}>
+          <HoursBars id="drv" color="#2563eb" title="Driving hours by pack temperature band (logged, sensor T1)" xLabel="hours" rows={bands.map(r=>({label:r.band+" °C",hours:r.drivingCleanHours}))}/>
+          <HoursBars id="prk" color="#64748b" pattern={true} title="Parked hours by band (modelled, probe mean)" xLabel="hours; line = range over the assumption grid" rows={bands.map(r=>({label:r.band+" °C",hours:r.status!=="not shown"?r.parkedModelledHours:null,lo:r.grid?.min,hi:r.grid?.max,note:"not shown (not zero)"}))}/>
+        </div>
+        <div style={{fontSize:9,color:"#94a3b8",marginTop:2}}>Filled bars are logged driving hours; hatched bars are modelled parked hours from a different sensor definition, so the two panels are aligned by band and not added into one stack. Unassigned gap hours stay visible in the strip above.</div>
       </div>
       {(() => {const R=S.restartTemperature&&S.restartTemperature.parkModel&&S.restartTemperature.parkModel.M2_fullSample_nonFlagged; return R ? (<div style={{fontSize:10,color:"#475569",lineHeight:1.6,marginTop:4}} data-pt-caption="2">The primary time constant of this table comes from the seasonal fit (owner decision D-05). A separate one-state model of the restart pairs (diurnal boundary, pairs with evidence of use inside the gap excluded) gives τ ≈ {R.tau_h} h (95% interval [{R.tauCi?.[0]}, {R.tauCi?.[1]}] h; modelled, one window).</div>) : null;})()}
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
@@ -6301,6 +6355,12 @@ function SeasonalFitsView(){
   const bs=D.bandSupport||{};
   return (
     <Section title="Fitted Seasonal Quantities Beside the M28 Priors (exploratory)" accent="#64748b">
+      <div data-sf-multiples="1" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:12,marginBottom:8}}>
+        <MiniEstimate title="Battery use per km: change per 1 °C colder" unit="fraction per °C below 15 °C" est={q1.estimate} lo={q1.ci95?.[0]} hi={q1.ci95?.[1]} band={pri.lo!=null?[pri.lo,pri.hi]:null} bandLabel="earlier assumption (M28)" fmt={v=>Number(v).toFixed(4)}/>
+        <MiniEstimate title="Battery temperature change per 1 °C outside" unit="°C per °C" est={q2.estimate} lo={q2.ci95?.[0]} hi={q2.ci95?.[1]} fmt={v=>Number(v).toFixed(2)}/>
+        <MiniEstimate title="Cooling time between drives" unit="hours" est={q3.tauH} lo={q3.ci95?.[0]} hi={q3.ci95?.[1]} fmt={v=>Number(v).toFixed(1)}/>
+      </div>
+      <div style={{fontSize:9,color:"#94a3b8",marginBottom:6}}>Dot = fitted value, line = day-clustered interval (sampling variability only); shaded band = the earlier assumption, printed beside and not tested. Associations by thermal class, not temperature effects. The consumption association is unresolved where its interval includes zero.</div>
       <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-sf-caption="1">
         Estimated from {D.support.nDrives} drives on {D.support.nDays} days ({f(D.support.essDays,1)} effective days, {D.support.status} (support only)); the ambient is the driver-recorded dashboard reading (lowest {f(D.lowestAmbientC,1)} deg C; {D.drivesBelow5C} drives on {D.daysBelow5C} days below 5 deg C).
       </div>
