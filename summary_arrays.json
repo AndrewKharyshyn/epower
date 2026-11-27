@@ -71453,6 +71453,27 @@
      "analyses/M739_unlogged_exposure.json": "2030235d4476944c4b649a000fd7d6ff"
     }
    }
+  },
+  "highwayStates": {
+   "corpusHash": "d514d6009d6d9a0a168ad4fb09b9bb98",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "b25a29c7bcf2c4b9b9231421e1315502",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-27T22:21:05.326357+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M792: derived by tools/highway_states.py from drive_master.csv and the tracked highway_states.csv (three-state strip by speed zone; analyses/M792_spec.md)",
+   "includedInReleaseAt": "2026-11-27T22:21:05.326357+00:00",
+   "inputBasis": {
+    "nDrives": 717,
+    "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-27T22:21:05.326357+00:00"
   }
  },
  "ambientTable": {
@@ -481162,5 +481183,2455 @@
    "The definition range (cloud movement plus unresolved gap movement) is not a bound or an interval: driving that the cloud did not register cannot be excluded.",
    "No percentage is computed across the two sources."
   ]
+ },
+ "highwayStates": {
+  "specRev": "analyses/M792_spec.md Rev 2",
+  "methodVersion": 2,
+  "definition": {
+   "S1": "engine turning (logged rpm above 400) and battery supplying power (logged discharge current above 0)",
+   "S2": "engine turning (logged rpm above 400) and battery not supplying power (charging, zero, or current not logged)",
+   "S3": "engine not turning or rpm not logged (logged rpm 400 or lower, or missing)",
+   "units": "percent of logged seconds in the speed zone; logged-signal control observables, estimated, not generator output or saturation"
+  },
+  "bootstrap": {
+   "unit": "calendar day",
+   "draws": 4000,
+   "seed": 42,
+   "ci": "percentile 95%",
+   "sharedDrawsAcrossStates": true
+  },
+  "floors": {
+   "zoneSecondsPerDrive": 120.0,
+   "displayDrives": 10,
+   "displayDays": 5
+  },
+  "zones": [
+   {
+    "zone": "0-20",
+    "shown": true,
+    "reasonNotShown": null,
+    "primary": {
+     "nDrives": 660,
+     "nDays": 137,
+     "seconds": 281528.4,
+     "S1": {
+      "perDriveMean": {
+       "est": 2.72,
+       "lo": 2.31,
+       "hi": 3.15
+      },
+      "pooled": {
+       "est": 2.7,
+       "lo": 2.25,
+       "hi": 3.19
+      }
+     },
+     "S2": {
+      "perDriveMean": {
+       "est": 13.6,
+       "lo": 12.19,
+       "hi": 15.08
+      },
+      "pooled": {
+       "est": 13.36,
+       "lo": 11.95,
+       "hi": 14.87
+      }
+     },
+     "S3": {
+      "perDriveMean": {
+       "est": 83.68,
+       "lo": 81.89,
+       "hi": 85.37
+      },
+      "pooled": {
+       "est": 83.95,
+       "lo": 82.11,
+       "hi": 85.67
+      }
+     }
+    },
+    "sensitivity": {
+     "rpm300": {
+      "nDrives": 660,
+      "nDays": 137,
+      "seconds": 281528.4,
+      "S1": {
+       "perDriveMean": {
+        "est": 2.88,
+        "lo": 2.46,
+        "hi": 3.32
+       },
+       "pooled": {
+        "est": 2.88,
+        "lo": 2.42,
+        "hi": 3.37
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 13.71,
+        "lo": 12.28,
+        "hi": 15.18
+       },
+       "pooled": {
+        "est": 13.45,
+        "lo": 12.05,
+        "hi": 14.96
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 83.42,
+        "lo": 81.63,
+        "hi": 85.11
+       },
+       "pooled": {
+        "est": 83.67,
+        "lo": 81.83,
+        "hi": 85.39
+       }
+      }
+     },
+     "dead5A": {
+      "nDrives": 660,
+      "nDays": 137,
+      "seconds": 281528.4,
+      "S1": {
+       "perDriveMean": {
+        "est": 1.38,
+        "lo": 1.22,
+        "hi": 1.56
+       },
+       "pooled": {
+        "est": 1.23,
+        "lo": 1.08,
+        "hi": 1.39
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 14.94,
+        "lo": 13.35,
+        "hi": 16.63
+       },
+       "pooled": {
+        "est": 14.82,
+        "lo": 13.2,
+        "hi": 16.59
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 83.68,
+        "lo": 81.89,
+        "hi": 85.37
+       },
+       "pooled": {
+        "est": 83.95,
+        "lo": 82.11,
+        "hi": 85.67
+       }
+      }
+     },
+     "dead2A": {
+      "nDrives": 660,
+      "nDays": 137,
+      "seconds": 281528.4,
+      "S1": {
+       "perDriveMean": {
+        "est": 2.17,
+        "lo": 1.87,
+        "hi": 2.49
+       },
+       "pooled": {
+        "est": 2.09,
+        "lo": 1.79,
+        "hi": 2.41
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 14.15,
+        "lo": 12.65,
+        "hi": 15.73
+       },
+       "pooled": {
+        "est": 13.97,
+        "lo": 12.44,
+        "hi": 15.58
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 83.68,
+        "lo": 81.89,
+        "hi": 85.37
+       },
+       "pooled": {
+        "est": 83.95,
+        "lo": 82.11,
+        "hi": 85.67
+       }
+      }
+     },
+     "floor30s": {
+      "nDrives": 701,
+      "nDays": 137,
+      "seconds": 285336.9,
+      "S1": {
+       "perDriveMean": {
+        "est": 2.64,
+        "lo": 2.25,
+        "hi": 3.06
+       },
+       "pooled": {
+        "est": 2.68,
+        "lo": 2.23,
+        "hi": 3.17
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 13.29,
+        "lo": 11.95,
+        "hi": 14.72
+       },
+       "pooled": {
+        "est": 13.29,
+        "lo": 11.89,
+        "hi": 14.8
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 84.07,
+        "lo": 82.37,
+        "hi": 85.67
+       },
+       "pooled": {
+        "est": 84.03,
+        "lo": 82.22,
+        "hi": 85.71
+       }
+      }
+     },
+     "floor300s": {
+      "nDrives": 342,
+      "nDays": 126,
+      "seconds": 214086.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 2.75,
+        "lo": 2.23,
+        "hi": 3.35
+       },
+       "pooled": {
+        "est": 2.66,
+        "lo": 2.12,
+        "hi": 3.27
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 13.45,
+        "lo": 11.68,
+        "hi": 15.26
+       },
+       "pooled": {
+        "est": 13.18,
+        "lo": 11.55,
+        "hi": 14.9
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 83.81,
+        "lo": 81.57,
+        "hi": 85.92
+       },
+       "pooled": {
+        "est": 84.17,
+        "lo": 82.06,
+        "hi": 86.14
+       }
+      }
+     },
+     "allDrivesPooled": {
+      "nDrives": 701,
+      "nDays": 137,
+      "seconds": 285336.9,
+      "S1": {
+       "pooled": {
+        "est": 2.68,
+        "lo": 2.23,
+        "hi": 3.17
+       }
+      },
+      "S2": {
+       "pooled": {
+        "est": 13.29,
+        "lo": 11.89,
+        "hi": 14.8
+       }
+      },
+      "S3": {
+       "pooled": {
+        "est": 84.03,
+        "lo": 82.22,
+        "hi": 85.71
+       }
+      }
+     },
+     "rpmLoggedOnly": {
+      "nDrives": 660,
+      "nDays": 137,
+      "seconds": 281516.6,
+      "S1": {
+       "perDriveMean": {
+        "est": 2.72,
+        "lo": 2.31,
+        "hi": 3.15
+       },
+       "pooled": {
+        "est": 2.7,
+        "lo": 2.25,
+        "hi": 3.19
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 13.6,
+        "lo": 12.19,
+        "hi": 15.08
+       },
+       "pooled": {
+        "est": 13.36,
+        "lo": 11.95,
+        "hi": 14.87
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 83.68,
+        "lo": 81.89,
+        "hi": 85.37
+       },
+       "pooled": {
+        "est": 83.95,
+        "lo": 82.1,
+        "hi": 85.67
+       }
+      }
+     }
+    },
+    "missingRpmSeconds": 11.8,
+    "missingCurrentWhileEngineOnSeconds": 0.0
+   },
+   {
+    "zone": "20-40",
+    "shown": true,
+    "reasonNotShown": null,
+    "primary": {
+     "nDrives": 488,
+     "nDays": 130,
+     "seconds": 151921.0,
+     "S1": {
+      "perDriveMean": {
+       "est": 7.54,
+       "lo": 6.88,
+       "hi": 8.26
+      },
+      "pooled": {
+       "est": 6.43,
+       "lo": 5.83,
+       "hi": 7.08
+      }
+     },
+     "S2": {
+      "perDriveMean": {
+       "est": 23.54,
+       "lo": 22.03,
+       "hi": 25.06
+      },
+      "pooled": {
+       "est": 20.86,
+       "lo": 19.48,
+       "hi": 22.26
+      }
+     },
+     "S3": {
+      "perDriveMean": {
+       "est": 68.92,
+       "lo": 66.96,
+       "hi": 70.77
+      },
+      "pooled": {
+       "est": 72.71,
+       "lo": 70.95,
+       "hi": 74.39
+      }
+     }
+    },
+    "sensitivity": {
+     "rpm300": {
+      "nDrives": 488,
+      "nDays": 130,
+      "seconds": 151921.0,
+      "S1": {
+       "perDriveMean": {
+        "est": 7.74,
+        "lo": 7.1,
+        "hi": 8.46
+       },
+       "pooled": {
+        "est": 6.65,
+        "lo": 6.05,
+        "hi": 7.31
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 23.82,
+        "lo": 22.31,
+        "hi": 25.34
+       },
+       "pooled": {
+        "est": 21.13,
+        "lo": 19.76,
+        "hi": 22.53
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 68.44,
+        "lo": 66.5,
+        "hi": 70.28
+       },
+       "pooled": {
+        "est": 72.22,
+        "lo": 70.46,
+        "hi": 73.88
+       }
+      }
+     },
+     "dead5A": {
+      "nDrives": 488,
+      "nDays": 130,
+      "seconds": 151921.0,
+      "S1": {
+       "perDriveMean": {
+        "est": 6.1,
+        "lo": 5.57,
+        "hi": 6.7
+       },
+       "pooled": {
+        "est": 5.21,
+        "lo": 4.72,
+        "hi": 5.74
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 24.98,
+        "lo": 23.39,
+        "hi": 26.61
+       },
+       "pooled": {
+        "est": 22.08,
+        "lo": 20.62,
+        "hi": 23.56
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 68.92,
+        "lo": 66.96,
+        "hi": 70.77
+       },
+       "pooled": {
+        "est": 72.71,
+        "lo": 70.95,
+        "hi": 74.39
+       }
+      }
+     },
+     "dead2A": {
+      "nDrives": 488,
+      "nDays": 130,
+      "seconds": 151921.0,
+      "S1": {
+       "perDriveMean": {
+        "est": 6.94,
+        "lo": 6.33,
+        "hi": 7.63
+       },
+       "pooled": {
+        "est": 5.92,
+        "lo": 5.37,
+        "hi": 6.53
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 24.14,
+        "lo": 22.6,
+        "hi": 25.68
+       },
+       "pooled": {
+        "est": 21.37,
+        "lo": 19.96,
+        "hi": 22.81
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 68.92,
+        "lo": 66.96,
+        "hi": 70.77
+       },
+       "pooled": {
+        "est": 72.71,
+        "lo": 70.95,
+        "hi": 74.39
+       }
+      }
+     },
+     "floor30s": {
+      "nDrives": 677,
+      "nDays": 137,
+      "seconds": 166840.1,
+      "S1": {
+       "perDriveMean": {
+        "est": 7.79,
+        "lo": 7.19,
+        "hi": 8.42
+       },
+       "pooled": {
+        "est": 6.59,
+        "lo": 6.04,
+        "hi": 7.19
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 23.21,
+        "lo": 21.9,
+        "hi": 24.47
+       },
+       "pooled": {
+        "est": 21.08,
+        "lo": 19.79,
+        "hi": 22.32
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 69.0,
+        "lo": 67.5,
+        "hi": 70.59
+       },
+       "pooled": {
+        "est": 72.33,
+        "lo": 70.75,
+        "hi": 73.93
+       }
+      }
+     },
+     "floor300s": {
+      "nDrives": 166,
+      "nDays": 93,
+      "seconds": 89053.5,
+      "S1": {
+       "perDriveMean": {
+        "est": 5.47,
+        "lo": 4.69,
+        "hi": 6.38
+       },
+       "pooled": {
+        "est": 4.87,
+        "lo": 4.17,
+        "hi": 5.66
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 16.89,
+        "lo": 15.33,
+        "hi": 18.53
+       },
+       "pooled": {
+        "est": 16.47,
+        "lo": 15.08,
+        "hi": 17.87
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 77.64,
+        "lo": 75.34,
+        "hi": 79.69
+       },
+       "pooled": {
+        "est": 78.66,
+        "lo": 76.84,
+        "hi": 80.35
+       }
+      }
+     },
+     "allDrivesPooled": {
+      "nDrives": 698,
+      "nDays": 137,
+      "seconds": 167276.4,
+      "S1": {
+       "pooled": {
+        "est": 6.59,
+        "lo": 6.04,
+        "hi": 7.2
+       }
+      },
+      "S2": {
+       "pooled": {
+        "est": 21.07,
+        "lo": 19.79,
+        "hi": 22.31
+       }
+      },
+      "S3": {
+       "pooled": {
+        "est": 72.34,
+        "lo": 70.77,
+        "hi": 73.92
+       }
+      }
+     },
+     "rpmLoggedOnly": {
+      "nDrives": 488,
+      "nDays": 130,
+      "seconds": 151916.0,
+      "S1": {
+       "perDriveMean": {
+        "est": 7.54,
+        "lo": 6.88,
+        "hi": 8.26
+       },
+       "pooled": {
+        "est": 6.43,
+        "lo": 5.83,
+        "hi": 7.09
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 23.54,
+        "lo": 22.04,
+        "hi": 25.06
+       },
+       "pooled": {
+        "est": 20.86,
+        "lo": 19.48,
+        "hi": 22.26
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 68.92,
+        "lo": 66.96,
+        "hi": 70.77
+       },
+       "pooled": {
+        "est": 72.71,
+        "lo": 70.94,
+        "hi": 74.39
+       }
+      }
+     }
+    },
+    "missingRpmSeconds": 5.0,
+    "missingCurrentWhileEngineOnSeconds": 0.0
+   },
+   {
+    "zone": "40-60",
+    "shown": true,
+    "reasonNotShown": null,
+    "primary": {
+     "nDrives": 254,
+     "nDays": 104,
+     "seconds": 122937.7,
+     "S1": {
+      "perDriveMean": {
+       "est": 12.66,
+       "lo": 11.59,
+       "hi": 13.74
+      },
+      "pooled": {
+       "est": 13.12,
+       "lo": 11.95,
+       "hi": 14.21
+      }
+     },
+     "S2": {
+      "perDriveMean": {
+       "est": 33.26,
+       "lo": 31.53,
+       "hi": 34.98
+      },
+      "pooled": {
+       "est": 30.21,
+       "lo": 28.58,
+       "hi": 31.99
+      }
+     },
+     "S3": {
+      "perDriveMean": {
+       "est": 54.08,
+       "lo": 52.08,
+       "hi": 56.03
+      },
+      "pooled": {
+       "est": 56.67,
+       "lo": 54.88,
+       "hi": 58.48
+      }
+     }
+    },
+    "sensitivity": {
+     "rpm300": {
+      "nDrives": 254,
+      "nDays": 104,
+      "seconds": 122937.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 13.12,
+        "lo": 12.03,
+        "hi": 14.22
+       },
+       "pooled": {
+        "est": 13.62,
+        "lo": 12.41,
+        "hi": 14.73
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 33.88,
+        "lo": 32.16,
+        "hi": 35.6
+       },
+       "pooled": {
+        "est": 30.89,
+        "lo": 29.26,
+        "hi": 32.64
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 53.0,
+        "lo": 50.98,
+        "hi": 54.96
+       },
+       "pooled": {
+        "est": 55.5,
+        "lo": 53.7,
+        "hi": 57.36
+       }
+      }
+     },
+     "dead5A": {
+      "nDrives": 254,
+      "nDays": 104,
+      "seconds": 122937.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 10.92,
+        "lo": 9.94,
+        "hi": 11.89
+       },
+       "pooled": {
+        "est": 11.35,
+        "lo": 10.23,
+        "hi": 12.38
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 35.0,
+        "lo": 33.22,
+        "hi": 36.79
+       },
+       "pooled": {
+        "est": 31.97,
+        "lo": 30.3,
+        "hi": 33.76
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 54.08,
+        "lo": 52.08,
+        "hi": 56.03
+       },
+       "pooled": {
+        "est": 56.67,
+        "lo": 54.88,
+        "hi": 58.48
+       }
+      }
+     },
+     "dead2A": {
+      "nDrives": 254,
+      "nDays": 104,
+      "seconds": 122937.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 11.96,
+        "lo": 10.92,
+        "hi": 12.99
+       },
+       "pooled": {
+        "est": 12.39,
+        "lo": 11.24,
+        "hi": 13.46
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 33.96,
+        "lo": 32.21,
+        "hi": 35.71
+       },
+       "pooled": {
+        "est": 30.94,
+        "lo": 29.31,
+        "hi": 32.71
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 54.08,
+        "lo": 52.08,
+        "hi": 56.03
+       },
+       "pooled": {
+        "est": 56.67,
+        "lo": 54.88,
+        "hi": 58.48
+       }
+      }
+     },
+     "floor30s": {
+      "nDrives": 438,
+      "nDays": 128,
+      "seconds": 135098.8,
+      "S1": {
+       "perDriveMean": {
+        "est": 13.96,
+        "lo": 12.86,
+        "hi": 15.08
+       },
+       "pooled": {
+        "est": 13.33,
+        "lo": 12.25,
+        "hi": 14.39
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 38.43,
+        "lo": 36.18,
+        "hi": 40.59
+       },
+       "pooled": {
+        "est": 31.7,
+        "lo": 30.04,
+        "hi": 33.51
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 47.61,
+        "lo": 45.29,
+        "hi": 50.09
+       },
+       "pooled": {
+        "est": 54.97,
+        "lo": 53.12,
+        "hi": 56.84
+       }
+      }
+     },
+     "floor300s": {
+      "nDrives": 150,
+      "nDays": 64,
+      "seconds": 103052.2,
+      "S1": {
+       "perDriveMean": {
+        "est": 12.33,
+        "lo": 11.3,
+        "hi": 13.39
+       },
+       "pooled": {
+        "est": 13.08,
+        "lo": 11.8,
+        "hi": 14.25
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 29.42,
+        "lo": 27.28,
+        "hi": 31.59
+       },
+       "pooled": {
+        "est": 28.67,
+        "lo": 26.91,
+        "hi": 30.59
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 58.25,
+        "lo": 55.89,
+        "hi": 60.55
+       },
+       "pooled": {
+        "est": 58.25,
+        "lo": 56.21,
+        "hi": 60.24
+       }
+      }
+     },
+     "allDrivesPooled": {
+      "nDrives": 573,
+      "nDays": 136,
+      "seconds": 136991.9,
+      "S1": {
+       "pooled": {
+        "est": 13.33,
+        "lo": 12.27,
+        "hi": 14.36
+       }
+      },
+      "S2": {
+       "pooled": {
+        "est": 31.8,
+        "lo": 30.08,
+        "hi": 33.72
+       }
+      },
+      "S3": {
+       "pooled": {
+        "est": 54.86,
+        "lo": 52.93,
+        "hi": 56.68
+       }
+      }
+     },
+     "rpmLoggedOnly": {
+      "nDrives": 254,
+      "nDays": 104,
+      "seconds": 122937.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 12.66,
+        "lo": 11.59,
+        "hi": 13.74
+       },
+       "pooled": {
+        "est": 13.12,
+        "lo": 11.95,
+        "hi": 14.21
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 33.26,
+        "lo": 31.53,
+        "hi": 34.98
+       },
+       "pooled": {
+        "est": 30.21,
+        "lo": 28.58,
+        "hi": 31.99
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 54.08,
+        "lo": 52.08,
+        "hi": 56.03
+       },
+       "pooled": {
+        "est": 56.67,
+        "lo": 54.88,
+        "hi": 58.48
+       }
+      }
+     }
+    },
+    "missingRpmSeconds": 0.0,
+    "missingCurrentWhileEngineOnSeconds": 0.0
+   },
+   {
+    "zone": "60-80",
+    "shown": true,
+    "reasonNotShown": null,
+    "primary": {
+     "nDrives": 169,
+     "nDays": 73,
+     "seconds": 135150.3,
+     "S1": {
+      "perDriveMean": {
+       "est": 16.5,
+       "lo": 14.81,
+       "hi": 18.31
+      },
+      "pooled": {
+       "est": 17.27,
+       "lo": 15.81,
+       "hi": 18.55
+      }
+     },
+     "S2": {
+      "perDriveMean": {
+       "est": 42.01,
+       "lo": 40.13,
+       "hi": 44.06
+      },
+      "pooled": {
+       "est": 37.87,
+       "lo": 36.27,
+       "hi": 39.73
+      }
+     },
+     "S3": {
+      "perDriveMean": {
+       "est": 41.49,
+       "lo": 39.47,
+       "hi": 43.3
+      },
+      "pooled": {
+       "est": 44.86,
+       "lo": 43.33,
+       "hi": 46.22
+      }
+     }
+    },
+    "sensitivity": {
+     "rpm300": {
+      "nDrives": 169,
+      "nDays": 73,
+      "seconds": 135150.3,
+      "S1": {
+       "perDriveMean": {
+        "est": 17.16,
+        "lo": 15.45,
+        "hi": 18.97
+       },
+       "pooled": {
+        "est": 17.96,
+        "lo": 16.49,
+        "hi": 19.29
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 42.64,
+        "lo": 40.77,
+        "hi": 44.68
+       },
+       "pooled": {
+        "est": 38.53,
+        "lo": 36.91,
+        "hi": 40.38
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 40.2,
+        "lo": 38.15,
+        "hi": 42.04
+       },
+       "pooled": {
+        "est": 43.51,
+        "lo": 41.91,
+        "hi": 44.95
+       }
+      }
+     },
+     "dead5A": {
+      "nDrives": 169,
+      "nDays": 73,
+      "seconds": 135150.3,
+      "S1": {
+       "perDriveMean": {
+        "est": 13.75,
+        "lo": 12.18,
+        "hi": 15.45
+       },
+       "pooled": {
+        "est": 14.72,
+        "lo": 13.33,
+        "hi": 15.92
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 44.76,
+        "lo": 42.83,
+        "hi": 46.84
+       },
+       "pooled": {
+        "est": 40.43,
+        "lo": 38.79,
+        "hi": 42.34
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 41.49,
+        "lo": 39.47,
+        "hi": 43.3
+       },
+       "pooled": {
+        "est": 44.86,
+        "lo": 43.33,
+        "hi": 46.22
+       }
+      }
+     },
+     "dead2A": {
+      "nDrives": 169,
+      "nDays": 73,
+      "seconds": 135150.3,
+      "S1": {
+       "perDriveMean": {
+        "est": 15.35,
+        "lo": 13.72,
+        "hi": 17.12
+       },
+       "pooled": {
+        "est": 16.21,
+        "lo": 14.75,
+        "hi": 17.48
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 43.16,
+        "lo": 41.26,
+        "hi": 45.23
+       },
+       "pooled": {
+        "est": 38.93,
+        "lo": 37.29,
+        "hi": 40.83
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 41.49,
+        "lo": 39.47,
+        "hi": 43.3
+       },
+       "pooled": {
+        "est": 44.86,
+        "lo": 43.33,
+        "hi": 46.22
+       }
+      }
+     },
+     "floor30s": {
+      "nDrives": 230,
+      "nDays": 93,
+      "seconds": 139450.3,
+      "S1": {
+       "perDriveMean": {
+        "est": 17.44,
+        "lo": 15.83,
+        "hi": 19.13
+       },
+       "pooled": {
+        "est": 17.36,
+        "lo": 15.92,
+        "hi": 18.56
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 46.36,
+        "lo": 43.68,
+        "hi": 49.15
+       },
+       "pooled": {
+        "est": 38.54,
+        "lo": 36.83,
+        "hi": 40.51
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 36.2,
+        "lo": 33.26,
+        "hi": 38.89
+       },
+       "pooled": {
+        "est": 44.1,
+        "lo": 42.45,
+        "hi": 45.53
+       }
+      }
+     },
+     "floor300s": {
+      "nDrives": 120,
+      "nDays": 53,
+      "seconds": 125580.1,
+      "S1": {
+       "perDriveMean": {
+        "est": 15.67,
+        "lo": 14.15,
+        "hi": 17.18
+       },
+       "pooled": {
+        "est": 17.22,
+        "lo": 15.74,
+        "hi": 18.47
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 39.08,
+        "lo": 37.35,
+        "hi": 40.82
+       },
+       "pooled": {
+        "est": 37.14,
+        "lo": 35.51,
+        "hi": 39.01
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 45.25,
+        "lo": 43.72,
+        "hi": 46.73
+       },
+       "pooled": {
+        "est": 45.64,
+        "lo": 44.15,
+        "hi": 47.0
+       }
+      }
+     },
+     "allDrivesPooled": {
+      "nDrives": 260,
+      "nDays": 100,
+      "seconds": 139912.5,
+      "S1": {
+       "pooled": {
+        "est": 17.38,
+        "lo": 15.98,
+        "hi": 18.58
+       }
+      },
+      "S2": {
+       "pooled": {
+        "est": 38.62,
+        "lo": 36.88,
+        "hi": 40.54
+       }
+      },
+      "S3": {
+       "pooled": {
+        "est": 44.0,
+        "lo": 42.37,
+        "hi": 45.49
+       }
+      }
+     },
+     "rpmLoggedOnly": {
+      "nDrives": 169,
+      "nDays": 73,
+      "seconds": 135150.3,
+      "S1": {
+       "perDriveMean": {
+        "est": 16.5,
+        "lo": 14.81,
+        "hi": 18.31
+       },
+       "pooled": {
+        "est": 17.27,
+        "lo": 15.81,
+        "hi": 18.55
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 42.01,
+        "lo": 40.13,
+        "hi": 44.06
+       },
+       "pooled": {
+        "est": 37.87,
+        "lo": 36.27,
+        "hi": 39.73
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 41.49,
+        "lo": 39.47,
+        "hi": 43.3
+       },
+       "pooled": {
+        "est": 44.86,
+        "lo": 43.33,
+        "hi": 46.22
+       }
+      }
+     }
+    },
+    "missingRpmSeconds": 0.0,
+    "missingCurrentWhileEngineOnSeconds": 0.0
+   },
+   {
+    "zone": "80-100",
+    "shown": true,
+    "reasonNotShown": null,
+    "primary": {
+     "nDrives": 81,
+     "nDays": 42,
+     "seconds": 64176.2,
+     "S1": {
+      "perDriveMean": {
+       "est": 41.46,
+       "lo": 39.08,
+       "hi": 44.12
+      },
+      "pooled": {
+       "est": 40.83,
+       "lo": 39.1,
+       "hi": 42.88
+      }
+     },
+     "S2": {
+      "perDriveMean": {
+       "est": 40.54,
+       "lo": 38.39,
+       "hi": 42.49
+      },
+      "pooled": {
+       "est": 38.85,
+       "lo": 36.89,
+       "hi": 41.05
+      }
+     },
+     "S3": {
+      "perDriveMean": {
+       "est": 18.0,
+       "lo": 15.52,
+       "hi": 20.36
+      },
+      "pooled": {
+       "est": 20.31,
+       "lo": 17.58,
+       "hi": 22.73
+      }
+     }
+    },
+    "sensitivity": {
+     "rpm300": {
+      "nDrives": 81,
+      "nDays": 42,
+      "seconds": 64176.2,
+      "S1": {
+       "perDriveMean": {
+        "est": 42.11,
+        "lo": 39.73,
+        "hi": 44.73
+       },
+       "pooled": {
+        "est": 41.51,
+        "lo": 39.8,
+        "hi": 43.55
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 41.66,
+        "lo": 39.54,
+        "hi": 43.62
+       },
+       "pooled": {
+        "est": 40.09,
+        "lo": 38.13,
+        "hi": 42.22
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 16.23,
+        "lo": 13.84,
+        "hi": 18.52
+       },
+       "pooled": {
+        "est": 18.4,
+        "lo": 15.69,
+        "hi": 20.8
+       }
+      }
+     },
+     "dead5A": {
+      "nDrives": 81,
+      "nDays": 42,
+      "seconds": 64176.2,
+      "S1": {
+       "perDriveMean": {
+        "est": 35.63,
+        "lo": 33.53,
+        "hi": 37.86
+       },
+       "pooled": {
+        "est": 35.87,
+        "lo": 34.27,
+        "hi": 37.66
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 46.36,
+        "lo": 44.02,
+        "hi": 48.65
+       },
+       "pooled": {
+        "est": 43.82,
+        "lo": 41.46,
+        "hi": 46.5
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 18.0,
+        "lo": 15.52,
+        "hi": 20.36
+       },
+       "pooled": {
+        "est": 20.31,
+        "lo": 17.58,
+        "hi": 22.73
+       }
+      }
+     },
+     "dead2A": {
+      "nDrives": 81,
+      "nDays": 42,
+      "seconds": 64176.2,
+      "S1": {
+       "perDriveMean": {
+        "est": 39.01,
+        "lo": 36.74,
+        "hi": 41.48
+       },
+       "pooled": {
+        "est": 38.82,
+        "lo": 37.16,
+        "hi": 40.74
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 42.99,
+        "lo": 40.79,
+        "hi": 45.04
+       },
+       "pooled": {
+        "est": 40.86,
+        "lo": 38.72,
+        "hi": 43.25
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 18.0,
+        "lo": 15.52,
+        "hi": 20.36
+       },
+       "pooled": {
+        "est": 20.31,
+        "lo": 17.58,
+        "hi": 22.73
+       }
+      }
+     },
+     "floor30s": {
+      "nDrives": 147,
+      "nDays": 74,
+      "seconds": 68902.6,
+      "S1": {
+       "perDriveMean": {
+        "est": 41.65,
+        "lo": 39.09,
+        "hi": 44.2
+       },
+       "pooled": {
+        "est": 40.87,
+        "lo": 39.21,
+        "hi": 42.67
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 39.98,
+        "lo": 36.91,
+        "hi": 43.04
+       },
+       "pooled": {
+        "est": 38.91,
+        "lo": 36.9,
+        "hi": 41.01
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 18.38,
+        "lo": 16.06,
+        "hi": 20.85
+       },
+       "pooled": {
+        "est": 20.21,
+        "lo": 17.71,
+        "hi": 22.58
+       }
+      }
+     },
+     "floor300s": {
+      "nDrives": 58,
+      "nDays": 29,
+      "seconds": 59834.9,
+      "S1": {
+       "perDriveMean": {
+        "est": 40.24,
+        "lo": 38.43,
+        "hi": 42.27
+       },
+       "pooled": {
+        "est": 40.68,
+        "lo": 38.97,
+        "hi": 42.65
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 39.17,
+        "lo": 37.27,
+        "hi": 41.02
+       },
+       "pooled": {
+        "est": 38.39,
+        "lo": 36.4,
+        "hi": 40.56
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 20.6,
+        "lo": 18.35,
+        "hi": 22.8
+       },
+       "pooled": {
+        "est": 20.92,
+        "lo": 18.31,
+        "hi": 23.33
+       }
+      }
+     },
+     "allDrivesPooled": {
+      "nDrives": 176,
+      "nDays": 83,
+      "seconds": 69347.1,
+      "S1": {
+       "pooled": {
+        "est": 40.84,
+        "lo": 39.17,
+        "hi": 42.67
+       }
+      },
+      "S2": {
+       "pooled": {
+        "est": 38.95,
+        "lo": 37.05,
+        "hi": 41.06
+       }
+      },
+      "S3": {
+       "pooled": {
+        "est": 20.21,
+        "lo": 17.71,
+        "hi": 22.44
+       }
+      }
+     },
+     "rpmLoggedOnly": {
+      "nDrives": 81,
+      "nDays": 42,
+      "seconds": 64176.2,
+      "S1": {
+       "perDriveMean": {
+        "est": 41.46,
+        "lo": 39.08,
+        "hi": 44.12
+       },
+       "pooled": {
+        "est": 40.83,
+        "lo": 39.1,
+        "hi": 42.88
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 40.54,
+        "lo": 38.39,
+        "hi": 42.49
+       },
+       "pooled": {
+        "est": 38.85,
+        "lo": 36.89,
+        "hi": 41.05
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 18.0,
+        "lo": 15.52,
+        "hi": 20.36
+       },
+       "pooled": {
+        "est": 20.31,
+        "lo": 17.58,
+        "hi": 22.73
+       }
+      }
+     }
+    },
+    "missingRpmSeconds": 0.0,
+    "missingCurrentWhileEngineOnSeconds": 0.0
+   },
+   {
+    "zone": "100-120",
+    "shown": true,
+    "reasonNotShown": null,
+    "primary": {
+     "nDrives": 68,
+     "nDays": 35,
+     "seconds": 84154.7,
+     "S1": {
+      "perDriveMean": {
+       "est": 58.66,
+       "lo": 57.19,
+       "hi": 60.12
+      },
+      "pooled": {
+       "est": 57.86,
+       "lo": 56.65,
+       "hi": 59.01
+      }
+     },
+     "S2": {
+      "perDriveMean": {
+       "est": 38.54,
+       "lo": 36.67,
+       "hi": 40.21
+      },
+      "pooled": {
+       "est": 40.14,
+       "lo": 38.84,
+       "hi": 41.18
+      }
+     },
+     "S3": {
+      "perDriveMean": {
+       "est": 2.79,
+       "lo": 2.01,
+       "hi": 3.85
+      },
+      "pooled": {
+       "est": 2.0,
+       "lo": 1.48,
+       "hi": 2.65
+      }
+     }
+    },
+    "sensitivity": {
+     "rpm300": {
+      "nDrives": 68,
+      "nDays": 35,
+      "seconds": 84154.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 58.74,
+        "lo": 57.28,
+        "hi": 60.2
+       },
+       "pooled": {
+        "est": 57.93,
+        "lo": 56.74,
+        "hi": 59.06
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 39.21,
+        "lo": 37.44,
+        "hi": 40.81
+       },
+       "pooled": {
+        "est": 40.57,
+        "lo": 39.35,
+        "hi": 41.59
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 2.04,
+        "lo": 1.38,
+        "hi": 2.97
+       },
+       "pooled": {
+        "est": 1.51,
+        "lo": 1.08,
+        "hi": 2.05
+       }
+      }
+     },
+     "dead5A": {
+      "nDrives": 68,
+      "nDays": 35,
+      "seconds": 84154.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 42.11,
+        "lo": 39.49,
+        "hi": 45.07
+       },
+       "pooled": {
+        "est": 38.77,
+        "lo": 36.89,
+        "hi": 41.36
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 55.1,
+        "lo": 51.51,
+        "hi": 58.21
+       },
+       "pooled": {
+        "est": 59.23,
+        "lo": 56.2,
+        "hi": 61.57
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 2.79,
+        "lo": 2.01,
+        "hi": 3.85
+       },
+       "pooled": {
+        "est": 2.0,
+        "lo": 1.48,
+        "hi": 2.65
+       }
+      }
+     },
+     "dead2A": {
+      "nDrives": 68,
+      "nDays": 35,
+      "seconds": 84154.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 51.91,
+        "lo": 50.1,
+        "hi": 53.99
+       },
+       "pooled": {
+        "est": 49.98,
+        "lo": 48.92,
+        "hi": 51.43
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 45.3,
+        "lo": 42.67,
+        "hi": 47.52
+       },
+       "pooled": {
+        "est": 48.02,
+        "lo": 46.15,
+        "hi": 49.36
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 2.79,
+        "lo": 2.01,
+        "hi": 3.85
+       },
+       "pooled": {
+        "est": 2.0,
+        "lo": 1.48,
+        "hi": 2.65
+       }
+      }
+     },
+     "floor30s": {
+      "nDrives": 107,
+      "nDays": 52,
+      "seconds": 86823.0,
+      "S1": {
+       "perDriveMean": {
+        "est": 57.11,
+        "lo": 54.87,
+        "hi": 59.11
+       },
+       "pooled": {
+        "est": 57.76,
+        "lo": 56.58,
+        "hi": 58.82
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 37.8,
+        "lo": 35.45,
+        "hi": 40.21
+       },
+       "pooled": {
+        "est": 40.04,
+        "lo": 38.83,
+        "hi": 41.07
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 5.09,
+        "lo": 3.5,
+        "hi": 6.99
+       },
+       "pooled": {
+        "est": 2.2,
+        "lo": 1.66,
+        "hi": 2.89
+       }
+      }
+     },
+     "floor300s": {
+      "nDrives": 48,
+      "nDays": 24,
+      "seconds": 80755.8,
+      "S1": {
+       "perDriveMean": {
+        "est": 58.38,
+        "lo": 57.12,
+        "hi": 59.74
+       },
+       "pooled": {
+        "est": 57.81,
+        "lo": 56.6,
+        "hi": 58.93
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 39.39,
+        "lo": 37.85,
+        "hi": 40.69
+       },
+       "pooled": {
+        "est": 40.29,
+        "lo": 39.1,
+        "hi": 41.34
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 2.23,
+        "lo": 1.68,
+        "hi": 2.92
+       },
+       "pooled": {
+        "est": 1.9,
+        "lo": 1.38,
+        "hi": 2.53
+       }
+      }
+     },
+     "allDrivesPooled": {
+      "nDrives": 125,
+      "nDays": 63,
+      "seconds": 87128.4,
+      "S1": {
+       "pooled": {
+        "est": 57.76,
+        "lo": 56.55,
+        "hi": 58.81
+       }
+      },
+      "S2": {
+       "pooled": {
+        "est": 40.0,
+        "lo": 38.74,
+        "hi": 41.06
+       }
+      },
+      "S3": {
+       "pooled": {
+        "est": 2.25,
+        "lo": 1.71,
+        "hi": 2.99
+       }
+      }
+     },
+     "rpmLoggedOnly": {
+      "nDrives": 68,
+      "nDays": 35,
+      "seconds": 84154.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 58.66,
+        "lo": 57.19,
+        "hi": 60.12
+       },
+       "pooled": {
+        "est": 57.86,
+        "lo": 56.65,
+        "hi": 59.01
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 38.54,
+        "lo": 36.67,
+        "hi": 40.21
+       },
+       "pooled": {
+        "est": 40.14,
+        "lo": 38.84,
+        "hi": 41.18
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 2.79,
+        "lo": 2.01,
+        "hi": 3.85
+       },
+       "pooled": {
+        "est": 2.0,
+        "lo": 1.48,
+        "hi": 2.65
+       }
+      }
+     }
+    },
+    "missingRpmSeconds": 0.0,
+    "missingCurrentWhileEngineOnSeconds": 0.0
+   },
+   {
+    "zone": "120+",
+    "shown": false,
+    "reasonNotShown": "fewer than 10 drives on 5 days with at least 120 s in the zone",
+    "primary": {
+     "nDrives": 8,
+     "nDays": 6,
+     "seconds": 2515.5,
+     "S1": {
+      "perDriveMean": {
+       "est": 51.74,
+       "lo": 48.73,
+       "hi": 54.21
+      },
+      "pooled": {
+       "est": 51.8,
+       "lo": 49.0,
+       "hi": 53.95
+      }
+     },
+     "S2": {
+      "perDriveMean": {
+       "est": 46.61,
+       "lo": 42.43,
+       "hi": 50.77
+      },
+      "pooled": {
+       "est": 46.56,
+       "lo": 43.72,
+       "hi": 49.98
+      }
+     },
+     "S3": {
+      "perDriveMean": {
+       "est": 1.65,
+       "lo": 0.39,
+       "hi": 3.94
+      },
+      "pooled": {
+       "est": 1.64,
+       "lo": 0.4,
+       "hi": 3.01
+      }
+     }
+    },
+    "sensitivity": {
+     "rpm300": {
+      "nDrives": 8,
+      "nDays": 6,
+      "seconds": 2515.5,
+      "S1": {
+       "perDriveMean": {
+        "est": 51.74,
+        "lo": 48.73,
+        "hi": 54.21
+       },
+       "pooled": {
+        "est": 51.8,
+        "lo": 49.0,
+        "hi": 53.95
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 46.87,
+        "lo": 43.11,
+        "hi": 50.82
+       },
+       "pooled": {
+        "est": 46.79,
+        "lo": 44.15,
+        "hi": 50.17
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 1.39,
+        "lo": 0.37,
+        "hi": 3.16
+       },
+       "pooled": {
+        "est": 1.41,
+        "lo": 0.4,
+        "hi": 2.41
+       }
+      }
+     },
+     "dead5A": {
+      "nDrives": 8,
+      "nDays": 6,
+      "seconds": 2515.5,
+      "S1": {
+       "perDriveMean": {
+        "est": 36.82,
+        "lo": 30.48,
+        "hi": 43.56
+       },
+       "pooled": {
+        "est": 35.55,
+        "lo": 31.73,
+        "hi": 41.58
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 61.53,
+        "lo": 52.94,
+        "hi": 68.91
+       },
+       "pooled": {
+        "est": 62.81,
+        "lo": 56.37,
+        "hi": 67.27
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 1.65,
+        "lo": 0.39,
+        "hi": 3.94
+       },
+       "pooled": {
+        "est": 1.64,
+        "lo": 0.4,
+        "hi": 3.01
+       }
+      }
+     },
+     "dead2A": {
+      "nDrives": 8,
+      "nDays": 6,
+      "seconds": 2515.5,
+      "S1": {
+       "perDriveMean": {
+        "est": 46.46,
+        "lo": 41.95,
+        "hi": 50.44
+       },
+       "pooled": {
+        "est": 46.02,
+        "lo": 42.61,
+        "hi": 49.83
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 51.89,
+        "lo": 46.36,
+        "hi": 57.61
+       },
+       "pooled": {
+        "est": 52.34,
+        "lo": 48.07,
+        "hi": 56.31
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 1.65,
+        "lo": 0.39,
+        "hi": 3.94
+       },
+       "pooled": {
+        "est": 1.64,
+        "lo": 0.4,
+        "hi": 3.01
+       }
+      }
+     },
+     "floor30s": {
+      "nDrives": 27,
+      "nDays": 22,
+      "seconds": 3611.7,
+      "S1": {
+       "perDriveMean": {
+        "est": 45.48,
+        "lo": 40.76,
+        "hi": 49.97
+       },
+       "pooled": {
+        "est": 48.97,
+        "lo": 44.72,
+        "hi": 51.56
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 48.83,
+        "lo": 44.5,
+        "hi": 53.29
+       },
+       "pooled": {
+        "est": 47.67,
+        "lo": 44.68,
+        "hi": 50.81
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 5.68,
+        "lo": 3.28,
+        "hi": 8.79
+       },
+       "pooled": {
+        "est": 3.36,
+        "lo": 2.22,
+        "hi": 6.03
+       }
+      }
+     },
+     "floor300s": {
+      "nDrives": 1,
+      "nDays": 1,
+      "seconds": 967.3,
+      "S1": {
+       "perDriveMean": {
+        "est": 52.19,
+        "lo": 52.19,
+        "hi": 52.19
+       },
+       "pooled": {
+        "est": 52.19,
+        "lo": 52.19,
+        "hi": 52.19
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 45.38,
+        "lo": 45.38,
+        "hi": 45.38
+       },
+       "pooled": {
+        "est": 45.38,
+        "lo": 45.38,
+        "hi": 45.38
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 2.42,
+        "lo": 2.42,
+        "hi": 2.42
+       },
+       "pooled": {
+        "est": 2.42,
+        "lo": 2.42,
+        "hi": 2.42
+       }
+      }
+     },
+     "allDrivesPooled": {
+      "nDrives": 66,
+      "nDays": 43,
+      "seconds": 4150.0,
+      "S1": {
+       "pooled": {
+        "est": 47.96,
+        "lo": 43.59,
+        "hi": 50.45
+       }
+      },
+      "S2": {
+       "pooled": {
+        "est": 48.1,
+        "lo": 45.2,
+        "hi": 51.4
+       }
+      },
+      "S3": {
+       "pooled": {
+        "est": 3.94,
+        "lo": 2.61,
+        "hi": 6.91
+       }
+      }
+     },
+     "rpmLoggedOnly": {
+      "nDrives": 8,
+      "nDays": 6,
+      "seconds": 2515.5,
+      "S1": {
+       "perDriveMean": {
+        "est": 51.74,
+        "lo": 48.73,
+        "hi": 54.21
+       },
+       "pooled": {
+        "est": 51.8,
+        "lo": 49.0,
+        "hi": 53.95
+       }
+      },
+      "S2": {
+       "perDriveMean": {
+        "est": 46.61,
+        "lo": 42.43,
+        "hi": 50.77
+       },
+       "pooled": {
+        "est": 46.56,
+        "lo": 43.72,
+        "hi": 49.98
+       }
+      },
+      "S3": {
+       "perDriveMean": {
+        "est": 1.65,
+        "lo": 0.39,
+        "hi": 3.94
+       },
+       "pooled": {
+        "est": 1.64,
+        "lo": 0.4,
+        "hi": 3.01
+       }
+      }
+     }
+    },
+    "missingRpmSeconds": 0.0,
+    "missingCurrentWhileEngineOnSeconds": 0.0
+   }
+  ],
+  "mergedBand80to120": {
+   "population": "M597: deficit_80_120_valid and at least 120 s in the inclusive 80-120 km/h band",
+   "nDrives": 116,
+   "nDays": 55,
+   "seconds": 153408.1,
+   "S1": {
+    "perDriveMean": {
+     "est": 48.75,
+     "lo": 46.69,
+     "hi": 50.51
+    },
+    "pooled": {
+     "est": 50.38,
+     "lo": 49.0,
+     "hi": 51.44
+    }
+   },
+   "S2": {
+    "perDriveMean": {
+     "est": 39.68,
+     "lo": 37.9,
+     "hi": 41.45
+    },
+    "pooled": {
+     "est": 39.51,
+     "lo": 38.3,
+     "hi": 40.63
+    }
+   },
+   "S3": {
+    "perDriveMean": {
+     "est": 11.57,
+     "lo": 10.01,
+     "hi": 13.32
+    },
+    "pooled": {
+     "est": 10.11,
+     "lo": 8.69,
+     "hi": 11.74
+    }
+   },
+   "dead5A": {
+    "nDrives": 116,
+    "nDays": 55,
+    "seconds": 153408.1,
+    "S1": {
+     "perDriveMean": {
+      "est": 37.63,
+      "lo": 35.75,
+      "hi": 39.31
+     },
+     "pooled": {
+      "est": 37.53,
+      "lo": 36.09,
+      "hi": 39.21
+     }
+    },
+    "S2": {
+     "perDriveMean": {
+      "est": 50.8,
+      "lo": 48.37,
+      "hi": 53.15
+     },
+     "pooled": {
+      "est": 52.36,
+      "lo": 49.43,
+      "hi": 54.91
+     }
+    },
+    "S3": {
+     "perDriveMean": {
+      "est": 11.57,
+      "lo": 10.01,
+      "hi": 13.32
+     },
+     "pooled": {
+      "est": 10.11,
+      "lo": 8.69,
+      "hi": 11.74
+     }
+    }
+   }
+  },
+  "claim": {
+   "text": "at 80-120 km/h the battery supplied power while the engine turned during about half of covered time",
+   "range": [
+    40.0,
+    60.0
+   ],
+   "verdict": "aboutHalf",
+   "dead5AIntervalsInside": false
+  },
+  "timeBase": {
+   "frame": "M597 extract_from_bytes: pack-current series with voltage, rpm and speed aligned as-of; drives with no usable current series are excluded",
+   "noIvSeriesDrives": 12,
+   "audit": "blind reproduction on the speed series: zone S1 within 0.5 pp, merged band within 0.35 pp, all inside the tool intervals, zone drive counts differ by 0-2"
+  },
+  "flags": [
+   {
+    "zone": "80-100",
+    "variant": "dead5A"
+   },
+   {
+    "zone": "100-120",
+    "variant": "dead5A"
+   }
+  ],
+  "reconciliation": {
+   "nCompared": 703,
+   "mismatchBandZoneSum": 0,
+   "mismatchEngineOnZoneSum": 0,
+   "mismatchDischargeZoneSum": 0,
+   "mismatchInclusiveBand": 0,
+   "mismatchInclusiveEngineOn": 0,
+   "mismatchInclusiveDischarge": 0,
+   "maxPartitionResidualS": 0.0,
+   "ok": true
+  },
+  "engineOnCrossCheck": [
+   {
+    "zone": "0-20",
+    "pooledEngineOnPct300": 16.25,
+    "published": 17,
+    "absDiffPp": 0.75
+   },
+   {
+    "zone": "20-40",
+    "pooledEngineOnPct300": 28.15,
+    "published": 28,
+    "absDiffPp": 0.15
+   },
+   {
+    "zone": "40-60",
+    "pooledEngineOnPct300": 46.24,
+    "published": 46,
+    "absDiffPp": 0.24
+   },
+   {
+    "zone": "60-80",
+    "pooledEngineOnPct300": 57.34,
+    "published": 57,
+    "absDiffPp": 0.34
+   },
+   {
+    "zone": "80-100",
+    "pooledEngineOnPct300": 81.68,
+    "published": 82,
+    "absDiffPp": 0.32
+   },
+   {
+    "zone": "100-120",
+    "pooledEngineOnPct300": 98.28,
+    "published": 98,
+    "absDiffPp": 0.28
+   },
+   {
+    "zone": "120+",
+    "pooledEngineOnPct300": 96.89,
+    "published": 96,
+    "absDiffPp": 0.89
+   }
+  ],
+  "notRun": [
+   "Sf logger-cadence stratum",
+   "Sg pack-temperature class"
+  ],
+  "sidecar": {
+   "file": "highway_states.csv",
+   "sha256": "7f3497cc3cb2c76946413dca3c1aa8f6f52656685e3e89ab8526359ba31549de",
+   "rows": 717
+  },
+  "basis": "raw/ = sha256-verified originals (M366)"
  }
 }
