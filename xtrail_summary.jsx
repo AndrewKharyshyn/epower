@@ -5699,13 +5699,25 @@ function WindowUseView(){
   const f=(x,n=2)=>x==null?"—":Number(x).toFixed(n), pv=(x,n=2)=>x&&x.value!=null?`${f(x.value,n)}${x.ci95?` (${f(x.ci95[0],n)}–${f(x.ci95[1],n)})`:""}`:"—";
   const pc=x=>x==null?"—":`${(100*x).toFixed(1)} %`;
   const lab={fast:"fast-polled drives",slow:"slow-polled drives"}, rf=D.referenceFree, aw=D.assumedWindow, R=D.throughputOverExcursion, so=D.socVersusCharge, os=D.offsetSensitivity;
+  const fp=v=>Number(v).toFixed(0), fa=v=>Number(v).toFixed(1);
+  const mkRows=(o,fm)=>[["p50","Median drive"],["p90","90th percentile"],["p95","95th percentile"]].map(([q,l])=>{ const x=o?.[q]; if(!x||x.value==null) return {kind:"none",label:l,note:"not available"};
+    return x.ci95?{kind:"interval",label:l,est:x.value,lo:x.ci95[0],hi:x.ci95[1],valueText:`${fm(x.value)} (${fm(x.ci95[0])}–${fm(x.ci95[1])})`}:{kind:"point",label:l,est:x.value}; });
+  const socRows=mkRows(rf.reportedSocExcursionPoints,fp), ahRows=mkRows(rf.netChargeExcursionAhUpper,fa);
+  const sp=rf.reportedSocExcursionPoints, ah=rf.netChargeExcursionAhUpper;
+  const leadText=sp?.p50?.value!=null&&ah?.p50?.value!=null?`On the median drive in this group the reported state of charge moves ${f(sp.p50.value,0)} points and the net charge about ${f(ah.p50.value,1)} Ah; on the 1-in-20 largest drives it moves ${f(sp.p95.value,0)} points and ${f(ah.p95.value,1)} Ah. These are swings logged on a drive, not a capacity or a limit.`:null;
   return (
-    <Section title="How far the battery charge moves on a drive (descriptive)" accent="#34d399">
-      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-note="1">Per drive, the excursion of the integrated net charge (Ah, estimated from the logged pack current) and of the terminal energy (kWh, a reconstructed current × voltage integral, not stored energy), the reported state-of-charge excursion in points, and how those compare with an assumed 2.1 kWh window (verified:false, unchanged). Reference-free rows come first. Strata are not comparable and no pooled value is given; the upper bracket sums segment excursions (no gap bridging), the lower bracket is the largest single segment.</div>
+    <Section title="How far the battery charge moves on a drive (descriptive)" accent="#34d399" lead={leadText}>
       <div style={{display:"flex",gap:6,marginBottom:6}}>
         {keys.map(k=>(<button key={k} data-window-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
       </div>
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-support="1">{D.nDrives} drives on {D.nDays} days. Known answers checked on every drive: closure to the master net draw, and net ≤ excursion ≤ gross throughput.</div>
+      <div data-window-chart="1">
+        <IntervalForest rows={socRows} xLabel="reported state-of-charge excursion on a drive, points" fmt={fp} dotLabels={true} lblW={150} color="#059669" ariaLabel="Reported state-of-charge excursion per drive: median, 90th and 95th percentile across drives with day-clustered 95% intervals" caption="One value per drive: the sum of its segment swings. Percentiles are across drives." />
+        <IntervalForest rows={ahRows} xLabel="net charge excursion on a drive, Ah (estimated from the logged pack current)" fmt={fa} dotLabels={true} lblW={150} color="#2563eb" ariaLabel="Net charge excursion per drive in ampere-hours: median, 90th and 95th percentile across drives with day-clustered 95% intervals" caption="Estimated from the logged pack current, not a capacity measurement." />
+      </div>
+      <div style={{fontSize:10.5,color:"#334155",margin:"6px 0"}} data-window-r-line="1">Gross energy moved through the terminals is a multiple of the net swing on the same drive: median {pv({value:R.median,ci95:R.ci95},1)} times, 5th percentile {f(R.p5,1)} ({R.nDrives} drives, {R.nDays} days). This ratio needs no capacity assumption.</div>
+      <Notes title="How we calculated it, and the assumed-window shares">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-note="1">Per drive, the excursion of the integrated net charge (Ah, estimated from the logged pack current) and of the terminal energy (kWh, a reconstructed current × voltage integral, not stored energy), the reported state-of-charge excursion in points, and how those compare with an assumed 2.1 kWh window (verified:false, unchanged). Reference-free rows come first. Strata are not comparable and no pooled value is given; the upper bracket sums segment excursions (no gap bridging), the lower bracket is the largest single segment.</div>
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-window-ref="1">
         <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>reference-free</th><th>median</th><th>p90</th><th>p95</th></tr></thead>
         <tbody>
@@ -5722,6 +5734,7 @@ function WindowUseView(){
         ))}</tbody>
       </table>
       <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-window-footnote="1">Rule (fixed before the data): {R.rule}. Verdict at 1.5 kWh: {R["verdictAtCap1.5"]}; at 2.1 kWh: {R["verdictAtCap2.1"]}. Neither verdict is a proof, and "not supported" would not be evidence against buffer use. {os&&os.removedOffset?`With the logged current offset removed, ${os.removedOffset.classificationFlips} drive(s) change the share ≥ 100 % classification at 2.1 kWh (${f(100*os.removedOffset.shareAtLeast1At2p1,1)} % of drives remain at or above the line); the verdict is unchanged. `:""}{so?`Reported SoC versus integrated charge excursion: Spearman ${f(so.spearman)}, partial on duration ${f(so.partialOnDuration)} (0.5-point SoC steps; extremes are not time-aligned). `:""}Reported SoC confinement is a controller policy, not proof of capacity; the 5 Ah rated figure is a lead only and no capacity, depth-of-discharge or state-of-health quantity is estimated here.</div>
+      </Notes>
     </Section>
   );
 }
