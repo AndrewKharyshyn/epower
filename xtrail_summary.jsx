@@ -9734,6 +9734,96 @@ function fxEcdf(trips,weighted){
   const a=trips.map(t=>({r:100*t.V_cnt/t.km,w:weighted?t.km:1})).sort((x,y)=>x.r-y.r), tot=a.reduce((s,x)=>s+x.w,0);
   let c=0; return a.map(x=>{c+=x.w; return {x:x.r,y:c/tot};});
 }
+// M782 (Wave A #1 of the dashboard rework, audit section 2 item 1; display of S.fuelAnalytics.fuel11, no new computation): horizontal box-and-whisker of the trip fuel consumption, trip-count or
+// distance-weighted, and one point with its interval per 14-day window beside a distance strip. Every number is read from the payload.
+function BoxWhisker({ row, xLabel, ariaLabel }) {
+  const W = 560, PL = 18, PR = 18, PT = 34, PB = 56, H = 196;
+  const vals = [row.q10, row.q25, row.q50, row.q75, row.q90, ...(row.ci50 || [])].filter(v => typeof v === "number");
+  const lo = Math.floor(Math.min(...vals) * 0.9), hi = Math.ceil(Math.max(...vals) * 1.05);
+  const span = (hi - lo) || 1, pw = W - PL - PR, cy = PT + 34;
+  const xS = v => PL + ((v - lo) / span) * pw;
+  const step = span > 12 ? 2 : span > 6 ? 1 : 0.5;
+  const ticks = []; for (let t = Math.ceil(lo / step) * step; t <= hi + 1e-9; t += step) ticks.push(parseFloat(t.toFixed(6)));
+  const f = v => Number(v).toFixed(1);
+  return (
+    <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel} style={{ overflow: "visible" }} data-box-whisker="1">
+      {ticks.map(t => (<g key={t}><line x1={xS(t)} y1={PT - 10} x2={xS(t)} y2={H - PB + 6} stroke="#f1f5f9" strokeWidth={1} /><text x={xS(t)} y={H - PB + 20} textAnchor="middle" fontSize={11} fill="#64748b">{t}</text></g>))}
+      <text x={PL + pw / 2} y={H - 4} textAnchor="middle" fontSize={11} fill="#334155">{xLabel}</text>
+      {/* whisker: 10th to 90th percentile, endpoints named */}
+      <line x1={xS(row.q10)} y1={cy} x2={xS(row.q90)} y2={cy} stroke="#2563eb" strokeWidth={1.6} />
+      <line x1={xS(row.q10)} y1={cy - 7} x2={xS(row.q10)} y2={cy + 7} stroke="#2563eb" strokeWidth={1.6} />
+      <line x1={xS(row.q90)} y1={cy - 7} x2={xS(row.q90)} y2={cy + 7} stroke="#2563eb" strokeWidth={1.6} />
+      <text x={xS(row.q10)} y={cy + 24} textAnchor="middle" fontSize={11} fill="#334155">10th percentile {f(row.q10)}</text>
+      <text x={xS(row.q90)} y={cy + 24} textAnchor="middle" fontSize={11} fill="#334155">90th percentile {f(row.q90)}</text>
+      {/* box: 25th to 75th percentile (the middle half of the trips) */}
+      <rect x={xS(row.q25)} y={cy - 14} width={Math.max(xS(row.q75) - xS(row.q25), 1)} height={28} fill="#2563eb30" stroke="#2563eb" strokeWidth={1.6} rx={2} />
+      <text x={xS(row.q25)} y={cy - 19} textAnchor="end" fontSize={11} fill="#334155">{f(row.q25)}</text>
+      <text x={xS(row.q75)} y={cy - 19} textAnchor="start" fontSize={11} fill="#334155">{f(row.q75)}</text>
+      {/* median with its 95% interval */}
+      <line x1={xS(row.q50)} y1={cy - 14} x2={xS(row.q50)} y2={cy + 14} stroke="#1e3a8a" strokeWidth={3} />
+      <text x={xS(row.q50)} y={cy - 19} textAnchor="middle" fontSize={12} fill="#1e3a8a" fontWeight={700}>median {f(row.q50)}</text>
+      {row.ci50 && <g><line x1={xS(row.ci50[0])} y1={cy + 40} x2={xS(row.ci50[1])} y2={cy + 40} stroke="#1e3a8a" strokeWidth={1.4} /><line x1={xS(row.ci50[0])} y1={cy + 36} x2={xS(row.ci50[0])} y2={cy + 44} stroke="#1e3a8a" strokeWidth={1.4} /><line x1={xS(row.ci50[1])} y1={cy + 36} x2={xS(row.ci50[1])} y2={cy + 44} stroke="#1e3a8a" strokeWidth={1.4} /><text x={xS(row.ci50[1]) + 6} y={cy + 44} fontSize={10.5} fill="#1e3a8a">95% interval of the median {f(row.ci50[0])} to {f(row.ci50[1])}</text></g>}
+    </svg>
+  );
+}
+const _MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function WindowSeries({ F }) {
+  const T = F.trend, step = (T.primaryWindowDays || 14) * 86400000;
+  const win = T.windows14, t0 = Date.parse(win[0].start), t1 = Date.parse(win[win.length - 1].start);
+  const slots = []; for (let t = t0; t <= t1 + 1; t += step) { const iso = new Date(t).toISOString().slice(0, 10); slots.push({ iso, w: win.find(x => x.start === iso) || null }); }
+  const W = 560, PL = 52, PR = 12, PT = 22, H1 = 150, GAP = 14, H2 = 64, H = PT + H1 + GAP + H2 + 40;
+  const pw = W - PL - PR, sw = pw / slots.length;
+  const ci = slots.filter(s => s.w).flatMap(s => s.w.pooledL100.ci95 || [s.w.pooledL100.est]);
+  const lo = Math.floor(Math.min(...ci)) - 0.5, hi = Math.ceil(Math.max(...ci)) + 0.5;
+  const ty = v => PT + H1 - ((v - lo) / ((hi - lo) || 1)) * H1;
+  const kmMax = Math.max(...slots.filter(s => s.w).map(s => s.w.km));
+  const cx = i => PL + (i + 0.5) * sw;
+  const lab = iso => _MON[Number(iso.slice(5, 7)) - 1] + " " + Number(iso.slice(8, 10));
+  const ystep = (hi - lo) > 4 ? 1 : 0.5; const yt = []; for (let v = Math.ceil(lo / ystep) * ystep; v <= hi + 1e-9; v += ystep) yt.push(parseFloat(v.toFixed(2)));
+  return (
+    <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pooled fuel consumption per 14-day window with its 95% interval, and kilometres per window" style={{ overflow: "visible" }} data-window-series="1">
+      {yt.map(v => (<g key={v}><line x1={PL} y1={ty(v)} x2={W - PR} y2={ty(v)} stroke="#f1f5f9" strokeWidth={1} /><text x={PL - 6} y={ty(v) + 4} textAnchor="end" fontSize={11} fill="#64748b">{v}</text></g>))}
+      <text x={12} y={PT + H1 / 2} textAnchor="middle" fontSize={11} fill="#334155" transform={`rotate(-90 12 ${PT + H1 / 2})`}>L/100 km</text>
+      {slots.map((s, i) => s.w ? (
+        <g key={s.iso} data-window-point={s.iso}>
+          {s.w.pooledL100.ci95 && <g><line x1={cx(i)} y1={ty(s.w.pooledL100.ci95[0])} x2={cx(i)} y2={ty(s.w.pooledL100.ci95[1])} stroke="#2563eb" strokeWidth={1.6} /><line x1={cx(i) - 5} y1={ty(s.w.pooledL100.ci95[0])} x2={cx(i) + 5} y2={ty(s.w.pooledL100.ci95[0])} stroke="#2563eb" strokeWidth={1.4} /><line x1={cx(i) - 5} y1={ty(s.w.pooledL100.ci95[1])} x2={cx(i) + 5} y2={ty(s.w.pooledL100.ci95[1])} stroke="#2563eb" strokeWidth={1.4} /></g>}
+          <circle cx={cx(i)} cy={ty(s.w.pooledL100.est)} r={4.2} fill="#2563eb" />
+          <text x={cx(i)} y={ty(s.w.pooledL100.ci95 ? s.w.pooledL100.ci95[1] : s.w.pooledL100.est) - 8} textAnchor="middle" fontSize={11} fontWeight={700} fill="#0f172a">{s.w.pooledL100.est.toFixed(1)}</text>
+          <rect x={cx(i) - sw * 0.28} y={PT + H1 + GAP + H2 - (s.w.km / kmMax) * H2} width={sw * 0.56} height={(s.w.km / kmMax) * H2} fill="#94a3b8" opacity={0.55} />
+          <text x={cx(i)} y={PT + H1 + GAP + H2 - (s.w.km / kmMax) * H2 - 3} textAnchor="middle" fontSize={10.5} fill="#475569">{Math.round(s.w.km)} km</text>
+          <text x={cx(i)} y={PT + H1 + GAP + H2 + 26} textAnchor="middle" fontSize={10} fill="#64748b">{Math.round(100 * s.w.shareKmInTripsUnder5km)}% short</text>
+        </g>
+      ) : (
+        <g key={s.iso} data-window-empty={s.iso}><rect x={cx(i) - sw * 0.35} y={PT} width={sw * 0.7} height={H1} fill="none" stroke="#cbd5e1" strokeDasharray="3 3" /><text x={cx(i)} y={PT + H1 / 2} textAnchor="middle" fontSize={10.5} fill="#94a3b8">no fuel-logged trips</text></g>
+      ))}
+      {slots.map((s, i) => <text key={"l" + s.iso} x={cx(i)} y={PT + H1 + GAP + H2 + 14} textAnchor="middle" fontSize={11} fill="#334155">{lab(s.iso)}</text>)}
+      <text x={PL} y={PT + H1 + GAP + 8} fontSize={10.5} fill="#64748b">kilometres in the window (bars)</text>
+      <text x={W - PR} y={H - 2} textAnchor="end" fontSize={10.5} fill="#64748b">short = share of the window's kilometres driven in trips under 5 km</text>
+    </svg>
+  );
+}
+function FuelDistributionTop({ F }) {
+  const [view, setView] = React.useState("trips");
+  const D = F.distribution.primary_km_ge_2, T = F.trend;
+  const tw = D.est.tripWeighted, dw = D.est.distanceWeighted, c = D.ci95 || {};
+  const trip = { q10: tw.q10, q25: tw.q25, q50: tw.q50, q75: tw.q75, q90: tw.q90, ci50: c.trip_q50 };
+  const dist = { q10: dw.q10, q25: dw.q25, q50: dw.q50, q75: dw.q75, q90: dw.q90, ci50: c.dist_q50 };
+  const row = view === "trips" ? trip : dist;
+  const f1 = v => Number(v).toFixed(1);
+  return (
+    <div data-fuel-dist-top="1">
+      <p style={{ fontSize: 13, color: "#0f172a", lineHeight: 1.55, margin: "0 0 8px" }} data-fuel-dist-lead="1">Half of the fuel-logged trips of 2 km or longer used between {f1(tw.q25)} and {f1(tw.q75)} L/100 km; the median trip used {f1(tw.q50)} L/100 km (95% interval {f1(c.trip_q50[0])} to {f1(c.trip_q50[1])}). Sample: {D.nTrips} trips on {D.nDays} days; the fuel counter is app-calculated by the logger.</p>
+      <div style={{ display: "flex", gap: 6, margin: "2px 0 4px" }} role="group" aria-label="Weighting of the distribution">
+        {[["trips", "Each trip counts once"], ["distance", "Each kilometre counts once"]].map(([k, l]) => <button key={k} onClick={() => setView(k)} aria-pressed={view === k} data-fuel-dist-view={k} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 6, border: "1px solid " + (view === k ? "#0f766e" : "#cbd5e1"), background: view === k ? "#0f766e" : "#fff", color: view === k ? "#fff" : "#334155", cursor: "pointer", fontWeight: view === k ? 700 : 500 }}>{l}</button>)}
+      </div>
+      <div style={{ fontSize: 11.5, color: "#475569", marginBottom: 2 }}>{view === "trips" ? "Trip-count view: every trip of 2 km or longer has the same weight, so short trips shape the distribution." : "Distance-weighted view: every kilometre has the same weight, so long trips shape the distribution."} Box = the middle half of the trips; line = 10th to 90th percentile.</div>
+      <BoxWhisker row={row} xLabel="trip fuel consumption (L/100 km, logged counter)" ariaLabel={(view === "trips" ? "Trip-count" : "Distance-weighted") + " distribution of trip fuel consumption: 10th percentile " + f1(row.q10) + ", 25th " + f1(row.q25) + ", median " + f1(row.q50) + ", 75th " + f1(row.q75) + ", 90th " + f1(row.q90) + " L/100 km"} />
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", margin: "10px 0 2px" }}>Pooled consumption per {T.primaryWindowDays}-day window</div>
+      <div style={{ fontSize: 11.5, color: "#475569", marginBottom: 2 }}>Each point is the total litres divided by the total kilometres of the fuel-logged trips in a {T.primaryWindowDays}-day window (non-overlapping, Monday anchor), with its 95% day-clustered interval. Windows without fuel-logged trips are left empty.</div>
+      <WindowSeries F={F} />
+    </div>
+  );
+}
 function FuelDistributionTrend(){
   const Z=S.fuelAnalytics; if(!Z) return null;
   const coh=useCohort(); const F=Z.fuel11, D=F.distribution.primary_km_ge_2;
@@ -9747,6 +9837,8 @@ function FuelDistributionTrend(){
   const tx=i=>m.l+(i+0.5)/win.length*(w-m.l-m.r), ty=v=>h-m.b-v/ws*(h-m.t-m.b);
   return <FxCohortGate coh={coh} chart="Consumption distribution and chronological trend"><div data-fuel-distribution="1">
     <FxScopeNote coh={coh}/>
+    {coh==="all"&&<FuelDistributionTop F={F}/>}
+    <NotesIf on={coh==="all"} title="How we calculated it, the full distributions and the tables">
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:12}}>
       <div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>Empirical distribution of trip L/100 km (trips ≥ 2 km)</div>
         <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{overflow:"visible"}} data-fx-ecdf="1">
@@ -9773,6 +9865,7 @@ function FuelDistributionTrend(){
         {win.map(x=><tr key={x.start} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{x.start}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{x.nTrips} · {x.nDays}</td><td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{x.pooledL100.est.toFixed(2)}{x.pooledL100.ci95?` (${x.pooledL100.ci95[0].toFixed(2)}–${x.pooledL100.ci95[1].toFixed(2)})`:""}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{Math.round(x.shareKmInTripsUnder5km*100)}%</td><td style={{padding:"2px 8px",textAlign:"center"}}>{Math.round(x.shareTripsStartCoolantUnder40C*100)}%</td><td style={{padding:"2px 8px"}}>{x.support}</td></tr>)}</tbody></table>
       <div style={{fontSize:10.5,color:"#334155",marginTop:6}}>The trip-weighted and the distance-weighted distributions are different statistics. The trip-weighted median is {D.est.tripWeighted.q50.toFixed(2)} L/100 km and the distance-weighted median is {D.est.distanceWeighted.q50.toFixed(2)} L/100 km. They differ because short, high-rate trips count more by number than by distance. {ovl?"The 95% intervals of the windows overlap":"Some window intervals do not overlap"}. The share of km driven in trips under 5 km goes from {Math.round(win[0].shareKmInTripsUnder5km*100)}% to {Math.round(win[win.length-1].shareKmInTripsUnder5km*100)}%. The windows are therefore descriptive only: they show a change in trip mix, not a consumption trend. There is no trend test and no seasonal reading. A window with no eligible trips would appear as a gap. The rates are not corrected for the change in battery charge. Basis: raw/ = sha256-verified originals (M366); not M299-reproducible.</div>
     </div>}
+    </NotesIf>
   </div></FxCohortGate>;
 }
 // M339 Fuel analytics v2 (FUEL-03 stationary vs moving fuel, FUEL-02 warm-up trajectory): every figure binds to S.fuelStates / S.fuelWarmup (tools/fuel_analytics2.py)
@@ -13457,7 +13550,7 @@ export default function App() {
         <Section seasonAware title={`Cold-start fuel-rate association (adjusted; accumulator subset${S.thermalFuelPenalty?.dateSpan ? `, ${S.thermalFuelPenalty.dateSpan[0]}–${S.thermalFuelPenalty.dateSpan[1]}` : ""})`} accent="#dc2626"><ThermalFuelPenalty/><ThermalSupport part="fuel"/></Section>
         <Section seasonAware title={`Fuel data consistency: rate integral versus counter (logged/app-calculated; ${S.fuelAnalytics?.reconciliation?.analysisEligible} trips)`} accent="#0f766e"><FuelAgreement/></Section>
         <Section seasonAware title="Fuel consumption versus trip length (logged counter; descriptive)" accent="#0f766e"><FuelVsTripLength/></Section>
-        <Section seasonAware title="Trip consumption distribution and pooled 14-day windows (logged counter; descriptive)" accent="#0f766e"><FuelDistributionTrend/></Section>
+        <Section seasonAware title="Fuel use across trips and over time (logged counter; descriptive)" accent="#0f766e"><FuelDistributionTrend/></Section>
         <Section seasonAware title="Fuel used while stopped (logged rate; temporal states)" accent="#0f766e"><FuelStates/></Section>
         <Section seasonAware title="Warm-up fuel trajectory after the first engine start (logged rate; descriptive associations)" accent="#0f766e"><FuelWarmup/></Section>
       </>)}
