@@ -201,6 +201,7 @@ jobs:
           python tests/synthetic/test_highway_share.py
           python tests/synthetic/test_highway_states.py
           python tests/synthetic/test_example_traces.py
+          python tests/synthetic/test_stopgo_per_drive.py
           python tests/synthetic/test_steady_load_spread.py
           python tests/synthetic/test_cold_neutral_context.py
           python tests/synthetic/test_thermal_provenance.py
@@ -427,6 +428,7 @@ jobs:
           node test_window_use_view.js
           node test_window_scatter.js
           node test_example_traces_view.js
+          node test_stopgo_histogram_view.js
           node test_common_support_view.js
           node test_cell_observability_view.js
           node test_signal_validity_view.js

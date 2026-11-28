@@ -402,6 +402,19 @@
    ]
   },
   {
+   "id": "stopgo_per_drive",
+   "title": "M796: per-drive stop-and-go cycle counts (M183 census) in stopgo_per_drive.csv (raw sha256 + method hash); STOP unless the sidecar reproduces the published crawlStopGo (rows, cycles, stops, per-type n / median / quartiles); additive payload block stopGoPerDrive + stamp; needs raw/ and runs after the arrays and cohort refresh; spec analyses/M796_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/stopgo_per_drive.py"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json",
+    "stopgo_per_drive.csv"
+   ]
+  },
+  {
    "id": "comparison_cube",
    "title": "typed class x cohort comparison cube (M297) on the live corpus",
    "cmd": [
