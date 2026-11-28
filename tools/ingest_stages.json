@@ -783,6 +783,19 @@
    ]
   },
   {
+   "id": "highway_states",
+   "title": "M792: three-state strip by speed zone (engine turning and battery supplying power / engine turning, battery not supplying power / engine not turning): per-drive per-zone seconds in highway_states.csv (raw sha256 + method version); STOP unless the zone sums and the inclusive 80-120 band equal the M597 highway_share.csv seconds and the partition identity holds; additive payload block highwayStates + stamp; needs raw/ and runs after highway_share; spec analyses/M792_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/highway_states.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "highway_states.csv"
+   ]
+  },
+  {
    "id": "steady_load_spread",
    "title": "M603: steady-load (low-slew) cell-spread check: per-drive loaded and steady 95th-percentile spread in steady_load_spread.csv and steady_load_contexts.csv (raw sha256 + method version); STOP unless the loaded p95 and pair count equal the master's cell_spread_loaded_p95_mv and n_loaded_spread_samples (zero tolerance after rounding); additive payload block steadyLoadSpread + stamp; needs raw/; spec analyses/M603_spec.md Rev 1",
    "cmd": [
