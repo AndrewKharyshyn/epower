@@ -164,7 +164,28 @@ def stratum_block(recs, soc_range):
             flips.append({"file": r["file"], "durationS": r["durationS"], "upperKwh": round(float(ku[i]), 4), "lowerKwh": round(float(kl[i]), 4), "upperKwhOffsetRemoved": round(float(off[i]), 4),
                           "deltaKwh": round(float(ku[i] - off[i]), 4), "expectedDeltaKwhFromOffset": round(exp, 4) if exp is not None else None, "gapShare": round(float(r["rec"]["ah"]["gapShare"]), 4)})
     res["offsetSensitivity"]["classificationFlipDrives"] = flips
+    res["perDrive"] = per_drive_block(recs, ku, kl, gross, dur, days, res["throughputOverExcursion"])
     return res
+
+
+def per_drive_block(recs, ku, kl, gross, dur, days, R):
+    """M793 (analyses/M793_spec.md Rev 2): the per-drive values behind R, in master row order, 6 decimals; display payload, no new estimand. STOPs (AssertionError) when the published arrays do not reproduce the aggregates."""
+    gs = np.array([r["rec"]["ah"]["gapShare"] for r in recs])
+    uniq = sorted(set(days)); di = {d: i for i, d in enumerate(uniq)}
+    ok = ku > 0
+    Rv = gross[ok] / ku[ok]
+    kuR, klR, grR = np.round(ku, 6), np.round(kl, 6), np.round(gross, 6)
+    okR = kuR > 0
+    assert len(recs) == len(ku) and int(okR.sum()) == R["nDrives"] and int((~okR).sum()) == R["excludedZeroExcursion"], (int(okR.sum()), R["nDrives"])
+    assert abs(float(np.median(grR[okR] / kuR[okR])) - R["median"]) < 5e-4, (float(np.median(grR[okR] / kuR[okR])), R["median"])
+    assert bool(np.all(klR <= kuR + 1e-9)) and bool(np.all(kuR <= grR + TOL_GROSS_KWH))
+    return {"definition": "per drive, master row order: kwhUpper = terminal-energy excursion of the net trace, upper bracket (sum of segment excursions); kwhLower = largest single segment; gross = gross_throughput_kwh; all kWh, estimated, 6 decimals; day = index into days",
+            "n": len(recs), "days": uniq, "day": [di[d] for d in days],
+            "kwhUpper": [float(x) for x in kuR], "kwhLower": [float(x) for x in klR], "gross": [float(x) for x in grR],
+            "durationS": [round(float(x), 1) for x in dur], "gapShare": [round(float(x), 4) for x in gs],
+            "nLowerBelowUpper": int((klR < kuR - 1e-9).sum()), "nRangeDrawn": int((klR < 0.8 * kuR - 1e-9).sum()),
+            "shareRAtMost1p05": round(float((grR[okR] / kuR[okR] <= 1.05).mean()), 4), "shareRBelow2": round(float((grR[okR] / kuR[okR] < R_THRESHOLD).mean()), 4),
+            "reproducesMedianR": True}
 
 
 # ---------------------------------------------------------------- driver
