@@ -11919,6 +11919,64 @@ function AccelDecelEnvelopes() {
 
 // M788 (audit Wave B #3, owner plan 2026-11-27; display of S.crawlStopGo.byDriveType, no new payload): compact horizontal box plots, one row per group: box = middle half of drives (25th to 75th percentile), line = median
 // (labelled), whisker = up to the 95th percentile. rows: [{label,n,q25,q50,q75,q95,flag,note,color}]. Pure view; no S.
+// M796 (analyses/M796_spec.md Rev 2, audit Wave C item 3): per-drive count histogram of stop-and-go cycles from S.stopGoPerDrive (M183 census counts, display of existing values, no interval or test).
+/*M796-MODEL-BEGIN*/
+const STOPGO_TYPE_NAME={urban:"Urban",mixed:"Mixed",mixed_highway:"Mixed-highway",highway:"Highway"};
+function stopGoHistModel(B){
+  const fin=v=>typeof v==="number"&&isFinite(v);
+  if(!B||!B.types||!B.all) return {panels:[],single:[],yMax:0,caption:null};
+  const panels=[], single=[];
+  Object.keys(B.types).forEach(k=>{
+    const t=B.types[k]; if(!t||!fin(t.nDrives)||!Array.isArray(t.counts)) return;
+    if(t.nDrives<2){ single.push({key:k,name:STOPGO_TYPE_NAME[k]||k,n:t.nDrives,counts:t.counts,overflow:t.overflow}); return; }
+    const bins=t.counts.concat([t.overflow]);
+    panels.push({key:k,name:STOPGO_TYPE_NAME[k]||k,n:t.nDrives,bins,share:bins.map(c=>c/t.nDrives),median:t.median,few:!!t.fewDrives,listOnly:!!t.countListOnly,onePct:t.oneDrivePct,overflow:t.overflow});
+  });
+  panels.sort((a,b)=>b.n-a.n);
+  const yMax=Math.max(0,...panels.filter(p=>!p.listOnly).flatMap(p=>p.share));
+  const a=B.all, pc=x=>(100*x).toFixed(0);
+  let cap=`${a.nDrives} drives; median ${a.median} cycles per drive, middle half ${a.p25} to ${a.p75}; ${pc(a.share0to2)} % have 0 to 2 cycles, ${pc(a.share10plus)} % have 10 or more.`;
+  if(a.share0to2>0.5) cap+=" More than half of these drives have two or fewer cycles.";
+  if(a.share10plus>=0.1) cap+=" At least one drive in ten has ten or more cycles.";
+  return {panels,single,yMax,caption:cap};
+}
+/*M796-MODEL-END*/
+function StopGoHistograms(){
+  const B=S.stopGoPerDrive, M=stopGoHistModel(B);
+  if(!M.panels.length) return null;
+  const W=300, PL=28, PR=6, PT=16, PB=22, ph=62, pw=W-PL-PR, H=PT+ph+PB, nb=B.bins.max+2, bw=pw/nb;
+  const top=Math.max(0.05,Math.ceil(M.yMax*20)/20);
+  return (
+    <div data-stopgo-hist="1" style={{margin:"6px 0 10px"}}>
+      <div style={{fontSize:11,fontWeight:700,color:"#0f172a",margin:"2px 0"}}>How many stop-and-go cycles each drive has (count per drive)</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:10}}>
+        {M.panels.map(p=>(
+          <div key={p.key} data-stopgo-panel={p.key} data-stopgo-n={p.n}>
+            <div style={{fontSize:9.5,fontWeight:700,color:"#334155"}}>{p.name}: {p.n} drives{p.few?" (few drives)":""}</div>
+            {p.listOnly?(
+              <div style={{fontSize:9,color:"#475569"}} data-stopgo-list="1">Counts of drives by cycles per drive: {p.bins.map((c,i)=>c>0?`${i===p.bins.length-1?(B.bins.max+1)+" or more":i}: ${c}`:null).filter(Boolean).join("; ")}. Median {p.median}.</div>
+            ):(
+              <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${p.name}: share of ${p.n} drives by number of stop-and-go cycles per drive, median ${p.median}`}>
+                <line x1={PL} y1={PT+ph} x2={PL+pw} y2={PT+ph} stroke="#9ca3af"/>
+                {[0,top/2,top].map(v=>(<g key={v}><line x1={PL} y1={PT+ph-v/top*ph} x2={PL+pw} y2={PT+ph-v/top*ph} stroke="#f1f5f9"/><text x={PL-3} y={PT+ph-v/top*ph+3} textAnchor="end" fontSize={7.5} fill="#94a3b8">{(100*v).toFixed(0)}%</text></g>))}
+                {p.bins.map((c,i)=>(<g key={i} data-stopgo-bar={i} data-stopgo-count={c}>
+                  <rect x={PL+i*bw+1} y={PT+ph-p.share[i]/top*ph} width={Math.max(bw-2,1)} height={p.share[i]/top*ph} fill="#0891b2" opacity={0.85}><title>{`${i===p.bins.length-1?(B.bins.max+1)+" or more":i} cycles: ${c} drives (${(100*p.share[i]).toFixed(1)} %)`}</title></rect>
+                  {p.few&&c>0&&<text x={PL+i*bw+bw/2} y={PT+ph-p.share[i]/top*ph-2} textAnchor="middle" fontSize={6.5} fill="#475569">{c}</text>}
+                </g>))}
+                {[0,5,10,15,20].map(i=>(<text key={i} x={PL+i*bw+bw/2} y={PT+ph+9} textAnchor="middle" fontSize={7.5} fill="#64748b">{i}</text>))}
+                <text x={PL+(nb-1)*bw+bw/2} y={PT+ph+9} textAnchor="middle" fontSize={7.5} fill="#64748b">{B.bins.max+1}+</text>
+                {typeof p.median==="number"&&<g data-stopgo-median={p.median}><line x1={PL+p.median*bw+bw/2} y1={PT} x2={PL+p.median*bw+bw/2} y2={PT+ph} stroke="#b45309" strokeDasharray="2 2"/><text x={PL+Math.min(p.median*bw+bw/2+3,pw-40)} y={PT+8} fontSize={7.5} fill="#b45309">median {p.median}</text></g>}
+                <text x={PL+pw/2} y={H-2} textAnchor="middle" fontSize={8} fill="#64748b">stop-and-go cycles on one drive (count)</text>
+              </svg>
+            )}
+            {p.few&&<div style={{fontSize:8.5,color:"#94a3b8"}} data-stopgo-one="1">1 drive = {p.onePct} % of this group{p.overflow>0?`; ${p.overflow} drive${p.overflow>1?"s":""} with ${B.bins.max+1} or more cycles`:""}.</div>}
+          </div>
+        ))}
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginTop:4}} data-stopgo-caption="1">{M.caption} Bars are shares of the drives of each type on a shared scale; counts are per drive, not per kilometre or per minute, and drives differ in length, low-speed time, route and season. Drive types are the descriptive labels of the master; no comparison between types is drawn.{M.single.length>0?` ${M.single.map(s=>`${s.name}: ${s.n} drive`).join("; ")} not drawn.`:""} Cycles are detected from logged speed with the thresholds of the stop-and-go census.</div>
+    </div>
+  );
+}
 function BoxRows({ rows, xLabel, ariaLabel, fmt, color="#0891b2", lblW=150 }) {
   const ok=rows.filter(r=>[r.q25,r.q50,r.q75].every(v=>typeof v==="number"));
   if(!ok.length) return null;
@@ -12115,6 +12173,7 @@ function CrawlStopGo() {
             <div style={{fontSize:11,fontWeight:700,color:"#0f172a",margin:"2px 0"}}>Stop-and-go cycles per drive</div>
             <BoxRows xLabel="stop-and-go cycles per drive" ariaLabel="Stop-and-go cycles per drive by drive type: median, middle half and 95th percentile of drives" fmt={v=>Number(v).toFixed(v<10?1:0)} color="#0891b2"
               rows={DT.map(r=>{const q=BT[r.key].cyclesPerDrive||{}; return {label:r.name,sub:`${BT[r.key].nDrives} drives`,q25:q.p25,q50:q.median,q75:q.p75,q95:q.p95};})}/>
+            {_coh==="all"&&<StopGoHistograms/>}
             <div style={{fontSize:11,fontWeight:700,color:"#0f172a",margin:"10px 0 2px"}}>Engine starts per 10 minutes in stop-and-go</div>
             <BoxRows xLabel="engine starts per 10 minutes at or below the stop-go speed ceiling" ariaLabel="Engine starts per 10 minutes in stop-and-go by drive type: median, middle half and 95th percentile of drives" fmt={v=>Number(v).toFixed(v<10?1:0)} color="#b45309"
               rows={DT.map(r=>{const b=BT[r.key], q=b.startsPer10minStopGo||{}, fl=(C.smallDenominatorDriveTypes||[]).includes(r.key), wm=b.lowSpeedTimeS?.median!=null?(b.lowSpeedTimeS.median/60).toFixed(1):null; return {label:r.name+(fl?" (short window)":""),sub:`${b.nDrives} drives${wm!=null?`, median ${wm} min stop-go`:""}`,flag:fl,q25:q.p25,q50:q.median,q75:q.p75,q95:q.p95};})}/>
