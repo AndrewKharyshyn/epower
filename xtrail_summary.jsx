@@ -5890,6 +5890,82 @@ function ChannelDependencyView(){
     </Section>
   );
 }
+// M795 (analyses/M795_spec.md Rev 2, audit Wave C items 7, 8, 9): example traces from S.exampleTraces; single-drive windows chosen by fixed rules, never averages. Gaps (null) are drawn as breaks.
+/*M795-MODEL-BEGIN*/
+function traceSegments(t, y){
+  const segs=[]; let cur=[];
+  const n=Math.min((t||[]).length,(y||[]).length);
+  for(let i=0;i<n;i++){
+    const v=y[i];
+    if(typeof v==="number"&&isFinite(v)) cur.push([t[i],v]); else { if(cur.length) segs.push(cur); cur=[]; }
+  }
+  if(cur.length) segs.push(cur);
+  return segs;
+}
+function traceExtent(data, keys, pad=0.06, floor=null){
+  let lo=Infinity, hi=-Infinity;
+  (keys||[]).forEach(k=>(data[k]||[]).forEach(v=>{ if(typeof v==="number"&&isFinite(v)){ if(v<lo) lo=v; if(v>hi) hi=v; } }));
+  if(!isFinite(lo)) return null;
+  if(floor!==null&&floor<lo) lo=floor;
+  const p=hi>lo?(hi-lo)*pad:1; return [lo-p,hi+p];
+}
+/*M795-MODEL-END*/
+function TraceStack({ id, title, data, panels, marks=[], span=null, ariaLabel }) {
+  const t=data.t||[], n=t.length; if(!n) return null;
+  const W=360, PL=44, PR=10, PT=16, pH=74, gap=14, PB=26, pw=W-PL-PR, H=PT+panels.length*pH+(panels.length-1)*gap+PB;
+  const xS=v=>PL+v/Math.max(1,n-1)*pw, body=panels.length*pH+(panels.length-1)*gap;
+  return (
+    <div data-trace={id} style={{margin:"6px 0"}}>
+      <div style={{fontSize:10.5,fontWeight:700,color:"#0f172a",marginBottom:2}}>{title}</div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{maxWidth:520}} role="img" aria-label={ariaLabel||title}>
+        {span&&<rect data-trace-span="1" x={xS(span.a)} y={PT} width={Math.max(xS(span.b)-xS(span.a),1)} height={body} fill="#10b981" opacity={0.10}/>}
+        {panels.map((P,pi)=>{
+          const y0=PT+pi*(pH+gap), ext=traceExtent(data,P.lines.map(l=>l.key),0.08,P.floor!==undefined?P.floor:null)||[0,1], yS=v=>y0+pH-(v-ext[0])/(ext[1]-ext[0])*pH;
+          return (<g key={P.label} data-trace-panel={P.label}>
+            <rect x={PL} y={y0} width={pw} height={pH} fill="none" stroke="#e2e8f0"/>
+            <text x={PL} y={y0-4} fontSize={8.5} fontWeight={700} fill="#334155">{P.label}{P.unit?` (${P.unit})`:""}</text>
+            {(P.refs||[]).filter(r=>r.y>ext[0]&&r.y<ext[1]).map(r=>(<g key={r.label}><line x1={PL} y1={yS(r.y)} x2={PL+pw} y2={yS(r.y)} stroke="#64748b" strokeDasharray="3 3"/><text x={PL+pw-2} y={yS(r.y)-2} textAnchor="end" fontSize={7.5} fill="#64748b">{r.label}</text></g>))}
+            {[ext[0]+(ext[1]-ext[0])*0.08,ext[1]-(ext[1]-ext[0])*0.08].map((v,i)=>(<text key={i} x={PL-3} y={yS(v)+3} textAnchor="end" fontSize={7.5} fill="#94a3b8">{Math.abs(v)>=100?v.toFixed(0):v.toFixed(1)}</text>))}
+            {P.lines.map(l=>traceSegments(t,data[l.key]).map((sg,si)=>(
+              <polyline key={l.key+si} data-trace-line={l.key} points={sg.map(([x,y])=>`${xS(x).toFixed(1)},${yS(y).toFixed(1)}`).join(" ")} fill="none" stroke={l.color} strokeWidth={1.4} strokeLinejoin="round"/>)))}
+            {P.lines.map((l,li)=>(<text key={"n"+l.key} x={PL+4+li*118} y={y0+10} fontSize={8} fontWeight={600} fill={l.color}>{l.name}</text>))}
+          </g>);
+        })}
+        {marks.map(m=>(<g key={m.label} data-trace-mark={m.label}><line x1={xS(m.x)} y1={PT} x2={xS(m.x)} y2={PT+body} stroke="#b45309" strokeDasharray="2 2"/>
+          <text x={Math.min(xS(m.x)+3,W-PR-2)} y={PT+body+10} textAnchor={xS(m.x)>W-120?"end":"start"} fontSize={7.5} fill="#b45309">{m.label}</text></g>))}
+        <text x={PL+pw/2} y={H-3} textAnchor="middle" fontSize={8.5} fill="#64748b">seconds from the start of the window</text>
+      </svg>
+    </div>
+  );
+}
+function ExampleTrace({ which }) {
+  const B=S.exampleTraces; if(!B||!B.traces||!B.traces[which]) return null;
+  const T=B.traces[which], sel=B.selection||{};
+  const f1=v=>Number(v).toFixed(1), f0=v=>Number(v).toFixed(0);
+  const RPM={key:"rpm",name:"engine rpm",color:"#2563eb"}, SPD={key:"speed",name:"speed",color:"#0d9488"};
+  if(which==="T8"){
+    const R=T.run;
+    return (<div data-example-trace="T8" style={{margin:"8px 0"}}>
+      <TraceStack id="T8" title="Longest engine-off run in the log (a record)" data={T} span={{a:R.startS,b:R.endS}} ariaLabel={`Speed and engine rpm around the longest engine-off run: ${R.km} km in ${R.durationS} s, ${T.month}`}
+        panels={[{label:"Vehicle speed",unit:"km/h",lines:[SPD],floor:0},{label:"Engine rpm",unit:"rpm",lines:[RPM],refs:[{y:400,label:"400 rpm cutoff"}],floor:0}]}/>
+      <div style={{fontSize:9,color:"#64748b"}} data-trace-caption="T8">{T.month}, {T.cadence}-polled drive. The shaded stretch is the longest engine-off run under the rule (rpm at or below the 400 rpm cutoff, debounced): {R.km} km of integrated distance (odometer-scaled) in {R.durationS} s; {R.debouncedEngineOnSeconds} debounced engine-on seconds inside it and {R.rawRpmAbove400Seconds} raw samples above the cutoff. The 30 s before and after are shown. Logged speed and engine rpm on a 1 s grid, relative seconds; this is the extreme run, not an example of the usual one.</div>
+    </div>);
+  }
+  if(which==="T7"){
+    return (<div data-example-trace="T7" style={{margin:"8px 0"}}>
+      <TraceStack id="T7" title="Three different signals in one drive: engine rotation, pack power and coolant" data={T} ariaLabel={`Engine rpm, logged pack power and engine coolant temperature in one drive window, ${T.month}`}
+        panels={[{label:"Engine rpm",unit:"rpm",lines:[RPM],refs:[{y:400,label:"400 rpm cutoff"}],floor:0},{label:"Logged pack power (discharge positive)",unit:"kW",lines:[{key:"powerKw",name:"pack power",color:"#7c3aed"}],refs:[{y:0,label:"zero"}]},{label:"Engine coolant temperature",unit:"°C",lines:[{key:"coolantC",name:"coolant (thermal state, lags)",color:"#dc2626"}]}]}/>
+      <div style={{fontSize:9,color:"#64748b"}} data-trace-caption="T7">One drive from {T.month}, chosen by a fixed rule; not an average or representative drive. The window starts 30 s before the first engine rotation above the 400 rpm cutoff. While the engine rotated, the logged pack power was positive (discharge) for {T.dischargeSeconds} s and negative (charging) for {T.chargeSeconds} s with the target torque at or above zero; {sel.T7.eligible} of {sel.T7.candidates} first-start windows meet that rule and the shown one has {T.engineRotationSeconds} s of rotation, closest to the median. Engine rotation above the cutoff is not combustion and not electricity generation; pack power is the logged current times the logged voltage; coolant temperature is a thermal state that lags. The example shows the three signals can differ; it does not test how often they do.</div>
+    </div>);
+  }
+  const marks=[{x:T.peakS,label:`peak ${f1(T.peakKw)} kW at ${f0(T.peakSpeedKmh)} km/h`}];
+  if(typeof T.pedalOnsetS==="number"&&T.pedalOnsetS>0&&T.pedalOnsetS<T.peakS) marks.push({x:T.pedalOnsetS,label:"pedal above 10 %"});
+  return (<div data-example-trace="T9" style={{margin:"8px 0"}}>
+    <TraceStack id="T9" title="A power burst under acceleration at highway speed (one drive)" data={T} marks={marks} ariaLabel={`Speed, accelerator pedal, logged pack power and engine rpm around a discharge peak of ${f1(T.peakKw)} kW, ${T.month}`}
+      panels={[{label:"Vehicle speed",unit:"km/h",lines:[SPD]},{label:"Accelerator pedal D",unit:"%",lines:[{key:"pedal",name:"pedal",color:"#d97706"}],floor:0},{label:"Logged pack power (discharge positive)",unit:"kW",lines:[{key:"powerKw",name:"pack power",color:"#7c3aed"}],refs:[{y:0,label:"zero"}]},{label:"Engine rpm",unit:"rpm",lines:[RPM],refs:[{y:400,label:"400 rpm cutoff"}],floor:0}]}/>
+    <div style={{fontSize:9,color:"#64748b"}} data-trace-caption="T9">One drive from {T.month}, chosen by a fixed rule (the drive whose peak discharge power is closest to the median of the {sel.T9.eligible} eligible drives, out of {sel.T9.candidates} fast-polled drives with a peak); not an average or representative drive. The eligible peaks need speed of at least 80 km/h and the accelerator pedal above 10 % in the 5 s before the peak. {T.rpmOnsetS===0?"Engine rotation was already above the 400 rpm cutoff at the start of the window. ":(typeof T.rpmOnsetS==="number"?`Engine rotation rose above the 400 rpm cutoff at second ${T.rpmOnsetS} of the window. `:"Engine rotation stayed at or below the 400 rpm cutoff in the window. ")}The shown burst is one of {sel.T9.eligible} eligible drives: median of the eligible peaks {f1(sel.T9.medianPeakKw)} kW, shown peak {f1(T.peakKw)} kW (logged pack power from logged current times voltage). Reading this as demand blending or charge management is an interpretation of the telemetry, not an observed controller state.</div>
+  </div>);
+}
 function EngineContextFieldsView(){
   const B=S.engineContextFields;
   if(!B||!B.strata) return null;
@@ -5917,6 +5993,7 @@ function EngineContextFieldsView(){
   return (
     <Section title="Engine Rotation, Pack Flow, Coolant and Combustion Proxy as Separate Fields (descriptive)" accent="#64748b">
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-ecf-note="1">Rotation is logged; combustion and purpose are not. Each engine-rotating second (rpm above {B.params.rpm_on}) carries four separate fields: rotation level, net pack flow (deadband {B.params.flow_db} A), coolant context (the last logged coolant sample, valid up to {B.params.cool_age} s) and a combustion proxy (calculated boost class; the app-calculated fuel rate is a sub-flag, not independent evidence). Candidate labels are not exclusive and none states the purpose of the engine; a second without a candidate is unresolved. The thermal-context label fires on every cold-coolant second, so the unresolved share is shown with and without it; the warming and warm values stay a descriptive field. The bands are analysis bands, not identified thresholds. The cadence groups are not pooled. The earlier dissipation, motoring and start panels are unchanged.</div>
+      <ExampleTrace which="T7"/>
       {keys.map(k=>{const st=B.strata[k]; return (
         <div key={k} style={{marginTop:8}} data-ecf-stratum={k}>
           <div style={{fontSize:10,fontWeight:600,color:"#475569"}}>{names[k]||k}: {st.nDrives} drives, {st.nDays} days, {st.rotatingSeconds} rotating seconds</div>
@@ -8939,6 +9016,7 @@ function EvTraction() {
         <Kpi label="longest unassisted" value={E.runMaxUnassistedKm} unit="km" color="#0369a1"
              sub="regen < 20% of throughput"/>
       </div>
+      {_coh==="all"&&<ExampleTrace which="T8"/>}
 
       {_coh==="all"&&<DetectorSensitivityPanel/>}
 
@@ -14035,6 +14113,7 @@ export default function App() {
           <div style={{padding:10,background:"#ffffff",borderRadius:8,fontSize:11,color:"#374151",lineHeight:1.7,border:"1px solid #e2e8f0"}}>
             <p style={{marginTop:0}}><strong>Mechanism.</strong> The wheels are driven only by the traction motor. The 1.5 L VC-Turbo engine drives only the generator and is never coupled to the axle. At steady cruise the generator must supply the motor's power demand, and that demand climbs steeply above 100 km/h because drag grows roughly with the cube of speed. When demand exceeds generator output, the HV battery supplies the shortfall. Within 80-120 km/h the logs do not show that limit being reached: no event meeting the declared saturation screen occurs below ~140 km/h, and the logged calculated load leaves room that the controller does not use in discharge seconds. Engine-on battery discharge there is therefore consistent with control strategy, not a demonstrated generator limit. Generator output and reserve are not metered.</p>
             <HighwayStatesView/>
+            <ExampleTrace which="T9"/>
             <p><strong>Result.</strong> During 80-120 km/h driving, the engine was turning and the battery was supplying power for a mean {S.deficitMeanPct}% of band time on the average drive (range {S.deficitMinPct}–{S.deficitMaxPct}%). This does <strong style={{color:"#0f172a"}}>not</strong> look like the generator running out of capacity (generator saturation). <strong>Scope:</strong> {S.deficitValidN} eligible drives. This figure is the <em>joint</em> share: the time with both engine rotation (logged rpm above 400) and battery discharge, divided by all eligible time in the band. {S.highwayShare && (()=>{ const H=S.highwayShare.primary, f=x=>x.est+"% (95% interval "+x.lo+" to "+x.hi+")"; return (<>On the same drives and basis, the joint share is a mean {f(H.joint.perDriveMean)} per drive ({f(H.joint.pooled)} pooled over time; {H.joint.perDriveMean.nDrives} drives, {H.joint.perDriveMean.nDays} days; day-clustered intervals). Counted only over the time the engine was turning, the <em>conditional</em> share is a mean {f(H.conditional.perDriveMean)} per drive ({f(H.conditional.pooled)} pooled over time). The engine was turning for a mean {f(H.engineOnShare.perDriveMean)} of band time. On the average drive the conditional share exceeds the joint share by {H.conditionalMinusJoint_pp.est} percentage points (95% interval {H.conditionalMinusJoint_pp.lo} to {H.conditionalMinusJoint_pp.hi}); it cannot be lower by construction, so this is a size, not a test. Both shares are estimated from logged signals and describe control behaviour, not a generator limit. </>); })()}<strong>Reading:</strong> three signs argue against saturation. <em>(a)</em> Calculated engine load in these discharge seconds is not distinguishable from load in engine-on <em>charging</em> seconds. No margin for calling the two equal was set in advance, so this is a comparison, not a proof. It fits with logged load headroom that the controller does not use. <em>(b)</em> The chance that the battery is discharging while the engine is on rises steadily with SoC. It is lowest (0.33 to 0.43) inside the 60-65% target band and reaches 0.85 to 0.90 at SoC 70-80%. This fits a controller that deliberately generates less to steer SoC back toward a setpoint of about 62%. <em>(c)</em> Discharge seconds have <em>negative</em> mean acceleration, while engine-on charging seconds have <em>positive</em> mean acceleration. A saturated generator would show the opposite. On the average drive, {S.blendShareMeanPct}% of engine-on discharge time is short-lived power blending (middle half of drives: {S.blendShareP25} to {S.blendShareP75}%). Blending here means speed changing by 0.5 km/h per second or more, or current above 30 A. The other {S.steerShareMeanPct}% is steady low-current SoC steering, with the generator moving between a few fixed load points (median 9-17 A, about 3-6 kW). The saturation screen found <strong style={{color:"#0f172a"}}>{S.saturTotalS} s of events across {S.saturCoverageN} screened drives</strong>, with {S.saturDrivesN} drives affected. Steps in demand, not a steady 80-120 km/h hold, draw on the battery. The Jun25 D4 launch example below shows repeated battery bursts of about -49 kW under a hard speed ramp. <strong>Method:</strong> the screen counts one event when calculated load stays above 85% and discharge current stays above 30 A for at least 5 s.</p>
             <p style={{marginBottom:0}}><strong>BMS response and consequences.</strong> <strong>Result:</strong> on the highway the battery management system (BMS) keeps the battery at a higher state of charge (SoC) than in urban driving, mostly by raising the <em>upper</em> limit. <strong>Scope:</strong> the median session range is {sbs.urban?.floorMed}-{sbs.urban?.ceilMed}% in urban driving and {sbs.highway?.floorMed}-{sbs.highway?.ceilMed}% on the highway. The upper limit is {ceilDeltaMed} percentage points higher and the lower limit only {floorDeltaMed} points higher. The full observed range is {hvcSoc.urban} urban and {hvcSoc.highway} highway (Comparison tab). <strong>Reading:</strong> the higher range leaves room for the battery to cover short power shortfalls, so the engine does not have to chase peak load. It is a designed operating limit, not a fault. The data do not support reading the speed ceiling as an electrical limit: at the highest speed in the data, {S.nearLimiter?.vmaxKmh ?? "—"} km/h, calculated engine load and boost still showed logged headroom (panel below). Generator output is not logged. {(()=>{const c=S.highSpeedCensus;if(!c)return null;const b=k=>c.bands.find(x=>x.kmh===k);const b140=b(140),b150=b(150);return <>The top speed in the logs is {c.vmaxKmh} km/h, on {c.vmaxDrive}. It was reached only in brief excursions. Above 140 km/h the logs hold {b140.totalS} s in total across {b140.nDrives} drives, and the longest unbroken run is {b140.maxStreakS} s ({b140.maxStreakDrive}). Above 150 km/h they hold just {b150.totalS} s across {b150.nDrives} drives, and the longest unbroken run is {b150.maxStreakS} s ({b150.maxStreakDrive}). <strong style={{color:"#b45309"}}>A sustained hold above 140 km/h (minutes, not seconds) is not in the data. This is the chart's main gap.</strong> Steady demand, not a brief touch of the limiter, is what would put the buffer into continuous net draw. Sustained top-speed cruising is therefore the likely highest battery-cycling stress on a long trip, but this corpus does not test it.</>;})()}</p>
             {(()=>{const c=S.highSpeedCensus; const b=k=>c?.bands.find(x=>x.kmh===k); const b160=b(160);
