@@ -5692,6 +5692,58 @@ function PowerDurationUninterruptedView(){
     </Section>
   );
 }
+// M793 (analyses/M793_spec.md Rev 2, audit Wave C item 12): per-drive scatter of gross terminal throughput against the net swing of the integrated terminal-energy trace; display of S.windowUse.strata.*.perDrive, no new estimand.
+/*M793-MODEL-BEGIN*/
+function windowScatterModel(P){
+  const fin=v=>typeof v==="number"&&isFinite(v);
+  if(!P||!Array.isArray(P.kwhUpper)||!Array.isArray(P.gross)) return {points:[],nZero:0,nDrawn:0,nRange:0,x0:null,x1:null,ticks:[]};
+  const pts=[]; let nZero=0, nRange=0;
+  for(let i=0;i<P.kwhUpper.length;i++){
+    const up=P.kwhUpper[i], g=P.gross[i], lo=(P.kwhLower||[])[i];
+    if(!fin(up)||!fin(g)||g<=0) continue;
+    if(!(up>0)){ nZero++; continue; }
+    const range=fin(lo)&&lo>0&&lo<0.8*up; if(range) nRange++;
+    pts.push({i,x:up,y:g,lo:fin(lo)&&lo>0?lo:up,range,dur:(P.durationS||[])[i],day:(P.days&&P.day)?P.days[P.day[i]]:null});
+  }
+  if(!pts.length) return {points:[],nZero,nDrawn:0,nRange:0,x0:null,x1:null,ticks:[]};
+  const mn=Math.min(...pts.map(p=>Math.min(p.lo,p.x,p.y))), mx=Math.max(...pts.map(p=>Math.max(p.x,p.y)));
+  const e0=Math.floor(Math.log10(mn)), e1=Math.ceil(Math.log10(mx)), ticks=[]; for(let e=e0;e<=e1;e++) ticks.push(Math.pow(10,e));
+  return {points:pts,nZero,nDrawn:pts.length,nRange,x0:Math.pow(10,e0),x1:Math.pow(10,e1),ticks};
+}
+/*M793-MODEL-END*/
+function WindowScatter({ P, R, cur }) {
+  const M=windowScatterModel(P);
+  if(!M.nDrawn) return null;
+  const W=340, H=300, PL=44, PR=10, PT=10, PB=34, pw=W-PL-PR, ph=H-PT-PB, l0=Math.log10(M.x0), l1=Math.log10(M.x1);
+  const sx=v=>PL+(Math.log10(v)-l0)/(l1-l0)*pw, sy=v=>PT+ph-(Math.log10(v)-l0)/(l1-l0)*ph, clampY=v=>Math.min(Math.max(v,M.x0),M.x1);
+  const fmt=v=>v>=1?String(v):String(v);
+  const med=R&&typeof R.median==="number"?R.median:null, ci=R&&R.ci95;
+  const line=(k)=>{ // y = k x clipped to the plot box
+    const a=Math.max(M.x0,M.x0/k), b=Math.min(M.x1,M.x1/k); if(!(b>a)) return null;
+    return {x1:sx(a),y1:sy(clampY(k*a)),x2:sx(b),y2:sy(clampY(k*b))};
+  };
+  const lm=med?line(med):null, ll=ci?line(ci[0]):null, lh=ci?line(ci[1]):null;
+  return (
+    <div data-window-scatter={cur} style={{margin:"8px 0"}}>
+      <div style={{fontSize:10.5,fontWeight:700,color:"#0f172a",marginBottom:2}}>One dot per drive: gross terminal throughput against the net swing</div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{maxWidth:460}} role="img" aria-label={`Gross terminal throughput (estimated) against the net swing of the integrated terminal-energy trace (estimated), ${M.nDrawn} drives, log axes, with the 1:1 line`}>
+        {M.ticks.map(t=>(<g key={t}><line x1={sx(t)} y1={PT} x2={sx(t)} y2={PT+ph} stroke="#f1f5f9"/><line x1={PL} y1={sy(t)} x2={PL+pw} y2={sy(t)} stroke="#f1f5f9"/>
+          <text x={sx(t)} y={PT+ph+11} textAnchor="middle" fontSize={8} fill="#94a3b8">{fmt(t)}</text><text x={PL-4} y={sy(t)+3} textAnchor="end" fontSize={8} fill="#94a3b8">{fmt(t)}</text></g>))}
+        <text x={PL+pw/2} y={H-6} textAnchor="middle" fontSize={8.5} fill="#64748b">net swing of the integrated terminal-energy trace, kWh (estimated, upper bracket)</text>
+        <text x={10} y={PT+ph/2} textAnchor="middle" fontSize={8.5} fill="#64748b" transform={`rotate(-90 10 ${PT+ph/2})`}>gross terminal throughput, kWh (estimated)</text>
+        {ll&&lh&&<g data-window-r-band="1" opacity={0.5}><line {...ll} stroke="#f59e0b" strokeDasharray="2 3"/><line {...lh} stroke="#f59e0b" strokeDasharray="2 3"/></g>}
+        <line data-window-one-to-one="1" x1={sx(M.x0)} y1={sy(M.x0)} x2={sx(M.x1)} y2={sy(M.x1)} stroke="#475569" strokeDasharray="4 3"/>
+        {lm&&<line data-window-r-line-draw="1" {...lm} stroke="#d97706" strokeWidth={1.4}/>}
+        {M.points.map(p=>(<g key={p.i} data-window-dot={p.range?"range":"point"}>
+          {p.range&&<line x1={sx(p.lo)} y1={sy(p.y)} x2={sx(p.x)} y2={sy(p.y)} stroke="#2563eb" strokeWidth={1} opacity={0.5}/>}
+          <circle cx={sx(p.x)} cy={sy(p.y)} r={2.2} fill="#2563eb" fillOpacity={0.55}><title>{`${p.day||"drive"}: gross ${p.y.toFixed(3)} kWh, net swing ${p.x.toFixed(3)} kWh${p.range?` (range from ${p.lo.toFixed(3)})`:""}${typeof p.dur==="number"?`, ${Math.round(p.dur/60)} min`:""}`}</title></circle></g>))}
+        <text x={sx(M.x1)-2} y={sy(M.x1)+10} textAnchor="end" fontSize={8} fill="#475569">gross equals net swing</text>
+        {lm&&<text x={lm.x2-2} y={lm.y2-3} textAnchor="end" fontSize={8} fill="#b45309">median per-drive ratio R (M553), not a fitted line</text>}
+      </svg>
+      <div style={{fontSize:9,color:"#64748b"}} data-window-scatter-note="1">{M.nDrawn} drives drawn on {P.days.length} days{M.nZero>0?` (${M.nZero} with zero net swing not drawn)`:""}. {P.nLowerBelowUpper} drives have a gap-bounded lower bracket below the upper; {M.nRange} of them are drawn as a horizontal range because the lower bracket is below 0.8 times the upper, the dot sits at the upper bracket. R is taken at the upper bracket, the smallest R the bracket allows, so the share below 2 is the largest share the bracket allows. Among the {R.nDrives} drives with a non-zero net swing, the share with R at most 1.05 is {(100*P.shareRAtMost1p05).toFixed(1)} % and with R below 2 (the M553 threshold) {(100*P.shareRBelow2).toFixed(1)} %. The dashed amber lines are the day-clustered 95 % interval of the median R. Both axes grow with drive duration; the two logger-cadence groups are not comparable and are never drawn together. Estimated terminal I × V integrals, including resistive loss; not stored energy.</div>
+    </div>
+  );
+}
 function WindowUseView(){
   const B=S.windowUse, [st,setSt]=useState(null);
   if(!B||!B.strata) return null;
@@ -5716,8 +5768,9 @@ function WindowUseView(){
         <IntervalForest rows={ahRows} xLabel="net charge excursion on a drive, Ah (estimated from the logged pack current)" fmt={fa} dotLabels={true} lblW={150} color="#2563eb" ariaLabel="Net charge excursion per drive in ampere-hours: median, 90th and 95th percentile across drives with day-clustered 95% intervals" caption="Estimated from the logged pack current, not a capacity measurement." />
       </div>
       <div style={{fontSize:10.5,color:"#334155",margin:"6px 0"}} data-window-r-line="1">Gross energy moved through the terminals is a multiple of the net swing on the same drive: median {pv({value:R.median,ci95:R.ci95},1)} times, 5th percentile {f(R.p5,1)} ({R.nDrives} drives, {R.nDays} days). This ratio needs no capacity assumption.</div>
+      {D.perDrive&&<WindowScatter P={D.perDrive} R={R} cur={cur}/>}
       <Notes title="How we calculated it, and the assumed-window shares">
-      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-note="1">Per drive, the excursion of the integrated net charge (Ah, estimated from the logged pack current) and of the terminal energy (kWh, a reconstructed current × voltage integral, not stored energy), the reported state-of-charge excursion in points, and how those compare with an assumed 2.1 kWh window (verified:false, unchanged). Reference-free rows come first. Strata are not comparable and no pooled value is given; the upper bracket sums segment excursions (no gap bridging), the lower bracket is the largest single segment.</div>
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-note="1">Per drive, the excursion of the integrated net charge (Ah, estimated from the logged pack current) and of the terminal energy (kWh, a reconstructed current × voltage integral, not stored energy), the reported state-of-charge excursion in points, and how those compare with an assumed 2.1 kWh window (verified:false, unchanged). Reference-free rows come first. Strata are not comparable and no pooled value is given; the upper bracket sums segment excursions (no gap bridging), the lower bracket is the largest single segment. The scatter above uses these same per-drive values. Current and voltage samples are paired one-to-one (pairing rule inherited from M553): where two current samples share the same nearest voltage sample, the later one is kept and the earlier is dropped, so a drive with more current than voltage samples loses some current samples; M793 does not change this rule.</div>
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-window-ref="1">
         <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>reference-free</th><th>median</th><th>p90</th><th>p95</th></tr></thead>
         <tbody>

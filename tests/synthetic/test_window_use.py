@@ -58,4 +58,24 @@ import json
 a = json.load(open("summary_arrays.json", encoding="utf-8"))
 B = a["windowUse"]
 assert set(B["strata"]) <= {"fast", "slow", "unknown"} and "pooled" not in B and B["knownAnswer"]["misses"] == {"closure": 0, "bounds": 0}
+# M793 (analyses/M793_spec.md Rev 2): per-drive arrays reproduce the aggregates of the published block, 6 decimals, rows = nDrives, 1:1 condition, zero-swing rows counted
+for c, D in B["strata"].items():
+    P = D["perDrive"]; R = D["throughputOverExcursion"]; n = len(P["kwhUpper"])
+    assert P["n"] == n == D["nDrives"] and all(len(P[k]) == n for k in ("kwhLower", "gross", "durationS", "gapShare", "day"))
+    assert sum(1 for v in P["kwhUpper"] if v > 0) == R["nDrives"] and n - R["nDrives"] == R["excludedZeroExcursion"]
+    rr = sorted(g / u for g, u in zip(P["gross"], P["kwhUpper"]) if u > 0); m = len(rr)
+    assert abs((rr[m // 2] if m % 2 else 0.5 * (rr[m // 2 - 1] + rr[m // 2])) - R["median"]) < 5e-4
+    assert all(l <= u + 1e-9 and u <= g + 1e-4 for l, u, g in zip(P["kwhLower"], P["kwhUpper"], P["gross"]))
+    assert max(P["day"]) == len(P["days"]) - 1 and P["nRangeDrawn"] <= P["nLowerBelowUpper"] <= n
+    assert abs(P["shareRBelow2"] - sum(1 for x in rr if x < 2.0) / m) < 1e-4 and abs(P["shareRAtMost1p05"] - sum(1 for x in rr if x <= 1.05) / m) < 1e-4
+# planted: the block builder STOPs when an array does not reproduce the aggregate
+recs = [{"rec": {"ah": {"gapShare": 0.0}}} for _ in range(3)]
+ku, kl, gr = np.array([1.0, 2.0, 0.0]), np.array([1.0, 0.5, 0.0]), np.array([3.0, 4.0, 0.2]); dur = np.array([60.0, 120.0, 30.0]); days = ["2026-01-01", "2026-01-01", "2026-01-02"]
+good = {"nDrives": 2, "excludedZeroExcursion": 1, "median": 2.5}
+blk = WU.per_drive_block(recs, ku, kl, gr, dur, days, good)
+assert blk["nRangeDrawn"] == 1 and blk["day"] == [0, 0, 1] and blk["shareRBelow2"] == 0.0 and blk["shareRAtMost1p05"] == 0.0
+try:
+    WU.per_drive_block(recs, ku, kl, gr, dur, days, dict(good, median=9.0)); raise SystemExit("planted mismatch not caught")
+except AssertionError:
+    pass
 print("test_window_use OK")
