@@ -1,0 +1,114 @@
+{
+ "milestone": "M794",
+ "rule": "each current sample with |I| < 900 A takes the nearest pack-voltage sample within 1.5 s (merge_asof, base = current samples); samples without one are dropped; several current samples may share one voltage sample; nothing is overwritten",
+ "nDrives": 717,
+ "drivesWithAnyDrop": 32,
+ "drivesWithSentinel": 9,
+ "drivesWithNoVoltage": 27,
+ "droppedShare": {
+  "p50": 0.0,
+  "p90": 0.0,
+  "p99": 0.00501,
+  "max": 1.0
+ },
+ "totals": {
+  "nI": 756819,
+  "sentinel": 15,
+  "noVoltage": 365,
+  "kept": 756439,
+  "dropped": 380
+ },
+ "worst": [
+  {
+   "file": "20260813_150341.csv",
+   "nI": 238,
+   "sentinel": 0,
+   "noVoltage": 238,
+   "kept": 0,
+   "dropped": 238,
+   "share": 1.0
+  },
+  {
+   "file": "20260813_145651.csv",
+   "nI": 72,
+   "sentinel": 0,
+   "noVoltage": 72,
+   "kept": 0,
+   "dropped": 72,
+   "share": 1.0
+  },
+  {
+   "file": "20260813_144601.csv",
+   "nI": 73,
+   "sentinel": 0,
+   "noVoltage": 24,
+   "kept": 49,
+   "dropped": 24,
+   "share": 0.3287671232876712
+  },
+  {
+   "file": "20260627_085219.csv",
+   "nI": 278,
+   "sentinel": 3,
+   "noVoltage": 2,
+   "kept": 273,
+   "dropped": 5,
+   "share": 0.017985611510791366
+  },
+  {
+   "file": "20260516_182041.csv",
+   "nI": 136,
+   "sentinel": 0,
+   "noVoltage": 1,
+   "kept": 135,
+   "dropped": 1,
+   "share": 0.007352941176470588
+  },
+  {
+   "file": "20260515_222240.csv",
+   "nI": 891,
+   "sentinel": 2,
+   "noVoltage": 4,
+   "kept": 885,
+   "dropped": 6,
+   "share": 0.006734006734006734
+  },
+  {
+   "file": "20260616_160533.csv",
+   "nI": 196,
+   "sentinel": 0,
+   "noVoltage": 1,
+   "kept": 195,
+   "dropped": 1,
+   "share": 0.00510204081632653
+  },
+  {
+   "file": "20260625_122850.csv",
+   "nI": 199,
+   "sentinel": 1,
+   "noVoltage": 0,
+   "kept": 198,
+   "dropped": 1,
+   "share": 0.005025125628140704
+  },
+  {
+   "file": "20260617_150930.csv",
+   "nI": 215,
+   "sentinel": 0,
+   "noVoltage": 1,
+   "kept": 214,
+   "dropped": 1,
+   "share": 0.004651162790697674
+  },
+  {
+   "file": "20260517_112115.csv",
+   "nI": 242,
+   "sentinel": 0,
+   "noVoltage": 1,
+   "kept": 241,
+   "dropped": 1,
+   "share": 0.004132231404958678
+  }
+ ],
+ "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98"
+}
