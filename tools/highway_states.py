@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """M792 (analyses/M792_spec.md Rev 2, audit Wave C item 9): three-state strip by speed zone.
 Per drive and speed zone (the seven engineOnBySpeed zones, half-open [lo, hi), last zone 120 and above) the logged seconds split into
-S1 = engine turning (rpm > 400) and battery supplying power (Id > 0), S2 = engine turning and not (Id > 0) (charging, zero, or current not logged),
-S3 = engine not turning or rpm not logged (rpm <= 400 or NaN). Sidecar highway_states.csv is written ONLY by this tool; drive_master.csv is read-only.
+S1 = engine turning (rpm above the 400 threshold) and battery supplying power (positive Id), S2 = engine turning and not S1 (charging, zero, or current not logged),
+S3 = engine not turning (rpm at or below the 400 threshold) or rpm not logged. Sidecar highway_states.csv is written ONLY by this tool; drive_master.csv is read-only.
 Same frame, masks and per-sample dt as tools/highway_share.py (M597). Usage: python tools/highway_states.py [--rebuild] [--check] [--dry-run]"""
 import copy, datetime, hashlib, json, os, sys
 import numpy as np
