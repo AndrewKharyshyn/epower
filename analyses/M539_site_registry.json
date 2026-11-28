@@ -295,6 +295,55 @@
    "family": "rule-400",
    "rule": "engine-on rule rpm > 400 (strict; unknown rpm = not on) on the 1 Hz grid of the exposure scenario frame (M713a): engine starts, charge Ah engine-on / off, engine share per slice; same rule as tools/engine_on_rule.THRESHOLD_RPM",
    "migration": "none (the frame uses the M540 rule, option A > 400)"
+  },
+  {
+   "file": "tools/example_traces.py",
+   "anchor": "off = debounce(known & (np.where(known, rpm, 0.0) <= 400), deb_s) & known",
+   "family": "rule-400",
+   "rule": "engine-on / engine-off rule rpm 400 as in the master pipeline (engine-off = known rpm <= 400 debounced 3 s, engine-on = rpm > 400); display of example traces (M795), no new threshold",
+   "migration": "none"
+  },
+  {
+   "file": "tools/example_traces.py",
+   "anchor": "\"rawAbove400\": int(np.nansum(rpm[i:j] > 400))",
+   "family": "rule-400",
+   "rule": "engine-on / engine-off rule rpm 400 as in the master pipeline (engine-off = known rpm <= 400 debounced 3 s, engine-on = rpm > 400); display of example traces (M795), no new threshold",
+   "migration": "none"
+  },
+  {
+   "file": "tools/example_traces.py",
+   "anchor": "if np.isfinite(rpm[i]) and rpm[i] > 400:",
+   "family": "rule-400",
+   "rule": "engine-on / engine-off rule rpm 400 as in the master pipeline (engine-off = known rpm <= 400 debounced 3 s, engine-on = rpm > 400); display of example traces (M795), no new threshold",
+   "migration": "none"
+  },
+  {
+   "file": "tools/example_traces.py",
+   "anchor": "on = np.isfinite(rpm) & (rpm > 400)",
+   "family": "rule-400",
+   "rule": "engine-on / engine-off rule rpm 400 as in the master pipeline (engine-off = known rpm <= 400 debounced 3 s, engine-on = rpm > 400); display of example traces (M795), no new threshold",
+   "migration": "none"
+  },
+  {
+   "file": "tools/example_traces.py",
+   "anchor": "\"engineOnS\": int((G[\"rpm\"][sl] > 400).sum())",
+   "family": "rule-400",
+   "rule": "engine-on / engine-off rule rpm 400 as in the master pipeline (engine-off = known rpm <= 400 debounced 3 s, engine-on = rpm > 400); display of example traces (M795), no new threshold",
+   "migration": "none"
+  },
+  {
+   "file": "tools/example_traces.py",
+   "anchor": "off_deb = debounce(np.isfinite(G8[\"rpm\"]) & (np.nan_to_num(G8[\"rpm\"], nan=0.0) <= 400), 3)",
+   "family": "rule-400",
+   "rule": "engine-on / engine-off rule rpm 400 as in the master pipeline (engine-off = known rpm <= 400 debounced 3 s, engine-on = rpm > 400); display of example traces (M795), no new threshold",
+   "migration": "none"
+  },
+  {
+   "file": "tools/example_traces.py",
+   "anchor": "rp_on = np.flatnonzero(np.isfinite(rp) & (rp > 400))",
+   "family": "rule-400",
+   "rule": "engine-on / engine-off rule rpm 400 as in the master pipeline (engine-off = known rpm <= 400 debounced 3 s, engine-on = rpm > 400); display of example traces (M795), no new threshold",
+   "migration": "none"
   }
  ],
  "knownBoundaryNotes": [
